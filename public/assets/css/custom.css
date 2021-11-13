@@ -1,0 +1,66 @@
+/**
+ *
+ * You can write your CSS code here, DO NOT touch the default JavaScript file
+ * because it will make it harder for you to update.
+ *
+ */
+
+.dark-theme {
+  --bg: #292C35;
+  --colorFont: #fff;
+
+  /* filter: invert(1) hue-rotate(180deg); */
+}
+
+
+
+
+.chk-dark-light {
+  opacity: 0;
+  position: absolute;
+}
+
+
+.lbl-dark-light {
+  margin: 0;
+  background-color: #fff;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  position: relative;
+  height: 19px;
+  width: 44px;
+  transform: scale(1.5);
+
+}
+
+.lbl-dark-light .ball {
+  background-color: #6777ef;
+  border-radius: 50%;
+  position: absolute;
+  top: 0.5px;
+  left: 2px;
+  height: 17px;
+  width: 17px;
+  transform: translateX(0px);
+  transition: transform 0.2s linear;
+}
+
+.chk-dark-light:checked+.lbl-dark-light .ball {
+  transform: translateX(24px);
+}
+
+
+.fa-moon {
+  color: #f1c40f;
+}
+
+.fa-sun {
+  color: #f39c12;
+}
+
+
+/*# sourceMappingURL=custom.css.map */
