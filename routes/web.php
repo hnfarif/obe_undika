@@ -21,14 +21,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('peoplo')->group(function () {
     Route::get('/step-1', function () {
-        return view('kelolapeoplo.step1');
-    })->name('peoplo.step1');
+        return view('kelolapeoplo.kelolapeo');
+    })->name('peoplo.peo');
     Route::get('/step-2', function () {
-        return view('kelolapeoplo.step2');
-    })->name('peoplo.step2');
+        return view('kelolapeoplo.kelolaplo');
+    })->name('peoplo.plo');
     Route::get('/step-3', function () {
-        return view('kelolapeoplo.step3');
-    })->name('peoplo.step3');
+        return view('kelolapeoplo.mapping');
+    })->name('peoplo.mapping');
+});
+
+Route::prefix('rps')->group(function (){
+
+    Route::get('/', function (){
+
+        return view('rps.index');
+    })->name('kelola.rps');
 });
 
 

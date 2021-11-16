@@ -187,7 +187,12 @@
                         class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
             <li class="nav-item @yield('peoplo')">
-                <a href="#" class="nav-link"><i class="fas fa-table"></i><span>Kelola PEO-PLO</span></a>
+                <a href="{{ route('peoplo.peo') }}" class="nav-link"><i class="fas fa-table"></i><span>Kelola
+                        PEO-PLO</span></a>
+            </li>
+            <li class="nav-item @yield('rps')">
+                <a href="{{ route('kelola.rps') }}" class="nav-link"><i class="fas fa-school"></i><span>Kelola
+                        RPS</span></a>
             </li>
             {{-- <li class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i

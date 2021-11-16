@@ -1,5 +1,5 @@
 <div class="section-header">
-    <h1>Kelola PLO-PEO</h1>
+    <h1>Kelola RPS</h1>
     <div class="btn-group ml-auto">
 
         <a href="{{ route('peoplo.peo') }}" type="button" class="btn btn-primary @yield('step1')">Kelola PEO</a>
