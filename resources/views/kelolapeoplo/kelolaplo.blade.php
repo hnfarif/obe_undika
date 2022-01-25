@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <label>Kode PLO</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" value="PLO-02" readonly>
                         </div>
                         <div class="form-group">
                             <label>Deskripsi PLO</label>
@@ -65,7 +65,14 @@
                                     <td>PEO-01</td>
                                     <td>PLO-03</td>
                                     <td>Menjadikan mahasiswa inovatif</td>
-                                    <td><a href="#" class="btn btn-danger">Hapus</a></td>
+                                    <td class="d-flex">
+                                        <a href="#" class="btn btn-light mr-1"><i class="fas fa-edit"></i>
+
+                                        </a>
+                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i>
+
+                                        </a>
+                                    </td>
                                 </tr>
 
                             </table>

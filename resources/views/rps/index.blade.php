@@ -10,98 +10,82 @@
             <div class="col-12 col-md-6 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Daftar Rencana Pembelajaran Semester</h4>
-                        <div class="card-header-action">
-                            <a href="#" class="btn btn-danger btn-icon icon-right">View All <i
-                                    class="fas fa-chevron-right"></i></a>
-                        </div>
+                        <h4>Daftar RPS</h4>
                     </div>
                     <div class="card-body">
-                        <div class="owl-carousel owl-theme" id="rps-carousel">
-                            <div>
-                                <div class="pricing pricing-highlight">
-                                    <div class="pricing-title">
-                                        Belum Selesai
-                                    </div>
-                                    <div class="pricing-padding">
-                                        <div class="pricing-price">
-                                            <div>TEKNOLOGI BIG DATA</div>
-                                            <div>Semester 7 / 3 SKS</div>
-                                        </div>
-                                    </div>
-                                    <div class="pricing-cta">
-                                        <a href="#">EDIT RPS<i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="pricing ">
-                                    <div class="pricing-title">
-                                        Selesai
-                                    </div>
-                                    <div class="pricing-padding">
-                                        <div class="pricing-price">
-                                            <div class="">Sistem Pendukung Keputusan</div>
-                                            <div>Semester 7 / 3 SKS</div>
-                                        </div>
-                                    </div>
-                                    <div class="pricing-cta">
-                                        <a href="#">Lihat RPS <i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="pricing pricing-highlight">
-                                    <div class="pricing-title">
-                                        Selesai
-                                    </div>
-                                    <div class="pricing-padding">
-                                        <div class="pricing-price">
-                                            <div>Kecerdasan Bisnis</div>
-                                            <div>Semester 7 / 3 SKS</div>
-                                        </div>
-                                    </div>
-                                    <div class="pricing-cta">
-                                        <a href="#">EDIT RPS<i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="pricing ">
-                                    <div class="pricing-title">
-                                        Belum Selesai
-                                    </div>
-                                    <div class="pricing-padding">
-                                        <div class="pricing-price">
-                                            <div class="">Matematika Bisnis</div>
-                                            <div>Semester 7 / 3 SKS</div>
-                                        </div>
-                                    </div>
-                                    <div class="pricing-cta">
-                                        <a href="#">EDIT RPS <i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="pricing pricing-highlight">
-                                    <div class="pricing-title">
-                                        Selesai
-                                    </div>
-                                    <div class="pricing-padding">
-                                        <div class="pricing-price">
-                                            <div>ARsitektur Enterprise</div>
-                                            <div>Semester 7 / 3 SKS</div>
-                                        </div>
-                                    </div>
-                                    <div class="pricing-cta">
-                                        <a href="#">EDIT RPS<i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            #
+                                        </th>
+                                        <th>Kode MK</th>
+                                        <th>Mata Kuliah</th>
+                                        <th>Semester</th>
+                                        <th>SKS</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            1
+                                        </td>
+                                        <td>35533</td>
+                                        <td>Teknologi Big Data</td>
+                                        <td>
+                                            7
+                                        </td>
+                                        <td>
+                                            3
+                                        </td>
+                                        <td>
+                                            <div class="badge badge-success">Completed</div>
+                                        </td>
+                                        <td><a href="{{ route('kelola.clo') }}" class="btn btn-light">Lihat</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            1
+                                        </td>
+                                        <td>35533</td>
+                                        <td>Sistem Pendukung Keputusan</td>
+                                        <td>
+                                            7
+                                        </td>
+                                        <td>
+                                            3
+                                        </td>
+                                        <td>
+                                            <div class="badge badge-info">Todo</div>
+                                        </td>
+                                        <td><a href="#" class="btn btn-info">Ubah</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            1
+                                        </td>
+                                        <td>35533</td>
+                                        <td>Teknologi Big Data</td>
+                                        <td>
+                                            7
+                                        </td>
+                                        <td>
+                                            3
+                                        </td>
+                                        <td>
+                                            <div class="badge badge-warning">In Progress</div>
+                                        </td>
+                                        <td><a href="#" class="btn btn-info">Ubah</a></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>

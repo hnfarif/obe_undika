@@ -1,54 +1,41 @@
 @extends('layouts.main')
-@section('peoplo', 'active')
-@section('step3', 'active')
+@section('rps', 'active')
+@section('wbm', 'active')
 @section('content')
 <section class="section">
-    @include('kelolapeoplo.section-header')
 
+    @include('rps.section-header')
     <div class="section-body">
         <div class="d-flex align-items-center my-0">
-            <h2 class="section-title">Hasil Mapping</h2>
-            {{-- <a href="{{ route('peoplo.step3') }}" type="button" class="btn btn-primary ml-auto"><i
-                class="fas fa-check-circle"></i><span> Simpan Data PEO-PLO
-            </span> </a> --}}
+            <h2 class="section-title">Waktu Belajar Mahasiswa</h2>
+
         </div>
-        {{-- <p class="section-lead">Hasil Input dan Mapping PEO-PLO</p> --}}
+        {{-- <p class="section-lead">Masukkan, ubah data PEO </p> --}}
 
         <div class="row">
             <div class="col-12 col-md-6 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Mapping PEO-PLO</h4>
+                        <h4>Daftar WBM</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-md">
                                 <tr>
                                     <th>#</th>
-                                    <th>Kode PEO</th>
-                                    <th>Deskripsi PEO</th>
-                                    <th>Kode PLO</th>
-                                    <th>Deskripsi PLO</th>
-
+                                    <th>Bentuk Pembelajaran</th>
+                                    <th>Total Jam/Semester</th>
+                                    <th>Rata-rata Jam/Minggu</th>
 
                                 </tr>
                                 <tr>
-                                    <td rowspan="2">1</td>
-                                    <td rowspan="2">PEO-01</td>
-                                    <td rowspan="2">Menghasilkan lulusan profesional sebagai Pengembang Sistem Informasi
-                                        yang didukung oleh Kemampuan Analisis Data untuk Menghasilkan Realtime SPK dan
-                                        mampu memberikan solusi sebagai Konsultan IT di suatu Organisasi</td>
-                                    <td>PLO-01</td>
-                                    <td>Mampu mengidentifikasi, memformulasikan dan memecahkan permasalahan kebutuhan
-                                        informasi dari sebuah organisasi</td>
+                                    <td>1</td>
+                                    <td>Synchronus Learning</td>
+                                    <td>420 Menit = 7 jam (8 pertemuan)</td>
+                                    <td>7 jam / 14 pertemuan = 0.5 jam</td>
 
                                 </tr>
-                                <tr>
-                                    <td>PLO-02</td>
-                                    <td>Dapat mengintegrasikan solusi berbasis teknologi informasi secara efektif pada
-                                        suatu organisasi</td>
 
-                                </tr>
                             </table>
                         </div>
                         <div class="card-footer text-right">

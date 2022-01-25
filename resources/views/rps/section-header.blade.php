@@ -1,15 +1,20 @@
 <div class="section-header">
-    <h1>Kelola RPS</h1>
+    <h1>Kelola RPS Teknologi Big Data</h1>
     <div class="btn-group ml-auto">
 
-        <a href="{{ route('peoplo.peo') }}" type="button" class="btn btn-primary @yield('step1')">Kelola PEO</a>
 
 
-        <a href="{{ route('peoplo.plo') }}" type="button" class="btn btn-primary @yield('step2')">Kelola PLO</a>
+        <a href="{{ route('kelola.clo') }}" type="button" class="btn btn-primary @yield('clo')">Kelola CLO</a>
 
+        <a href="{{ route('kelola.llo') }}" type="button" class="btn btn-primary @yield('llo')">Kelola Sub-CLO(LLO)</a>
 
-        <a href="{{ route('peoplo.mapping') }}" type="button" class="btn btn-primary @yield('step3')">Hasil Mapping</a>
+        <a href="{{ route('kelola.penilaian') }}" type="button"
+            class="btn btn-primary @yield('penilaian')">Penilaian</a>
 
+        <a href="{{ route('kelola.agenda') }}" type="button" class="btn btn-primary @yield('agenda')">Agenda
+            Pembelajaran</a>
+
+        <a href="{{ route('kelola.wbm') }}" type="button" class="btn btn-primary @yield('wbm')">WBM</a>
 
     </div>
     {{-- <div class="section-header-breadcrumb">

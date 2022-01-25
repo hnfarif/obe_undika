@@ -1005,7 +1005,7 @@ tr:first-child>td>.fc-day-grid-event {
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
     color: #fff;
-    padding-left: 10px;
+    padding-left: 20px;
     padding-right: 10px;
 }
 
@@ -2044,6 +2044,10 @@ tr:first-child>td>.fc-day-grid-event {
     position: relative;
     margin-bottom: 30px;
     text-align: center;
+}
+
+.pricing.pricing-highlight {
+    border: 1px solid #6777ef;
 }
 
 .pricing.pricing-highlight .pricing-title {

@@ -3,7 +3,7 @@
 @section('step3', 'active')
 @section('content')
 <section class="section">
-    @include('kelolapeoplo.section-header')
+    @include('rps.section-header')
 
     <div class="section-body">
         <div class="d-flex align-items-center my-0">
@@ -29,7 +29,7 @@
                                     <th>Deskripsi PEO</th>
                                     <th>Kode PLO</th>
                                     <th>Deskripsi PLO</th>
-
+                                    <th>Aksi</th>
 
                                 </tr>
                                 <tr>
@@ -41,13 +41,13 @@
                                     <td>PLO-01</td>
                                     <td>Mampu mengidentifikasi, memformulasikan dan memecahkan permasalahan kebutuhan
                                         informasi dari sebuah organisasi</td>
-
+                                    <td><a href="#" class="btn btn-danger">Hapus</a></td>
                                 </tr>
                                 <tr>
                                     <td>PLO-02</td>
                                     <td>Dapat mengintegrasikan solusi berbasis teknologi informasi secara efektif pada
                                         suatu organisasi</td>
-
+                                    <td><a href="#" class="btn btn-danger">Hapus</a></td>
                                 </tr>
                             </table>
                         </div>

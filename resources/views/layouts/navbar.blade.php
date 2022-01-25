@@ -156,7 +156,7 @@
         </li>
         <li class="dropdown"><a href="#" data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
                 <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
@@ -193,6 +193,11 @@
             <li class="nav-item @yield('rps')">
                 <a href="{{ route('kelola.rps') }}" class="nav-link"><i class="fas fa-school"></i><span>Kelola
                         RPS</span></a>
+            </li>
+            <li class="nav-item @yield('instrumen-nilai')">
+                <a href="{{ route('kelola.instrumen-nilai') }}" class="nav-link"><i
+                        class="fas fa-school"></i><span>Instrumen
+                        Nilai</span></a>
             </li>
             {{-- <li class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i

@@ -14,8 +14,11 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- CSS Libraries -->
+    <link rel="stylesheet" href="{{ asset('assets/css/select2/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owlCarousel/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owlCarousel/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/datatables/dataTables.bootstrap4.min.css') }}">
+
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
@@ -49,8 +52,8 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('/assets/js/stisla.js') }}"></script>
+    <script src="{{ asset('assets/js/page/select2.full.min.js') }}"></script>
 
     <!-- JS Libraies -->
     <script src="{{ asset('assets/js/page/owl.carousel.min.js') }}"></script>
@@ -61,7 +64,20 @@
     <!-- Template JS File -->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/js/page/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/page/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/page/forms-advanced-forms.js') }}"></script> --}}
+    <script>
+        $(document).ready(function () {
 
+            $('#table').DataTable();
+        })
+
+    </script>
+
+
+    @yield('script')
 </body>
 
 </html>

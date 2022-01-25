@@ -1,35 +1,41 @@
 @extends('layouts.main')
-@section('peoplo', 'active')
-@section('step1', 'active')
+@section('rps', 'active')
+@section('clo', 'active')
 @section('content')
 <section class="section">
+    @include('rps.section-header')
 
-    @include('kelolapeoplo.section-header')
     <div class="section-body">
         <div class="d-flex align-items-center my-0">
-            <h2 class="section-title">Kelola PEO</h2>
-            {{-- <a href="{{ route('peoplo.step2') }}" type="button" class="btn btn-primary ml-auto"><span>Selanjutnya
-            </span> <i class="fas fa-chevron-right"></i></a> --}}
+            <h2 class="section-title">Kelola CLO</h2>
         </div>
-        {{-- <p class="section-lead">Masukkan, ubah data PEO </p> --}}
+        {{-- <p class="section-lead">Masukkan data CLO </p> --}}
 
         <div class="row">
             <div class="col-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Input PEO</h4>
+                        <h4>Input CLO</h4>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label>Kode PEO</label>
-                            <input type="text" class="form-control" value="PEO-02" readonly>
+                            <label>Kode PLO</label>
+                            <select class="form-control select2">
+                                <option>PLO-01</option>
+                                <option>PLO-02</option>
+                                <option>PLO-03</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label>Deskripsi PEO</label>
-                            <textarea name="" id="" class="form-control" style="height: 100px"></textarea>
+                            <label>Kode CLO</label>
+                            <input type="text" class="form-control" value="CLO-02" readonly>
                         </div>
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary">Tambah PEO</button>
+                            <label>Deskripsi CLO</label>
+                            <textarea name="" id="" style="height: 100px" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary">Tambah CLO</button>
                         </div>
 
                     </div>
@@ -39,24 +45,27 @@
             <div class="col-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Daftar PEO</h4>
+                        <h4>Daftar CLO</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-md">
                                 <tr>
                                     <th>#</th>
-                                    <th>Kode PEO</th>
-                                    <th>Deskripsi PEO</th>
+                                    <th>Kode PLO</th>
+                                    <th>Kode CLO</th>
+                                    <th>Deskripsi CLO</th>
                                     <th>Aksi</th>
 
                                 </tr>
                                 <tr>
                                     <td>1</td>
-                                    <td>PEO-01</td>
-                                    <td>Menjadikan mahasiswa inovatif</td>
-                                    <td>
-                                        <a href="#" class="btn btn-light"><i class="fas fa-edit"></i>
+                                    <td>PLO-01</td>
+                                    <td>CLO-01</td>
+                                    <td>Mahasiswa mampu menguraikan dan memilih aktivitas analisis Big Data yang sesuai
+                                        dengan konteks masalah bisnis dalam organisasi.</td>
+                                    <td class="d-flex">
+                                        <a href="#" class="btn btn-light mr-1"><i class="fas fa-edit"></i>
 
                                         </a>
                                         <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i>
