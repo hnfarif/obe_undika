@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('instrumen-nilai', 'active')
+@section('plottingmonev', 'active')
 @section('', 'active')
 @section('content')
 <section class="section">

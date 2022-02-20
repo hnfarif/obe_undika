@@ -34,14 +34,35 @@
                             <thead>
 
                                 <tr>
-                                    <th>Minggu ke</th>
-                                    <th>Kode CLO</th>
-                                    <th>Kode LLO</th>
-                                    <th>Ketercapaian LLO</th>
-                                    <th>Ketercapaian Bentuk Penilaian</th>
-                                    <th>Deskripsi Penilaian</th>
-                                    <th>Aksi</th>
+                                    <th rowspan="2">Minggu ke</th>
+                                    <th rowspan="2">Kode CLO</th>
+                                    <th rowspan="2">Kode LLO</th>
+                                    <th rowspan="2">
+                                        <div style="width: 150px">Deskripsi LLO</div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div style="width: 150px">Ketercapaian LLO</div>
+                                    </th>
+                                    <th rowspan="2">Bentuk Penilaian</th>
+                                    <th rowspan="2">
+                                        <div style="width: 150px">Deskripsi Bentuk Penilaian</div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div style="width: 150px">Materi</div>
+                                    </th>
+                                    <th rowspan="2">Metode</th>
+                                    <th colspan="4">Kuliah (menit/mg)</th>
+                                    <th rowspan="2">Responsi dan Tutorial (menit/mg)</th>
+                                    <th rowspan="2">Belajar Mandiri (menit/mg)</th>
+                                    <th rowspan="2">Praktikum (menit/mg)</th>
+                                    <th rowspan="2">Aksi</th>
 
+                                </tr>
+                                <tr>
+                                    <th>TM</th>
+                                    <th>SL</th>
+                                    <th>ASL</th>
+                                    <th>ASM</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,12 +71,57 @@
 
                                     <td>Minggu ke 1</td>
                                     <td>CLO-01</td>
-                                    <td>LLO1</td>
-                                    <td>Mahasiswa memahami silabus, kontrak perkulihan, dan ruang lingkup perkuliahan
-                                    <td>Tugas Mandiri 4%</td>
-                                    <td>Membuat skema / diagram tentang penguasaan fase-fase dalam daur hidup analisis
-                                        Big Data dan alat yang digunakan dalam fase-fase tersebut sesuai dengan studi
-                                        kasus pada perusahaan/organisasi.</td>
+                                    <td>LLO-01</td>
+                                    <td>Mahasiswa mampu memahami konsep dasar manajemen dan analisis pada Big Data</td>
+                                    <td>
+                                        <p> 1. Mahasiswa memahami silabus, kontrak perkulihan, dan ruang lingkup
+                                            perkuliahan Teknologi Big Data.</p>
+                                        <p>
+
+                                            2. Mahasiswa memahami konsep dasar Big Data
+                                        </p>
+                                    </td>
+                                    <td>Menyampaikan pendapat (1%)
+                                    </td>
+                                    <td>
+                                        <p>
+
+                                            Menyampaikan pendapat tentang topik:
+                                        </p>
+                                        <p>
+
+                                            - Pembentukan Big Data yang mungkin terjadi pada sebuah organisasi
+                                        </p>
+                                        <p>
+
+                                            - Kelebihan dan Kelemahan Big Data
+                                        </p>
+                                        <p>
+
+                                            - Permasalahan yang mungkin timbul dengan terbentuknya Big Data tersebut.
+                                        </p>
+                                    </td>
+                                    <td>Bahan Kajian:
+                                        Konsep dasar manajemen dan analisis pada Big Data
+                                        Materi:
+                                        - Pengantar perkuliahan Teknologi Big Data.
+                                        - Konsep dasar analisis Big Data.
+                                        - Dasar-dasar metode analis data
+                                        - Wawasan industri saat ini terkait Big Data.
+                                        - Karakteristik Big Data (konsep 5V’s : Volume, Velocity, Variety, Veracity,
+                                        Value)
+                                        Pustaka: U01, U04
+                                        Media Pembelajaran: M01</td>
+                                    <td>- Lecture
+                                        - Discovery Learning
+                                        - Discussion</td>
+                                    <td>-</td>
+                                    <td>60</td>
+                                    <td>60</td>
+                                    <td>30</td>
+                                    <td>3x60</td>
+                                    <td>3x60</td>
+                                    <td>-</td>
                                     <td class="d-flex">
                                         <a href="#" class="btn btn-light mr-1 my-auto"><i class="fas fa-edit"></i>
 
@@ -78,24 +144,4 @@
 
 
 </section>
-@endsection
-@section('script')
-
-
-<script>
-    $(document).ready(function () {
-        // $('.expanded').on('click', function () {
-        //     $('.row-input').removeAttr('hidden');
-        //     $('.minimized').removeAttr('hidden');
-        //     $('.expanded').attr('hidden', 'hidden');
-        // })
-        // $('.minimized').on('click', function () {
-        //     $('.row-input').attr('hidden', 'hidden');
-        //     $('.minimized').attr('hidden', 'hidden');
-        //     $('.expanded').removeAttr('hidden');
-        // })
-
-    })
-
-</script>
 @endsection

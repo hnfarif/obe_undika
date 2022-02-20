@@ -10,6 +10,7 @@
             <h2 class="section-title">Penilaian</h2>
 
         </div>
+
         {{-- <p class="section-lead">Masukkan, ubah data PEO </p> --}}
 
         <div class="row">
@@ -17,6 +18,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>Form Bentuk Penilaian</h4>
+
                     </div>
                     <div class="card-body">
 
@@ -25,6 +27,7 @@
                             <input type="text" class="form-control">
                         </div>
                         <div class="form-group">
+                            <label>Jenis Penilaian</label>
                             <select class="form-control select2">
                                 <option>TGS</option>
                                 <option>QUI</option>
@@ -50,27 +53,73 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>Daftar Bentuk Penilaian</h4>
+                        <a href="#" type="button" class="btn btn-primary ml-auto" id="swalSave"><i
+                                class="fas fa-save"></i>
+                            Simpan
+                            Penilaian</a>
                     </div>
                     <div class="card-body">
 
                         <table class="table table-striped table-responsive" width="100%">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Kode CLO</th>
+                                    <th rowspan="3" class="align-middle">#</th>
+                                    <th rowspan="3" class="align-middle">Kode CLO</th>
+                                    <th colspan="6">
+                                        Bobot per bentuk penilaian (%)
+                                    </th>
+                                    <th rowspan="3" class="align-middle">Total Bobot per CLO (%)</th>
+                                    <th rowspan="3" class="align-middle">Target Kelulusan(%)</th>
+                                    <th rowspan="3" class="align-middle">Nilai Min</th>
+                                </tr>
+                                <tr>
                                     <th>Menyampaikan Pendapat</th>
                                     <th>Tugas Mandiri</th>
                                     <th>Tugas Kelompok</th>
                                     <th>Presentasi</th>
                                     <th>UTS</th>
                                     <th>UAS(Proyek)</th>
-                                    <th>Total Bobot per CLO</th>
-                                    <th>Target Kelulusan(%)</th>
+
                                 </tr>
+                                <tr>
+
+                                    <th>
+                                        TGS
+                                    </th>
+                                    <th>
+                                        TGS
+                                    </th>
+                                    <th>
+                                        TGS
+                                    </th>
+                                    <th>
+                                        TGS
+                                    </th>
+                                    <th>
+                                        TGS
+                                    </th>
+                                    <th>
+                                        TGS
+                                    </th>
+                                </tr>
+
                             </thead>
                             <tbody>
-                            </tbody>
 
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2"> <strong>Total per penilaian (%)</strong> </td>
+                                    <td><strong>6</strong></td>
+                                    <td><strong>6</strong></td>
+                                    <td><strong>6</strong></td>
+                                    <td><strong>6</strong></td>
+                                    <td><strong>6</strong></td>
+                                    <td><strong>6</strong></td>
+                                    <td><strong>6</strong></td>
+
+                                </tr>
+                            </tfoot>
                         </table>
 
 
@@ -84,10 +133,32 @@
 
 </section>
 @endsection
+@push('script')
+<script>
+    $('#swalSave').click(function () {
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Swal.fire('Saved!', '', 'success')
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+    })
+
+</script>
+@endpush
 @section('script')
 <script>
     $(document).ready(function () {
         // $('.table').DataTable();
+
+
         var colom = [];
         $.ajax({
             url: '',
@@ -97,6 +168,7 @@
                 colom = data;
             }
         })
+
         var table_detail = $('.table').DataTable({
             processing: true,
             serverSide: true,
@@ -141,6 +213,11 @@
                     data: 'target_lls',
                     name: 'target_lls'
                 },
+                {
+                    data: 'nilai_min',
+                    name: 'nilai_min'
+                }
+
                 // {data: 'action', name: 'action', orderable: false, searchable: false},
             ],
             language: {

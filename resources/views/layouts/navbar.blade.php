@@ -161,15 +161,10 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-title">Logged in 5 min ago</div>
-                <a href="features-profile.html" class="dropdown-item has-icon">
-                    <i class="far fa-user"></i> Profile
+                <a href="#" type="button" class="dropdown-item has-icon" id="swalRole">
+                    <i class="fas fa-user-tag"></i> Change Role
                 </a>
-                <a href="features-activities.html" class="dropdown-item has-icon">
-                    <i class="fas fa-bolt"></i> Activities
-                </a>
-                <a href="features-settings.html" class="dropdown-item has-icon">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
+
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item has-icon text-danger">
                     <i class="fas fa-sign-out-alt"></i> Logout
@@ -196,8 +191,13 @@
             </li>
             <li class="nav-item @yield('instrumen-nilai')">
                 <a href="{{ route('kelola.instrumen-nilai') }}" class="nav-link"><i
-                        class="fas fa-school"></i><span>Instrumen
+                        class="fas fa-table"></i><span>Instrumen
                         Nilai</span></a>
+            </li>
+            <li class="nav-item @yield('plottingmonev')">
+                <a href="{{ route('kelola.plotting') }}" class="nav-link"><i
+                        class="fas fa-vector-square"></i><span>Plotting
+                        Monev</span></a>
             </li>
             {{-- <li class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i
@@ -224,3 +224,34 @@
         </ul>
     </div>
 </nav>
+
+@push('script')
+<script>
+    $(document).ready(function () {
+        $('#swalRole').click(function () {
+            Swal.fire({
+                title: 'Pilih Role Anda',
+                input: 'select',
+                inputOptions: {
+                    P3AI: 'P3AI',
+                    Dosen: 'Dosen',
+                    Kaprodi: 'Kaprodi',
+                },
+                inputPlaceholder: 'Pilih Role',
+                showCancelButton: true,
+
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire(
+                        'Akun berganti Role ' + result.value,
+                        '',
+                        'success'
+                    )
+                }
+            })
+
+        })
+    })
+
+</script>
+@endpush

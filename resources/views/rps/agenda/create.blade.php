@@ -14,12 +14,16 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <label>Minggu ke</label>
                                     <input type="text" readonly class="form-control" value="Minggu ke 1">
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="section-title mt-0">Deskripsi Sub CLO (LLO)</div>
+                        <div class="row">
                             <div class="col-lg-6">
 
                                 <div class="form-group">
@@ -32,43 +36,62 @@
                                             potensi dari Big Data menggunakan metode-metode analitikal data sebagai
                                             dasar pengambilan keputusan yang sesuai dengan kebutuhan organisasi.
                                         </option>
-
                                     </select>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="section-title mt-0">Deskripsi Sub CLO (LLO)</div>
-                        <div class="row">
-                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Kode LLO</label>
-                                    <select class="form-control select2">
-                                        <option>LLO1 - Mahasiswa mampu memahami konsep dasar manajemen dan analisis pada
-                                            Big Data </option>
-
-                                        <option>LLO2 - Mahasiswa mampu menguraikan tentang teknologi Big Data.</option>
-                                        <option>LLO3 - Mahasiswa mampu mencari Pattern dan Insight dari data sesuai
-                                            kebutuhan organisasi</option>
-                                    </select>
+                                    <input type="text" class="form-control" value="LLO-02">
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
-
+                                <div class="form-group">
+                                    <label>Deskripsi LLO</label>
+                                    <textarea name="" id="" style="height: 100px" class="form-control"></textarea>
+                                </div>
                                 <div class="form-group">
                                     <label>Ketercapaian LLO</label>
 
-                                    <select class="form-control select2" multiple="">
+                                    <textarea class="form-control sn-capai"></textarea>
 
-                                        <option value="1">Mahasiswa memahami silabus, kontrak perkulihan, dan ruang
-                                            lingkup
-                                            perkuliahan Teknologi Big Data.</option>
-                                        <option value="2">Mahasiswa memahami konsep dasar Big Data</option>
-                                        <option value="3">Mahasiswa dapat menguraikan tentang daur hidup analisis Big
-                                            Data
-                                        </option>
-                                    </select>
+                                </div>
+
+                                <div class="form-group">
+
+                                    <button class="btn btn-primary">Tambah Sub CLO (LLO)</button>
                                 </div>
                             </div>
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <table class="table table-striped table-responsive" id="table" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kode CLO</th>
+                                                    <th>Kode LLO</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Ketercapaian</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>CLO-01</td>
+                                                    <td>LLO-01</td>
+                                                    <td>Mahasiswa mampu memahami konsep dasar manajemen dan analisis
+                                                        pada Big
+                                                        Data</td>
+                                                    <td>
+                                                        <p>1. Mahasiswa memahami silabus, kontrak
+                                                            perkulihan, dan ruang lingkup
+                                                            perkuliahan Teknologi Big Data.</p>
+
+                                                        <p>2. Mahasiswa memahami konsep dasar Big
+                                                            Data</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="section-title mt-0">Bentuk Penilaian</div>
                         <div class="row">
@@ -77,10 +100,17 @@
                                 <div class="form-group">
                                     <label>Bentuk Penilaian</label>
                                     <select class="form-control select2">
-                                        <option>Menyampaikan Pendapat (1%)</option>
-                                        <option>Tugas Mandiri 4%</option>
-                                        <option>Tugas Kelompok 3%</option>
+                                        <option>Menyampaikan Pendapat</option>
+                                        <option>Tugas Mandiri </option>
+                                        <option>Tugas Kelompok</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+
+                                <div class="form-group">
+                                    <label>Bobot bentuk penilaian (%)</label>
+                                    <input type="number" class="form-control">
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -92,7 +122,6 @@
                             </div>
                         </div>
                         <div class="section-title mt-0">Materi</div>
-
 
                         <div class="row">
                             <div class="col-lg-6">
@@ -112,11 +141,21 @@
                                 <div class="form-group">
                                     <label>Pustaka</label>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="" aria-label="">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">Tambah</button>
-                                        </div>
+                                        <input type="text" class="form-control" placeholder="Masukkan Judul"
+                                            aria-label="">
+
                                     </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Masukkan Bab"
+                                            aria-label="">
+
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Masukkan Halaman"
+                                            aria-label="">
+
+                                    </div>
+                                    <button class="btn btn-primary" type="button">Tambah Pustaka</button>
                                 </div>
                                 <div class="form-group">
                                     <label>Media Pembelajaran</label>
@@ -136,6 +175,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label>Pengalaman Belajar Mahasiswa</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Kode PBM" aria-label=""
+                                            value="B-01">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <textarea class="form-control sn-pbm"></textarea>
+                                    </div>
+                                    <button class="btn btn-primary" type="button">Tambah PBM</button>
+                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="card ">
@@ -143,236 +193,267 @@
                                         <h4>Daftar Materi, Pustaka, dan Media Pembelajaran</h4>
                                     </div>
                                     <div class="card-body">
-                                        <div id="accordion">
-                                            <div class="accordion">
-                                                <div class="accordion-header" role="button" data-toggle="collapse"
-                                                    data-target="#materi" aria-expanded="true">
-                                                    <h4>Materi</h4>
+                                        <div class="table-wrapper" style="height: 600px;">
+                                            <div id="accordion">
+                                                <div class="accordion">
+                                                    <div class="accordion-header" role="button" data-toggle="collapse"
+                                                        data-target="#materi" aria-expanded="true">
+                                                        <h4>Materi</h4>
+                                                    </div>
+                                                    <div class="accordion-body collapse show" id="materi"
+                                                        data-parent="#accordion">
+                                                        <ul class="list-group list-group-flush">
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        Karakteristik Big Data (konsep 5V’s
+                                                                        : Volume, Velocity, Variety, Veracity, Value)
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        Pengantar perkuliahan Teknologi Big Data.
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        Wawasan industri saat ini terkait Big Data.
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                            </li>
+
+                                                        </ul>
+
+                                                    </div>
                                                 </div>
-                                                <div class="accordion-body collapse show" id="materi"
-                                                    data-parent="#accordion">
-                                                    <ul class="list-group list-group-flush">
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Karakteristik Big Data (konsep 5V’s
-                                                                    : Volume, Velocity, Variety, Veracity, Value)
-                                                                </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
+                                                <div class="accordion">
+                                                    <div class="accordion-header" role="button" data-toggle="collapse"
+                                                        data-target="#pustaka">
+                                                        <h4>Pustaka</h4>
+                                                    </div>
+                                                    <div class="accordion-body collapse" id="pustaka"
+                                                        data-parent="#accordion">
+                                                        <table class="table table-striped table-responsive" id="table"
+                                                            width="100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Judul</th>
+                                                                    <th>Bab</th>
+                                                                    <th>Halaman</th>
+                                                                    <th>Aksi</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Data Science and Big Data Analytics</td>
+                                                                    <td>Bab 1-2</td>
+                                                                    <td>59-60</td>
+                                                                    <td class="d-flex">
+                                                                        <a href="#" class="btn btn-light"
+                                                                            style="height: 60%"><i
+                                                                                class="fas fa-edit"></i>
+                                                                        </a>
 
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Pengantar perkuliahan Teknologi Big Data.
-                                                                </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Wawasan industri saat ini terkait Big Data.
-                                                                </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-
-                                                        </li>
-
-                                                    </ul>
-
+                                                                        <a href="#" class="btn btn-danger"
+                                                                            style="height: 60%"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="accordion">
-                                                <div class="accordion-header" role="button" data-toggle="collapse"
-                                                    data-target="#pustaka">
-                                                    <h4>Pustaka</h4>
+                                                <div class="accordion">
+                                                    <div class="accordion-header" role="button" data-toggle="collapse"
+                                                        data-target="#medpem">
+                                                        <h4>Media Pembelajaran</h4>
+                                                    </div>
+                                                    <div class="accordion-body collapse" id="medpem"
+                                                        data-parent="#accordion">
+                                                        <ul class="list-group list-group-flush">
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        Slide power point dari dosen
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        Video dari youtube
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                                <div class="accordion-body collapse" id="pustaka"
-                                                    data-parent="#accordion">
-                                                    <ul class="list-group list-group-flush">
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Dietrich, D., Heller, B., & Yang, B. (2015). Data
-                                                                    Science and Big Data Analytics. John Wiley & Sons
-                                                                    Ltd.
+                                                <div class="accordion">
+                                                    <div class="accordion-header" role="button" data-toggle="collapse"
+                                                        data-target="#metode">
+                                                        <h4>Metode Pembelajaran</h4>
+                                                    </div>
+                                                    <div class="accordion-body collapse" id="metode"
+                                                        data-parent="#accordion">
+                                                        <ul class="list-group list-group-flush">
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        Lecture
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
 
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Trovati, M., Hill, R., Anjum, A., & Ying Zhu, S.
-                                                                    (2016). Big-Data Analytics and Cloud Computing:
-                                                                    Theory, Algorithms and Applications. Springer
-                                                                    Switzerland.
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        Discovery Learning
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
 
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Corea, F. (2019). An Introduction to Data -
-                                                                    Everything You Need to Know About AI, Big Data and
-                                                                    Data Science. Springer Nature Switzerland.
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        Discussion
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
 
-                                                        </li>
-
-                                                    </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="accordion">
-                                                <div class="accordion-header" role="button" data-toggle="collapse"
-                                                    data-target="#medpem">
-                                                    <h4>Media Pembelajaran</h4>
-                                                </div>
-                                                <div class="accordion-body collapse" id="medpem"
-                                                    data-parent="#accordion">
-                                                    <ul class="list-group list-group-flush">
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Slide power point dari dosen
+                                                <div class="accordion">
+                                                    <div class="accordion-header" role="button" data-toggle="collapse"
+                                                        data-target="#pbm">
+                                                        <h4>Pengalaman Belajar Mahasiswa</h4>
+                                                    </div>
+                                                    <div class="accordion-body collapse" id="pbm"
+                                                        data-parent="#accordion">
+                                                        <ul class="list-group list-group-flush">
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        Mengerjakan tugas
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
 
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Video dari youtube
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        melakukan survei
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
 
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="accordion">
-                                                <div class="accordion-header" role="button" data-toggle="collapse"
-                                                    data-target="#metode">
-                                                    <h4>Metode Pembelajaran</h4>
-                                                </div>
-                                                <div class="accordion-body collapse" id="metode"
-                                                    data-parent="#accordion">
-                                                    <ul class="list-group list-group-flush">
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Lecture
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-lg-10">
+                                                                        Menyusun paper
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="#" class="btn btn-danger"><i
+                                                                                class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
 
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Discovery Learning
-                                                                </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-lg-10">
-                                                                    Discussion
-                                                                </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#" class="btn btn-danger"><i
-                                                                            class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-
-                                                        </li>
-                                                    </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="section-title mt-0">Kuliah</div>
+                        <div class="section-title mt-0">Perkuliahan</div>
 
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label>Tatap Muka</label>
+                                    <label>Tatap Muka (menit/mg)</label>
                                     <input type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label>Synchronous Learning</label>
+                                    <label>Synchronous Learning (menit/mg)</label>
                                     <input type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label>Asynchronous Learning</label>
+                                    <label>Asynchronous Learning (menit/mg)</label>
                                     <input type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label>Assessment</label>
+                                    <label>Assessment (menit/mg)</label>
                                     <input type="text" class="form-control">
                                 </div>
                             </div>
@@ -392,7 +473,7 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label>Praktikum</label>
+                                    <label>Praktikum (menit/mg)</label>
                                     <input type="text" class="form-control">
                                 </div>
                             </div>
@@ -410,23 +491,20 @@
     </div>
 </section>
 @endsection
-@section('script')
-
-{{-- <script src="{{ asset('assets/js/page/forms-advanced-forms.js') }}"></script> --}}
+@push('script')
 <script>
     $(document).ready(function () {
-        // $('.expanded').on('click', function () {
-        //     $('.row-input').removeAttr('hidden');
-        //     $('.minimized').removeAttr('hidden');
-        //     $('.expanded').attr('hidden', 'hidden');
-        // })
-        // $('.minimized').on('click', function () {
-        //     $('.row-input').attr('hidden', 'hidden');
-        //     $('.minimized').attr('hidden', 'hidden');
-        //     $('.expanded').removeAttr('hidden');
-        // })
 
+        $('.sn-capai').summernote({
+            toolbar: [],
+
+        });
+        $('.sn-pbm').summernote({
+            toolbar: [],
+            inheritPlaceholder: true,
+            placeholder: 'Masukkan Bentuk Pengalaman Kegiatan',
+        });
     })
 
 </script>
-@endsection
+@endpush

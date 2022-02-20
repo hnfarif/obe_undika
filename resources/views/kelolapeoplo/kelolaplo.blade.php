@@ -20,14 +20,7 @@
                         <h4>Input PLO</h4>
                     </div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <label>Kode PEO</label>
-                            <select class="form-control select2">
-                                <option>PEO-01</option>
-                                <option>PEO-02</option>
-                                <option>PEO-03</option>
-                            </select>
-                        </div>
+
                         <div class="form-group">
                             <label>Kode PLO</label>
                             <input type="text" class="form-control" value="PLO-02" readonly>
@@ -54,7 +47,6 @@
                             <table class="table table-striped table-md">
                                 <tr>
                                     <th>#</th>
-                                    <th>Kode PEO</th>
                                     <th>Kode PLO</th>
                                     <th>Deskripsi PLO</th>
                                     <th>Aksi</th>
@@ -63,7 +55,6 @@
                                 <tr>
                                     <td>1</td>
                                     <td>PEO-01</td>
-                                    <td>PLO-03</td>
                                     <td>Menjadikan mahasiswa inovatif</td>
                                     <td class="d-flex">
                                         <a href="#" class="btn btn-light mr-1"><i class="fas fa-edit"></i>

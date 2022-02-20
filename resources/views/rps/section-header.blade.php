@@ -6,15 +6,16 @@
 
         <a href="{{ route('kelola.clo') }}" type="button" class="btn btn-primary @yield('clo')">Kelola CLO</a>
 
-        <a href="{{ route('kelola.llo') }}" type="button" class="btn btn-primary @yield('llo')">Kelola Sub-CLO(LLO)</a>
-
         <a href="{{ route('kelola.penilaian') }}" type="button"
             class="btn btn-primary @yield('penilaian')">Penilaian</a>
+
 
         <a href="{{ route('kelola.agenda') }}" type="button" class="btn btn-primary @yield('agenda')">Agenda
             Pembelajaran</a>
 
-        <a href="{{ route('kelola.wbm') }}" type="button" class="btn btn-primary @yield('wbm')">WBM</a>
+        <a href="{{ route('kelola.wbm') }}" type="button" class="btn btn-primary @yield('pbm')">WAktu Belajar
+            Mahasiswa</a>
+
 
     </div>
     {{-- <div class="section-header-breadcrumb">

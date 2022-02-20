@@ -43,15 +43,26 @@ Route::prefix('rps')->group(function (){
         return view('rps.kelolawbm');
     })->name('kelola.wbm');
 
+
+    Route::get('/plottingmk', function (){
+
+        return view('rps.plottingmk');
+    })->name('kelola.rps.plottingmk');
+
+    Route::get('/plottingdosen', function (){
+
+        return view('rps.plottingdsn');
+    })->name('kelola.rps.plottingdsn');
+
     Route::get('/clo', function (){
 
-        return view('rps.kelolaclo');
+        return view('rps.clo.index');
     })->name('kelola.clo');
 
-    Route::get('/llo', function (){
+    Route::get('/clo/create', function (){
 
-        return view('rps.kelolallo');
-    })->name('kelola.llo');
+        return view('rps.clo.create');
+    })->name('kelola.clo.create');
 
     Route::get('/penilaian', function (){
 
@@ -82,6 +93,14 @@ Route::prefix('instrumen-nilai')->group(function (){
     })->name('kelola.nilai-mhs');
 });
 
+Route::prefix('plotting')->group(function(){
+
+    Route::get('/', function (){
+
+        return view('plotting-gpm.index');
+    })->name('kelola.plotting');
+
+});
 
 Route::get('/data-penilaian', function(Request $request){
 
@@ -96,7 +115,8 @@ Route::get('/data-penilaian', function(Request $request){
         'uts' => '3',
         'uas' => '3',
         'total_bobot' => '3',
-        'target_lls' => '100 dengan nilai minimal 60',
+        'target_lls' => '100',
+        'nilai_min' => '60',
         ],
         [
             'id' => 2,
@@ -108,7 +128,8 @@ Route::get('/data-penilaian', function(Request $request){
         'uts' => '3',
         'uas' => '3',
         'total_bobot' => '3',
-        'target_lls' => '100 dengan nilai minimal 60',
+        'target_lls' => '100 ',
+        'nilai_min' => '60 ',
         ]
     ];
 
@@ -134,7 +155,7 @@ Route::get('/data-nilai-mhs', function(Request $request){
         'uts' => '3',
         'uas' => '3',
         'total_bobot' => '3',
-        'target_lls' => '100 dengan nilai minimal 60',
+        'target_lls' => '100',
         ],
         [
             'id' => 2,
@@ -146,7 +167,7 @@ Route::get('/data-nilai-mhs', function(Request $request){
         'uts' => '3',
         'uas' => '3',
         'total_bobot' => '3',
-        'target_lls' => '100 dengan nilai minimal 60',
+        'target_lls' => '100',
         ]
     ];
 

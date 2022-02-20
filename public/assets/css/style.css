@@ -1348,6 +1348,8 @@ select.form-control:not([size]):not([multiple]) {
 /* 3.6 Table */
 .table {
     color: inherit;
+    table-layout: fixed;
+
 }
 
 .table td,

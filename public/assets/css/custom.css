@@ -63,9 +63,45 @@
 }
 
 .table-wrapper {
-    max-height: 250px;
+    max-height: 700px;
     overflow: auto;
     display: inline-block;
 }
+
+/* CSS for Drag and Drop input */
+#modules {
+
+    z-index: 1;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#dropzone {
+    padding: 20px;
+    background: #eee;
+    min-height: 100px;
+    margin-bottom: 20px;
+    z-index: 0;
+    border-radius: 10px;
+
+}
+
+.drop-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+    background-color: rgb(255, 255, 255);
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 1px solid rgb(204, 204, 204);
+    position: relative;
+}
+
+.drop-item .remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}
+
+
 
 /*# sourceMappingURL=custom.css.map */
