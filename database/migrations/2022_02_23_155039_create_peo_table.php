@@ -15,7 +15,7 @@ class CreatePeoTable extends Migration
     {
         Schema::create('peo', function (Blueprint $table) {
             $table->id();
-            $table->string('fakul_id',5);
+            $table->string('fakul_id',5)->nullable();
             $table->string('kode_peo',6);
             $table->text('deskripsi');
 

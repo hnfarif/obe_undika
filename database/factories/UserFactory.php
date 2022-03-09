@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
+
     /**
      * Define the model's default state.
      *
@@ -16,12 +17,11 @@ class UserFactory extends Factory
     public function definition()
     {
         $nik = KaryawanDosen::select('nik')->pluck('nik')->toArray();
-        $nama = KaryawanDosen::select('nama')->pluck('nama')->toArray();
         return [
             'nik' => $this->faker->unique()->randomElement($nik),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => $this->faker->numerify('######'), // password
+            'pin' => bcrypt('123456'), // password
             'manager_id' => $this->faker->randomElement(['890026','980249']) ,
             'fakul_id' => $this->faker->randomElement(['41010', '39010']),
             'kode_bagian' => $this->faker->numberBetween(1,5),

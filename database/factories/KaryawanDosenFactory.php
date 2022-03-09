@@ -32,7 +32,7 @@ class KaryawanDosenFactory extends Factory
             'status' => $this->faker->randomElement(['A', 'B', 'C']),
             'bagian' => $this->faker->numberBetween(1,5),
             'absensi' => $this->faker->numberBetween(1,2),
-            'pin' => $this->faker->numerify('######'),
+            'pin' => '123456',
             'sts_pin' => $this->faker->randomElement(['Y', 'T']),
             'manager_id' => $this->faker->randomElement(['890026','980249']),
             'mulai_kerja' => $this->faker->dateTimeBetween('-3 years', 'now'),

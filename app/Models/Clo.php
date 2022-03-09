@@ -16,7 +16,7 @@ class Clo extends Model
 
     public function plos()
     {
-        return $this->belongsToMany(Plo::class);
+        return $this->belongsToMany(Plo::class, 'plo_clo', 'clo_id', 'plo_id');
     }
 
     public function rps()
@@ -33,4 +33,10 @@ class Clo extends Model
     {
         return $this->belongsToMany(Llo::class);
     }
+
+
+
+
+
+
 }

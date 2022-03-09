@@ -83,6 +83,8 @@
     {{-- <script src="{{ asset('assets/js/page/sweetalert.min.js') }}"></script>
     <script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/page/forms-advanced-forms.js') }}"></script> --}}
+
+
     <script>
         $(document).ready(function () {
             $(".inputtags").tagsinput('items');
@@ -90,8 +92,6 @@
         })
 
     </script>
-
-
     @yield('script')
     @stack('script')
 </body>

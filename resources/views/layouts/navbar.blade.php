@@ -186,7 +186,7 @@
                         PEO-PLO</span></a>
             </li>
             <li class="nav-item @yield('rps')">
-                <a href="{{ route('kelola.rps') }}" class="nav-link"><i class="fas fa-school"></i><span>Kelola
+                <a href="{{ route('rps.index') }}" class="nav-link"><i class="fas fa-school"></i><span>Kelola
                         RPS</span></a>
             </li>
             <li class="nav-item @yield('instrumen-nilai')">

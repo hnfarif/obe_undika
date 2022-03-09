@@ -15,7 +15,7 @@ class Plo extends Model
 
     public function peos()
     {
-        return $this->belongsToMany(Peo::class);
+        return $this->belongsToMany(Peo::class, 'peo_plo', 'plo_id', 'peo_id');
     }
 
     public function clos()

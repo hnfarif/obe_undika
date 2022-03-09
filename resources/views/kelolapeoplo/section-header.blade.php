@@ -8,7 +8,7 @@
         <a href="{{ route('peoplo.plo') }}" type="button" class="btn btn-primary @yield('step2')">Kelola PLO</a>
 
 
-        <a href="{{ route('peoplo.mapping') }}" type="button" class="btn btn-primary @yield('step3')">Kelola Mapping
+        <a href="{{ route('peoplo.map') }}" type="button" class="btn btn-primary @yield('step3')">Kelola Mapping
             PEO-PLO</a>
 
 

@@ -21,29 +21,32 @@
 
                     </div>
                     <div class="card-body">
+                        <form action="{{ route('penilaian.store', $rps->id) }}" method="POST">
 
-                        <div class="form-group">
-                            <label>Bentuk Penilaian</label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Jenis Penilaian</label>
-                            <select class="form-control select2">
-                                <option>TGS</option>
-                                <option>QUI</option>
-                                <option>PRK</option>
-                                <option>PRS</option>
-                                <option>RES</option>
-                                <option>PAP</option>
-                                <option>LAI</option>
-                                <option>UTS</option>
-                                <option>UAS</option>
-                            </select>
-                        </div>
+                            <div class="form-group">
+                                <label>Bentuk Penilaian</label>
+                                <input type="text" name="btk_penilaian" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Jenis Penilaian</label>
+                                <select name="jenis" class="form-control select2">
+                                    <option value="TGS">TGS</option>
+                                    <option value="QUI">QUI</option>
+                                    <option value="PRK">PRK</option>
+                                    <option value="PRS">PRS</option>
+                                    <option value="RES">RES</option>
+                                    <option value="PAP">PAP</option>
+                                    <option value="LAI">LAI</option>
+                                    <option value="UTS">UTS</option>
+                                    <option value="UAS">UAS</option>
+                                </select>
+                            </div>
 
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary">Tambah Bentuk Penilaian</button>
-                        </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Tambah Bentuk Penilaian</button>
+                            </div>
+
+                        </form>
 
                     </div>
                 </div>
@@ -60,11 +63,15 @@
                     </div>
                     <div class="card-body">
 
-                        <table class="table table-striped table-responsive" width="100%">
+                        <table class="table table-striped table-responsive" width="100%" id="table">
                             <thead>
                                 <tr>
-                                    <th rowspan="3" class="align-middle">#</th>
-                                    <th rowspan="3" class="align-middle">Kode CLO</th>
+                                    <th rowspan="3" class="align-middle text-center">#</th>
+                                    <th rowspan="3" class="align-middle text-center">
+                                        <div style="width: 100px;">
+                                            Kode CLO
+                                        </div>
+                                    </th>
                                     <th colspan="6">
                                         Bobot per bentuk penilaian (%)
                                     </th>
@@ -104,10 +111,27 @@
                                 </tr>
 
                             </thead>
-                            <tbody>
+                            <tbody class="text-center">
+                                @foreach ($clo as $i)
 
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        {{ $i->kode_clo }}
+                                    </td>
+                                    <td><input type="text" value="6" class="form-control bobot"></td>
+                                    <td><input type="text" value="6" class="form-control bobot"></td>
+                                    <td><input type="text" value="6" class="form-control bobot"></td>
+                                    <td><input type="text" value="6" class="form-control bobot"></td>
+                                    <td><input type="text" value="6" class="form-control bobot"></td>
+                                    <td><input type="text" value="6" class="form-control bobot"></td>
+                                    <td class="align-middle">6</td>
+                                    <td><input type="text" value="6" class="form-control clo"></td>
+                                    <td><input type="text" value="6" class="form-control clo"></td>
+                                </tr>
+                                @endforeach
                             </tbody>
-                            <tfoot>
+                            {{-- <tfoot>
                                 <tr>
                                     <td colspan="2"> <strong>Total per penilaian (%)</strong> </td>
                                     <td><strong>6</strong></td>
@@ -115,11 +139,11 @@
                                     <td><strong>6</strong></td>
                                     <td><strong>6</strong></td>
                                     <td><strong>6</strong></td>
-                                    <td><strong>6</strong></td>
-                                    <td><strong>6</strong></td>
+
+
 
                                 </tr>
-                            </tfoot>
+                            </tfoot> --}}
                         </table>
 
 
@@ -135,20 +159,53 @@
 @endsection
 @push('script')
 <script>
-    $('#swalSave').click(function () {
-        Swal.fire({
-            title: 'Do you want to save the changes?',
-            showCancelButton: true,
-            confirmButtonText: 'Save',
-            denyButtonText: `Don't save`,
-        }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                Swal.fire('Saved!', '', 'success')
-            } else if (result.isDenied) {
-                Swal.fire('Changes are not saved', '', 'info')
-            }
+    $(document).ready(function () {
+        $('#swalSave').click(function () {
+            Swal.fire({
+                title: 'Do you want to save the changes?',
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+                denyButtonText: `Don't save`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    Swal.fire('Saved!', '', 'success')
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
         })
+
+        var data = Array();
+        var clo = Array();
+
+        $("table tr").each(function (i, v) {
+            data[i] = Array();
+            clo[i] = Array();
+            $(this).children('td').each(function (ii, vv) {
+
+                if (ii == 1) {
+
+                    data[i][ii] = $(this).text().trim();
+                } else if (ii >= 2) {
+                    if ($(this).find('.bobot').val()) {
+
+                        data[i][ii] = $(this).find('.bobot').val();
+                    } else if ($(this).find('.clo').val()) {
+
+                        clo[i][ii] = $(this).find('.clo').val();
+                    }
+
+                }
+            });
+        })
+
+        console.log(data.filter(x => !!x.length));
+        console.log(clo.filter(x => !!x.length));
+
+
+
+
     })
 
 </script>
@@ -159,88 +216,58 @@
         // $('.table').DataTable();
 
 
-        var colom = [];
-        $.ajax({
-            url: '',
-            method: 'get',
-            async: false,
-            success: function (data) {
-                colom = data;
-            }
-        })
+        // var colom = [];
+        // $.ajax({
+        //     url: '',
 
-        var table_detail = $('.table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('data-penilaian') }}",
-            columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
-                {
-                    data: 'kode_clo',
-                    name: 'kode_clo'
-                },
-                {
-                    data: 'pendapat',
-                    name: 'pendapat'
-                },
-                {
-                    data: 'mandiri',
-                    name: 'mandiri'
-                },
-                {
-                    data: 'kelompok',
-                    name: 'kelompok'
-                },
-                {
-                    data: 'presentasi',
-                    name: 'presentasi'
-                },
-                {
-                    data: 'uts',
-                    name: 'uts'
-                },
-                {
-                    data: 'uas',
-                    name: 'uas'
-                },
-                {
-                    data: 'total_bobot',
-                    name: 'total_bobot'
-                },
-                {
-                    data: 'target_lls',
-                    name: 'target_lls'
-                },
-                {
-                    data: 'nilai_min',
-                    name: 'nilai_min'
-                }
+        //     method: 'get',
+        //     async: false,
+        //     success: function (data) {
+        //         colom = data;
+        //     }
+        // })
 
-                // {data: 'action', name: 'action', orderable: false, searchable: false},
-            ],
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/id.json'
-            },
-            createdRow: function (row, data, dataIndex) {
-                console.log(data)
-                $(row).find('td:eq(3)').addClass('updateqty');
-                $(row).find('td:eq(3)').attr('data-idbarang', data['kode_clo']);
-                $.each($('td:eq(2)', row), function (colIndex) {
-                    $(this).attr('contenteditable', 'true');
-                });
-                $.each($('td:eq(3)', row), function (colIndex) {
-                    $(this).attr('contenteditable', 'true');
-                });
-                $.each($('td:eq(4)', row), function (colIndex) {
-                    $(this).attr('contenteditable', 'true');
-                });
-                $.each($('td:eq(5)', row), function (colIndex) {
-                    $(this).attr('contenteditable', 'true');
-                });
-            }
-        })
+        // var table_detail = $('.table').DataTable({
+        //     processing: true,
+        //     serverSide: true,
+        //     ajax: "{{ route('penilaian.getclo', $rps->id) }}",
+        //     columns: [{
+        //             data: 'kode_clo',
+        //             name: 'kode_clo'
+        //         },
+        //         {
+        //             data: 'kode_clo',
+        //             name: 'kode_clo'
+        //         },
+        //         {
+        //             data: 'kode_clo',
+        //             name: 'kode_clo'
+        //         }
+
+        //         // {data: 'action', name: 'action', orderable: false, searchable: false},
+        //     ],
+        //     language: {
+        //         url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/id.json'
+        //     },
+        //     createdRow: function (row, data, dataIndex) {
+        //         console.log(data)
+        //         // $(row).find('td:eq(3)').addClass('updateqty');
+        //         // $(row).find('td:eq(3)').attr('data-idbarang', data['kode_clo']);
+
+        //         $.each($('td:eq(1)', row), function (colIndex) {
+        //             $(this).attr('contenteditable', 'true');
+        //         });
+        //         $.each($('td:eq(2)', row), function (colIndex) {
+        //             $(this).attr('contenteditable', 'true');
+        //         });
+        //         $.each($('td:eq(3)', row), function (colIndex) {
+        //             $(this).attr('contenteditable', 'true');
+        //         });
+        //         $.each($('td:eq(4)', row), function (colIndex) {
+        //             $(this).attr('contenteditable', 'true');
+        //         });
+        //     }
+        // })
     })
 
 </script>

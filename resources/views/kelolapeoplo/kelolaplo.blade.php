@@ -8,10 +8,23 @@
     <div class="section-body">
         <div class="d-flex align-items-center my-0">
             <h2 class="section-title">Kelola PLO</h2>
-            {{-- <a href="{{ route('peoplo.step3') }}" type="button" class="btn btn-primary ml-auto"><span>Selanjutnya
-            </span> <i class="fas fa-chevron-right"></i></a> --}}
+
         </div>
-        {{-- <p class="section-lead">Masukkan data PLO </p> --}}
+        @if (session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Sukses!</strong> {{ session()->get('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @elseif (session()->has('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Gagal!</strong> {{ session()->get('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
 
         <div class="row">
             <div class="col-12 col-md-6 col-lg-6">
@@ -21,17 +34,32 @@
                     </div>
                     <div class="card-body">
 
-                        <div class="form-group">
-                            <label>Kode PLO</label>
-                            <input type="text" class="form-control" value="PLO-02" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Deskripsi PLO</label>
-                            <textarea name="" id="" style="height: 100px" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary">Tambah PLO</button>
-                        </div>
+                        <form action="{{ route('peoplo.plo.store') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label>Kode PLO</label>
+                                <input type="text" class="form-control @error('kode_plo') is-invalid @enderror"
+                                    name="kode_plo" value="PLO-{{ $ite_padded }}" readonly>
+                                @error('kode_plo')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Deskripsi PLO</label>
+                                <textarea id="" class="form-control  @error('desc_plo') is-invalid @enderror"
+                                    name="desc_plo" style="height: 100px" required>{{ old('desc_plo') }}</textarea>
+                                @error('desc_plo')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Tambah PLO</button>
+                            </div>
+                        </form>
 
                     </div>
                 </div>
@@ -43,50 +71,57 @@
                         <h4>Daftar PLO</h4>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-md">
+                        <table class="table table-striped table-responsive" id="tablePlo">
+                            <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Kode PLO</th>
-                                    <th>Deskripsi PLO</th>
+
+                                    <th>
+                                        Kode PLO
+                                    </th>
+                                    <th>
+                                        <div style="width: 300px">Deskripsi PLO</div>
+                                    </th>
                                     <th>Aksi</th>
 
                                 </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($plo as $i)
+
                                 <tr>
-                                    <td>1</td>
-                                    <td>PEO-01</td>
-                                    <td>Menjadikan mahasiswa inovatif</td>
-                                    <td class="d-flex">
-                                        <a href="#" class="btn btn-light mr-1"><i class="fas fa-edit"></i>
 
-                                        </a>
-                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i>
+                                    <td>{{ $i->kode_plo }}</td>
+                                    <td>{{ $i->deskripsi }}</td>
+                                    <td>
+                                        <div class="d-flex my-auto">
 
-                                        </a>
+                                            <a href="#" class="btn btn-light mr-2 editPlo" data-id="{{ $i->id }}"
+                                                data-toggle="modal" data-target="#editPlo"><i class="fas fa-edit"></i>
+
+                                            </a>
+                                            <form class="@if($i->kode_plo !== $iteration)
+                                                d-none
+                                                @elseif(in_array($i->id, $peoplo))
+                                                d-none
+                                                @endif" action="{{ route('peoplo.plo.delete', $i->id) }}"
+                                                method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <input name="_method" type="hidden" value="DELETE">
+                                                <a href="#" class="btn btn-danger deletePlo"><i
+                                                        class="fas fa-trash"></i>
+
+                                                </a>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
+                                @endforeach
+                            </tbody>
 
-                            </table>
-                        </div>
-                        <div class="card-footer text-right">
-                            <nav class="d-inline-block">
-                                <ul class="pagination mb-0">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1"><i
-                                                class="fas fa-chevron-left"></i></a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1 <span
-                                                class="sr-only">(current)</span></a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                        </table>
+
+
                     </div>
                 </div>
 
@@ -96,4 +131,98 @@
 
 
 </section>
+<div class="modal fade" role="dialog" id="editPlo">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ubah PLO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('peoplo.plo.update') }}" method="POST">
+                    @method('put')
+                    @csrf
+                    <input type="hidden" name="id" id="id">
+                    <div class="form-group">
+                        <label>Kode PLO</label>
+                        <input type="text" class="form-control @error('kode_plo') is-invalid @enderror" name="kode_plo"
+                            id="kode_plo" readonly>
+                        @error('kode_plo')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label>Deskripsi PLO</label>
+                        <textarea class="form-control  @error('deskripsi') is-invalid @enderror" name="deskripsi"
+                            id="deskripsi" style="height: 100px" required>{{ old('deskripsi') }}</textarea>
+                        @error('deskripsi')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
+@push('script')
+<script>
+    $(document).ready(function () {
+        $('#tablePlo').DataTable({
+            "lengthMenu": [
+                [3, 10, 20, -1],
+                [3, 10, 20, "All"]
+            ]
+        });
+
+        $('#tablePlo').on('click', '.editPlo', function () {
+            var id = $(this).attr('data-id');
+
+            $.ajax({
+                url: "{{ route('peoplo.plo.edit') }}?id=" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    $("#id").val(data.id);
+                    $("#kode_plo").val(data.kode_plo);
+                    $("#deskripsi").val(data.deskripsi);
+                }
+            })
+        })
+
+        $('#tablePlo').on('click', '.deletePlo', function (e) {
+
+            var form = $(this).closest('form');
+            var name = $(this).data('name');
+            e.preventDefault();
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Kamu tidak dapat mengembalikan data yang sudah dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#6777ef',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.value) {
+                    form.submit();
+                }
+
+            })
+
+
+        })
+    })
+
+</script>
+@endpush

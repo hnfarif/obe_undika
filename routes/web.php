@@ -1,6 +1,12 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\CloController;
+use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\PeoController;
+use App\Http\Controllers\PeoPloController;
+use App\Http\Controllers\PloController;
+use App\Http\Controllers\RpsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 /*
@@ -20,23 +26,42 @@ use Illuminate\Http\Request;
 // });
 
 Route::prefix('kelola')->group(function () {
-    Route::get('/peo', function () {
-        return view('kelolapeoplo.kelolapeo');
-    })->name('peoplo.peo');
-    Route::get('/plo', function () {
-        return view('kelolapeoplo.kelolaplo');
-    })->name('peoplo.plo');
-    Route::get('/map', function () {
-        return view('kelolapeoplo.mapping');
-    })->name('peoplo.mapping');
+    Route::get('/peo', [PeoController::class, 'index'])->name('peoplo.peo');
+    Route::post('/peo/store', [PeoController::class, 'store'])->name('peoplo.peo.store');
+    Route::get('/peo/edit', [PeoController::class, 'edit'])->name('peoplo.peo.edit');
+    Route::put('/peo/update', [PeoController::class, 'update'])->name('peoplo.peo.update');
+    Route::delete('/peo/delete/{id}', [PeoController::class, 'destroy'])->name('peoplo.peo.delete');
+
+    Route::get('/plo', [PloController::class, 'index'])->name('peoplo.plo');
+    Route::post('/plo/store', [PloController::class, 'store'])->name('peoplo.plo.store');
+    Route::get('/plo/edit', [PloController::class, 'edit'])->name('peoplo.plo.edit');
+    Route::put('/plo/update', [PloController::class, 'update'])->name('peoplo.plo.update');
+    Route::delete('/plo/delete/{id}', [PloController::class, 'destroy'])->name('peoplo.plo.delete');
+
+    Route::get('/map', [PeoPloController::class, 'index'])->name('peoplo.map');
+    Route::post('/map/store', [PeoPloController::class, 'store'])->name('peoplo.map.store');
+    Route::get('/map/create', [PeoPloController::class, 'create'])->name('peoplo.map.create');
+    Route::delete('/map/delete/{peo}/{plo}', [PeoPloController::class, 'destroy'])->name('peoplo.map.delete');
 });
 
 Route::prefix('rps')->group(function (){
 
-    Route::get('/', function (){
+    Route::get('/', [RpsController::class,'index'])->name('rps.index');
+    Route::put('/update/{rps}', [RpsController::class,'update'])->name('rps.update');
 
-        return view('rps.index');
-    })->name('kelola.rps');
+    Route::get('/plottingmk', [RpsController::class, 'create'])->name('rps.plottingmk');
+    Route::post('/plottingmk/store', [RpsController::class, 'store'])->name('rps.plottingmk.store');
+
+    Route::get('/clo/edit', [CloController::class, 'edit'])->name('clo.edit');
+    Route::get('/clo/{rps}', [CloController::class, 'index'] )->name('clo.index');
+    Route::get('/clo/create/{rps}', [CloController::class, 'create'])->name('clo.create');
+    Route::post('/clo/store/{rps}', [CloController::class, 'store'])->name('clo.store');
+    Route::put('/clo/update', [CloController::class, 'update'])->name('clo.update');
+    Route::delete('/clo/delete/{plo}/{clo}', [CloController::class, 'destroy'])->name('clo.delete');
+
+    Route::get('/penilaian/{rps}', [PenilaianController::class, 'index'])->name('penilaian.index');
+    Route::post('/penilaian/store/{rps}', [PenilaianController::class, 'store'])->name('penilaian.store');
+    Route::get('/penilaian/getclo/{rps}',[PenilaianController::class, 'getClo'])->name('penilaian.getclo');
 
     Route::get('/wbm', function (){
 
@@ -44,30 +69,14 @@ Route::prefix('rps')->group(function (){
     })->name('kelola.wbm');
 
 
-    Route::get('/plottingmk', function (){
-
-        return view('rps.plottingmk');
-    })->name('kelola.rps.plottingmk');
 
     Route::get('/plottingdosen', function (){
 
         return view('rps.plottingdsn');
     })->name('kelola.rps.plottingdsn');
 
-    Route::get('/clo', function (){
 
-        return view('rps.clo.index');
-    })->name('kelola.clo');
 
-    Route::get('/clo/create', function (){
-
-        return view('rps.clo.create');
-    })->name('kelola.clo.create');
-
-    Route::get('/penilaian', function (){
-
-        return view('rps.penilaian');
-    })->name('kelola.penilaian');
 
     Route::get('/agenda', function (){
 
@@ -102,45 +111,7 @@ Route::prefix('plotting')->group(function(){
 
 });
 
-Route::get('/data-penilaian', function(Request $request){
 
-    $data = [
-        [
-            'id' => 1,
-        'kode_clo' => 'CLO-01',
-        'pendapat' => '3',
-        'mandiri' => '3',
-        'kelompok' => '3',
-        'presentasi' => '3',
-        'uts' => '3',
-        'uas' => '3',
-        'total_bobot' => '3',
-        'target_lls' => '100',
-        'nilai_min' => '60',
-        ],
-        [
-            'id' => 2,
-        'kode_clo' => 'CLO-02',
-        'pendapat' => '3',
-        'mandiri' => '3',
-        'kelompok' => '3',
-        'presentasi' => '3',
-        'uts' => '3',
-        'uas' => '3',
-        'total_bobot' => '3',
-        'target_lls' => '100 ',
-        'nilai_min' => '60 ',
-        ]
-    ];
-
-    $output = [
-        "draw" => $request->get('draw'),
-        "recordsTotal" => count($data),
-        "recordsFiltered" => count($data),
-        "data" => $data
-    ];
-    return response()->json($output);
-})->name('data-penilaian');
 
 Route::get('/data-nilai-mhs', function(Request $request){
 

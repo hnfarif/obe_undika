@@ -33,4 +33,9 @@ class Rps extends Model
     {
         return $this->hasMany(AgendaBelajar::class);
     }
+    public function karyawan()
+    {
+        return $this->belongsTo(KaryawanDosen::class, 'nik', 'nik');
+    }
+
 }

@@ -18,8 +18,10 @@ class CreateCloTable extends Migration
             $table->bigInteger('rps_id')->unsigned();
             $table->string('kode_clo',6);
             $table->text('deskripsi');
-            $table->integer('tgt_lulus');
-            $table->integer('nilai_min');
+            $table->string('ranah_capai');
+            $table->string('lvl_bloom');
+            $table->integer('tgt_lulus')->nullable();
+            $table->integer('nilai_min')->nullable();
 
             $table->foreign('rps_id')->references('id')->on('rps')->onDelete('cascade');
             $table->timestamps();

@@ -8,10 +8,23 @@
 
     <div class="section-body">
         <div class="row">
-            <a href="{{ route('kelola.rps.plottingmk') }}" type="button"
-                class="btn btn-primary ml-3 mb-3 align-self-center expanded"><i class="fas fa-plus"></i> Plotting Rumpun
-                Mata Kuliah</a>
+            <div class="col-12 col-md-6 col-lg-12 p-0 mb-2 d-flex">
+                <a href="{{ route('rps.plottingmk') }}" type="button"
+                    class="btn btn-primary ml-3  align-self-center expanded"><i class="fas fa-plus"></i> Entri Plotting
+                    Mata Kuliah</a>
+            </div>
+        </div>
 
+        @if (session()->has('message'))
+        <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
+            {{ session()->get('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
+
+        <div class="row">
             <div class="col-12 col-md-6 col-lg-12">
                 <div class="card">
                     <div class="card-header">
@@ -37,68 +50,41 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($rps as $i)
                                     <tr>
                                         <td>
-                                            1
+                                            {{ $loop->iteration }}
                                         </td>
-                                        <td>35533</td>
-                                        <td>Teknologi Big Data</td>
-                                        <td>PENGELOLAAN DATA DAN INFORMASI</td>
-                                        <td>Julianto Lemantara</td>
-                                        <td>Vivine Nurcahyawati</td>
+                                        <td>{{ $i->kurlkl_id }}</td>
+                                        <td>{{ $i->nama_mk }}</td>
+                                        <td>{{ $i->rumpun_mk }}</td>
+                                        <td>{{ $i->ketua_rumpun }}</td>
                                         <td>
-                                            7
+                                            @if ($i->penyusun)
+                                            {{ $i->penyusun }}
+                                            @else
+                                            <button class="btn btn-primary" data-toggle="modal"
+                                                data-target="#modalPenyusun"><i class="fas fa-plus"></i></button>
+                                            @endif
+
                                         </td>
                                         <td>
-                                            3
+                                            {{ $i->semester }}
                                         </td>
                                         <td>
-                                            <div class="badge badge-success">Completed</div>
+                                            {{ $i->sks }}
                                         </td>
-                                        <td><a href="{{ route('kelola.clo') }}" class="btn btn-light">Lihat</a></td>
+                                        <td>
+                                            <div class="badge badge-info">To do</div>
+                                        </td>
+                                        <td><a href="{{ route('clo.index', $i->id) }}" class="btn btn-light">Lihat</a>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>35533</td>
-                                        <td>Sistem Pendukung Keputusan</td>
-                                        <td>PENGELOLAAN DATA DAN INFORMASI</td>
-                                        <td>Julianto Lemantara</td>
-                                        <td><button class="btn btn-primary" data-toggle="modal"
-                                                data-target="#modalPenyusun"><i class="fas fa-plus"></i></button></td>
-                                        <td>
-                                            7
-                                        </td>
-                                        <td>
-                                            3
-                                        </td>
-                                        <td>
-                                            <div class="badge badge-info">Todo</div>
-                                        </td>
-                                        <td><a href="#" class="btn btn-info">Ubah</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>35533</td>
-                                        <td>Desain Basis Data</td>
-                                        <td>PENGELOLAAN DATA DAN INFORMASI</td>
-                                        <td>Julianto Lemantara</td>
-                                        <td><button class="btn btn-primary" data-toggle="modal"
-                                                data-target="#modalPenyusun"><i class="fas fa-plus"></i></button></td>
-                                        <td>
-                                            7
-                                        </td>
-                                        <td>
-                                            3
-                                        </td>
-                                        <td>
-                                            <div class="badge badge-warning">In Progress</div>
-                                        </td>
-                                        <td><a href="#" class="btn btn-info">Ubah</a></td>
-                                    </tr>
+
+
+                                    @endforeach
+
+
 
                                 </tbody>
                             </table>

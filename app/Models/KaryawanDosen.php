@@ -24,6 +24,11 @@ class KaryawanDosen extends Model
         return $this->hasOne(User::class);
     }
 
+    public function rpses()
+    {
+        return $this->hasMany(Rps::class);
+    }
+
 
 
 

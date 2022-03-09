@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMapLloAgdTable extends Migration
+class CreateLloAgdBljrTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMapLloAgdTable extends Migration
      */
     public function up()
     {
-        Schema::create('map_llo_agd', function (Blueprint $table) {
+        Schema::create('llo_agd_bljr', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('llo_id')->unsigned();
             $table->bigInteger('agd_id')->unsigned();
@@ -30,6 +30,6 @@ class CreateMapLloAgdTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('map_llo_agd');
+        Schema::dropIfExists('llo_agd_bljr');
     }
 }

@@ -1,86 +1,98 @@
 @extends('layouts.main')
-@section('rps', 'active')
-@section('step1', 'active')
+@section('peoplo', 'active')
+@section('step3', 'active')
 @section('content')
-
 <section class="section">
+    @include('kelolapeoplo.section-header')
 
     <div class="section-body">
-        <h2 class="section-title">Plotting Rumpun Mata Kuliah</h2>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-12 col-md-6 col-lg-12 p-0 mb-2 d-flex">
+                <a href="{{ route('peoplo.map') }}" type="button"
+                    class="btn btn-primary ml-3  align-self-center expanded"><i class="fas fa-arrow-left"></i>
+                    Kembali</a>
+            </div>
+        </div>
+        <div class="d-flex align-items-center my-0">
+            <h2 class="section-title">Entri Mapping PEO-PLO</h2>
+        </div>
+        @if (session()->has('message'))
+        <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
+            {{ session()->get('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {{ session()->forget('message') }}
+        {{ session()->forget('alert-class') }}
+        @endif
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Daftar Mata Kuliah</h4>
+                        <h4>Daftar PLO</h4>
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped" id="table">
+                        <table class="table table-striped table-responsive" id="table">
                             <thead>
                                 <tr>
-                                    <th>Nama Mata Kuliah</th>
+                                    <th>
+                                        Kode PLO
+                                    </th>
+                                    <th>Deskripsi PLO</th>
                                 </tr>
                             </thead>
-                            <tbody id="modules">
-
-                                @foreach ($mk as $i)
-
+                            <tbody>
+                                @foreach ($plo as $i)
                                 <tr>
+                                    <td id="modules" style="width: 100px">
+                                        <div class="drag" data-id="1">
+                                            <span>{{ $i->kode_plo }}</span>
+                                        </div>
+                                    </td>
                                     <td>
-                                        <div class="drag" data-id="{{ $i->id }}">
-                                            <span>{{ $i->nama }}</span>
+                                        <div data-id="{{ $i->id }}">
+                                            <span>{{ $i->deskripsi }}</span>
                                         </div>
                                     </td>
                                 </tr>
                                 @endforeach
-
-
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="card carddrop">
+            <div class="col-12 col-md-6 col-lg-6">
+                <div class="card">
                     <div class="card-header">
-                        <h4>Rumpun Mata Kuliah</h4>
+                        <h4>Mapping PEO-PLO</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('rps.plottingmk.store') }}" method="POST">
+                        <form action="{{ route('peoplo.map.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label>Nama Rumpun Mata Kuliah</label>
-                                <input type="text" name="rumpun_mk"
-                                    class="form-control @error('rumpun_mk') is-invalid @enderror"
-                                    value="{{ old('rumpun_mk') }}" required>
-                                @error('rumpun_mk')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Ketua Rumpun</label>
-                                <select class="form-control select2 @error('ketua_rumpun') is-invalid @enderror"
-                                    name="ketua_rumpun" required>
-                                    <option value="" selected disabled>Pilih Dosen</option>
-                                    @foreach ($dosen as $i)
+                                <label>Pilih PEO</label>
+                                <select class="form-control select2" name="kode_peo" required>
+                                    <option value="" selected disabled>Pilih PEO</option>
+                                    @foreach ($peo as $i)
 
-                                    <option value="{{ $i->nik }}">{{ $i->nama }}</option>
+                                    <option value="{{ $i->id }}">{{ "($i->kode_peo) - ". $i->deskripsi }}</option>
+
                                     @endforeach
+                                    @error('kode_peo')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
                                 </select>
-                                @error('ketua_rumpun')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
                             </div>
                             <div class="form-group">
-                                <label for="">Daftar Mata Kuliah</label>
+                                <label for="">Daftar PLO</label>
                                 <ul class="list-group" id="dropzone">
-                                    <div class="dz-message"><span>Drag Nama Mata Kuliahnya kesini</span></div>
+                                    <div class="dz-message"><span>Drag kode PLO-nya kesini</span></div>
+
                                 </ul>
-                                @error('mklist')
+                                @error('plolist')
                                 <div class="alert alert-danger alert-dismissible show fade ">{{ $message }}
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -97,6 +109,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
 
@@ -120,18 +133,18 @@
             hoverClass: 'hover',
             accept: ":not(.ui-sortable-helper)", // Reject clones generated by sortable
             drop: function (e, ui) {
-                var $el = $('<li class="list-group-item drop-item">' + ui.draggable.text() +
+                var $el = $('<li class="list-group-item drop-item" >' + ui.draggable
+                    .text() +
                     '</li>'
+
                 );
 
-                $el.append('<input type="hidden" name="mklist[]" value="' + ui.draggable.text() +
+                $el.append('<input type="hidden" name="plolist[]" value="' + ui.draggable.text() +
                     '">');
-
                 $el.append($(
                     '<button type="button" class="btn btn-danger btn-sm remove">hapus</button>'
                 ).click(function () {
                     $(this).parent().detach();
-
                     if (datamk.length > 0) {
 
                         for (var i = 0; i < datamk.length; i++) {
@@ -139,17 +152,18 @@
                                 datamk.splice(i, 1);
                             }
                         }
+
                     }
                     if (datamk.length == 0) {
 
                         $('.dz-message').show();
                     }
-
                 }));
 
                 var isAvail = false;
 
                 if (datamk.length > 0) {
+
                     for (var i = 0; i < datamk.length; i++) {
                         if (datamk[i].trim() == ui.draggable.text().trim()) {
                             // console.log(datamk);
@@ -157,18 +171,18 @@
 
                         }
                     }
+
                     if (!isAvail) {
 
                         $(this).append($el);
                         datamk.push(ui.draggable.text().trim());
+
                     }
                 } else {
                     datamk.push(ui.draggable.text().trim());
                     $(this).append($el);
                     $('.dz-message').hide();
                 }
-
-
             },
 
 
