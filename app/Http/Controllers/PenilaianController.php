@@ -236,7 +236,11 @@ class PenilaianController extends Controller
 
                         if(array_key_exists(($keyBtk + 2), $bobot[$key])){
 
+
+
                             BobotPenilaian::where('penilaian_id', $valueBtk)->where('clo_id', $bobot[$key][1])->update(['bobot' => $bobot[$key][($keyBtk + 2)]]);
+
+
                         }
 
 
@@ -257,11 +261,14 @@ class PenilaianController extends Controller
 
                         if(array_key_exists(($i + (2 + count($btkNilai))), $clo[$key])){
 
+
+
                             Clo::where('id', $clo[$key][1])
                             ->update([
                                 'tgt_lulus' => $clo[$key][$i + (2 + count($btkNilai))] ?? null,
                                 'nilai_min' => $clo[$key][$i + (3 + count($btkNilai))] ?? null,
                             ]);
+
                         }
 
 
@@ -274,6 +281,6 @@ class PenilaianController extends Controller
             }
         }
 
-        return $bobot;
+        return 'success';
     }
 }

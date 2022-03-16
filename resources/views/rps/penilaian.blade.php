@@ -334,6 +334,11 @@
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
+                        $('.ubahNilai').addClass('d-none');
+                        $('.batalNilai').addClass('d-none');
+                        $('#btnDitDel').addClass('d-none');
+                        $('#swalSave').addClass('d-none');
+
                         $.ajax({
                             url: "{{ route('penilaian.updateBobot') }}",
                             type: "PUT",
@@ -344,12 +349,33 @@
                                 'clo': clo,
                             },
                             success: function (data) {
-                                Swal.fire(
-                                    'Saved!',
-                                    'Your data has been saved.',
-                                    'success'
-                                )
-                                location.reload();
+
+
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener(
+                                            'mouseenter', Swal
+                                            .stopTimer)
+                                        toast.addEventListener(
+                                            'mouseleave', Swal
+                                            .resumeTimer)
+                                    }
+                                })
+
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Data berhasil diubah'
+                                })
+
+                                setTimeout(() => {
+
+                                    location.reload();
+                                }, 2000);
                             }
                         });
                         // Swal.fire('Saved!', '', 'success')

@@ -46,6 +46,7 @@ Route::prefix('kelola')->group(function () {
 
 Route::prefix('rps')->group(function (){
 
+
     Route::get('/', [RpsController::class,'index'])->name('rps.index');
     Route::put('/update/{rps}', [RpsController::class,'update'])->name('rps.update');
 
