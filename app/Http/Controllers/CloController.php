@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Clo;
 use App\Models\MataKuliah;
+use App\Models\Penilaian;
 use App\Models\Plo;
 use App\Models\PloClo;
 use App\Models\Rps;
@@ -19,12 +20,11 @@ class CloController extends Controller
      */
     public function index(Rps $rps)
     {
-        // $rps->clos()->get();
 
         $mk = MataKuliah::all();
         $prasyarat = MataKuliah::where('id',$rps->kurlkl_id)->pluck('prasyarat')->first();
         $exPra = explode(' ', $prasyarat);
-        $clo = Clo::where('rps_id',$rps->id)->orderBy('id','asc')->get();
+        $clo = Clo::where('rps_id',$rps->id)->with('plos')->orderBy('id','asc')->get();
         $iteration = Clo::latest()->select('kode_clo')->pluck('kode_clo')->first();
 
         return view('rps.clo.index', compact('rps', 'mk', 'exPra', 'clo', 'iteration'));
@@ -75,6 +75,15 @@ class CloController extends Controller
         $clo->lvl_bloom = $impLvl;
         $clo->save();
 
+        $penilaian = Penilaian::where('rps_id', $rps->id)->get();
+        if($clo){
+
+            foreach($penilaian as $i){
+
+                $clo->penilaians()->attach([['penilaian_id' => $i->id, 'clo_id' => $clo->id]]);
+            }
+        }
+
         $plo = new Plo;
         foreach ($request->ploid as $i) {
             $cek = Plo::whereHas('clos', function ($query) use ($i, $clo) {
@@ -89,6 +98,8 @@ class CloController extends Controller
                 Session::flash('alert-class','alert-success');
             }
         }
+
+
 
 
         return redirect()->route('clo.index', $rps->id);
@@ -118,7 +129,7 @@ class CloController extends Controller
         $plo = Plo::whereHas('clos', function ($query) use ($clo) {
             $query->where('clo_id', $clo->id);
         })->get();
-        $allplo = Plo::all()->map->only('id','kode_plo');
+        $allplo = Plo::all()->map->only('id','kode_plo','deskripsi');
         return response()->json([
             'clo' => $clo,
             'plo' => $plo,

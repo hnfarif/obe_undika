@@ -74,14 +74,14 @@
             <h2 class="section-title">Tabel CLO</h2>
         </div>
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-12">
+            <div class="col-12  col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Daftar CLO</h4>
                     </div>
                     <div class="card-body">
 
-                        <table class="table table-striped table-responsive" id="tableClo">
+                        <table class="table table-striped table-responsive" width="100%" id="tableClo">
                             <thead>
 
                                 <tr>
@@ -106,7 +106,7 @@
                                     <td>{{ str_replace(" ", ", ",$clos->ranah_capai) }}</td>
                                     <td>{{ $clos->lvl_bloom }}</td>
                                     <td>
-                                        @foreach ($clos->plos()->get()->sortBy('kode_plo') as $item)
+                                        @foreach ($clos->plos->sortBy('kode_plo') as $item)
                                         <div style="width: 150px;" class="d-flex">
                                             {{ $item->kode_plo }}
                                             <div class="ml-auto">
@@ -133,7 +133,7 @@
 
                                         </a>
 
-                                        @if ($clos->plos()->count() == 0)
+                                        @if ($clos->plos->count() == 0)
 
                                         <form action="{{ route('clo.delete',[$item->id,$clos->id]) }}" method="POST"
                                             class="@if($clos->kode_clo !== $iteration)
@@ -168,7 +168,7 @@
     </div>
 </section>
 <div class="modal fade" role="dialog" id="editClo">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Ubah CLO</h5>
@@ -329,16 +329,16 @@
                     data.plo.forEach(element => {
                         plos.push(element.id);
                     });
-
+                    console.log(data.allplo);
                     data.allplo.forEach(element => {
 
                         if (plos.includes(element.id)) {
                             $("#ploid").append(
-                                `<option selected value="${element.id}">${element.kode_plo}</option>`
+                                `<option selected value="${element.id}">${element.kode_plo} - ${element.deskripsi}</option>`
                             );
                         } else {
                             $("#ploid").append(
-                                `<option value="${element.id}">${element.kode_plo}</option>`
+                                `<option value="${element.id}">${element.kode_plo} - ${element.deskripsi}</option>`
                             );
                         }
                     });

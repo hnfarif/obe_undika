@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BobotPenilaian;
 use App\Models\Clo;
 use App\Models\Penilaian;
 use App\Models\Rps;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Mockery\Undefined;
 
 class PenilaianController extends Controller
 {
@@ -16,9 +19,15 @@ class PenilaianController extends Controller
      */
     public function index(Rps $rps)
     {
-        $clo = Clo::where('rps_id',$rps->id)->orderBy('kode_clo', 'asc')->get();
+        $clo = Clo::with('penilaians')->where('rps_id',$rps->id)->orderBy('id', 'asc')->get();
+        $penilaian = Penilaian::where('rps_id',$rps->id)->orderBy('id','asc')->get();
+        $clos = new Clo;
+        $total = 0;
+        foreach ($clo as $c){
+            $total += $clos->getTotalClo($c->id);
+        }
 
-        return view('rps.penilaian', compact('rps', 'clo'));
+        return view('rps.penilaian', compact('rps', 'clo', 'penilaian', 'total'));
     }
 
     /**
@@ -44,13 +53,30 @@ class PenilaianController extends Controller
             'jenis' => 'required',
         ]);
 
-        $penilaian = new Penilaian;
+        $penilaian = new Penilaian();
         $penilaian->rps_id = $rps->id;
-        $penilaian->nilai = $request->nilai;
-        $penilaian->komentar = $request->komentar;
+        $penilaian->btk_penilaian = $request->btk_penilaian;
+        $penilaian->jenis= $request->jenis;
         $penilaian->save();
 
-        return redirect()->route('rps.index');
+        $clo = Clo::where('rps_id',$rps->id)->get();
+
+        if($penilaian){
+
+            foreach($clo as $i){
+
+                $penilaian->clos()->attach([['penilaian_id' => $penilaian->id, 'clo_id' => $i->id]]);
+            }
+            Session::flash('message', 'Data berhasil ditambahkan');
+            Session::flash('alert-class', 'alert-success');
+        }else{
+            Session::flash('message', 'Data gagal ditambahkan');
+            Session::flash('alert-class', 'alert-danger');
+        }
+
+
+
+        return redirect()->route('penilaian.index', $rps->id);
     }
 
     /**
@@ -70,9 +96,11 @@ class PenilaianController extends Controller
      * @param  \App\Models\Penilaian  $penilaian
      * @return \Illuminate\Http\Response
      */
-    public function edit(Penilaian $penilaian)
+    public function edit(Request $request)
     {
-        //
+        $penilaian = Penilaian::findOrFail($request->id);
+
+        return $penilaian;
     }
 
     /**
@@ -82,9 +110,27 @@ class PenilaianController extends Controller
      * @param  \App\Models\Penilaian  $penilaian
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Penilaian $penilaian)
+    public function update(Request $request)
     {
-        //
+        $validation = $request->validate([
+            'btk_penilaian' => 'required',
+            'jenis' => 'required',
+        ]);
+
+        $penilaian = Penilaian::where('id', $request->id)->update([
+            'btk_penilaian' => $request->btk_penilaian,
+            'jenis' => $request->jenis,
+        ]);
+
+        if($penilaian){
+            Session::flash('message', 'Data berhasil diubah');
+            Session::flash('alert-class', 'alert-success');
+        }else{
+            Session::flash('message', 'Data gagal diubah');
+            Session::flash('alert-class', 'alert-danger');
+        }
+
+        return redirect()->route('penilaian.index', $request->rps_id);
     }
 
     /**
@@ -93,9 +139,19 @@ class PenilaianController extends Controller
      * @param  \App\Models\Penilaian  $penilaian
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Penilaian $penilaian)
+    public function destroy(Request $request, $id)
     {
-        //
+        $penilaian = Penilaian::destroy($id);
+
+        if($penilaian){
+            Session::flash('message', 'Data berhasil dihapus');
+            Session::flash('alert-class', 'alert-success');
+        }else{
+            Session::flash('message', 'Data gagal dihapus');
+            Session::flash('alert-class', 'alert-danger');
+        }
+
+        return redirect()->route('penilaian.index', $request->rps_id);
     }
 
     public function getClo(Request $request, Rps $rps)
@@ -112,4 +168,112 @@ class PenilaianController extends Controller
         return response()->json($output);
     }
 
+    public function getTotal(Request $request)
+    {
+        $ttl_bbt = [];
+        $ttl_clo = 0;
+        $ttl_btk = [];
+        $bobot = $request->bobotClo;
+
+        foreach ($bobot as $key => $value) {
+
+            foreach ($value as $key2 => $value2) {
+                if(!array_key_exists(2, $bobot[$key])){
+                    $ttl_bbt[$key][0] = 0;
+                }
+
+                if ($key2 == 2) {
+
+                    $ttl_bbt[$key][0] = intval($value2);
+
+                }else if($key2 >2){
+                    $ttl_bbt[$key][0] += intval($value2);
+
+                }
+
+            }
+        }
+
+        foreach ($ttl_bbt as $key => $value) {
+            $ttl_clo += $value[0];
+        }
+
+        foreach ($bobot as $key => $value) {
+
+            foreach ($value as $key2 => $value2) {
+
+                if ($key2 >= 2) {
+                   if(!array_key_exists(($key2-2), $ttl_btk)){
+
+                      $ttl_btk[$key2 - 2][0] = intval($value2);
+
+                   }else{
+                        $ttl_btk[$key2 - 2][0] += intval($value2);
+                   }
+
+                }
+
+            }
+        }
+
+
+        return [$ttl_bbt, $ttl_clo, $ttl_btk];
+    }
+
+    public function updateBobot(Request $request)
+    {
+       $btkNilai =  $request->btkNilai;
+       $bobot =  $request->bobot;
+       $clo =  $request->clo;
+
+        foreach ($bobot as $key => $value) {
+
+            foreach ($value as $key2 => $value2) {
+
+                if($key2 >= 2){
+                    foreach ($btkNilai as $keyBtk => $valueBtk) {
+
+
+                        if(array_key_exists(($keyBtk + 2), $bobot[$key])){
+
+                            BobotPenilaian::where('penilaian_id', $valueBtk)->where('clo_id', $bobot[$key][1])->update(['bobot' => $bobot[$key][($keyBtk + 2)]]);
+                        }
+
+
+                    }
+
+                }
+
+            }
+        }
+
+        foreach ($clo as $key => $value) {
+
+            foreach ($value as $key2 => $value2) {
+
+                if($key2 >= (2 + count($btkNilai))){
+                    for($i = 0; $i < 2; $i++){
+
+
+                        if(array_key_exists(($i + (2 + count($btkNilai))), $clo[$key])){
+
+                            Clo::where('id', $clo[$key][1])
+                            ->update([
+                                'tgt_lulus' => $clo[$key][$i + (2 + count($btkNilai))] ?? null,
+                                'nilai_min' => $clo[$key][$i + (3 + count($btkNilai))] ?? null,
+                            ]);
+                        }
+
+
+                    }
+
+                }
+
+
+
+            }
+        }
+
+        return $bobot;
+    }
 }

@@ -17,7 +17,7 @@ class CreateBbtPenilaianTable extends Migration
             $table->id();
             $table->bigInteger('penilaian_id')->unsigned();
             $table->bigInteger('clo_id')->unsigned();
-            $table->integer('bobot');
+            $table->integer('bobot')->nullable();
             $table->foreign('penilaian_id')->references('id')->on('penilaian')->onDelete('cascade');
             $table->foreign('clo_id')->references('id')->on('clo')->onDelete('cascade');
             $table->timestamps();

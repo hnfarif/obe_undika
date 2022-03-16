@@ -93,7 +93,7 @@
                                         <select class="form-control  @error('ploid') is-invalid @enderror select2"
                                             name="ploid[]" multiple="" required>
                                             @foreach ($plo as $i)
-                                            <option value="{{ $i->id }}">{{ $i->kode_plo }}
+                                            <option value="{{ $i->id }}">{{ $i->kode_plo }} - {{ $i->deskripsi }}
                                             </option>
                                             @endforeach
                                         </select>

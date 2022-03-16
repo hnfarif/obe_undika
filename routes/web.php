@@ -59,9 +59,14 @@ Route::prefix('rps')->group(function (){
     Route::put('/clo/update', [CloController::class, 'update'])->name('clo.update');
     Route::delete('/clo/delete/{plo}/{clo}', [CloController::class, 'destroy'])->name('clo.delete');
 
+    Route::get('/penilaian/edit', [PenilaianController::class, 'edit'])->name('penilaian.edit');
+    Route::get('/penilaian/getTotal',[PenilaianController::class, 'getTotal'])->name('penilaian.getTotal');
     Route::get('/penilaian/{rps}', [PenilaianController::class, 'index'])->name('penilaian.index');
     Route::post('/penilaian/store/{rps}', [PenilaianController::class, 'store'])->name('penilaian.store');
-    Route::get('/penilaian/getclo/{rps}',[PenilaianController::class, 'getClo'])->name('penilaian.getclo');
+    Route::put('/penilaian/update', [PenilaianController::class, 'update'])->name('penilaian.update');
+    Route::put('/penilaian/updateBobot', [PenilaianController::class, 'updateBobot'])->name('penilaian.updateBobot');
+    Route::delete('/penilaian/delete/{id}', [PenilaianController::class, 'destroy'])->name('penilaian.delete');
+
 
     Route::get('/wbm', function (){
 

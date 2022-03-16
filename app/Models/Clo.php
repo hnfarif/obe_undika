@@ -26,7 +26,7 @@ class Clo extends Model
 
     public function penilaians()
     {
-        return $this->belongsToMany(Penilaian::class);
+        return $this->belongsToMany(Penilaian::class, 'bbt_penilaian', 'clo_id', 'penilaian_id');
     }
 
     public function llos()
@@ -34,9 +34,25 @@ class Clo extends Model
         return $this->belongsToMany(Llo::class);
     }
 
+    public function getLulusNilai($id)
+    {
+        $ln =  Clo::where('id',$id)->first();
 
+        return [
+            'lulus' => $ln->tgt_lulus,
+            'nilai' => $ln->nilai_min,
+        ];
+    }
 
+    public function getTotalClo($id){
 
+        $bbt = BobotPenilaian::where('clo_id',$id)->get();
+        $total = 0;
+        foreach ($bbt as $b){
+            $total += $b->bobot;
+        }
+        return $total;
+    }
 
 
 }

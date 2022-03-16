@@ -33,7 +33,7 @@
                     </div>
                     <div class="card-body">
 
-                        <table class="table table-striped table-responsive" id="tableMap">
+                        <table class="table table-striped table-responsive" width="100%" id="tableMap">
                             <thead>
                                 <tr>
                                     <th>
@@ -62,8 +62,7 @@
                                     <td>{{  $peos->deskripsi }}</td>
 
                                     <td>
-
-                                        @foreach ($peos->plos()->get() as $i)
+                                        @foreach ($peos->plos as $i)
                                         <div class="d-flex">
                                             {{ $i->kode_plo." - ".$i->deskripsi }}
                                             <div>

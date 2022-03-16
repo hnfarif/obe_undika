@@ -17,10 +17,10 @@ class PeoPloController extends Controller
      */
     public function index()
     {
-       $plo =  Plo::all();
-       $peo = Peo::whereHas('plos')->orderBy('kode_peo', 'asc')->get();
 
-       return view('kelolapeoplo.mapping.index', ['plo' => $plo, 'peo' => $peo]);
+       $peo = Peo::with('plos')->orderBy('kode_peo', 'asc')->get();
+
+       return view('kelolapeoplo.mapping.index', ['peo' => $peo]);
     }
 
     /**
