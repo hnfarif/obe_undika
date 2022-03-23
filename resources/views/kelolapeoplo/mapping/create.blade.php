@@ -46,8 +46,8 @@
                                 @foreach ($plo as $i)
                                 <tr>
                                     <td id="modules" style="width: 100px">
-                                        <div class="drag" data-id="1">
-                                            <span>{{ $i->kode_plo }}</span>
+                                        <div class="text-center drag" data-id="{{ $i->id }}">
+                                            <span class="p-4">{{ $i->kode_plo }}</span>
                                         </div>
                                     </td>
                                     <td>
@@ -139,7 +139,8 @@
 
                 );
 
-                $el.append('<input type="hidden" name="plolist[]" value="' + ui.draggable.text() +
+                $el.append('<input type="hidden" name="plolist[]" value="' + ui.draggable.attr(
+                        'data-id') +
                     '">');
                 $el.append($(
                     '<button type="button" class="btn btn-danger btn-sm remove">hapus</button>'
@@ -148,7 +149,8 @@
                     if (datamk.length > 0) {
 
                         for (var i = 0; i < datamk.length; i++) {
-                            if (datamk[i].trim() == ui.draggable.text().trim()) {
+                            if (datamk[i].trim() == ui.draggable.attr('data-id')
+                                .trim()) {
                                 datamk.splice(i, 1);
                             }
                         }
@@ -159,13 +161,13 @@
                         $('.dz-message').show();
                     }
                 }));
-
                 var isAvail = false;
 
                 if (datamk.length > 0) {
 
+
                     for (var i = 0; i < datamk.length; i++) {
-                        if (datamk[i].trim() == ui.draggable.text().trim()) {
+                        if (datamk[i].trim() == ui.draggable.attr('data-id').trim()) {
                             // console.log(datamk);
                             isAvail = true;
 
@@ -175,11 +177,11 @@
                     if (!isAvail) {
 
                         $(this).append($el);
-                        datamk.push(ui.draggable.text().trim());
+                        datamk.push(ui.draggable.attr('data-id').trim());
 
                     }
                 } else {
-                    datamk.push(ui.draggable.text().trim());
+                    datamk.push(ui.draggable.attr('data-id').trim());
                     $(this).append($el);
                     $('.dz-message').hide();
                 }

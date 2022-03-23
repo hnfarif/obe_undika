@@ -23,6 +23,11 @@ class AgendaBelajar extends Model
         return $this->hasMany(Materi::class);
     }
 
+    public function penilaians()
+    {
+        return $this->belongsToMany('penilaian_agenda', 'agdbljr_id', 'penilaian_id');
+    }
+
     public function rps()
     {
         return $this->belongsTo(Rps::class, 'rps_id', 'id');

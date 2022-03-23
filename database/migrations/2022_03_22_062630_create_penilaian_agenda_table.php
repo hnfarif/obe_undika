@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBbtPenilaianTable extends Migration
+class CreatePenilaianAgendaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateBbtPenilaianTable extends Migration
      */
     public function up()
     {
-        Schema::create('bbt_penilaian', function (Blueprint $table) {
+        Schema::create('penilaian_agenda', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('penilaian_id')->unsigned();
-            $table->bigInteger('clo_id')->unsigned();
-            $table->integer('bobot')->nullable();
+            $table->bigInteger('agdbljr_id')->unsigned();
+
             $table->foreign('penilaian_id')->references('id')->on('penilaian')->onDelete('cascade');
-            $table->foreign('clo_id')->references('id')->on('clo')->onDelete('cascade');
+            $table->foreign('agdbljr_id')->references('id')->on('agd_bljr')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateBbtPenilaianTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bbt_penilaian');
+        Schema::dropIfExists('penilaian_agenda');
     }
 }

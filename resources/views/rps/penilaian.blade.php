@@ -2,14 +2,6 @@
 @section('rps', 'active')
 @section('penilaian', 'active')
 @section('content')
-<style>
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-</style>
 <section class="section">
 
     @include('rps.section-header')
@@ -69,132 +61,64 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>Daftar Bentuk Penilaian</h4>
-                        <div class="ml-auto">
-                            <button type="button" class="btn btn-primary ubahNilai"><i class="fas fa-edit"></i>
-                                Ubah data penilaian</button>
-                            <button type="button" class="btn btn-danger d-none batalNilai"><i class="fas fa-times"></i>
-                                Batal</button>
-                            <button type="button" class="btn btn-success d-none" id="swalSave"><i
-                                    class="fas fa-save"></i>
-                                Simpan
-                                Penilaian</button>
-                        </div>
-
                     </div>
                     <div class="card-body">
 
-                        <table class="table table-striped table-responsive" width="100%" id="table">
-                            <thead>
+                        <table class="table table-striped" id="table" width="100%">
+                            <thead class="text-center">
                                 <tr>
-                                    <th rowspan="4" class="align-middle text-center">#</th>
-                                    <th rowspan="4" class="align-middle text-center">
-                                        <div style="width: 100px;">
-                                            Kode CLO
-                                        </div>
-                                    </th>
-                                    <th colspan="{{ $penilaian->count() }}">
-                                        Bobot per bentuk penilaian (%)
-                                    </th>
-                                    <th rowspan="4" class="align-middle">
-                                        <div style="width:100px;">Total Bobot per CLO (%)</div>
-                                    </th>
-                                    <th rowspan="4" class="align-middle">Target Kelulusan(%)</th>
-                                    <th rowspan="4" class="align-middle">
-                                        <div style="width: 65px;">Nilai Min</div>
-                                    </th>
-                                </tr>
-                                <tr class="d-none" id="btnDitDel">
-                                    @foreach ($penilaian as $p)
-
                                     <th>
-                                        <div class="d-flex">
-
-                                            <button type="button" class="btn btn-light mr-1 editPenilaian"
-                                                data-id="{{ $p->id }}" data-toggle="modal" data-target="#editPenilaian">
-                                                <i class="fas fa-edit my-auto"></i>
-                                            </button>
-                                            <form action="{{ route('penilaian.delete', $p->id) }}" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <input name="_method" type="hidden" value="DELETE">
-                                                <input type="hidden" name="rps_id" value="{{ $rps->id }}">
-                                                <button type="button" class="btn btn-danger delPenilaian">
-                                                    <i class="fas fa-trash my-auto"></i>
-                                                </button>
-                                            </form>
-                                        </div>
+                                        #
                                     </th>
-
-
-                                    @endforeach
-
-                                </tr>
-                                <tr>
-                                    @foreach ($penilaian as $p)
-
                                     <th>
-
-                                        {{ $p->btk_penilaian }}
+                                        Bentuk Penilaian
                                     </th>
-
-
-                                    @endforeach
-
-                                </tr>
-                                <tr>
-
-                                    @foreach ($penilaian as $j)
                                     <th>
-                                        <input type="hidden" class="idBtk" value="{{ $j->id }}">
-                                        <div style="min-width: 65px;">{{ $j->jenis }}</div>
+                                        Jenis Penilaian
                                     </th>
-                                    @endforeach
+                                    <th>
+                                        Aksi
+                                    </th>
                                 </tr>
 
                             </thead>
                             <tbody class="text-center">
-                                @foreach ($clo as $i)
-
+                                @foreach ($penilaian as $i)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        <input type="hidden" id="idClo" value="{{ $i->id }}">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td>
+                                        {{ $i->btk_penilaian }}
+                                    </td>
+                                    <td>
+                                        {{ $i->jenis }}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex my-auto">
 
-                                        {{ $i->kode_clo }}
+                                            <a href="#" class="btn btn-light mr-2 editPenilaian" data-id="{{ $i->id }}"
+                                                data-toggle="modal" data-target="#editPenilaian"><i
+                                                    class="fas fa-edit"></i>
+
+                                            </a>
+                                            <form action="{{ route('penilaian.delete', $i->id) }}" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <input name="_method" type="hidden" value="DELETE">
+                                                <input type="hidden" name="rps_id" value="{{ $rps->id }}">
+                                                <button class="btn btn-danger delPenilaian"><i class="fas fa-trash"></i>
+
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
 
-                                    @foreach ($i->penilaians->sortBy('id') as $p)
-                                    <td><input type="number" min="0" max="100" value="{{ $p->getBobot($p->id,$i->id) }}"
-                                            class="form-control text-center bobot" readonly>
-                                    </td>
-                                    @endforeach
-                                    @if ($i->penilaians->count() > 0)
-                                    <td class="align-middle"><strong
-                                            id="ttlClo{{ $loop->iteration }}">{{ $i->getTotalClo($i->id) }}</strong>
-                                    </td>
-                                    <td><input type="number" min="0" max="100"
-                                            value="{{ $i->getLulusNilai($i->id)['lulus'] }}"
-                                            class="form-control text-center clo" readonly></td>
-                                    <td><input type="number" min="0" max="100"
-                                            value="{{ $i->getLulusNilai($i->id)['nilai'] }}"
-                                            class="form-control text-center clo" readonly></td>
-                                    @endif
                                 </tr>
+
                                 @endforeach
                             </tbody>
-                            <tfoot class="text-center">
-                                <tr>
-                                    <td colspan="2"> <strong>Total per penilaian (%)</strong> </td>
-                                    @foreach ($penilaian as $i)
-                                    <td><strong
-                                            id="ttlperBobot{{ $loop->iteration }}">{{ $i->getTotalPenilaian($i->id) }}</strong>
-                                    </td>
-                                    @endforeach
 
-                                    <td><strong id="ttlperClo">{{ $total }}</strong></td>
-
-                                </tr>
-                            </tfoot>
                         </table>
 
 
@@ -203,6 +127,7 @@
 
             </div>
         </div>
+
     </div>
 
 
@@ -252,39 +177,20 @@
 </div>
 @endsection
 @push('script')
+
 <script>
     $(document).ready(function () {
-        var data = Array();
-        var clo = Array();
-        var btkNilai = Array();
-
-        $('.ubahNilai').click(function () {
-
-            $('.bobot').removeAttr('readonly');
-            $('.clo').removeAttr('readonly');
-            $('.ubahNilai').addClass('d-none');
-            $('.batalNilai').removeClass('d-none');
-            $('#btnDitDel').removeClass('d-none');
-            $('#swalSave').removeClass('d-none');
-
-        });
-
-        $('.batalNilai').click(function () {
-            location.reload();
-
-        })
 
         $('#table').on('click', '.editPenilaian', function () {
+            var id = $(this).attr('data-id');
 
             $.ajax({
-                url: "{{ route('penilaian.edit') }}",
+                url: "{{ route('penilaian.edit') }}?id=" + id,
                 type: "GET",
-                data: {
-                    id: $(this).data('id')
-                },
+                dataType: "JSON",
                 success: function (data) {
-                    $('#id').val(data.id);
-                    $('#btk_penilaian').val(data.btk_penilaian);
+                    $("#id").val(data.id);
+                    $("#btk_penilaian").val(data.btk_penilaian);
                     $('#jenis').children("option").each(function () {
                         if ($(this).val() == data.jenis) {
                             $(this).remove();
@@ -293,11 +199,9 @@
                             );
                         }
                     });
-
-
                 }
-            });
-        });
+            })
+        })
 
         $('#table').on('click', '.delPenilaian', function (e) {
 
@@ -319,152 +223,8 @@
 
             })
         })
-
-        $('#swalSave').click(function () {
-            var ttlperClo = $('#ttlperClo').text();
-            if (ttlperClo != 100) {
-                Swal.fire('Total bobot per CLO harus sama dengan 100%', '',
-                    'error');
-            } else {
-                Swal.fire({
-                    title: 'Do you want to save the changes?',
-                    showCancelButton: true,
-                    confirmButtonText: 'Save',
-                    denyButtonText: `Don't save`,
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        $('.ubahNilai').addClass('d-none');
-                        $('.batalNilai').addClass('d-none');
-                        $('#btnDitDel').addClass('d-none');
-                        $('#swalSave').addClass('d-none');
-
-                        $.ajax({
-                            url: "{{ route('penilaian.updateBobot') }}",
-                            type: "PUT",
-                            data: {
-                                '_token': "{{ csrf_token() }}",
-                                'btkNilai': btkNilai,
-                                'bobot': data,
-                                'clo': clo,
-                            },
-                            success: function (data) {
-
-
-                                const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 2000,
-                                    timerProgressBar: true,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener(
-                                            'mouseenter', Swal
-                                            .stopTimer)
-                                        toast.addEventListener(
-                                            'mouseleave', Swal
-                                            .resumeTimer)
-                                    }
-                                })
-
-                                Toast.fire({
-                                    icon: 'success',
-                                    title: 'Data berhasil diubah'
-                                })
-
-                                setTimeout(() => {
-
-                                    location.reload();
-                                }, 2000);
-                            }
-                        });
-                        // Swal.fire('Saved!', '', 'success')
-                    } else if (result.isDenied) {
-                        Swal.fire('Changes are not saved', '', 'info')
-                    }
-                })
-            }
-
-        })
-
-        $('#table').on('change', '.bobot , .clo', function () {
-
-            $("table tbody tr").each(function (i, v) {
-
-                data[i] = Array();
-                clo[i] = Array();
-
-
-                $(this).children('td').each(function (ii, vv) {
-
-
-                    if (ii == 1) {
-                        //get data kode CLO
-                        // data[i][ii] = $(this).text().trim();
-
-                        data[i][ii] = $(this).find('#idClo').val();
-                        clo[i][ii] = $(this).find('#idClo').val();
-                    } else if (ii >= 2) {
-
-                        if ($(this).find('.bobot').val()) {
-
-                            data[i][ii] = $(this).find('.bobot').val();
-
-                        } else if ($(this).find('.clo').val()) {
-
-                            clo[i][ii] = $(this).find('.clo').val();
-                        }
-
-                    }
-
-                });
-
-            })
-
-            $.ajax({
-                url: "{{ route('penilaian.getTotal') }}",
-                type: "GET",
-                data: {
-                    bobotClo: data
-                },
-                dataType: "JSON",
-                success: function (data) {
-                    console.log(data);
-                    for (let i = 0; i < data[0].length; i++) {
-                        $('#ttlClo' + (i + 1)).text(data[0][i][0]);
-                    }
-                    $('#ttlperClo').text(data[1]);
-                    if (data[1] > 100) {
-                        Swal.fire(
-                            'Total bobot per CLO tidak boleh lebih dari 100%',
-                            '',
-                            'error');
-                    }
-                    for (let j = 0; j < data[2].length; j++) {
-                        $('#ttlperBobot' + (j + 1)).text(data[2][j][0]);
-
-                    }
-                }
-            });
-
-            console.log(data);
-            console.log(clo);
-        })
-
-        $("table tr").each(function (i, v) {
-            $(this).children('th').each(function (jj, vv) {
-
-                if ($(this).find('.idBtk').val()) {
-
-                    btkNilai[jj] = $(this).find('.idBtk').val();
-                }
-
-            })
-        });
-        console.log(btkNilai);
-
-
     })
 
 </script>
+
 @endpush

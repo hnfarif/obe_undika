@@ -40,14 +40,14 @@
                                         #
                                     </th>
                                     <th>
-                                        <div style="width: 100px">Kode PEO</div>
+                                        <div style="min-width: 200px">Kode PEO</div>
                                     </th>
                                     <th>
-                                        <div style="width: 100px">Deskripsi PEO</div>
+                                        <div style="min-width: 380px">Deskripsi PEO</div>
                                     </th>
 
                                     <th>
-                                        <div style="width: 300px">Daftar PLO</div>
+                                        <div style="min-width: 300px">Daftar PLO</div>
                                     </th>
 
                                 </tr>
@@ -55,11 +55,13 @@
                             <tbody>
                                 @foreach ($peo as $peos)
 
-
+                                @if ($peos->plos->count() !== 0)
                                 <tr>
+
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $peos->kode_peo }}</td>
                                     <td>{{  $peos->deskripsi }}</td>
+
 
                                     <td>
                                         @foreach ($peos->plos as $i)
@@ -71,8 +73,8 @@
                                                     @method('DELETE')
                                                     @csrf
                                                     <input name="_method" type="hidden" value="DELETE">
-                                                    <a href="#" class="btn btn-danger mr-auto deletePeoplo"><i
-                                                            class="fas fa-trash"></i></a>
+                                                    <button class="btn btn-danger mr-auto deletePeoplo"><i
+                                                            class="fas fa-trash"></i></button>
                                                 </form>
                                             </div>
                                         </div>
@@ -83,8 +85,9 @@
                                     </td>
 
                                 </tr>
-
+                                @endif
                                 @endforeach
+
                             </tbody>
                         </table>
 
@@ -104,6 +107,7 @@
     $(document).ready(function () {
 
         $('#tableMap').DataTable();
+
         $('#tableMap').on('click', '.deletePeoplo', function (e) {
 
             var form = $(this).closest('form');

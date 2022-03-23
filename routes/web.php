@@ -48,7 +48,8 @@ Route::prefix('rps')->group(function (){
 
 
     Route::get('/', [RpsController::class,'index'])->name('rps.index');
-    Route::put('/update/{rps}', [RpsController::class,'update'])->name('rps.update');
+    Route::get('/edit', [RpsController::class,'edit'])->name('rps.edit');
+    Route::put('/update/{rps?}', [RpsController::class,'update'])->name('rps.update');
 
     Route::get('/plottingmk', [RpsController::class, 'create'])->name('rps.plottingmk');
     Route::post('/plottingmk/store', [RpsController::class, 'store'])->name('rps.plottingmk.store');

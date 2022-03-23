@@ -1,5 +1,5 @@
 <div class="navbar-bg"></div>
-<nav class="navbar fixed-top navbar-expand-lg main-navbar ">
+<nav class="navbar fixed-top navbar-expand-lg main-navbar">
     <a href="index.html" class="navbar-brand sidebar-gone-hide">OBE Undika</a>
     <div class="navbar-nav">
         <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>

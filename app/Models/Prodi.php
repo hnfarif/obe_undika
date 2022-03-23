@@ -14,6 +14,10 @@ class Prodi extends Model
     protected $primaryKey = 'id';
 
 
+    public function fakultas()
+    {
+        return $this->belongsTo(Fakultas::class, 'id_fakultas');
+    }
     public function karyawans()
     {
         return $this->hasMany(KaryawanDosen::class);

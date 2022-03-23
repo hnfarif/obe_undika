@@ -22,10 +22,6 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'pin' => bcrypt('123456'), // password
-            'manager_id' => $this->faker->randomElement(['890026','980249']) ,
-            'fakul_id' => $this->faker->randomElement(['41010', '39010']),
-            'kode_bagian' => $this->faker->numberBetween(1,5),
-            'dosen' => 4,
             'remember_token' => Str::random(10),
         ];
     }

@@ -52,7 +52,8 @@
                                 <label>Nama Rumpun Mata Kuliah</label>
                                 <input type="text" name="rumpun_mk"
                                     class="form-control @error('rumpun_mk') is-invalid @enderror"
-                                    value="{{ old('rumpun_mk') }}" required>
+                                    value="{{ old('rumpun_mk') }}" placeholder="cth : PENGELOLAAN DATA DAN INFORMASI"
+                                    required>
                                 @error('rumpun_mk')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -63,13 +64,25 @@
                                 <label>Ketua Rumpun</label>
                                 <select class="form-control select2 @error('ketua_rumpun') is-invalid @enderror"
                                     name="ketua_rumpun" required>
-                                    <option value="" selected disabled>Pilih Dosen</option>
-                                    @foreach ($dosen as $i)
+                                    <option selected disabled>Pilih Dosen</option>
+                                    @foreach ($dosens as $i)
+                                    <option value="{{ $i->nik }}">{{ $i->nama }}
+                                    </option>
 
-                                    <option value="{{ $i->nik }}">{{ $i->nama }}</option>
                                     @endforeach
                                 </select>
                                 @error('ketua_rumpun')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Semester Pembuatan</label>
+                                <input type="text" name="semester"
+                                    class="form-control @error('semester') is-invalid @enderror"
+                                    value="{{ old('semester') }}" placeholder="cth : 201, 202, 211" required>
+                                @error('semester')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -124,8 +137,10 @@
                     '</li>'
                 );
 
-                $el.append('<input type="hidden" name="mklist[]" value="' + ui.draggable.text() +
-                    '">');
+
+                $el.append(
+                    '<input type="hidden" name="mklist[]" value="' + ui.draggable.attr(
+                        'data-id') + '">');
 
                 $el.append($(
                     '<button type="button" class="btn btn-danger btn-sm remove">hapus</button>'
@@ -135,7 +150,8 @@
                     if (datamk.length > 0) {
 
                         for (var i = 0; i < datamk.length; i++) {
-                            if (datamk[i].trim() == ui.draggable.text().trim()) {
+                            if (datamk[i].trim() == ui.draggable.attr('data-id')
+                                .trim()) {
                                 datamk.splice(i, 1);
                             }
                         }
@@ -151,7 +167,7 @@
 
                 if (datamk.length > 0) {
                     for (var i = 0; i < datamk.length; i++) {
-                        if (datamk[i].trim() == ui.draggable.text().trim()) {
+                        if (datamk[i].trim() == ui.draggable.attr('data-id').trim()) {
                             // console.log(datamk);
                             isAvail = true;
 
@@ -160,10 +176,10 @@
                     if (!isAvail) {
 
                         $(this).append($el);
-                        datamk.push(ui.draggable.text().trim());
+                        datamk.push(ui.draggable.attr('data-id').trim());
                     }
                 } else {
-                    datamk.push(ui.draggable.text().trim());
+                    datamk.push(ui.draggable.attr('data-id').trim());
                     $(this).append($el);
                     $('.dz-message').hide();
                 }

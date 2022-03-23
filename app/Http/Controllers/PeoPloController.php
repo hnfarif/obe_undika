@@ -20,6 +20,7 @@ class PeoPloController extends Controller
 
        $peo = Peo::with('plos')->orderBy('kode_peo', 'asc')->get();
 
+
        return view('kelolapeoplo.mapping.index', ['peo' => $peo]);
     }
 
@@ -52,7 +53,7 @@ class PeoPloController extends Controller
 
         foreach ($request->plolist as $i) {
 
-            $plo = Plo::where('kode_plo', $i)->first();
+            $plo = Plo::where('id', $i)->first();
             $cek = Peo::whereHas('plos', function ($query) use ($plo, $request) {
                 $query->where('peo_id', $request->kode_peo);
                 $query->where('plo_id', $plo->id);

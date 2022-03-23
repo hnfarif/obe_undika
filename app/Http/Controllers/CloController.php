@@ -25,7 +25,7 @@ class CloController extends Controller
         $prasyarat = MataKuliah::where('id',$rps->kurlkl_id)->pluck('prasyarat')->first();
         $exPra = explode(' ', $prasyarat);
         $clo = Clo::where('rps_id',$rps->id)->with('plos')->orderBy('id','asc')->get();
-        $iteration = Clo::latest()->select('kode_clo')->pluck('kode_clo')->first();
+        $iteration = Clo::latest()->select('kode_clo')->where('rps_id',$rps->id)->pluck('kode_clo')->first();
 
         return view('rps.clo.index', compact('rps', 'mk', 'exPra', 'clo', 'iteration'));
     }
@@ -39,7 +39,7 @@ class CloController extends Controller
     {
         $plo = Plo::all();
 
-        $iteration = Clo::latest()->select('kode_clo')->pluck('kode_clo')->first();
+        $iteration = Clo::where('rps_id', $rps->id)->latest()->select('kode_clo')->pluck('kode_clo')->first();
         $num = substr($iteration, -2, 2);
         $num++;
         $ite_padded = sprintf("%02d", $num);
@@ -75,32 +75,23 @@ class CloController extends Controller
         $clo->lvl_bloom = $impLvl;
         $clo->save();
 
-        $penilaian = Penilaian::where('rps_id', $rps->id)->get();
-        if($clo){
-
-            foreach($penilaian as $i){
-
-                $clo->penilaians()->attach([['penilaian_id' => $i->id, 'clo_id' => $clo->id]]);
-            }
-        }
-
         $plo = new Plo;
-        foreach ($request->ploid as $i) {
-            $cek = Plo::whereHas('clos', function ($query) use ($i, $clo) {
-                $query->where('plo_id', $i);
-                $query->where('clo_id', $clo->id);
-            })->first();
 
-            if ($cek == null) {
+        if($clo){
+            foreach ($request->ploid as $i) {
+                $cek = Plo::whereHas('clos', function ($query) use ($i, $clo) {
+                    $query->where('plo_id', $i);
+                    $query->where('clo_id', $clo->id);
+                })->first();
 
-                $plo->clos()->attach([['plo_id' => $i, 'clo_id' => $clo->id]]);
-                Session::flash('message','Data berhasil ditambahkan');
-                Session::flash('alert-class','alert-success');
+                if ($cek == null) {
+
+                    $plo->clos()->attach([['plo_id' => $i, 'clo_id' => $clo->id]]);
+                    Session::flash('message','Data berhasil ditambahkan');
+                    Session::flash('alert-class','alert-success');
+                }
             }
         }
-
-
-
 
         return redirect()->route('clo.index', $rps->id);
     }

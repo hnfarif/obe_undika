@@ -87,7 +87,12 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Kode CLO</th>
-                                    <th>Deskripsi CLO</th>
+                                    <th>
+                                        <div style="min-width: 300px;">
+
+                                            Deskripsi CLO
+                                        </div>
+                                    </th>
                                     <th>Ranah Capaian Pembelajaran</th>
                                     <th>Level Bloom</th>
                                     <th>

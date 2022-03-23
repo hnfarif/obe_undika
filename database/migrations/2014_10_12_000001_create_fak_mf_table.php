@@ -21,10 +21,10 @@ class CreateFakMfTable extends Migration
             $table->string('prodi_ing', 50)->nullable();
             $table->string('jurusan_ing', 50)->nullable();
             $table->string('mngr_id', 6);
-            $table->string('alias', 10);
-            $table->integer('sks_tempuh');
+            $table->string('alias', 10)->nullable();
+            $table->integer('sks_tempuh')->nullable();
             $table->string('sts_aktif',1);
-            $table->integer('id_fakultas')->nullable();
+            $table->integer('id_fakultas');
             $table->timestamps();
         });
     }

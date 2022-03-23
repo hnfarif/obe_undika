@@ -14,8 +14,7 @@
         <a href="{{ route('kelola.agenda') }}" type="button" class="btn btn-primary @yield('agenda')">Agenda
             Pembelajaran</a>
 
-        <a href="{{ route('kelola.wbm') }}" type="button" class="btn btn-primary @yield('pbm')">Waktu Belajar
-            Mahasiswa</a>
+        <a href="{{ route('kelola.wbm') }}" type="button" class="btn btn-primary @yield('pbm')">Rangkuman</a>
 
 
     </div>

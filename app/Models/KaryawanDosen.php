@@ -10,13 +10,18 @@ class KaryawanDosen extends Model
     use HasFactory;
 
     protected $table = 'kar_mf';
-    protected $guarded = [];
-    protected $primaryKey = 'nik';
+    protected $guarded = ['nik'];
+    // protected $primaryKey = 'nik';
 
 
     public function prodi()
     {
         return $this->belongsTo(Prodi::class, 'fakul_id', 'id');
+    }
+
+    public function bagian()
+    {
+        return $this->belongsToMany(Bagian::class, 'bagian', 'kode');
     }
 
     public function user()
