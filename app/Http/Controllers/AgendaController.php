@@ -30,10 +30,12 @@ class AgendaController extends Controller
         ->distinct()
         ->get();
 
+        $clo = Clo::where('rps_id', $rps->id)->orderBy('id')->get();
+        $penilaian = Penilaian::where('rps_id', $rps->id)->get();
         // $agenda = AgendaBelajar::where('rps_id', $rps->id)->with('detailAgendas')->get();
 
         // dd($agenda);
-        return view('rps.agenda.index', compact('rps','agenda'));
+        return view('rps.agenda.index', compact('rps','agenda','clo', 'penilaian'));
     }
 
     /**
@@ -177,13 +179,40 @@ class AgendaController extends Controller
                 $filLlo = LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->first();
 
                 if (!$filLlo) {
-                    $llo = new Llo;
-                    $llo->kode_llo = $value['kode_llo'];
-                    $llo->deskripsi = $value['des_llo'];
-                    $llo->capaian = $value['capai_llo'];
-                    $llo->rps_id = $rps->id;
-                    $llo->save();
-                    $filLlo = LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->first();
+                    if($value['prak']){
+                        $llo = new Llo;
+                        $llo->kode_llo = $value['kode_llo'];
+                        $llo->deskripsi = null;
+                        $llo->deskripsi_prak =  $value['des_llo'];
+                        $llo->rps_id = $rps->id;
+                        $llo->save();
+                        $filLlo = LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->first();
+                    }else{
+                        $llo = new Llo;
+                        $llo->kode_llo = $value['kode_llo'];
+                        $llo->deskripsi = $value['des_llo'];
+                        $llo->deskripsi_prak =  null;
+                        $llo->rps_id = $rps->id;
+                        $llo->save();
+                        $filLlo = LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->first();
+                    }
+
+                }else{
+                    if($value['prak']){
+                        if(!$filLlo->deskripsi_prak){
+                            LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->update([
+                                 'deskripsi_prak' => $value['des_llo'],
+                             ]);
+                        }
+
+                    }else{
+                        if(!$filLlo->deskripsi){
+
+                            LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->update([
+                                'deskripsi' => $value['des_llo'],
+                            ]);
+                        }
+                    }
                 }
 
                 $dtlAgenda = new DetailAgenda;
@@ -192,6 +221,7 @@ class AgendaController extends Controller
                 $dtlAgenda->llo_id = $filLlo->id;
                 $dtlAgenda->penilaian_id = $filPen->id;
                 $dtlAgenda->bobot = $value['bbt_penilaian'];
+                $dtlAgenda->capaian_llo = $value['capai_llo'];
                 $dtlAgenda->deskripsi_penilaian = $value['des_penilaian'];
                 $dtlAgenda->tm = $value['tm'];
                 $dtlAgenda->sl = $value['sl'];
@@ -300,9 +330,11 @@ class AgendaController extends Controller
      * @param  \App\Models\AgendaBelajar  $agendaBelajar
      * @return \Illuminate\Http\Response
      */
-    public function edit(AgendaBelajar $agendaBelajar)
+    public function edit(Request $request)
     {
-        //
+        $dtlAgd = DetailAgenda::with('agendaBelajar','clo','llo', 'penilaian')->findOrFail($request->get('id'));
+
+        return response()->json($dtlAgd);
     }
 
     /**
@@ -312,9 +344,122 @@ class AgendaController extends Controller
      * @param  \App\Models\AgendaBelajar  $agendaBelajar
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AgendaBelajar $agendaBelajar)
+    public function update(Request $request)
     {
-        //
+        if ($request->btk_penilaian || $request->bbt_penilaian || $request->des_penilaian) {
+            $validatedData =  Validator::make($request->all(), [
+                'clo_id' => 'required',
+                'kode_llo' => 'required|regex:/^LLO\d/',
+                'des_llo' => 'required',
+                'capai_llo' => 'required',
+                'btk_penilaian' => 'required',
+                'bbt_penilaian' => 'required',
+                'des_penilaian' => 'required',
+                'tm' => 'nullable',
+                'sl' => 'nullable',
+                'asl' => 'nullable',
+                'asm' => 'nullable',
+                'responsi' => 'nullable',
+                'belajarMandiri' => 'nullable',
+                'prak' => 'nullable',
+
+            ]);
+        }else{
+            $validatedData =  Validator::make($request->all(), [
+                'clo_id' => 'required',
+                'kode_llo' => 'required|regex:/^LLO\d/',
+                'des_llo' => 'required',
+                'capai_llo' => 'required',
+                'btk_penilaian' => 'nullable',
+                'bbt_penilaian' => 'nullable',
+                'des_penilaian' => 'nullable',
+                'tm' => 'nullable',
+                'sl' => 'nullable',
+                'asl' => 'nullable',
+                'asm' => 'nullable',
+                'responsi' => 'nullable',
+                'belajarMandiri' => 'nullable',
+                'prak' => 'nullable',
+
+            ]);
+        }
+
+        if ($validatedData->passes()) {
+
+            $sumBtk = DetailAgenda::whereHas('agendaBelajar', function($query) use ($request){
+                $query->where('rps_id', $request->rps_id);
+            })->sum('bobot');
+
+            $totalBtk = $sumBtk + $request->bbt_penilaian;
+            $totalMnt = $request->tm + $request->sl + $request->asl + $request->asm;
+
+            if($totalBtk <= 100){
+                if ($totalMnt <= $request->responsi) {
+
+                    $filLlo = LLo::where('rps_id', $request->rps_id)->where('kode_llo', $request->kode_llo)->first();
+
+                    if (!$filLlo) {
+                        if($request->prak){
+                            $llo = new Llo;
+                            $llo->kode_llo = $request->kode_llo;
+                            $llo->deskripsi = null;
+                            $llo->deskripsi_prak =  $request->des_llo;
+                            $llo->rps_id = $request->rps_id;
+                            $llo->save();
+                            $filLlo = LLo::where('rps_id', $request->rps_id)->where('kode_llo', $request->kode_llo)->first();
+                        }else{
+                            $llo = new Llo;
+                            $llo->kode_llo = $request->kode_llo;
+                            $llo->deskripsi = $request->des_llo;
+                            $llo->deskripsi_prak =  null;
+                            $llo->rps_id = $request->rps_id;
+                            $llo->save();
+                            $filLlo = LLo::where('rps_id', $request->rps_id)->where('kode_llo', $request->kode_llo)->first();
+                        }
+
+                    }else{
+                        if($request->prak){
+
+                            LLo::where('rps_id', $request->rps_id)->where('kode_llo', $request->kode_llo)->update([
+                                'deskripsi_prak' => $request->des_llo,
+                        ]);
+
+
+                        }else{
+
+                            LLo::where('rps_id', $request->rps_id)->where('kode_llo', $request->kode_llo)->update([
+                                'deskripsi' => $request->des_llo,
+                            ]);
+
+                        }
+                    }
+                    DetailAgenda::where('id', $request->idDtl)->update([
+                        'clo_id' => $request->clo_id,
+                        'llo_id' => $filLlo->id,
+                        'penilaian_id' => $request->btk_penilaian,
+                        'bobot' => $request->bbt_penilaian,
+                        'deskripsi_penilaian' => $request->des_penilaian,
+                        'tm' => $request->tm,
+                        'sl' => $request->sl,
+                        'asl' => $request->asl,
+                        'asm' => $request->asm,
+                        'res_tutor' => $request->responsi,
+                        'bljr_mandiri' => $request->belajarMandiri,
+                        'praktikum' => $request->prak,
+                        'capaian_llo' => $request->capai_llo,
+
+                    ]);
+                    return response()->json(['success' => 'Data berhasil Ditambahkan']);
+                }else{
+                    return response()->json(['errMnt' => 'Maaf total menit perkuliahan yang anda masukkan melebihi '.$request->responsi.' menit, Harap perbaiki data anda']);
+
+                }
+            }else{
+                return response()->json(['errBbt' => 'Maaf Data bobot yang anda masukkan dijumlahkan melebihi 100% , Harap perbaiki data anda']);
+            }
+        }
+
+        return response()->json(['error' => $validatedData->errors()->all()]);
     }
 
     /**
@@ -387,57 +532,63 @@ class AgendaController extends Controller
             })->sum('bobot');
 
             $totalBtk = $sumBtk + $request->bbt_penilaian;
-
+            $totalMnt = $request->tm + $request->sl + $request->asl + $request->asm;
             if($totalBtk <= 100){
-                if (session()->has('listLlo-'.$request->rps_id)) {
+                if ($totalMnt <= $request->responsi) {
+                    if (session()->has('listLlo-'.$request->rps_id)) {
 
-                    $dataLlo = session('listLlo-'.$request->rps_id);
+                        $dataLlo = session('listLlo-'.$request->rps_id);
 
-                    foreach ($dataLlo as $item) {
-                        if(!($item['clo_id'] == $request->clo_id && $item['kode_llo'] == $request->kode_llo)){
-                            array_push($listLlo, $item);
-                        }
-                    }
-                    array_push($listLlo, $request->all());
-                    foreach($listLlo as $key => $i){
-                        if ($i['clo_id'] == $request->clo_id && $i['kode_llo'] == $request->kode_llo) {
-                            foreach ($request->status as $sts) {
-                                if(session()->has('list'.$sts.'-'.$request->rps_id)){
-                                    $dataMateri = session('list'.$sts.'-'.$request->rps_id);
-                                    $listLlo[$key][$sts] = [];
-                                    array_push($listLlo[$key][$sts], $dataMateri);
-
-                                }
-
+                        foreach ($dataLlo as $item) {
+                            if(!($item['clo_id'] == $request->clo_id && $item['kode_llo'] == $request->kode_llo)){
+                                array_push($listLlo, $item);
                             }
                         }
+                        array_push($listLlo, $request->all());
+                        foreach($listLlo as $key => $i){
+                            if ($i['clo_id'] == $request->clo_id && $i['kode_llo'] == $request->kode_llo) {
+                                foreach ($request->status as $sts) {
+                                    if(session()->has('list'.$sts.'-'.$request->rps_id)){
+                                        $dataMateri = session('list'.$sts.'-'.$request->rps_id);
+                                        $listLlo[$key][$sts] = [];
+                                        array_push($listLlo[$key][$sts], $dataMateri);
+
+                                    }
+
+                                }
+                            }
+
+                        }
+
+                    }else{
+                        array_push($listLlo, $request->all());
+                        foreach($listLlo as $key => $i){
+                            if ($i['clo_id'] == $request->clo_id && $i['kode_llo'] == $request->kode_llo) {
+                                foreach ($request->status as $sts) {
+                                    if(session()->has('list'.$sts.'-'.$request->rps_id)){
+
+                                        $dataMateri = session('list'.$sts.'-'.$request->rps_id);
+                                        $listLlo[$key][$sts] = [];
+                                        array_push($listLlo[$key][$sts], $dataMateri);
+
+                                    }
+
+                                }
+                            }
+
+                        }
 
                     }
+
+                    session(['listLlo-'.$request->rps_id => $listLlo]);
+                    return response()->json(['success' => 'Data berhasil Ditambahkan', 'listLlo' => $listLlo]);
 
                 }else{
-                    array_push($listLlo, $request->all());
-                    foreach($listLlo as $key => $i){
-                        if ($i['clo_id'] == $request->clo_id && $i['kode_llo'] == $request->kode_llo) {
-                            foreach ($request->status as $sts) {
-                                if(session()->has('list'.$sts.'-'.$request->rps_id)){
-
-                                    $dataMateri = session('list'.$sts.'-'.$request->rps_id);
-                                    $listLlo[$key][$sts] = [];
-                                    array_push($listLlo[$key][$sts], $dataMateri);
-
-                                }
-
-                            }
-                        }
-
-                    }
-
+                    return response()->json(['errMnt' => 'Maaf total menit perkuliahan yang anda masukkan melebihi '.$request->responsi.' menit, Harap perbaiki data anda']);
                 }
 
-                session(['listLlo-'.$request->rps_id => $listLlo]);
-                return response()->json(['success' => 'Data berhasil Ditambahkan', 'listLlo' => $listLlo]);
             }else{
-                return response()->json(['errBbt' => 'Maaf Data bobot yang anda masukkan akan melebihi 100% , Harap perbaiki data anda']);
+                return response()->json(['errBbt' => 'Maaf Data bobot yang anda masukkan dijumlahkan melebihi 100% , Harap perbaiki data anda']);
             }
 
         }

@@ -451,38 +451,6 @@
         }
     });
 
-    $('#tm,#sl,#asl,#asm').change(function () {
-        var tm = $('#tm').val() ? $('#tm').val() : '0';
-        var sl = $('#sl').val() ? $('#sl').val() : '0';
-        var asl = $('#asl').val() ? $('#asl').val() : '0';
-        var asm = $('#asm').val() ? $('#asm').val() : '0';
-        var total = parseInt(tm) + parseInt(sl) + parseInt(asl) + parseInt(asm);
-        $.ajax({
-            url: "{{ route('kuliah.getSks') }}",
-            type: 'GET',
-            data: {
-                'rps_id': "{{ $rps->id }}",
-            },
-            success: function (data) {
-                if (total > (data.mata_kuliah.sks * 60)) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops, data yang anda masukkan melebihi batas maksimum!',
-                        text: 'mohon isi data jumlahnya tidak lebih dari ' + (data
-                            .mata_kuliah.sks * 60) + ' menit',
-                    })
-                    $('#tm').val('');
-                    $('#sl').val('');
-                    $('#asl').val('');
-                    $('#asm').val('');
-
-                }
-            }
-
-        })
-
-    })
-
     $(document).ready(function () {
 
         var llo = [];
@@ -709,7 +677,8 @@
                     'status': ['pustaka', 'media', 'metode', 'pbm', 'materi', 'kajian']
                 },
                 success: function (data) {
-                    if ($.isEmptyObject(data.error) && $.isEmptyObject(data.errBbt)) {
+                    if ($.isEmptyObject(data.error) && $.isEmptyObject(data.errBbt) && $
+                        .isEmptyObject(data.errMnt)) {
                         // console.log(data.listLlo);
                         Swal.fire({
                             position: 'top-end',
@@ -748,6 +717,16 @@
                                     icon: 'error',
                                     title: 'Oops, ada kesalahan!',
                                     text: 'Maaf data yang anda masukkan dijumlahkan melebihi 100%, Harap perbaiki data anda',
+                                })
+                            });
+                        } else if (data.errMnt) {
+                            Array.from(data.errMnt).forEach(element => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops, ada kesalahan!',
+                                    text: 'Maaf total menit perkuliahan yang anda masukkan melebihi ' +
+                                        $('#responsi').val() +
+                                        ' menit, Harap perbaiki data anda',
                                 })
                             });
                         }

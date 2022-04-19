@@ -18,8 +18,8 @@ class CreateLloTable extends Migration
             $table->id();
             $table->bigInteger('rps_id')->unsigned();
             $table->string('kode_llo',6);
-            $table->text('deskripsi');
-            $table->text('capaian');
+            $table->text('deskripsi')->nullable();
+            $table->text('deskripsi_prak')->nullable();
 
             $table->foreign('rps_id')->references('id')->on('rps')->onDelete('cascade');
             $table->timestamps();

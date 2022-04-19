@@ -45,7 +45,9 @@
                                     <th rowspan="2" class="align-middle">Minggu Ke</th>
                                     <th rowspan="2" class="align-middle">Kode CLO</th>
                                     <th rowspan="2" class="align-middle">
-                                        Kode LLO
+                                        <div style="min-width: 150px;">
+                                            Kode LLO
+                                        </div>
                                     </th>
                                     <th rowspan="2" class="align-middle">
                                         <div style="min-width: 150px;">
@@ -115,8 +117,17 @@
                                     <td class="text-center">
                                         {{ $i->clo->kode_clo}}
                                     </td>
-                                    <td class="text-center">
-                                        {{ $i->llo->kode_llo}}
+                                    <td class="">
+                                        @if ($i->praktikum)
+
+                                        {!! '<b>'.$i->llo->kode_llo.'</b>
+                                        <br>'.$i->llo->deskripsi_prak.'<br> <b>Ketercapaian '.$i->llo->kode_llo.'</b>
+                                        <br>'.$i->capaian_llo !!}
+
+                                        @else
+                                        {!! '<b>'.$i->llo->kode_llo.'</b> <br>'.$i->llo->deskripsi.'<br>
+                                        <b>Ketercapaian '.$i->llo->kode_llo.'</b> <br>'.$i->capaian_llo !!}
+                                        @endif
                                     </td>
                                     <td>
                                         @if ($i->penilaian_id)
@@ -201,7 +212,10 @@
                                         {{ $i->praktikum }}
                                     </td>
                                     <td class="d-flex">
-                                        <a href="#" class="btn btn-light mr-1 my-auto"><i class="fas fa-edit"></i>
+
+                                        <a href="#" id="btnEditAgd" data-toggle="modal" data-target="#editAgenda"
+                                            data-id="{{ $i->id }}" class="btn btn-light mr-1 my-auto"><i
+                                                class="fas fa-edit"></i>
 
                                         </a>
                                         <a href="#" class="btn btn-danger my-auto"><i class="fas fa-trash"></i>
@@ -219,9 +233,9 @@
             </div>
         </div>
     </div>
-
-
 </section>
+
+@include('rps.agenda.modalagdedit')
 @endsection
 @push('script')
 <script>
@@ -229,6 +243,200 @@
         scrollY: 500,
         scrollX: true,
         scroller: true,
+    });
+
+    if ($('input[type=radio][name=praktikum]:checked').val() == '0') {
+        $.ajax({
+            url: "{{ route('kuliah.getSks') }}",
+            type: 'GET',
+            data: {
+                'rps_id': "{{ $rps->id }}",
+            },
+            success: function (data) {
+                $('#responsi').val(data.mata_kuliah.sks * 60);
+                $('#belajarMandiri').val(data.mata_kuliah.sks * 60);
+            }
+
+        })
+    }
+
+    $('input[type=radio][name=praktikum]').change(function () {
+        if (this.value == '1') {
+
+            $.ajax({
+                url: "{{ route('kuliah.getSks') }}",
+                type: 'GET',
+                data: {
+                    'rps_id': "{{ $rps->id }}",
+                },
+                success: function (data) {
+
+                    $('#responsi').val('');
+                    $('#belajarMandiri').val('');
+                    $('#prak').val(data.mata_kuliah.sks * 60);
+                }
+
+            })
+        } else if (this.value == '0') {
+            $.ajax({
+                url: "{{ route('kuliah.getSks') }}",
+                type: 'GET',
+                data: {
+                    'rps_id': "{{ $rps->id }}",
+                },
+                success: function (data) {
+                    $('#responsi').val(data.mata_kuliah.sks * 60);
+                    $('#belajarMandiri').val(data.mata_kuliah.sks * 60);
+                    $('#responsi').attr('readonly', 'readonly');
+                    $('#belajarMandiri').attr('readonly', 'readonly');
+                    $('#prak').attr('readonly', 'readonly');
+                    $('#prak').val('');
+                }
+
+            })
+        }
+    });
+
+    $(document).ready(function () {
+        var llo = [];
+        $('.sn-capai').summernote({
+            toolbar: [],
+
+        });
+
+        $('.sn-pen').summernote({
+            toolbar: [],
+
+        });
+
+        $('#tableAgd').on('click', '#btnEditAgd', function () {
+            var id = $(this).data('id');
+
+            $.ajax({
+                url: "{{ route('agenda.edit') }}",
+                type: "GET",
+                data: {
+                    id: id,
+                    rps_id: "{{ $rps->id }}"
+                },
+                success: function (data) {
+                    // console.log(data);
+                    $('#idDtl').val(data.id)
+                    $('#ttlAgd').html('Edit Agenda Belajar Minggu Ke ' + data.agenda_belajar
+                        .pekan + ' ' + data.clo.kode_clo)
+                    $('#clo_id').children("option").each(function () {
+                        if ($(this).val() == data.clo_id) {
+                            $(this).remove();
+                            $('#clo_id').prepend(
+                                `<option selected value="${data.clo_id}">${data.clo.kode_clo} - ${data.clo.deskripsi} </option>`
+                            );
+                        }
+                    });
+                    $('#kode_llo').val(data.llo.kode_llo)
+                    if (data.praktikum) {
+
+                        $('#des_llo').val(data.llo.deskripsi_prak)
+                    } else {
+                        $('#des_llo').val(data.llo.deskripsi)
+                    }
+                    $('.sn-capai').summernote('code', data.capaian_llo);
+                    $('#btk_penilaian').children("option").each(function () {
+                        if ($(this).val() == data.penilaian.id) {
+                            $(this).remove();
+                            $('#btk_penilaian').prepend(
+                                `<option selected value="${data.penilaian.id}">${data.penilaian.btk_penilaian} </option>`
+                            );
+                        }
+                    });
+                    $('#bbt_penilaian').val(data.bobot)
+                    $('.sn-pen').summernote('code', data.deskripsi_penilaian);
+                    $('#tm').val(data.tm)
+                    $('#sl').val(data.sl)
+                    $('#asl').val(data.asl)
+                    $('#asm').val(data.asm)
+                }
+
+            })
+
+        })
+
+        $('#ubahAgd').click(function () {
+
+            $.ajax({
+                url: "{{ route('agenda.update') }}",
+                type: "PUT",
+                dataType: "JSON",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'rps_id': "{{ $rps->id }}",
+                    'idDtl': $('#idDtl').val(),
+                    'clo_id': $('#clo_id').val(),
+                    'kode_llo': $('#kode_llo').val().toUpperCase(),
+                    'des_llo': $('#des_llo').val(),
+                    'capai_llo': $('#capai_llo').val(),
+                    'btk_penilaian': $('#btk_penilaian').val(),
+                    'bbt_penilaian': $('#bbt_penilaian').val(),
+                    'des_penilaian': $('#des_penilaian').val(),
+                    'tm': $('#tm').val(),
+                    'sl': $('#sl').val(),
+                    'asl': $('#asl').val(),
+                    'asm': $('#asm').val(),
+                    'responsi': $('#responsi').val(),
+                    'belajarMandiri': $('#belajarMandiri').val(),
+                    'prak': $('#prak').val(),
+                },
+                success: function (data) {
+                    if ($.isEmptyObject(data.error) && $.isEmptyObject(data.errBbt) &&
+                        $.isEmptyObject(data.errMnt)) {
+                        $('#formAgenda').modal('hide');
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Data Anda berhasil diubah!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+
+                    } else {
+                        if (data.error) {
+
+                            data.error.forEach(element => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops, Terdapat Data yang kosong!',
+                                    text: element,
+                                })
+                            });
+                        } else if (data.errBbt) {
+
+                            Array.from(data.errBbt).forEach(element => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops, ada kesalahan!',
+                                    text: 'Maaf data yang anda masukkan dijumlahkan melebihi 100%, Harap perbaiki data anda',
+                                })
+                            });
+                        } else if (data.errMnt) {
+                            Array.from(data.errMnt).forEach(element => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops, ada kesalahan!',
+                                    text: 'Maaf total menit perkuliahan yang anda masukkan melebihi ' +
+                                        $('#responsi').val() +
+                                        ' menit, Harap perbaiki data anda',
+                                })
+                            });
+                        }
+
+                    }
+
+                }
+            })
+
+        })
     });
 
 </script>

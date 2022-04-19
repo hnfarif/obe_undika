@@ -20,6 +20,7 @@ class CreateDtlAgdTable extends Migration
             $table->bigInteger('llo_id')->unsigned();
             $table->bigInteger('penilaian_id')->unsigned()->nullable();
             $table->integer('bobot')->nullable();
+            $table->text('capaian_llo')->nullable();
             $table->text('deskripsi_penilaian')->nullable();
 
             $table->integer('tm')->nullable();

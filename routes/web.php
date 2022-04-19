@@ -71,6 +71,8 @@ Route::prefix('rps')->group(function (){
     Route::put('/penilaian/updateBobot', [PenilaianController::class, 'updateBobot'])->name('penilaian.updateBobot');
     Route::delete('/penilaian/delete/{id}', [PenilaianController::class, 'destroy'])->name('penilaian.delete');
 
+    Route::get('/agenda/edit', [AgendaController::class, 'edit'])->name('agenda.edit');
+    Route::put('/agenda/update', [AgendaController::class, 'update'])->name('agenda.update');
     Route::get('/agenda/listllo', [AgendaController::class, 'listLlo'])->name('llo.session.store');
     Route::post('/agenda/store/{rps}', [AgendaController::class, 'store'])->name('agenda.store');
     Route::get('/agenda/{rps}', [AgendaController::class, 'index'])->name('agenda.index');
