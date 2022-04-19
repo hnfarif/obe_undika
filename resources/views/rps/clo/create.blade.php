@@ -106,7 +106,36 @@
                                 </div>
 
                             </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Target Kelulusan (%)</label>
 
+                                        <input type="number" name="target_lulus"
+                                            class="form-control @error('target_lulus') is-invalid @enderror" min="0"
+                                            max="100" value="{{ old('target_lulus') }}" required>
+                                        @error('target_lulus')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Nilai Minimal</label>
+
+                                        <input type="number" name="nilai_min"
+                                            class="form-control @error('nilai_min') is-invalid @enderror " min="0"
+                                            max="100" value="{{ old('nilai_min') }}" required>
+                                        @error('nilai_min')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Tambah CLO</button>
                             </div>

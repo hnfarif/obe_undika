@@ -4,6 +4,12 @@
  * because it will make it harder for you to update.
  *
  */
+/* disable input type number arrow */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 .dark-theme {
     --bg: #292C35;
@@ -68,6 +74,18 @@
     display: inline-block;
 }
 
+.table-wrapper-llo {
+    max-height: 500px;
+    overflow: auto;
+    display: inline-block;
+}
+
+.checkbox-wrapper {
+    max-height: 100px;
+    overflow: auto;
+    display: inline-block;
+}
+
 /* CSS for Drag and Drop input */
 #modules {
 
@@ -107,7 +125,6 @@
     top: 4px;
     right: 4px;
 }
-
 
 
 /*# sourceMappingURL=custom.css.map */

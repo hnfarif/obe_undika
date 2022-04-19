@@ -24,10 +24,19 @@ class Clo extends Model
         return $this->belongsTo(Rps::class);
     }
 
-
-    public function llos()
+    public function detailAgendas()
     {
-        return $this->belongsToMany(Llo::class);
+        return $this->hasMany(DetailAgenda::class);
+    }
+    public function getBobotClo($id,$pens)
+    {
+        $total = 0;
+
+        foreach ($pens as $i) {
+            $total += DetailAgenda::where('clo_id', $id)->where('penilaian_id', $i->id)->sum('bobot');
+        }
+
+        return $total;
     }
 
     // public function getLulusNilai($id)

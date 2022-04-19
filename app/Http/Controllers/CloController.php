@@ -61,6 +61,8 @@ class CloController extends Controller
             'ranah_capai' => 'required',
             'lvl_bloom' => 'required',
             'ploid' => 'required',
+            'target_lulus' => 'required',
+            'nilai_min' => 'required',
         ]);
 
         $impRanah = implode(' ', $request->ranah_capai);
@@ -73,6 +75,8 @@ class CloController extends Controller
         $clo->deskripsi = $request->deskripsi;
         $clo->ranah_capai = $impRanah;
         $clo->lvl_bloom = $impLvl;
+        $clo->tgt_lulus = $request->target_lulus;
+        $clo->nilai_min = $request->nilai_min;
         $clo->save();
 
         $plo = new Plo;
@@ -143,6 +147,8 @@ class CloController extends Controller
             'ranah_capai' => 'required',
             'lvl_bloom' => 'required',
             'ploid' => 'required',
+            'target_lulus' => 'required',
+            'nilai_min' => 'required',
         ]);
 
         $update = Clo::where('id', $request->get('id'))->update([
@@ -150,6 +156,8 @@ class CloController extends Controller
             'deskripsi' => $request->get('deskripsi'),
             'ranah_capai' => implode(' ', $request->get('ranah_capai')),
             'lvl_bloom' => implode('', $request->get('lvl_bloom')),
+            'tgt_lulus' => $request->get('target_lulus'),
+            'nilai_min' => $request->get('nilai_min'),
         ]);
 
         $plo = new Plo;

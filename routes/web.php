@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\CloController;
 use App\Http\Controllers\PenilaianController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\PeoController;
 use App\Http\Controllers\PeoPloController;
 use App\Http\Controllers\PloController;
 use App\Http\Controllers\RpsController;
+use App\Models\AgendaBelajar;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 /*
@@ -69,11 +71,18 @@ Route::prefix('rps')->group(function (){
     Route::put('/penilaian/updateBobot', [PenilaianController::class, 'updateBobot'])->name('penilaian.updateBobot');
     Route::delete('/penilaian/delete/{id}', [PenilaianController::class, 'destroy'])->name('penilaian.delete');
 
+    Route::get('/agenda/listllo', [AgendaController::class, 'listLlo'])->name('llo.session.store');
+    Route::post('/agenda/store/{rps}', [AgendaController::class, 'store'])->name('agenda.store');
+    Route::get('/agenda/{rps}', [AgendaController::class, 'index'])->name('agenda.index');
+    Route::get('/agenda/create/{rps}', [AgendaController::class, 'create'])->name('agenda.create');
+    Route::get('/agenda/llo/delete', [AgendaController::class, 'deleteLlo'])->name('llo.session.delete');
+    Route::get('/getmateri/{rps}', [AgendaController::class, 'getMateri'])->name('materi.get');
+    Route::get('/storemateri', [AgendaController::class, 'storeMateri'])->name('materi.store');
+    Route::get('/agenda/materi/delete', [AgendaController::class, 'deleteMateri'])->name('materi.session.delete');
+    Route::get('/getsks', [AgendaController::class, 'getSks'])->name('kuliah.getSks');
 
-    Route::get('/wbm', function (){
 
-        return view('rps.kelolawbm');
-    })->name('kelola.wbm');
+    Route::get('/rangkuman/{rps}', [RpsController::class, 'rangkuman'])->name('rangkuman.index');
 
 
 
@@ -85,15 +94,7 @@ Route::prefix('rps')->group(function (){
 
 
 
-    Route::get('/agenda', function (){
 
-        return view('rps.agenda.index');
-    })->name('kelola.agenda');
-
-    Route::get('/agenda/create', function (){
-
-        return view('rps.agenda.create');
-    })->name('kelola.agenda.create');
 });
 
 Route::prefix('instrumen-nilai')->group(function (){

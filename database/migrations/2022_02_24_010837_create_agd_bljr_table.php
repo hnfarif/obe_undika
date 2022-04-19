@@ -16,18 +16,8 @@ class CreateAgdBljrTable extends Migration
         Schema::create('agd_bljr', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('rps_id')->unsigned();
-            $table->string('minggu',13);
-            $table->string('btk_penilaian',100);
-            $table->integer('bbt_penilaian');
-            $table->text('deskripsi_penilaian');
-            $table->string('kajian',50);
-            $table->integer('tatapmuka');
-            $table->integer('sl');
-            $table->integer('al');
-            $table->integer('assessment');
-            $table->integer('res_tutor');
-            $table->integer('bljr_mandiri');
-            $table->integer('praktikum');
+            $table->integer('pekan');
+
 
             $table->foreign('rps_id')->references('id')->on('rps')->onDelete('cascade');
             $table->timestamps();

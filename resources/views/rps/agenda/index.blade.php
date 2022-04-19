@@ -7,9 +7,18 @@
 
     <div class="section-body">
         {{-- <p class="section-lead">Masukkan data CLO </p> --}}
+        @if (session()->has('message'))
+        <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
+            {{ session()->get('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
+
         <div class="row">
             <div class="col-12 col-md-6 col-lg-12 p-0 mb-2 d-flex">
-                <a href="{{ route('kelola.agenda.create') }}" type="button"
+                <a href="{{ route('agenda.create', $rps->id) }}" type="button"
                     class="btn btn-primary ml-3  align-self-center expanded"><i class="fas fa-plus"></i> Entri Agenda
                     Pembelajaran</a>
             </div>
@@ -30,98 +39,167 @@
                         <h4>Daftar Agenda Pembelajaran</h4>
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped table-responsive" id="table" width="100%">
+                        <table class="table table-striped" id="tableAgd">
                             <thead>
+                                <tr class="text-center">
+                                    <th rowspan="2" class="align-middle">Minggu Ke</th>
+                                    <th rowspan="2" class="align-middle">Kode CLO</th>
+                                    <th rowspan="2" class="align-middle">
+                                        Kode LLO
+                                    </th>
+                                    <th rowspan="2" class="align-middle">
+                                        <div style="min-width: 150px;">
+                                            Bentuk Penilaian
+                                        </div>
+                                    </th>
+                                    <th rowspan="2" class="align-middle">
+                                        <div style="min-width: 150px;">
+                                            Pengalaman Belajar
+                                        </div>
+                                    </th>
+                                    <th rowspan="2" class="align-middle">
+                                        <div style="min-width: 150px;">
+                                            Materi
+                                        </div>
+                                    </th>
+                                    <th rowspan="2" class="align-middle">
+                                        <div style="min-width: 150px;">
+                                            Metode
+                                        </div>
+                                    </th>
+                                    <th colspan="4" class="align-middle">
 
-                                <tr>
-                                    <th rowspan="2">Minggu ke</th>
-                                    <th rowspan="2">Kode CLO</th>
-                                    <th rowspan="2">Kode LLO</th>
-                                    <th rowspan="2">
-                                        <div style="width: 150px">Deskripsi LLO</div>
+                                        <div style="min-width: 150px;">
+                                            Kuliah (menit/mg)
+                                        </div>
                                     </th>
-                                    <th rowspan="2">
-                                        <div style="width: 150px">Ketercapaian LLO</div>
-                                    </th>
-                                    <th rowspan="2">Bentuk Penilaian</th>
-                                    <th rowspan="2">
-                                        <div style="width: 150px">Deskripsi Bentuk Penilaian</div>
-                                    </th>
-                                    <th rowspan="2">
-                                        <div style="width: 150px">Materi</div>
-                                    </th>
-                                    <th rowspan="2">Metode</th>
-                                    <th colspan="4">Kuliah (menit/mg)</th>
-                                    <th rowspan="2">Responsi dan Tutorial (menit/mg)</th>
-                                    <th rowspan="2">Belajar Mandiri (menit/mg)</th>
-                                    <th rowspan="2">Praktikum (menit/mg)</th>
-                                    <th rowspan="2">Aksi</th>
+                                    <th rowspan="2" class="align-middle">
+                                        Responsi dan Tutorial
+                                        (menit/mg)
 
+                                    </th>
+                                    <th rowspan="2" class="align-middle">
+                                        Belajar Mandiri
+                                        (menit/mg)
+
+                                    </th>
+                                    <th rowspan="2" class="align-middle">
+                                        Praktikum
+                                        (menit/mg)
+
+                                    </th>
+                                    <th rowspan="2" class="align-middle">Aksi</th>
                                 </tr>
                                 <tr>
                                     <th>TM</th>
                                     <th>SL</th>
-                                    <th>ASL</th>
-                                    <th>ASM</th>
+                                    <th>
+                                        <div style="min-width: 50px;">
+                                            ASL
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div style="min-width: 50px;">
+                                            ASM
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
 
+                                @foreach ($agenda as $key => $i)
                                 <tr>
-
-                                    <td>Minggu ke 1</td>
-                                    <td>CLO-01</td>
-                                    <td>LLO-01</td>
-                                    <td>Mahasiswa mampu memahami konsep dasar manajemen dan analisis pada Big Data</td>
-                                    <td>
-                                        <p> 1. Mahasiswa memahami silabus, kontrak perkulihan, dan ruang lingkup
-                                            perkuliahan Teknologi Big Data.</p>
-                                        <p>
-
-                                            2. Mahasiswa memahami konsep dasar Big Data
-                                        </p>
+                                    <td class="text-center">
+                                        {{ $i->agendaBelajar->pekan }}
                                     </td>
-                                    <td>Menyampaikan pendapat (1%)
+                                    <td class="text-center">
+                                        {{ $i->clo->kode_clo}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $i->llo->kode_llo}}
                                     </td>
                                     <td>
-                                        <p>
+                                        @if ($i->penilaian_id)
+                                        {!! '<b>'.$i->penilaian->btk_penilaian.' :
+                                            '.$i->bobot.'%</b><br>'.$i->deskripsi_penilaian !!}
+                                        @else
+                                        <b>-</b>
+                                        @endif
 
-                                            Menyampaikan pendapat tentang topik:
-                                        </p>
-                                        <p>
-
-                                            - Pembentukan Big Data yang mungkin terjadi pada sebuah organisasi
-                                        </p>
-                                        <p>
-
-                                            - Kelebihan dan Kelemahan Big Data
-                                        </p>
-                                        <p>
-
-                                            - Permasalahan yang mungkin timbul dengan terbentuknya Big Data tersebut.
-                                        </p>
                                     </td>
-                                    <td>Bahan Kajian:
-                                        Konsep dasar manajemen dan analisis pada Big Data
-                                        Materi:
-                                        - Pengantar perkuliahan Teknologi Big Data.
-                                        - Konsep dasar analisis Big Data.
-                                        - Dasar-dasar metode analis data
-                                        - Wawasan industri saat ini terkait Big Data.
-                                        - Karakteristik Big Data (konsep 5V’s : Volume, Velocity, Variety, Veracity,
-                                        Value)
-                                        Pustaka: U01, U04
-                                        Media Pembelajaran: M01</td>
-                                    <td>- Lecture
-                                        - Discovery Learning
-                                        - Discussion</td>
-                                    <td>-</td>
-                                    <td>60</td>
-                                    <td>60</td>
-                                    <td>30</td>
-                                    <td>3x60</td>
-                                    <td>3x60</td>
-                                    <td>-</td>
+                                    <td>
+                                        @foreach ($i->materiKuliahs as $mk)
+                                        @if ($mk->status == "pbm")
+
+                                        {!! '- '.$mk->deskripsi_pbm.'<br>' !!}
+                                        @endif
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        <b>Kajian : </b><br>
+                                        @foreach ($i->materiKuliahs as $mk)
+                                        @if ($mk->status == "kajian")
+
+                                        {!! '- '.$mk->kajian.'<br>' !!}
+                                        @endif
+                                        @endforeach
+                                        <br>
+
+                                        <b>Materi : </b><br>
+                                        @foreach ($i->materiKuliahs as $mk)
+                                        @if ($mk->status == "materi")
+
+                                        {!! '- '.$mk->materi.'<br>' !!}
+                                        @endif
+                                        @endforeach
+                                        <br>
+
+                                        <b>Pustaka : </b><br>
+                                        @foreach ($i->materiKuliahs as $mk)
+                                        @if ($mk->status == "pustaka")
+                                        {!! '- '.$mk->jdl_ptk.', bab '.$mk->bab_ptk.', hal '.$mk->hal_ptk.'<br>' !!}
+                                        @endif
+                                        @endforeach
+                                        <br>
+
+                                        <b>Media Pembelajaran : </b><br>
+                                        @foreach ($i->materiKuliahs as $mk)
+                                        @if ($mk->status == "media")
+
+                                        {!! '- '.$mk->media_bljr.'<br>' !!}
+                                        @endif
+                                        @endforeach
+                                        <br>
+                                    </td>
+                                    <td>
+                                        @foreach ($i->materiKuliahs as $mk)
+                                        @if ($mk->status == "metode")
+
+                                        {!! '- '.$mk->mtd_bljr.'<br>' !!}
+                                        @endif
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        {{ $i->tm }}
+                                    </td>
+                                    <td>
+                                        {{ $i->sl }}
+                                    </td>
+                                    <td>
+                                        {{ $i->asl }}
+                                    </td>
+                                    <td>
+                                        {{ $i->asm }}
+                                    </td>
+                                    <td>
+                                        {{ $i->res_tutor }}
+                                    </td>
+                                    <td>
+                                        {{ $i->bljr_mandiri }}
+                                    </td>
+                                    <td>
+                                        {{ $i->praktikum }}
+                                    </td>
                                     <td class="d-flex">
                                         <a href="#" class="btn btn-light mr-1 my-auto"><i class="fas fa-edit"></i>
 
@@ -131,11 +209,11 @@
                                         </a>
                                     </td>
                                 </tr>
+
+                                @endforeach
                             </tbody>
 
                         </table>
-
-
                     </div>
                 </div>
             </div>
@@ -145,3 +223,13 @@
 
 </section>
 @endsection
+@push('script')
+<script>
+    $('#tableAgd').DataTable({
+        scrollY: 500,
+        scrollX: true,
+        scroller: true,
+    });
+
+</script>
+@endpush

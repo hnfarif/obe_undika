@@ -11,11 +11,11 @@ class Rps extends Model
 
     protected $table = 'rps';
     protected $guarded = ["id"];
-
+    protected $primaryKey = 'id';
 
     public function clos()
     {
-        return $this->hasMany(Clo::class);
+        return $this->hasMany(Clo::class)->orderBy('id');
     }
 
     public function matakuliah()
@@ -25,7 +25,7 @@ class Rps extends Model
 
     public function penilaians()
     {
-        return $this->hasMany(Penilaian::class);
+        return $this->hasMany(Penilaian::class)->orderBy('id');
     }
 
     public function agendabelajars()
@@ -37,4 +37,18 @@ class Rps extends Model
         return $this->belongsTo(KaryawanDosen::class, 'nik', 'nik');
     }
 
+    public function getAllTotal($pens, $clos)
+    {
+        $total = 0;
+
+        foreach ($clos as $c) {
+            foreach ($pens as $p) {
+
+                $total += DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', $p->id)->sum('bobot');
+
+            }
+        }
+
+        return $total;
+    }
 }

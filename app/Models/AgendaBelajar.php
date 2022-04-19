@@ -13,23 +13,13 @@ class AgendaBelajar extends Model
     protected $guarded = ["id"];
     protected $primaryKey = 'id';
 
-    public function llos()
-    {
-        return $this->belongsToMany(Llo::class);
-    }
-
-    public function materis()
-    {
-        return $this->hasMany(Materi::class);
-    }
-
-    public function penilaians()
-    {
-        return $this->belongsToMany('penilaian_agenda', 'agdbljr_id', 'penilaian_id');
-    }
-
     public function rps()
     {
         return $this->belongsTo(Rps::class, 'rps_id', 'id');
+    }
+
+    public function detailAgendas()
+    {
+        return $this->hasMany(DetailAgenda::class, 'agd_id', 'id');
     }
 }

@@ -20,11 +20,22 @@ class Penilaian extends Model
         return $this->belongsTo(Rps::class, 'rps_id', 'id');
     }
 
-    public function agendas()
+    public function detailAgendas()
     {
-        return $this->belongsToMany(AgendaBelajar::class, 'penilaian_agenda', 'penilaian_id', 'agdbljr_id');
+        return $this->hasMany(DetailAgenda::class);
     }
 
+
+    public function getBobotPen($id, $clos)
+    {
+        $total = 0;
+
+        foreach ($clos as $i) {
+            $total += DetailAgenda::where('clo_id', $i->id)->where('penilaian_id', $id)->sum('bobot');
+        }
+
+        return $total;
+    }
 
     // public function getBobot($penilaian,$clo)
     // {

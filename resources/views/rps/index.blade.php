@@ -8,11 +8,17 @@
 
     <div class="section-body">
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-12 p-0 mb-2 d-flex">
-                <a href="{{ route('rps.plottingmk') }}" type="button"
-                    class="btn btn-primary ml-3  align-self-center expanded"><i class="fas fa-plus"></i> Entri Plotting
-                    Mata Kuliah</a>
+            <div class="col-12 col-md-8 col-lg-12 mb-3">
+                <div class="d-flex">
+                    <a href="{{ route('rps.plottingmk') }}" type="button"
+                        class="btn btn-primary align-self-center expanded"><i class="fas fa-plus"></i> Entri
+                        Plotting
+                        Mata Kuliah</a>
+
+                </div>
+
             </div>
+
         </div>
 
         @if (session()->has('message'))
@@ -25,14 +31,46 @@
         @endif
 
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-12">
+            <div class="col-12 col-md-8 col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Daftar RPS</h4>
-                    </div>
-                    <div class="card-body">
+                        <div class="btn-group ml-auto">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false">
+                                <i></i>
+                                Filter
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left">
+                                <div class="dropdown-title">Semester</div>
+                                <div class="form-group form-check-inline">
+                                    <div class="form-check">
+                                        <div class="checkbox-wrapper">
+                                            @foreach ($rps->unique('semester') as $i)
 
+                                            <input type="checkbox" class="form-check-input dataSmt"
+                                                id="smt-{{ $loop->iteration }}"
+                                                value="{{ $i->semester }}">{{ $i->semester }}
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-title">Aktif</div>
+                                <div class="form-group form-check-inline">
+                                    <div class="form-check">
+                                        <div class="checkbox-wrapper">
+                                            <input type="checkbox" class="form-check-input" value="1">Ya
+                                            <input type="checkbox" class="form-check-input" value="0">Tidak
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
                         <table class="table table-striped table-responsive" id="table">
+
                             <thead>
                                 <tr>
                                     <th class="text-center">
@@ -280,6 +318,32 @@
                 }
             })
         })
+
+        var chkSmt = [];
+        var dataSmt = [];
+
+
+        $('.dataSmt').each(function () {
+            dataSmt.push($(this).val());
+
+        })
+
+
+
+        // $('.smt:checked').each(function () {
+        // });
+        // if (!$(this).checked) {
+
+        // } else {
+        //     chkSmt.push($(this).val());
+        //     localStorage.setItem('checkedSmt', JSON.stringify(chkSmt));
+        // }
+        // $(this).change(function () {
+        // if ($(this).attr('checked', 'checked')) {
+        // } else {
+        //
+        // }
+        // })
     });
 
 </script>

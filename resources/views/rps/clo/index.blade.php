@@ -95,6 +95,7 @@
                                     </th>
                                     <th>Ranah Capaian Pembelajaran</th>
                                     <th>Level Bloom</th>
+                                    <th>Target Kelulusan (% Mhs)</th>
                                     <th>
                                         <div style="width: 150px;">PLO yang didukung</div>
                                     </th>
@@ -110,6 +111,14 @@
                                     <td>{{ $clos->deskripsi }}</td>
                                     <td>{{ str_replace(" ", ", ",$clos->ranah_capai) }}</td>
                                     <td>{{ $clos->lvl_bloom }}</td>
+                                    <td>
+                                        @if ($clos->tgt_lulus)
+
+                                        {{ $clos->tgt_lulus. '% (nilai minimal '.$clos->nilai_min.')' }}
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
                                     <td>
                                         @foreach ($clos->plos->sortBy('kode_plo') as $item)
                                         <div style="width: 150px;" class="d-flex">
@@ -140,8 +149,7 @@
 
                                         @if ($clos->plos->count() == 0)
 
-                                        <form action="{{ route('clo.delete',[$item->id,$clos->id]) }}" method="POST"
-                                            class="@if($clos->kode_clo !== $iteration)
+                                        <form action="{{ route('clo.delete',[$i->id,$clos->id]) }}" method="POST" class="@if($clos->kode_clo !== $iteration)
                                             d-none
                                         @endif">
                                             @method('DELETE')
@@ -172,8 +180,8 @@
         </div>
     </div>
 </section>
-<div class="modal fade" role="dialog" id="editClo">
-    <div class="modal-dialog modal-xl" role="document">
+<div class="modal fade" role="dialog" data-backdrop="static" id="editClo">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Ubah CLO</h5>
@@ -263,6 +271,36 @@
                         </div>
 
                     </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Target Kelulusan (%)</label>
+
+                                <input type="number" name="target_lulus" id="target_lulus"
+                                    class="form-control @error('target_lulus') is-invalid @enderror" min="0" max="100"
+                                    value="{{ old('target_lulus') }}" required>
+                                @error('target_lulus')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Nilai Minimal</label>
+
+                                <input type="number" name="nilai_min" id="nilai_min"
+                                    class="form-control @error('nilai_min') is-invalid @enderror " min="0" max="100"
+                                    value="{{ old('nilai_min') }}" required>
+                                @error('nilai_min')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
             </div>
             <div class="modal-footer bg-whitesmoke br">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -310,6 +348,8 @@
                     $("#rps").val(data.clo.rps_id);
                     $("#kode_clo").val(data.clo.kode_clo);
                     $("#deskripsi").val(data.clo.deskripsi);
+                    $("#target_lulus").val(data.clo.tgt_lulus);
+                    $("#nilai_min").val(data.clo.nilai_min);
                     let ranahArray = data.clo.ranah_capai.split(' ');
                     dataRanah.forEach(element => {
                         if (ranahArray.includes(element)) {

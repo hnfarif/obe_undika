@@ -38,6 +38,7 @@
                                 <tr>
                                     <th>
                                         Kode PLO
+
                                     </th>
                                     <th>Deskripsi PLO</th>
                                 </tr>
@@ -45,7 +46,7 @@
                             <tbody>
                                 @foreach ($plo as $i)
                                 <tr>
-                                    <td id="modules" style="width: 100px">
+                                    <td id="modules" style="width: 150px">
                                         <div class="text-center drag" data-id="{{ $i->id }}">
                                             <span class="p-4">{{ $i->kode_plo }}</span>
                                         </div>

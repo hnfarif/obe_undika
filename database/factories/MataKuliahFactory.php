@@ -15,7 +15,7 @@ class MataKuliahFactory extends Factory
     {
         return [
             'id' => $this->faker->unique()->numerify('41010####'),
-            'semester' => $this->faker->randomElement(['201', '202', '211', '212', '221']),
+            'semester' => $this->faker->numberBetween(1,6),
             'nama' => $this->faker->unique()->randomElement(['Sistem Pendukung Keputusan', 'Logika Dan Algoritma Pemrograman', 'Statistik Dan Probabilitas','Basis Data','Pemrograman Dasar', 'Pemrograman Basis Data', 'Pemrograman Web Dasar', 'Pemrograman Berbasis Mobile', 'Analisa Dan Perancangan Sistem', 'Data Mining']),
             'sks' => $this->faker->numberBetween(1,6),
             'status' => 1,

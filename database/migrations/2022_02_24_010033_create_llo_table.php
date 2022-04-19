@@ -11,13 +11,17 @@ class CreateLloTable extends Migration
      *
      * @return void
      */
+
     public function up()
     {
         Schema::create('llo', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('rps_id')->unsigned();
             $table->string('kode_llo',6);
             $table->text('deskripsi');
             $table->text('capaian');
+
+            $table->foreign('rps_id')->references('id')->on('rps')->onDelete('cascade');
             $table->timestamps();
         });
     }

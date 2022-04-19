@@ -88,11 +88,11 @@
     <script>
         $(document).ready(function () {
             $(".inputtags").tagsinput('items');
-            $('#table').DataTable();
+            // $('#table').DataTable();
         })
 
     </script>
-    @yield('script')
+    {{-- @yield('script') --}}
     @stack('script')
 </body>
 
