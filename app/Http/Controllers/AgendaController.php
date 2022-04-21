@@ -45,8 +45,6 @@ class AgendaController extends Controller
      */
     public function create(Request $request, Rps $rps)
     {
-        $week = AgendaBelajar::where('rps_id', $rps->id)->orderBy('id', 'asc')->count();
-        $week++;
 
         $penilaian = Penilaian::where('rps_id', $rps->id)->orderBy('id','asc')->get();
 
@@ -142,7 +140,7 @@ class AgendaController extends Controller
             })->rawColumns(['capai_llo','btk_penilaian','pbm','materi','metode','aksi'])
             ->make(true);
         }
-        return view('rps.agenda.create', compact('rps','week','clo', 'listLlo', 'penilaian'));
+        return view('rps.agenda.create', compact('rps','clo', 'listLlo', 'penilaian'));
     }
 
     /**
@@ -153,16 +151,24 @@ class AgendaController extends Controller
      */
     public function store(Request $request, Rps $rps)
     {
+        $this->validate($request, [
+            'week' => 'required',
+        ]);
+
         $listLlo = session('listLlo-'.$rps->id);
         if (!$listLlo) {
             $listLlo = [];
         }
 
         if($listLlo){
-            $agdBelajar = new AgendaBelajar;
-            $agdBelajar->rps_id = $rps->id;
-            $agdBelajar->pekan = $request->week;
-            $agdBelajar->save();
+            $fAgd = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $request->week)->first();
+            if (!$fAgd) {
+
+                $agdBelajar = new AgendaBelajar;
+                $agdBelajar->rps_id = $rps->id;
+                $agdBelajar->pekan = $request->week;
+                $agdBelajar->save();
+            }
 
 
             foreach ($listLlo as $key => $value) {
@@ -216,7 +222,13 @@ class AgendaController extends Controller
                 }
 
                 $dtlAgenda = new DetailAgenda;
-                $dtlAgenda->agd_id = $agdBelajar->id;
+                if ($fAgd) {
+
+                    $dtlAgenda->agd_id = $fAgd->id;
+                }else{
+                    $dtlAgenda->agd_id = $agdBelajar->id;
+
+                }
                 $dtlAgenda->clo_id = $filClo->id;
                 $dtlAgenda->llo_id = $filLlo->id;
                 $dtlAgenda->penilaian_id = $filPen->id;
@@ -306,7 +318,7 @@ class AgendaController extends Controller
             Session::flash('message','Data Agenda Pembelajaran berhasil ditambah pada minggu ke ' . $request->week);
             Session::flash('alert-class','alert-success');
         }else{
-            Session::flash('message','Data Agenda Pembelajaran gagal ditambahkan.');
+            Session::flash('message','Data Agenda Pembelajaran Kosong.');
             Session::flash('alert-class','alert-danger');
         }
 
@@ -904,5 +916,161 @@ class AgendaController extends Controller
 
     }
 
+    public function getMateriEdit(Request $request, $rps)
+    {
+
+        if($request->status == 'kajian'){
+            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
+
+            return DataTables::of($dataMateri)
+            ->addColumn('aksi', function ($data) {
+            return '<button class="btn btn-danger delKajian" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
+            })->rawColumns(['aksi'])
+            ->make(true);
+
+        }else if($request->status == 'materi'){
+            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
+
+            return DataTables::of($dataMateri)
+            ->addColumn('aksi', function ($data) {
+            return '<button class="btn btn-danger delMateri" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
+            })->rawColumns(['aksi'])
+            ->make(true);
+
+        }else if($request->status == 'pustaka'){
+            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
+
+            return DataTables::of($dataMateri)
+            ->addColumn('aksi', function ($data) {
+            return '<button class="btn btn-danger delPustaka" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
+            })->rawColumns(['aksi'])
+            ->make(true);
+
+        }else if($request->status == 'media'){
+            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
+
+            return DataTables::of($dataMateri)
+            ->addColumn('aksi', function ($data) {
+            return '<button class="btn btn-danger delMedia" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
+            })->rawColumns(['aksi'])
+            ->make(true);
+
+        }else if($request->status == 'metode'){
+            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
+
+            return DataTables::of($dataMateri)
+            ->addColumn('aksi', function ($data) {
+            return '<button class="btn btn-danger delMetode" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
+            })->rawColumns(['aksi'])
+            ->make(true);
+
+        }
+        else if($request->status == 'pbm'){
+            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
+
+            return DataTables::of($dataMateri)
+            ->addColumn('aksi', function ($data) {
+            return '<button class="btn btn-danger delPbm" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
+            })->rawColumns(['aksi'])
+            ->make(true);
+
+        }
+    }
+
+    public function addMateri(Request $request)
+    {
+        if ($request->status == 'pustaka') {
+            $validatedData =  Validator::make($request->all(), [
+
+                'detail_id' => 'required',
+                'judul' => 'required',
+                'bab' => 'required',
+                'halaman' => 'required',
+                'status' => 'required',
+
+            ]);
+        }else{
+            $validatedData =  Validator::make($request->all(), [
+
+                'detail_id' => 'required',
+                'materi' => 'required',
+                'status' => 'required',
+
+            ]);
+        }
+
+
+        if ($validatedData->passes()) {
+
+            if($request->status == 'kajian'){
+
+                $addMateri = new MateriKuliah;
+                $addMateri->dtl_agd_id = $request->detail_id;
+                $addMateri->kajian = $request->materi;
+                $addMateri->status = $request->status;
+                $addMateri->save();
+
+                return response()->json(['success' => 'Data berhasil Ditambahkan']);
+            }else if($request->status == 'materi'){
+
+                $addMateri = new MateriKuliah;
+                $addMateri->dtl_agd_id = $request->detail_id;
+                $addMateri->materi = $request->materi;
+                $addMateri->status = $request->status;
+                $addMateri->save();
+
+                return response()->json(['success' => 'Data berhasil Ditambahkan']);
+            }else if($request->status == 'pustaka'){
+
+                $addMateri = new MateriKuliah;
+                $addMateri->dtl_agd_id = $request->detail_id;
+                $addMateri->jdl_ptk = $request->judul;
+                $addMateri->bab_ptk = $request->bab;
+                $addMateri->hal_ptk = $request->halaman;
+                $addMateri->status = $request->status;
+                $addMateri->save();
+
+                return response()->json(['success' => 'Data berhasil Ditambahkan']);
+            }else if($request->status == 'media'){
+
+                $addMateri = new MateriKuliah;
+                $addMateri->dtl_agd_id = $request->detail_id;
+                $addMateri->media_bljr = $request->materi;
+                $addMateri->status = $request->status;
+                $addMateri->save();
+
+                return response()->json(['success' => 'Data berhasil Ditambahkan']);
+            }else if($request->status == 'metode'){
+
+                $addMateri = new MateriKuliah;
+                $addMateri->dtl_agd_id = $request->detail_id;
+                $addMateri->mtd_bljr = $request->materi;
+                $addMateri->status = $request->status;
+                $addMateri->save();
+
+                return response()->json(['success' => 'Data berhasil Ditambahkan']);
+            }else if($request->status == 'pbm'){
+
+                $addMateri = new MateriKuliah;
+                $addMateri->dtl_agd_id = $request->detail_id;
+                $addMateri->deskripsi_pbm = $request->materi;
+                $addMateri->status = $request->status;
+                $addMateri->save();
+
+                return response()->json(['success' => 'Data berhasil Ditambahkan']);
+            }
+
+        }
+
+        return response()->json(['error' => $validatedData->errors()->all()]);
+    }
+
+    public function removeMateri(Request $request)
+    {
+        $removeMateri = MateriKuliah::find($request->detail_id);
+        $removeMateri->delete();
+        return response()->json(['success' => 'Data berhasil Dihapus']);
+
+    }
 
 }

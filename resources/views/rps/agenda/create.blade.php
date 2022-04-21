@@ -16,20 +16,38 @@
     <div class="section-body">
         <div class="row">
             <div class="col-12 col-md-6 col-lg-12">
-                <div class="section-title mt-0">Tambah Data Minggu Ke {{ $week }}</div>
+                <div class="section-title mt-0">Table Tambah Data Agenda Pembelajaran</div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-12 col-md-6 col-lg-12 mb-3 d-flex">
                 <button type="button" class="btn btn-primary" id="btnFormClo" data-toggle="modal"
                     data-target="#formAgenda"> <i class="fas fa-plus"></i> Tambah data</button>
                 <form class="ml-auto" action="{{ route('agenda.store', $rps->id) }}" method="POST">
                     @csrf
-                    <input type="hidden" name="week" value="{{ $week }}">
-                    <button type="submit" class="btn btn-success" id="btnSaveAgd"> <i class="fas fa-save"></i>
+                    <input type="hidden" name="week" id="week">
+                    <button type="submit" class="btn btn-success ml-auto" id="btnSaveAgd"> <i class="fas fa-save"></i>
                         Simpan Data</button>
 
                 </form>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-12 mb-3">
+                <label>Pilih Minggu</label>
+                <select class="form-control @error('week') is-invalid @enderror select2" id="optweek" required>
+                    <option selected disabled> Pilih Minggu</option>
+                    @for ($i = 1; $i <= 14; $i++) <option value="{{ $i }}">{{ 'Minggu Ke '.$i }}</option>
+                        @endfor
+                </select>
+                @error('week')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+
             </div>
         </div>
         <div class="row row-input">
@@ -1031,6 +1049,12 @@
             $('.sn-pen').summernote('code', '');
 
         })
+
+        $('#optweek').on('change', function () {
+            var week = $(this).val();
+            $("#week").val(week);
+
+        });
 
         $('#kode_llo').autocomplete({
             source: llo

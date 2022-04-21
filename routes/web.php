@@ -79,7 +79,10 @@ Route::prefix('rps')->group(function (){
     Route::get('/agenda/create/{rps}', [AgendaController::class, 'create'])->name('agenda.create');
     Route::get('/agenda/llo/delete', [AgendaController::class, 'deleteLlo'])->name('llo.session.delete');
     Route::get('/getmateri/{rps}', [AgendaController::class, 'getMateri'])->name('materi.get');
+    Route::get('/getmateri/edit/{rps}', [AgendaController::class, 'getMateriEdit'])->name('materi.edit');
     Route::get('/storemateri', [AgendaController::class, 'storeMateri'])->name('materi.store');
+    Route::get('/addmateri', [AgendaController::class, 'addMateri'])->name('materi.add');
+    Route::get('/removeMateri', [AgendaController::class, 'removeMateri'])->name('materi.remove');
     Route::get('/agenda/materi/delete', [AgendaController::class, 'deleteMateri'])->name('materi.session.delete');
     Route::get('/getsks', [AgendaController::class, 'getSks'])->name('kuliah.getSks');
 

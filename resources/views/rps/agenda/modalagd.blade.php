@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-xl " role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Form tambah data Minggu ke {{ $week }}</h5>
+                <h5 class="modal-title">Form tambah data CLO</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -361,7 +361,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button class="btn btn-primary" id="addLlo">
-                    <i class="fas fa-plus"></i> Tambah Data CLO minggu ke {{ $week }}</button>
+                    <i class="fas fa-plus"></i> Tambah Data CLO </button>
             </div>
         </div>
     </div>

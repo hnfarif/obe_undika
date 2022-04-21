@@ -70,6 +70,7 @@
                             <div class="form-group">
                                 <label>Bentuk Penilaian</label>
                                 <select id="btk_penilaian" name="btk_penilaian" class="form-control select2">
+                                    <option value="default" selected disabled> Pilih Bentuk Penilaian</option>
                                     @foreach ($penilaian as $i)
 
                                     <option value="{{ $i->id }}">
@@ -299,12 +300,14 @@
                         <div class="col-lg-12 d-flex">
                             <div class="control-label">Praktikum</div>
                             <label class="custom-switch">
-                                <input type="radio" name="praktikum" value="1" class="custom-switch-input">
+                                <input type="radio" name="praktikum" id="radioyes" value="1"
+                                    class="custom-switch-input">
                                 <span class="custom-switch-indicator"></span>
                                 <span class="custom-switch-description">Ya</span>
                             </label>
                             <label class="custom-switch">
-                                <input type="radio" name="praktikum" value="0" class="custom-switch-input" checked>
+                                <input type="radio" name="praktikum" id="radiono" value="0" class="custom-switch-input"
+                                    checked>
                                 <span class="custom-switch-indicator"></span>
                                 <span class="custom-switch-description">Tidak</span>
                             </label>
@@ -315,25 +318,25 @@
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Tatap Muka (menit/mg)</label>
-                                <input type="text" id="tm" name="tm" class="form-control">
+                                <input type="number" id="tm" name="tm" class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Synchronous Learning (menit/mg)</label>
-                                <input type="text" id="sl" name="sl" class="form-control">
+                                <input type="number" id="sl" name="sl" class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Asynchronous Learning (menit/mg)</label>
-                                <input type="text" id="asl" name="asl" class="form-control">
+                                <input type="number" id="asl" name="asl" class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Assessment (menit/mg)</label>
-                                <input type="text" id="asm" name="asm" class="form-control">
+                                <input type="number" id="asm" name="asm" class="form-control">
                             </div>
                         </div>
                     </div>
