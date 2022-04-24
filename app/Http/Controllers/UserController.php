@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bagian;
+use App\Models\Fakultas;
 use App\Models\KaryawanDosen;
 use App\Models\MailStaf;
+use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,18 +44,48 @@ class UserController extends Controller
             $chkUser = User::where('nik', $chkEmail->nik)->first();
             if($chkUser){
                 Auth::login($chkUser);
-                return redirect()->route('rps.index');
+                return redirect()->route('welcome');
             }else{
+                $chkKaprodi = Prodi::where('mngr_id', $chkEmail->nik)->first();
                 $chkStaf = KaryawanDosen::where('nik', $chkEmail->nik)->first();
 
-                $chkBagian = Bagian::where('kode', $chkStaf->bagian)->first();
-                if($chkStaf->fakul_id || $chkBagian->name == 'P3AI' ){
+                if($chkKaprodi){
                     $user = User::create([
                         'nik' => $chkStaf->nik,
-                        'role' => $chkStaf->fakul_id ? 'Dosen' : $chkBagian->name,
+                        'role' => 'kaprodi',
                     ]);
                     Auth::login($user);
-                    return redirect()->route('rps.index');
+                    return redirect()->route('welcome');
+                }else if($chkStaf->fakul_id){
+                    $user = User::create([
+                        'nik' => $chkStaf->nik,
+                        'role' => 'dosen',
+                    ]);
+                    Auth::login($user);
+                    return redirect()->route('welcome');
+                }else if($chkStaf->bagian){
+                    $chkBagian = Bagian::where('kode', $chkStaf->bagian)->first();
+                    $chkDosBag = Prodi::where('id', $chkStaf->bagian)->first();
+
+                    if($chkBagian){
+                        if ($chkBagian->nama == 'P3AI' || $chkBagian->nama == 'GPM') {
+
+                            $user = User::create([
+                                'nik' => $chkStaf->nik,
+                                'role' => 'bagian',
+                            ]);
+                            Auth::login($user);
+                            return redirect()->route('welcome');
+                        }
+                    }else if($chkDosBag){
+                        $user = User::create([
+                            'nik' => $chkStaf->nik,
+                            'role' => 'dosenBagian',
+                        ]);
+                        Auth::login($user);
+                        return redirect()->route('welcome');
+                    }
+
                 }
             }
 

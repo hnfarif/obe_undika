@@ -27,8 +27,11 @@ use Illuminate\Http\Request;
 // Route::get('/peoplo', function () {
 //     return view('kelolapeoplo.index');
 // });
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome')->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
 
-Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('/login', [UserController::class, 'login'])->middleware('guest')->name('login');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 //socialize routes
@@ -36,7 +39,7 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('sign-in-google', [UserController::class, 'google'])->name('user.login.google');
 Route::get('auth/google/callback', [UserController::class, 'handleProviderCallback'])->name('user.google.callback');
 
-Route::prefix('kelola')->group(function () {
+Route::prefix('kelola')->middleware('ensureUserRole:kaprodi,bagian')->group(function () {
     Route::get('/peo', [PeoController::class, 'index'])->name('peoplo.peo');
     Route::post('/peo/store', [PeoController::class, 'store'])->name('peoplo.peo.store');
     Route::get('/peo/edit', [PeoController::class, 'edit'])->name('peoplo.peo.edit');
@@ -55,7 +58,7 @@ Route::prefix('kelola')->group(function () {
     Route::delete('/map/delete/{peo}/{plo}', [PeoPloController::class, 'destroy'])->name('peoplo.map.delete');
 });
 
-Route::prefix('rps')->group(function (){
+Route::prefix('rps')->middleware('ensureUserRole:bagian,dosen,dosenBagian')->group(function (){
 
 
     Route::get('/', [RpsController::class,'index'])->name('rps.index');
