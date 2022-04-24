@@ -9,6 +9,7 @@ use App\Models\MataKuliah;
 use App\Models\MateriKuliah;
 use App\Models\Rps;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -22,6 +23,7 @@ class RpsController extends Controller
      */
     public function index()
     {
+        // dd(Auth::user());
         $rps = Rps::with('matakuliah','karyawan')->get();
         $dosens = KaryawanDosen::all();
         return view('rps.index', ['rps' => $rps, 'dosens' => $dosens]);

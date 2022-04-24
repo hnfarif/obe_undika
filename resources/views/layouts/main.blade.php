@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/datatables/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/tagsinput/bootstrap-tagsinput.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/summernote/summernote-bs4.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('assets/css/bs-social/bootstrap-social.css') }}">
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
@@ -31,16 +31,9 @@
 
 <body class="layout-3">
     <div id="app">
-        <div class="main-wrapper container">
-            @include('layouts.navbar')
 
-            <!-- Main Content -->
-            <div class="main-content">
-                @yield('content')
-            </div>
+        @yield('content')
 
-            @include('layouts.footer')
-        </div>
     </div>
 
     <!-- General JS Scripts -->

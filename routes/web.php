@@ -8,6 +8,7 @@ use App\Http\Controllers\PeoController;
 use App\Http\Controllers\PeoPloController;
 use App\Http\Controllers\PloController;
 use App\Http\Controllers\RpsController;
+use App\Http\Controllers\UserController;
 use App\Models\AgendaBelajar;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -26,6 +27,14 @@ use Illuminate\Http\Request;
 // Route::get('/peoplo', function () {
 //     return view('kelolapeoplo.index');
 // });
+
+Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+
+//socialize routes
+
+Route::get('sign-in-google', [UserController::class, 'google'])->name('user.login.google');
+Route::get('auth/google/callback', [UserController::class, 'handleProviderCallback'])->name('user.google.callback');
 
 Route::prefix('kelola')->group(function () {
     Route::get('/peo', [PeoController::class, 'index'])->name('peoplo.peo');
@@ -89,17 +98,6 @@ Route::prefix('rps')->group(function (){
     Route::get('/getsks', [AgendaController::class, 'getSks'])->name('kuliah.getSks');
 
     Route::get('/rangkuman/{rps}', [RpsController::class, 'rangkuman'])->name('rangkuman.index');
-
-
-
-    Route::get('/plottingdosen', function (){
-
-        return view('rps.plottingdsn');
-    })->name('kelola.rps.plottingdsn');
-
-
-
-
 
 });
 

@@ -11,6 +11,8 @@ class MailStaf extends Model
 
     protected $table = 'mail_staf';
     protected $guarded = ["nik"];
-    protected $primaryKey = 'nik';
+    // protected $primaryKey = 'nik';
+
+
 
 }

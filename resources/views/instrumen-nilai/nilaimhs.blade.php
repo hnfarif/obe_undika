@@ -1,78 +1,84 @@
 @extends('layouts.main')
 @section('instrumen-nilai', 'active')
 @section('content')
-<section class="section">
+<div class="main-wrapper container">
+    @include('layouts.navbar')
+    <div class="main-content">
+        <section class="section">
 
-    {{-- @include('rps.section-header') --}}
-    <div class="section-body">
-        <div class="d-flex align-items-center my-0">
-            <h2 class="section-title">Instrumen Nilai Mahasiswa</h2>
+            {{-- @include('rps.section-header') --}}
+            <div class="section-body">
+                <div class="d-flex align-items-center my-0">
+                    <h2 class="section-title">Instrumen Nilai Mahasiswa</h2>
 
-        </div>
-        {{-- <p class="section-lead">Masukkan, ubah data PEO </p> --}}
+                </div>
+                {{-- <p class="section-lead">Masukkan, ubah data PEO </p> --}}
 
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Daftar Nilai Mahasiswa</h4>
-                    </div>
-                    <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Daftar Nilai Mahasiswa</h4>
+                            </div>
+                            <div class="card-body">
 
-                        <table class="table table-striped table-responsive" width="100%">
-                            <thead>
-                                <tr>
-                                    <th rowspan="3">#</th>
-                                    <th rowspan="3">NIM</th>
-                                    <th rowspan="3">Nama Mahasiswa</th>
-                                    <th colspan="5">CLO-01</th>
-                                    <th rowspan="3" class="align-text-top">Total CLO-01</th>
-                                    <th colspan="5">CLO-02</th>
-                                    <th rowspan="3" class="align-text-top">Total CLO-02</th>
+                                <table class="table table-striped table-responsive" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="3">#</th>
+                                            <th rowspan="3">NIM</th>
+                                            <th rowspan="3">Nama Mahasiswa</th>
+                                            <th colspan="5">CLO-01</th>
+                                            <th rowspan="3" class="align-text-top">Total CLO-01</th>
+                                            <th colspan="5">CLO-02</th>
+                                            <th rowspan="3" class="align-text-top">Total CLO-02</th>
 
-                                </tr>
-                                <tr>
-                                    <th>Menyampaikan Pendapat</th>
-                                    <th>Tugas Mandiri</th>
-                                    <th>Menyampaikan Pendapat</th>
-                                    <th>Tugas Mandiri</th>
-                                    <th>Tugas Kelompok</th>
-                                    <th>Tugas Kelompok</th>
-                                    <th>Tugas Kelompok</th>
-                                    <th>Tugas Kelompok</th>
-                                    <th>Tugas Kelompok</th>
-                                    <th>Tugas Kelompok</th>
-                                </tr>
-                                <tr>
-                                    <th>TGS</th>
-                                    <th>TGS</th>
-                                    <th>TGS</th>
-                                    <th>TGS</th>
-                                    <th>TGS</th>
-                                    <th>TGS</th>
-                                    <th>TGS</th>
-                                    <th>TGS</th>
-                                    <th>TGS</th>
-                                    <th>TGS</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Menyampaikan Pendapat</th>
+                                            <th>Tugas Mandiri</th>
+                                            <th>Menyampaikan Pendapat</th>
+                                            <th>Tugas Mandiri</th>
+                                            <th>Tugas Kelompok</th>
+                                            <th>Tugas Kelompok</th>
+                                            <th>Tugas Kelompok</th>
+                                            <th>Tugas Kelompok</th>
+                                            <th>Tugas Kelompok</th>
+                                            <th>Tugas Kelompok</th>
+                                        </tr>
+                                        <tr>
+                                            <th>TGS</th>
+                                            <th>TGS</th>
+                                            <th>TGS</th>
+                                            <th>TGS</th>
+                                            <th>TGS</th>
+                                            <th>TGS</th>
+                                            <th>TGS</th>
+                                            <th>TGS</th>
+                                            <th>TGS</th>
+                                            <th>TGS</th>
 
-                                </tr>
+                                        </tr>
 
-                            </thead>
-                            <tbody>
-                            </tbody>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
 
-                        </table>
+                                </table>
 
+
+                            </div>
+                        </div>
 
                     </div>
                 </div>
-
             </div>
-        </div>
+
+
+        </section>
     </div>
-
-
-</section>
+    @include('layouts.footer')
+</div>
 @endsection
 @section('script')
 <script src="{{ asset('assets/js/page/jquery.dataTables.min.js') }}"></script>

@@ -17,10 +17,14 @@ class User extends Authenticatable
      *
      * @var string[]
      */
+
+    protected $table = 'users_obe';
+    protected $guarded = ["id"];
+
     protected $fillable = [
-        'name',
-        'email',
+        'nik',
         'password',
+        'role',
     ];
 
     /**

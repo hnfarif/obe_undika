@@ -21,12 +21,12 @@ class KaryawanDosen extends Model
 
     public function bagian()
     {
-        return $this->belongsToMany(Bagian::class, 'bagian', 'kode');
+        return $this->belongsTo(Bagian::class, 'bagian', 'kode');
     }
 
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class, 'nik', 'nik');
     }
 
     public function rpses()
