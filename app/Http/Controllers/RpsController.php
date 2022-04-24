@@ -11,6 +11,7 @@ use App\Models\Rps;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class RpsController extends Controller
 {
@@ -210,5 +211,32 @@ class RpsController extends Controller
         })->select('deskripsi_pbm')->where('status', 'pbm')->distinct()->get();
         // dd($pus);
         return view('rps.rangkuman', compact('dataRps','rps','kultot','med','pus','pbm'));
+    }
+
+    public function saveFileRps(Request $request, $rps)
+    {
+        $validatedData =  Validator::make($request->all(), [
+            'rps' => 'required|mimes:pdf|max:51200',
+        ]);
+
+        if ($validatedData->passes()) {
+
+            $rps = Rps::findOrFail($rps)->update([
+                'file_rps' => $request->file('rps')->store('rps-file'),
+                'is_done' => '1',
+            ]);
+
+            if ($rps) {
+                Session::flash('message', 'File Rps berhasil diupload!');
+                Session::flash('alert-class', 'alert-success');
+            } else {
+                Session::flash('message', 'File Rps gagal diupload!');
+                Session::flash('alert-class', 'alert-danger');
+            }
+
+            return redirect()->route('rps.index');
+        }
+
+        return redirect()->back()->withErrors($validatedData->errors());
     }
 }

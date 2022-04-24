@@ -2,6 +2,8 @@
 @section('rps', 'active')
 @section('clo', 'active')
 @section('content')
+
+
 <section class="section">
     @include('rps.section-header')
 
@@ -44,6 +46,7 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    @if (!$rps->is_done)
                                     <div class="d-flex">
                                         <button type="button" class="btn btn-light mr-2 btnUbah"><i
                                                 class="fas fa-edit"></i>
@@ -55,6 +58,7 @@
                                                 class="fas fa-times"></i>
                                             Batal</button>
                                     </div>
+                                    @endif
                                 </form>
 
                             </div>
@@ -63,6 +67,7 @@
                 </div>
             </div>
         </div>
+        @if (!$rps->is_done)
         <div class="row">
             <div class="col-12 col-md-6 col-lg-12 p-0 mb-2">
                 <a href="{{ route('clo.create', $rps->id) }}" type="button"
@@ -70,6 +75,7 @@
                     CLO</a>
             </div>
         </div>
+        @endif
         <div class="d-flex align-items-center my-0">
             <h2 class="section-title">Tabel CLO</h2>
         </div>
@@ -99,8 +105,9 @@
                                     <th>
                                         <div style="width: 150px;">PLO yang didukung</div>
                                     </th>
+                                    @if (!$rps->is_done)
                                     <th>Aksi</th>
-
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -131,15 +138,18 @@
                                                     <input name="_method" type="hidden" value="DELETE">
                                                     <input type="hidden" name="valDel" value="plo">
                                                     <input type="hidden" name="rps_id" value="{{ $rps->id }}">
+                                                    @if (!$rps->is_done)
                                                     <button type="button" class="btn btn-danger deletePlo">
                                                         <i class="fas fa-trash my-auto"></i>
                                                     </button>
+                                                    @endif
                                                 </form>
                                             </div>
                                         </div>
                                         <hr>
                                         @endforeach
                                     </td>
+                                    @if (!$rps->is_done)
                                     <td class="d-flex">
                                         <a href="#" type="button" class="btn btn-light my-auto mr-2 editClo"
                                             data-id="{{ $clos->id }}" data-toggle="modal" data-target="#editClo"><i
@@ -150,8 +160,8 @@
                                         @if ($clos->plos->count() == 0)
 
                                         <form action="{{ route('clo.delete',[$i->id,$clos->id]) }}" method="POST" class="@if($clos->kode_clo !== $iteration)
-                                            d-none
-                                        @endif">
+                                                d-none
+                                            @endif">
                                             @method('DELETE')
                                             @csrf
                                             <input name="_method" type="hidden" value="DELETE">
@@ -164,6 +174,7 @@
                                         @endif
 
                                     </td>
+                                    @endif
                                 </tr>
                                 @endforeach
 
@@ -180,6 +191,9 @@
         </div>
     </div>
 </section>
+
+
+
 <div class="modal fade" role="dialog" data-backdrop="static" id="editClo">
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">

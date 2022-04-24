@@ -2,6 +2,7 @@
 @section('rps', 'active')
 @section('penilaian', 'active')
 @section('content')
+
 <section class="section">
 
     @include('rps.section-header')
@@ -19,6 +20,7 @@
         </div>
         @endif
         <div class="row">
+            @if (!$rps->is_done)
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card">
                     <div class="card-header">
@@ -57,6 +59,7 @@
                 </div>
 
             </div>
+            @endif
             <div class="col-12 col-md-6 col-lg-8">
                 <div class="card">
                     <div class="card-header">
@@ -76,9 +79,11 @@
                                     <th>
                                         Jenis Penilaian
                                     </th>
+
                                     <th>
                                         Aksi
                                     </th>
+
                                 </tr>
 
                             </thead>
@@ -95,6 +100,7 @@
                                         {{ $i->jenis }}
                                     </td>
                                     <td>
+                                        @if (!$rps->is_done)
                                         <div class="d-flex my-auto">
 
                                             <a href="#" class="btn btn-light mr-2 editPenilaian" data-id="{{ $i->id }}"
@@ -112,6 +118,7 @@
                                                 </button>
                                             </form>
                                         </div>
+                                        @endif
                                     </td>
 
                                 </tr>
@@ -132,6 +139,7 @@
 
 
 </section>
+
 <div class="modal fade" role="dialog" id="editPenilaian">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -180,7 +188,15 @@
 
 <script>
     $(document).ready(function () {
+        $('#table').DataTable({
+            "ordering": true,
+            "paging": true,
+            "info": false,
+            "searching": true,
+            "showNEntries": false,
+            "lengthChange": false,
 
+        });
         $('#table').on('click', '.editPenilaian', function () {
             var id = $(this).attr('data-id');
 

@@ -6,13 +6,26 @@
 
     @include('rps.section-header')
     <div class="section-body">
+        @if ($errors->any())
+
+        @foreach ($errors->all() as $error)
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ $error }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endforeach
+
+        @endif
         <div class="d-flex my-0">
             <h2 class="section-title">Waktu Belajar Mahasiswa</h2>
-
+            @if (!$rps->is_done)
             <div class="mt-3 ml-auto">
-                <a href="#" type="button" class="btn btn-primary ml-3  align-self-center expanded" data-toggle="modal"
-                    data-target="#saveRps"><i class="fas fa-file-upload"></i> Transfer Monev</a>
+                <button type="button" class="btn btn-primary ml-3 align-self-center saveRps"><i
+                        class="fas fa-file-upload"></i> Simpan RPS </button>
             </div>
+            @endif
         </div>
         {{-- <p class="section-lead">Masukkan, ubah data PEO </p> --}}
 
@@ -355,26 +368,55 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Simpan RPS</h5>
+                <h5 class="modal-title">
+                    Simpan RPS
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Masukkan File RPS </label>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
+            <form action="{{ route('rps.file.store', $rps->id) }}" method="post" enctype="multipart/form-data">
+                @method('PUT')
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Masukkan File RPS </label>
+                        <div class="custom-file">
+                            <input class="form-control @error('rps') is-invalid
+                            @enderror" type="file" name="rps" id="formFile" required>
+
+                        </div>
                     </div>
                 </div>
-
-            </div>
-            <div class="modal-footer bg-whitesmoke br">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnSaveRps" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 @endsection
+@push('script')
+<script>
+    $(document).ready(function () {
+        $('.saveRps').on('click', function () {
+            Swal.fire({
+                title: 'Apakah anda yakin ingin menyimpan RPS ini?',
+                text: "jika anda menyimpan RPS ini, maka tidak bisa diubah lagi",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Simpan!'
+            }).then((result) => {
+                if (result.value) {
+                    $('#saveRps').modal('show');
+                }
+            })
+        })
+
+    })
+
+</script>
+@endpush

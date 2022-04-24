@@ -122,6 +122,6 @@ class PeoPloController extends Controller
             Session::flash('message','Data gagal dihapus.');
             Session::flash('alert-class','alert-danger');
         }
-        return redirect()->route('peoplo.map')->with('success', 'Data berhasil ditambahkan');
+        return redirect()->route('peoplo.map');
     }
 }

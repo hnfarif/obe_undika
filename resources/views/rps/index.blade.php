@@ -7,19 +7,6 @@
 
 
     <div class="section-body">
-        <div class="row">
-            <div class="col-12 col-md-8 col-lg-12 mb-3">
-                <div class="d-flex">
-                    <a href="{{ route('rps.plottingmk') }}" type="button"
-                        class="btn btn-primary align-self-center expanded"><i class="fas fa-plus"></i> Entri
-                        Plotting
-                        Mata Kuliah</a>
-
-                </div>
-
-            </div>
-
-        </div>
 
         @if (session()->has('message'))
         <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
@@ -32,6 +19,13 @@
 
         <div class="row">
             <div class="col-12 col-md-8 col-lg-12">
+                <div class="my-3">
+                    <a href="{{ route('rps.plottingmk') }}" type="button" class="btn btn-primary"><i
+                            class="fas fa-plus"></i> Entri
+                        Plotting
+                        Mata Kuliah</a>
+                </div>
+
                 <div class="card">
                     <div class="card-header">
                         <h4>Daftar RPS</h4>
@@ -89,7 +83,11 @@
                                     <th>SKS</th>
                                     <th>Aktif</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>
+                                        <div style="min-width: 165px;">
+                                            Action
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,7 +96,7 @@
                                     <td>
                                         {{ $loop->iteration }}
                                     </td>
-                                    <td>{{ $i->kurlkl_id }}</td>
+                                    <td>{{ substr($i->kurlkl_id,4) }}</td>
                                     <td>{{ $i->nama_mk }}</td>
                                     <td>{{ $i->rumpun_mk }}</td>
                                     <td>{{ $i->karyawan->nama }}</td>
@@ -127,7 +125,7 @@
                                     </td>
                                     <td>
                                         @if ($i->is_done)
-                                        <div class="badge badge-warning">Done</div>
+                                        <div class="badge badge-success">Done</div>
                                         @else
                                         <div class="badge badge-warning">To do</div>
                                         @endif
@@ -136,14 +134,16 @@
                                     <td>
                                         <div class="d-flex">
                                             @if ($i->is_done)
-                                            <a href="{{ route('clo.index', $i->id) }}"
-                                                class="btn btn-light mr-2">Lihat</a>
+                                            <a href="{{ asset('storage/'.$i->file_rps) }}" target="_blank"
+                                                class="btn btn-primary mr-2 flex-grow">Lihat
+                                                File Rps</a>
                                             @else
                                             <a href="{{ route('clo.index', $i->id) }}"
-                                                class="btn btn-light mr-2">Buat</a>
+                                                class="btn btn-light mr-2 flex-grow">Buat
+                                                Rps</a>
                                             @endif
 
-                                            <button class="btn btn-info editRps" data-toggle="modal"
+                                            <button class="btn btn-info editRps flex-grow" data-toggle="modal"
                                                 data-target="#editRps" data-id="{{ $i->id }}">Ubah</button>
                                         </div>
                                     </td>
@@ -278,7 +278,7 @@
 
 <script>
     $(document).ready(function () {
-
+        $('#table').DataTable();
         $('#table').on('click', '.editRps', function () {
             var id = $(this).attr('data-id');
 

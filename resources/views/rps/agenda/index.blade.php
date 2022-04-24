@@ -2,6 +2,7 @@
 @section('rps', 'active')
 @section('agenda', 'active')
 @section('content')
+
 <section class="section">
     @include('rps.section-header')
 
@@ -15,7 +16,7 @@
             </button>
         </div>
         @endif
-
+        @if (!$rps->is_done)
         <div class="row">
             <div class="col-12 col-md-6 col-lg-12 p-0 mb-2 d-flex">
                 <a href="{{ route('agenda.create', $rps->id) }}" type="button"
@@ -23,7 +24,7 @@
                     Pembelajaran</a>
             </div>
         </div>
-
+        @endif
         <div class="row">
             <div class="col-12 col-md-6 col-lg-12 p-0 d-flex">
 
@@ -212,15 +213,22 @@
                                         {{ $i->praktikum }}
                                     </td>
                                     <td class="d-flex">
-
+                                        @if (!$rps->is_done)
                                         <button id="btnEditAgd" data-toggle="modal" data-target="#editAgenda"
                                             data-id="{{ $i->id }}" class="btn btn-light mr-1 my-auto btnEditAgd"><i
                                                 class="fas fa-edit"></i>
 
                                         </button>
-                                        <a href="#" class="btn btn-danger my-auto"><i class="fas fa-trash"></i>
-
-                                        </a>
+                                        <form action="{{ route('agenda.delete', ['id' => $i->id, 'rps' => $rps->id]) }}"
+                                            method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <input name="_method" type="hidden" value="DELETE">
+                                            <button type="submit" class="btn btn-danger my-auto delDtlAgd"><i
+                                                    class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                        @endif
                                     </td>
                                 </tr>
 
@@ -604,6 +612,28 @@
 
         })
 
+        $('#tableAgd').on('click', '.delDtlAgd', function (e) {
+
+            var form = $(this).closest('form');
+            var name = $(this).data('name');
+            e.preventDefault();
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Kamu tidak dapat mengembalikan data yang sudah dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#6777ef',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.value) {
+                    form.submit();
+                }
+
+            })
+
+
+        })
 
         $('#btnKajian').click(function () {
 

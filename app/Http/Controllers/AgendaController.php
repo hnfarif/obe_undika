@@ -27,7 +27,8 @@ class AgendaController extends Controller
         $agenda = DetailAgenda::whereHas('agendaBelajar', function($q) use ($rps){
             $q->where('rps_id', $rps->id);
         })->with('penilaian','agendaBelajar', 'clo', 'llo', 'materiKuliahs')
-        ->distinct()
+        ->orderBy('agd_id', 'asc')
+        ->orderBy('clo_id', 'asc')
         ->get();
 
         $clo = Clo::where('rps_id', $rps->id)->orderBy('id')->get();
@@ -48,7 +49,7 @@ class AgendaController extends Controller
 
         $penilaian = Penilaian::where('rps_id', $rps->id)->orderBy('id','asc')->get();
 
-        $clo = Clo::where('rps_id', $rps->id)->get();
+        $clo = Clo::where('rps_id', $rps->id)->orderBy('id','asc')->get();
         // session()->forget('listLlo');
         // session()->flush();
         $listLlo = session('listLlo-'.$rps->id);
@@ -480,9 +481,25 @@ class AgendaController extends Controller
      * @param  \App\Models\AgendaBelajar  $agendaBelajar
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AgendaBelajar $agendaBelajar)
+    public function destroy($id, $rps)
     {
-        //
+        $dtlAgd = DetailAgenda::find($id);
+        $ifAgd = DetailAgenda::where('agd_id', $dtlAgd->agd_id)->count();
+        if($ifAgd == 1){
+            $agd = AgendaBelajar::find($dtlAgd->agd_id);
+            $agd->delete();
+        }else{
+            $dtlAgd->delete();
+        }
+        // dd($ifAgd);
+        if ($dtlAgd) {
+            Session::flash('message','Data berhasil dihapus.');
+            Session::flash('alert-class','alert-success');
+        }else{
+            Session::flash('message','Data gagal dihapus.');
+            Session::flash('alert-class','alert-danger');
+        }
+        return redirect()->route('agenda.index', $rps);
     }
 
     public function getSks(Request $request)

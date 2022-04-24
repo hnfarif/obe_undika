@@ -26,7 +26,7 @@ class CloController extends Controller
         $exPra = explode(' ', $prasyarat);
         $clo = Clo::where('rps_id',$rps->id)->with('plos')->orderBy('id','asc')->get();
         $iteration = Clo::latest()->select('kode_clo')->where('rps_id',$rps->id)->pluck('kode_clo')->first();
-
+        // dd($rps);
         return view('rps.clo.index', compact('rps', 'mk', 'exPra', 'clo', 'iteration'));
     }
 
