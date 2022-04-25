@@ -15,9 +15,11 @@ class CreatePloTable extends Migration
     {
         Schema::create('plo', function (Blueprint $table) {
             $table->id();
+            $table->string('fakul_id',5)->nullable();
             $table->string('kode_plo',6);
             $table->text('deskripsi');
 
+            $table->foreign('fakul_id')->references('id')->on('fak_mf')->onDelete('cascade');
             $table->timestamps();
         });
     }

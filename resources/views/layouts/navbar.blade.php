@@ -161,20 +161,20 @@
                 <a href="#" data-toggle="dropdown" class="nav-link"><i
                         class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
-            @if (in_array(auth()->user()->role, ['kaprodi', 'bagian']))
+
 
 
             <li class="nav-item @yield('peoplo')">
-                <a href="{{ route('peoplo.peo') }}" class="nav-link"><i class="fas fa-table"></i><span>Kelola
-                        PEO-PLO</span></a>
+                <a href="{{ route('peoplo.peo') }}" class="nav-link"><i
+                        class="fas fa-table"></i><span>PEO-PLO</span></a>
             </li>
-            @endif
-            @if (in_array(auth()->user()->role, ['bagian', 'dosen', 'dosenBagian']))
+
+
             <li class="nav-item @yield('rps')">
                 <a href="{{ route('rps.index') }}" class="nav-link"><i class="fas fa-school"></i><span>Kelola
                         RPS</span></a>
             </li>
-            @endif
+
             <li class="nav-item @yield('instrumen-nilai')">
                 <a href="{{ route('kelola.instrumen-nilai') }}" class="nav-link"><i
                         class="fas fa-table"></i><span>Instrumen

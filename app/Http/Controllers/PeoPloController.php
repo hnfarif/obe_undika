@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KaryawanDosen;
 use App\Models\Peo;
 use App\Models\PeoPlo;
 use App\Models\Plo;
+use App\Models\Prodi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class PeoPloController extends Controller
@@ -18,7 +21,31 @@ class PeoPloController extends Controller
     public function index()
     {
 
-       $peo = Peo::with('plos')->orderBy('kode_peo', 'asc')->get();
+       $user = Auth::user();
+        if($user->role == 'kaprodi'){
+
+            $chkrole = Prodi::where('mngr_id', $user->nik)->first();
+            $iteration = Peo::latest()->select('kode_peo')->where('fakul_id', $chkrole->id)->pluck('kode_peo')->first();
+
+            $num = substr($iteration, -2, 2);
+            $num++;
+            $ite_padded = sprintf("%02d", $num);
+
+            $peo = Peo::where('fakul_id', $chkrole->id)->with('plos')->get();
+
+        }else if($user->role == 'dosen'){
+
+            $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
+            $peo = Peo::where('fakul_id', $chkrole->fakul_id)->with('plos')->get();
+
+        }else if($user->role == 'dosenBagian'){
+
+            $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
+            $peo = Peo::where('fakul_id', $chkrole->bagian)->with('plos')->get();
+
+        }else{
+            $peo = Peo::with('plos')->get();
+        }
 
 
        return view('kelolapeoplo.mapping.index', ['peo' => $peo]);
@@ -31,8 +58,11 @@ class PeoPloController extends Controller
      */
     public function create()
     {
-        $plo =  Plo::all();
-        $peo = Peo::orderBy('kode_peo', 'asc')->get();
+        $user = Auth::user();
+        $getProdi = Prodi::where('mngr_id', $user->nik)->first();
+
+        $plo =  Plo::where('fakul_id', $getProdi->id)->get();
+        $peo = Peo::where('fakul_id', $getProdi->id)->orderBy('kode_peo', 'asc')->get();
         return view('kelolapeoplo.mapping.create' , ['plo' => $plo, 'peo' => $peo,]);
     }
 

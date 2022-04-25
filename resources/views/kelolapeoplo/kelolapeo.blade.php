@@ -29,106 +29,12 @@
                 </div>
                 @endif
                 <div class="row">
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Input PEO</h4>
-                            </div>
-                            <div class="card-body">
-                                <form action="{{ route('peoplo.peo.store') }}" method="POST">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label>Kode PEO</label>
-                                        <input type="text" class="form-control @error('kode_peo') is-invalid @enderror"
-                                            name="kode_peo" value="PEO-{{ $ite_padded }}" readonly>
-                                        @error('kode_peo')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Deskripsi PEO</label>
-                                        <textarea id="" class="form-control  @error('desc_peo') is-invalid @enderror"
-                                            name="desc_peo" style="height: 100px"
-                                            required>{{ old('desc_peo') }}</textarea>
-                                        @error('desc_peo')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">Tambah PEO</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                    @if (in_array(auth()->user()->role, ['kaprodi', 'bagian']))
+                    @include('kelolapeoplo.RolePeo.in-role')
+                    @else
+                    @include('kelolapeoplo.RolePeo.out-role')
+                    @endif
 
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Daftar PEO</h4>
-                            </div>
-                            <div class="card-body">
-
-                                <table class="table table-striped table-responsive" id="tablePeo">
-                                    <thead>
-                                        <tr>
-
-                                            <th>
-                                                Kode PEO
-                                            </th>
-                                            <th>
-                                                <div style="width: 300px">Deskripsi PEO</div>
-                                            </th>
-                                            <th>Aksi</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($peo as $i)
-
-                                        <tr>
-
-                                            <td>{{ $i->kode_peo }}</td>
-                                            <td>{{ $i->deskripsi }}</td>
-                                            <td>
-                                                <div class="d-flex my-auto">
-
-                                                    <a href="#" class="btn btn-light mr-2 editPeo"
-                                                        data-id="{{ $i->id }}" data-toggle="modal"
-                                                        data-target="#editPeo"><i class="fas fa-edit"></i>
-
-                                                    </a>
-                                                    <form class="@if($i->kode_peo !== $iteration)
-                                                d-none
-                                                @elseif(in_array($i->id, $peoplo))
-                                                d-none
-                                                @endif" action="{{ route('peoplo.peo.delete', $i->id) }}"
-                                                        method="POST">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <input name="_method" type="hidden" value="DELETE">
-                                                        <a href="#" class="btn btn-danger deletePeo"><i
-                                                                class="fas fa-trash"></i>
-
-                                                        </a>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-
-                                </table>
-
-
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
             </div>
 
@@ -186,10 +92,7 @@
 <script>
     $(document).ready(function () {
         $('#tablePeo').DataTable({
-            "lengthMenu": [
-                [3, 10, 20, -1],
-                [3, 10, 20, "All"]
-            ]
+            'autoWidth': false,
         });
 
         $('#tablePeo').on('click', '.editPeo', function () {

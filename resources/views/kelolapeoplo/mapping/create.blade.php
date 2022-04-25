@@ -26,8 +26,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                {{ session()->forget('message') }}
-                {{ session()->forget('alert-class') }}
                 @endif
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-6">
@@ -36,14 +34,19 @@
                                 <h4>Daftar PLO</h4>
                             </div>
                             <div class="card-body">
-                                <table class="table table-striped table-responsive" id="table">
+                                <table class="table table-striped table-responsive" id="tableMapCreate" width="100%">
                                     <thead>
                                         <tr>
                                             <th>
-                                                Kode PLO
-
+                                                <div style="min-width:100px;">
+                                                    Kode PLO
+                                                </div>
                                             </th>
-                                            <th>Deskripsi PLO</th>
+                                            <th>
+                                                <div style="min-width:280px;">
+                                                    Deskripsi PLO
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -128,6 +131,10 @@
 <script>
     $(document).ready(function () {
 
+        $('#tableMapCreate').DataTable({
+            'autoWidth': false,
+
+        });
         var datamk = [];
 
         $('.drag').draggable({
