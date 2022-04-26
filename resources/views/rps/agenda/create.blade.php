@@ -2,14 +2,6 @@
 @section('rps', 'active')
 @section('agenda', 'active')
 @section('content')
-<style>
-    .ui-menu .ui-menu-item a {
-        background: red;
-        height: 10px;
-        font-size: 8px;
-    }
-
-</style>
 <div class="main-wrapper container">
     @include('layouts.navbar')
     <div class="main-content">
@@ -142,6 +134,7 @@
 
 @endsection
 @push('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 <script>
     var tableLlo = $('#tableLlo').DataTable({
         "lengthMenu": [
@@ -475,9 +468,22 @@
         }
     });
 
+    var path = "{{ route('create.getLlo') }}";
+    $('#kode_llo').typeahead({
+        source: function (query, process) {
+            return $.get(path, {
+                term: query,
+                rps_id: "{{ $rps->id }}"
+            }, function (data) {
+                return process(data);
+            });
+        }
+    });
+
+
     $(document).ready(function () {
 
-        var llo = [];
+
         $('.sn-capai').summernote({
             toolbar: [],
 
@@ -1062,9 +1068,7 @@
 
         });
 
-        $('#kode_llo').autocomplete({
-            source: llo
-        })
+
     })
 
 </script>

@@ -25,11 +25,6 @@ class PeoPloController extends Controller
         if($user->role == 'kaprodi'){
 
             $chkrole = Prodi::where('mngr_id', $user->nik)->first();
-            $iteration = Peo::latest()->select('kode_peo')->where('fakul_id', $chkrole->id)->pluck('kode_peo')->first();
-
-            $num = substr($iteration, -2, 2);
-            $num++;
-            $ite_padded = sprintf("%02d", $num);
 
             $peo = Peo::where('fakul_id', $chkrole->id)->with('plos')->get();
 

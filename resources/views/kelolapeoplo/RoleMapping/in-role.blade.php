@@ -47,7 +47,7 @@
                         </thead>
                         <tbody>
                             @foreach ($peo as $peos)
-                            @foreach ($peos->plos as $plo)
+                            @if ($peos->plos)
 
                             <tr>
 
@@ -78,7 +78,7 @@
                                 </td>
 
                             </tr>
-                            @endforeach
+                            @endif
                             @endforeach
 
                         </tbody>

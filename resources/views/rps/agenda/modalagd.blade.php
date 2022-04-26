@@ -12,7 +12,7 @@
                     <div class="section-title mt-0">Sub CLO (LLO) dan Penilaian</div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="form-group ui-menu ui-menu-item">
+                            <div class="form-group">
                                 <label>Kode CLO</label>
                                 <select class="form-control @error('clo_id') is-invalid @enderror select2" name="clo_id"
                                     id="clo_id" required>
@@ -30,15 +30,17 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+
                                 <label>Kode LLO</label>
-                                <input type="text" maxlength="6" autocomplete="off" name="kode_llo" id="kode_llo"
-                                    class="form-control @error('kode_llo') is-invalid @enderror" placeholder="cth: LLO1"
-                                    required>
+                                <input type="text" maxlength="6" name="kode_llo" id="kode_llo"
+                                    class="form-control @error('kode_llo') is-invalid @enderror typeahead"
+                                    placeholder="cth: LLO1" required>
                                 @error('kode_llo')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
+
                             </div>
                             <div class="form-group">
                                 <label>Deskripsi LLO</label>

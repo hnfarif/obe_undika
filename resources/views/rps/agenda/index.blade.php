@@ -18,7 +18,7 @@
                     </button>
                 </div>
                 @endif
-                @if (!$rps->is_done)
+
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-12 p-0 mb-2 d-flex">
                         <a href="{{ route('agenda.create', $rps->id) }}" type="button"
@@ -27,7 +27,7 @@
                             Pembelajaran</a>
                     </div>
                 </div>
-                @endif
+
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-12 p-0 d-flex">
 
@@ -218,7 +218,7 @@
                                                 {{ $i->praktikum }}
                                             </td>
                                             <td class="d-flex">
-                                                @if (!$rps->is_done)
+
                                                 <button id="btnEditAgd" data-toggle="modal" data-target="#editAgenda"
                                                     data-id="{{ $i->id }}"
                                                     class="btn btn-light mr-1 my-auto btnEditAgd"><i
@@ -235,7 +235,7 @@
                                                             class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
-                                                @endif
+
                                             </td>
                                         </tr>
 

@@ -78,7 +78,7 @@ class AgendaController extends Controller
                 $pbm = '';
 
                 if (isset($data['pbm'])) {
-                    foreach ($data['pbm'][0] as $key => $value) {
+                    foreach ($data['pbm'] as $key => $value) {
                         $pbm .= '- '.$value['desPbm']. '<br>';
                     }
                 }
@@ -94,26 +94,26 @@ class AgendaController extends Controller
 
                 if (isset($data['materi'])) {
 
-                    foreach ($data['materi'][0] as $key => $value) {
+                    foreach ($data['materi'] as $key => $value) {
                         $materi .= '- '.$value['materi'].'<br>';
                     }
                 }
                 if (isset($data['kajian'])) {
 
-                    foreach ($data['kajian'][0] as $key => $value) {
+                    foreach ($data['kajian'] as $key => $value) {
                         $kajian .= '- '.$value['kajian'].'<br>';
                     }
                 }
 
                 if (isset($data['pustaka'])) {
 
-                    foreach ($data['pustaka'][0] as $key => $value) {
+                    foreach ($data['pustaka'] as $key => $value) {
                         $pustaka .= '- '.$value['judul'].', '.$value['bab'].', hal.'.$value['halaman'].'<br>';
                     }
                 }
 
                 if (isset($data['media'])) {
-                    foreach ($data['media'][0] as $key => $value) {
+                    foreach ($data['media'] as $key => $value) {
                         $media .= '- '.$value['media'].'<br>';
                     }
                 }
@@ -128,7 +128,7 @@ class AgendaController extends Controller
                 $metode = '';
 
                 if (isset($data['metode'])) {
-                    foreach ($data['metode'][0] as $key => $value) {
+                    foreach ($data['metode'] as $key => $value) {
                         $metode .= '- '.$value['metode'].'<br>';
                     }
                 }
@@ -246,7 +246,7 @@ class AgendaController extends Controller
                 $dtlAgenda->save();
 
                 if(isset($value['pustaka'])){
-                    foreach ($value['pustaka'][0] as $valPus) {
+                    foreach ($value['pustaka'] as $valPus) {
                         $materi = new MateriKuliah;
                         $materi->dtl_agd_id = $dtlAgenda->id;
                         $materi->jdl_ptk = $valPus['judul'];
@@ -258,7 +258,7 @@ class AgendaController extends Controller
                 }
 
                 if(isset($value['media'])){
-                    foreach ($value['media'][0] as $valMedia) {
+                    foreach ($value['media'] as $valMedia) {
                         $materi = new MateriKuliah;
                         $materi->dtl_agd_id = $dtlAgenda->id;
                         $materi->media_bljr = $valMedia['media'];
@@ -268,7 +268,7 @@ class AgendaController extends Controller
                 }
 
                 if(isset($value['metode'])){
-                    foreach ($value['metode'][0] as $valMetode) {
+                    foreach ($value['metode'] as $valMetode) {
                         $materi = new MateriKuliah;
                         $materi->dtl_agd_id = $dtlAgenda->id;
                         $materi->mtd_bljr = $valMetode['metode'];
@@ -278,7 +278,7 @@ class AgendaController extends Controller
                 }
 
                 if(isset($value['pbm'])){
-                    foreach ($value['pbm'][0] as $valPbm) {
+                    foreach ($value['pbm'] as $valPbm) {
                         $materi = new MateriKuliah;
                         $materi->dtl_agd_id = $dtlAgenda->id;
                         $materi->deskripsi_pbm = $valPbm['desPbm'];
@@ -288,7 +288,7 @@ class AgendaController extends Controller
                 }
 
                 if(isset($value['materi'])){
-                    foreach ($value['materi'][0] as $valMateri) {
+                    foreach ($value['materi'] as $valMateri) {
                         $materi = new MateriKuliah;
                         $materi->dtl_agd_id = $dtlAgenda->id;
                         $materi->materi = $valMateri['materi'];
@@ -298,7 +298,7 @@ class AgendaController extends Controller
                 }
 
                 if(isset($value['kajian'])){
-                    foreach ($value['kajian'][0] as $valKajian) {
+                    foreach ($value['kajian'] as $valKajian) {
                         $materi = new MateriKuliah;
                         $materi->dtl_agd_id = $dtlAgenda->id;
                         $materi->kajian = $valKajian['kajian'];
@@ -551,7 +551,7 @@ class AgendaController extends Controller
 
 
 
-        // dd($totalBtk);
+        // dd($request->all());
         $listLlo = [];
 
         if ($validatedData->passes()) {
@@ -569,43 +569,32 @@ class AgendaController extends Controller
                         $dataLlo = session('listLlo-'.$request->rps_id);
 
                         foreach ($dataLlo as $item) {
-                            if(!($item['clo_id'] == $request->clo_id && $item['kode_llo'] == $request->kode_llo)){
-                                array_push($listLlo, $item);
+
+                            array_push($listLlo, $item);
+
+                        }
+
+                        foreach ($request->status as $sts) {
+                            if(session()->has('list'.$sts.'-'.$request->rps_id)){
+                                $dataMateri = session('list'.$sts.'-'.$request->rps_id);
+                                $request->request->add([$sts => $dataMateri]);
+
                             }
+
                         }
                         array_push($listLlo, $request->all());
-                        foreach($listLlo as $key => $i){
-                            if ($i['clo_id'] == $request->clo_id && $i['kode_llo'] == $request->kode_llo) {
-                                foreach ($request->status as $sts) {
-                                    if(session()->has('list'.$sts.'-'.$request->rps_id)){
-                                        $dataMateri = session('list'.$sts.'-'.$request->rps_id);
-                                        $listLlo[$key][$sts] = [];
-                                        array_push($listLlo[$key][$sts], $dataMateri);
-
-                                    }
-
-                                }
-                            }
-
-                        }
 
                     }else{
-                        array_push($listLlo, $request->all());
-                        foreach($listLlo as $key => $i){
-                            if ($i['clo_id'] == $request->clo_id && $i['kode_llo'] == $request->kode_llo) {
-                                foreach ($request->status as $sts) {
-                                    if(session()->has('list'.$sts.'-'.$request->rps_id)){
 
-                                        $dataMateri = session('list'.$sts.'-'.$request->rps_id);
-                                        $listLlo[$key][$sts] = [];
-                                        array_push($listLlo[$key][$sts], $dataMateri);
+                        foreach ($request->status as $sts) {
+                            if(session()->has('list'.$sts.'-'.$request->rps_id)){
+                                $dataMateri = session('list'.$sts.'-'.$request->rps_id);
+                                $request->request->add([$sts => $dataMateri]);
 
-                                    }
-
-                                }
                             }
 
                         }
+                        array_push($listLlo, $request->all());
 
                     }
 
@@ -1089,5 +1078,15 @@ class AgendaController extends Controller
         return response()->json(['success' => 'Data berhasil Dihapus']);
 
     }
+
+    public function getLlo(Request $request){
+
+        $llo = Llo::select('kode_llo')->where("kode_llo","LIKE", "%{$request->term}%")->where('rps_id', $request->rps_id)->pluck('kode_llo');
+
+        return $llo;
+
+    }
+
+
 
 }

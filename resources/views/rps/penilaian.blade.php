@@ -22,7 +22,7 @@
                 </div>
                 @endif
                 <div class="row">
-                    @if (!$rps->is_done)
+
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card">
                             <div class="card-header">
@@ -61,7 +61,7 @@
                         </div>
 
                     </div>
-                    @endif
+
                     <div class="col-12 col-md-6 col-lg-8">
                         <div class="card">
                             <div class="card-header">
@@ -102,7 +102,7 @@
                                                 {{ $i->jenis }}
                                             </td>
                                             <td>
-                                                @if (!$rps->is_done)
+
                                                 <div class="d-flex my-auto">
 
                                                     <a href="#" class="btn btn-light mr-2 editPenilaian"
@@ -122,7 +122,7 @@
                                                         </button>
                                                     </form>
                                                 </div>
-                                                @endif
+
                                             </td>
 
                                         </tr>

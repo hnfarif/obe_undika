@@ -23,12 +23,17 @@
                 @endif
                 <div class="d-flex my-0">
                     <h2 class="section-title">Waktu Belajar Mahasiswa</h2>
-                    @if (!$rps->is_done)
+
                     <div class="mt-3 ml-auto">
+                        @if ($rps->is_done)
+                        <button type="button" disabled class="btn btn-success ml-3 align-self-center saveRps"><i
+                                class="fas fa-check"></i> File RPS sudah diupload </button>
+                        @else
                         <button type="button" class="btn btn-primary ml-3 align-self-center saveRps"><i
                                 class="fas fa-file-upload"></i> Simpan RPS </button>
+                        @endif
                     </div>
-                    @endif
+
                 </div>
                 {{-- <p class="section-lead">Masukkan, ubah data PEO </p> --}}
 
@@ -258,65 +263,65 @@
                                 <h4>Tabel Penilaian</h4>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
 
-                                            <tr class="text-center">
-                                                <th rowspan="2">ID CLO</th>
-                                                <th colspan="@foreach ($dataRps as $i)
+                                <table class="table table-striped table-bordered table-responsive">
+                                    <thead>
+
+                                        <tr class="text-center">
+                                            <th rowspan="2">ID CLO</th>
+                                            <th colspan="@foreach ($dataRps as $i)
                                         {{ $i->penilaians->count() }}
                                         @endforeach">Bobot per bentuk penilaian (%)</th>
-                                                <th rowspan="2">Total Bobot per CLO (%)</th>
-                                                <th rowspan="2">Target Kelulusan (% Mhs) </th>
+                                            <th rowspan="2">Total Bobot per CLO (%)</th>
+                                            <th rowspan="2">Target Kelulusan (% Mhs) </th>
 
-                                            </tr>
+                                        </tr>
 
-                                            <tr class="text-center">
-                                                @foreach ($dataRps as $i)
-                                                @foreach ($i->penilaians as $p)
-                                                <th>{{ $p->btk_penilaian }}</th>
-                                                @endforeach
-                                                @endforeach
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            @foreach ($dataRps as $i)
-                                            @foreach ($i->clos as $c)
-                                            <tr class="text-center">
-                                                <td>
-                                                    {{ $c->kode_clo }}
-                                                </td>
-                                                @foreach ($i->penilaians as $p)
-                                                <td>
-                                                    {{ $c->detailAgendas->where('penilaian_id', $p->id)->sum('bobot') }}
-                                                </td>
-                                                @endforeach
-                                                <td>
-                                                    {{ $c->getBobotClo($c->id,$i->penilaians) }}
-                                                </td>
-                                                <td>
-                                                    {{ $c->tgt_lulus.' % (nilai minimal '.$c->nilai_min.')' }}
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                            @endforeach
-                                        </tbody>
-                                        <tfoot class="text-center">
-                                            <th>Total per Penilaian</th>
+                                        <tr class="text-center">
                                             @foreach ($dataRps as $i)
                                             @foreach ($i->penilaians as $p)
-                                            <th>{{ $p->getBobotPen($p->id, $i->clos) }}</th>
+                                            <th>{{ $p->btk_penilaian }}</th>
                                             @endforeach
                                             @endforeach
-                                            @foreach ($dataRps as $i)
-                                            <th>{{ $i->getAllTotal($i->penilaians, $i->clos) }}</th>
-                                            @endforeach
-                                        </tfoot>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                    </table>
-                                </div>
+                                        @foreach ($dataRps as $i)
+                                        @foreach ($i->clos as $c)
+                                        <tr class="text-center">
+                                            <td>
+                                                {{ $c->kode_clo }}
+                                            </td>
+                                            @foreach ($i->penilaians as $p)
+                                            <td>
+                                                {{ $c->detailAgendas->where('penilaian_id', $p->id)->sum('bobot') }}
+                                            </td>
+                                            @endforeach
+                                            <td>
+                                                {{ $c->getBobotClo($c->id,$i->penilaians) }}
+                                            </td>
+                                            <td>
+                                                {{ $c->tgt_lulus.' % (nilai minimal '.$c->nilai_min.')' }}
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot class="text-center">
+                                        <th>Total per Penilaian</th>
+                                        @foreach ($dataRps as $i)
+                                        @foreach ($i->penilaians as $p)
+                                        <th>{{ $p->getBobotPen($p->id, $i->clos) }}</th>
+                                        @endforeach
+                                        @endforeach
+                                        @foreach ($dataRps as $i)
+                                        <th>{{ $i->getAllTotal($i->penilaians, $i->clos) }}</th>
+                                        @endforeach
+                                    </tfoot>
+
+                                </table>
+
                             </div>
                         </div>
 

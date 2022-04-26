@@ -72,7 +72,7 @@
                                 </a>
                                 <form class="@if($i->kode_plo !== $iteration)
                             d-none
-                            @elseif($i->peos->count() > 0)
+                            @elseif($i->peos->count() > 0 || $i->clos->count() > 0)
                             d-none
                             @endif" action="{{ route('peoplo.plo.delete', $i->id) }}" method="POST">
                                     @method('DELETE')
