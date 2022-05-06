@@ -177,28 +177,23 @@
                                                     <div class="row">
                                                         <div class="col-12 d-flex">
                                                             <button
-                                                                class="btn btn-outline-secondary btn-sm text-sm ml-auto"><i
-                                                                    class="fas fa-trash"></i> all
+                                                                class="btn btn-outline-secondary btn-sm text-sm ml-auto delAll"
+                                                                data-status="kajian"><i class="fas fa-trash"></i> all
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <table class="table table-striped table-responsive"
-                                                                id="tableKajian" width="100%">
-                                                                <thead>
-                                                                    <th>
-                                                                    </th>
-                                                                    <th></th>
-                                                                </thead>
-                                                                <tbody>
 
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
+                                                    <table class="table table-striped table-responsive" id="tableKajian"
+                                                        width="100%">
+                                                        <thead>
+                                                            <th>
+                                                            </th>
+                                                            <th></th>
+                                                        </thead>
+                                                        <tbody>
 
-                                                    </div>
-
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                             <div class="accordion">
@@ -208,6 +203,15 @@
                                                 </div>
                                                 <div class="accordion-body collapse" id="materi"
                                                     data-parent="#accordion">
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex">
+                                                            <button
+                                                                class="btn btn-outline-secondary btn-sm text-sm ml-auto delAll"
+                                                                data-status="materi"><i class="fas fa-trash"></i> all
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
                                                     <table class="table table-striped table-responsive" id="tableMateri"
                                                         width="100%">
                                                         <thead>
@@ -229,6 +233,16 @@
                                                 </div>
                                                 <div class="accordion-body collapse" id="pustaka"
                                                     data-parent="#accordion">
+
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex">
+                                                            <button
+                                                                class="btn btn-outline-secondary btn-sm text-sm ml-auto delAll"
+                                                                data-status="pustaka"><i class="fas fa-trash"></i> all
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
                                                     <table class="table table-striped table-responsive"
                                                         id="tablePustaka" width="100%">
                                                         <thead>
@@ -251,6 +265,14 @@
                                                 </div>
                                                 <div class="accordion-body collapse" id="media"
                                                     data-parent="#accordion">
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex">
+                                                            <button
+                                                                class="btn btn-outline-secondary btn-sm text-sm ml-auto delAll"
+                                                                data-status="media"><i class="fas fa-trash"></i> all
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                     <table class="table table-striped table-responsive" id="tableMedia"
                                                         width="100%">
                                                         <thead>
@@ -271,6 +293,14 @@
                                                 </div>
                                                 <div class="accordion-body collapse" id="metode"
                                                     data-parent="#accordion">
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex">
+                                                            <button
+                                                                class="btn btn-outline-secondary btn-sm text-sm ml-auto delAll"
+                                                                data-status="metode"><i class="fas fa-trash"></i> all
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                     <table class="table table-striped table-responsive" id="tableMetode"
                                                         width="100%">
                                                         <thead>
@@ -290,6 +320,14 @@
                                                     <h4>Pengalaman Belajar Mahasiswa</h4>
                                                 </div>
                                                 <div class="accordion-body collapse" id="pbm" data-parent="#accordion">
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex">
+                                                            <button
+                                                                class="btn btn-outline-secondary btn-sm text-sm ml-auto delAll"
+                                                                data-status="pbm"><i class="fas fa-trash"></i> all
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                     <table class="table table-striped table-responsive" id="tablePbm"
                                                         width="100%">
                                                         <thead>

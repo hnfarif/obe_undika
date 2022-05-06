@@ -98,6 +98,7 @@ Route::prefix('rps')->middleware('ensureUserRole:bagian,dosen,dosenBagian')->gro
     Route::get('/addmateri', [AgendaController::class, 'addMateri'])->name('materi.add');
     Route::get('/removeMateri', [AgendaController::class, 'removeMateri'])->name('materi.remove');
     Route::get('/agenda/materi/delete', [AgendaController::class, 'deleteMateri'])->name('materi.session.delete');
+    Route::get('/agenda/materi/deleteall', [AgendaController::class, 'delAllMateri'])->name('materi.session.deleteall');
     Route::get('/getsks', [AgendaController::class, 'getSks'])->name('kuliah.getSks');
     Route::get('/getLlo', [AgendaController::class, 'getLlo'])->name('create.getLlo');
 

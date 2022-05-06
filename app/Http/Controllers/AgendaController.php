@@ -806,9 +806,16 @@ class AgendaController extends Controller
         return response()->json(['error' => $validatedData->errors()->all()]);
     }
 
+    public function delAllMateri(Request $request)
+    {
+        session()->forget('list'.$request->status.'-'.$request->rps_id);
+
+        return response()->json(['success' => 'Data berhasil Dihapus']);
+    }
     public function deleteMateri(Request $request)
     {
         $listMateri = session('list'.$request->status.'-'.$request->rps_id);
+
 
         if($request->status == 'pustaka'){
             foreach ($listMateri as $key => $item) {
@@ -825,7 +832,7 @@ class AgendaController extends Controller
         }else if($request->status == 'materi'){
             foreach ($listMateri as $key => $item) {
                 if($item['materi'] == $request->materi){
-                    unset($listMateri[$key]);
+                     unset($listMateri[$key]);
                 }
             }
         }else if($request->status == 'kajian'){
@@ -847,6 +854,7 @@ class AgendaController extends Controller
                 }
             }
         }
+
 
         session(['list'.$request->status.'-'.$request->rps_id => $listMateri]);
         return response()->json(['success' => 'Data berhasil Dihapus']);
