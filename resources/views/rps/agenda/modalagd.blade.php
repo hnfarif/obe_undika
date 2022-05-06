@@ -171,19 +171,33 @@
                                                     data-target="#kajian" aria-controls="kajian" id="accKajian">
                                                     <h4>Bahan Kajian</h4>
                                                 </div>
+
                                                 <div class="accordion-body collapse" id="kajian"
                                                     data-parent="#accordion">
-                                                    <table class="table table-striped table-responsive" id="tableKajian"
-                                                        width="100%">
-                                                        <thead>
-                                                            <th>
-                                                            </th>
-                                                            <th></th>
-                                                        </thead>
-                                                        <tbody>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex">
+                                                            <button
+                                                                class="btn btn-outline-secondary btn-sm text-sm ml-auto"><i
+                                                                    class="fas fa-trash"></i> all
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <table class="table table-striped table-responsive"
+                                                                id="tableKajian" width="100%">
+                                                                <thead>
+                                                                    <th>
+                                                                    </th>
+                                                                    <th></th>
+                                                                </thead>
+                                                                <tbody>
 
-                                                        </tbody>
-                                                    </table>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
 
                                                 </div>
                                             </div>

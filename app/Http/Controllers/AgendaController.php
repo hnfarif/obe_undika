@@ -846,12 +846,6 @@ class AgendaController extends Controller
                     unset($listMateri[$key]);
                 }
             }
-        }else if($request->status == 'pbm'){
-            foreach ($listMateri as $key => $item) {
-                if($item['desPbm'] == $request->desPbm){
-                    unset($listMateri[$key]);
-                }
-            }
         }
 
         session(['list'.$request->status.'-'.$request->rps_id => $listMateri]);
@@ -865,43 +859,11 @@ class AgendaController extends Controller
             $listMateri = [];
         }
 
-        if($request->status == 'materi'){
-
-            return DataTables::of($listMateri)
-            ->addColumn('aksi', function ($data) {
-            return '<button class="btn btn-danger delMateri" data-materi="'.$data['materi'].'"><i class="fas fa-trash"></i></button>';
-            })->rawColumns(['aksi'])
-            ->make(true);
-
-        }else if($request->status == 'kajian'){
-
-            return DataTables::of($listMateri)
-            ->addColumn('aksi', function ($data) {
-            return '<button class="btn btn-danger delKajian" data-kajian="'.$data['kajian'].'"><i class="fas fa-trash"></i></button>';
-            })->rawColumns(['aksi'])
-            ->make(true);
-
-        }else if($request->status == 'pustaka'){
+        if($request->status == 'pustaka'){
 
             return DataTables::of($listMateri)
             ->addColumn('aksi', function ($data) {
             return '<button class="btn btn-danger delPustaka" data-pustaka="'.$data['id'].'"><i class="fas fa-trash"></i></button>';
-            })->rawColumns(['aksi'])
-            ->make(true);
-
-        }else if($request->status == 'media'){
-
-            return DataTables::of($listMateri)
-            ->addColumn('aksi', function ($data) {
-            return '<button class="btn btn-danger delMedia" data-media="'.$data['media'].'"><i class="fas fa-trash"></i></button>';
-            })->rawColumns(['aksi'])
-            ->make(true);
-
-        }else if($request->status == 'metode'){
-
-            return DataTables::of($listMateri)
-            ->addColumn('aksi', function ($data) {
-            return '<button class="btn btn-danger delMetode" data-metode="'.$data['metode'].'"><i class="fas fa-trash"></i></button>';
             })->rawColumns(['aksi'])
             ->make(true);
 
@@ -918,69 +880,25 @@ class AgendaController extends Controller
 
         }
 
-
+        return DataTables::of($listMateri)
+        ->addColumn('aksi', function ($data) use ($request) {
+        return '<button class="btn btn-danger del'.$request->status.'" data-'.$request->status.'="'.$data[$request->status].'"><i class="fas fa-trash"></i></button>';
+        })->rawColumns(['aksi'])
+        ->make(true);
 
     }
 
     public function getMateriEdit(Request $request, $rps)
     {
 
-        if($request->status == 'kajian'){
-            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
+        $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
 
-            return DataTables::of($dataMateri)
-            ->addColumn('aksi', function ($data) {
-            return '<button class="btn btn-danger delKajian" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
-            })->rawColumns(['aksi'])
-            ->make(true);
+        return DataTables::of($dataMateri)
+        ->addColumn('aksi', function ($data) use ($request) {
+        return '<button class="btn btn-danger del'.$request->status.'" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
+        })->rawColumns(['aksi'])
+        ->make(true);
 
-        }else if($request->status == 'materi'){
-            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
-
-            return DataTables::of($dataMateri)
-            ->addColumn('aksi', function ($data) {
-            return '<button class="btn btn-danger delMateri" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
-            })->rawColumns(['aksi'])
-            ->make(true);
-
-        }else if($request->status == 'pustaka'){
-            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
-
-            return DataTables::of($dataMateri)
-            ->addColumn('aksi', function ($data) {
-            return '<button class="btn btn-danger delPustaka" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
-            })->rawColumns(['aksi'])
-            ->make(true);
-
-        }else if($request->status == 'media'){
-            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
-
-            return DataTables::of($dataMateri)
-            ->addColumn('aksi', function ($data) {
-            return '<button class="btn btn-danger delMedia" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
-            })->rawColumns(['aksi'])
-            ->make(true);
-
-        }else if($request->status == 'metode'){
-            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
-
-            return DataTables::of($dataMateri)
-            ->addColumn('aksi', function ($data) {
-            return '<button class="btn btn-danger delMetode" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
-            })->rawColumns(['aksi'])
-            ->make(true);
-
-        }
-        else if($request->status == 'pbm'){
-            $dataMateri = MateriKuliah::where('dtl_agd_id', $request->detail_id)->where('status', $request->status)->get();
-
-            return DataTables::of($dataMateri)
-            ->addColumn('aksi', function ($data) {
-            return '<button class="btn btn-danger delPbm" data-'.$data->status.'="'.$data->id.'"><i class="fas fa-trash"></i></button>';
-            })->rawColumns(['aksi'])
-            ->make(true);
-
-        }
     }
 
     public function addMateri(Request $request)

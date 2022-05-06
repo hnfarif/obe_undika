@@ -338,7 +338,7 @@
 
         $('.btnUbah').click(function () {
             $('.form-control').removeAttr('readonly');
-            $('.form-control').removeAttr('disabled');
+            $('.descMk').removeAttr('disabled');
             $('.btnSimpan').removeClass('d-none')
             $('.btnBatal').removeClass('d-none')
             $('.btnUbah').addClass('d-none')

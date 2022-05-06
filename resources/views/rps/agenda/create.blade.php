@@ -807,7 +807,7 @@
             })
         })
 
-        $('#tableMateri').on('click', '.delMateri', function () {
+        $('#tableMateri').on('click', '.delmateri', function () {
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -847,7 +847,7 @@
             })
         })
 
-        $('#tableKajian').on('click', '.delKajian', function () {
+        $('#tableKajian').on('click', '.delkajian', function () {
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -927,7 +927,7 @@
             })
         })
 
-        $('#tableMedia').on('click', '.delMedia', function () {
+        $('#tableMedia').on('click', '.delmedia', function () {
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -967,7 +967,7 @@
             })
         })
 
-        $('#tableMetode').on('click', '.delMetode', function () {
+        $('#tableMetode').on('click', '.delmetode', function () {
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',

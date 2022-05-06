@@ -97,16 +97,16 @@
                                             <th rowspan="2" class="align-middle">Aksi</th>
                                         </tr>
                                         <tr>
-                                            <th>TM</th>
-                                            <th>SL</th>
+                                            <th>*TM</th>
+                                            <th>*SL</th>
                                             <th>
                                                 <div style="min-width: 50px;">
-                                                    ASL
+                                                    *ASL
                                                 </div>
                                             </th>
                                             <th>
                                                 <div style="min-width: 50px;">
-                                                    ASM
+                                                    *ASM
                                                 </div>
                                             </th>
                                         </tr>
@@ -247,6 +247,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+                <ul style="list-style-type:none">
+                    <li><b>*TM</b> = Tatap Muka</li>
+                    <li><b>*SL</b> = Synchronous Learning</li>
+                    <li><b>*ASL</b> = Asynchronous Learning</li>
+                    <li><b>*ASM</b> = Assessment</li>
+                </ul>
             </div>
         </section>
     </div>
@@ -839,7 +847,7 @@
         })
 
 
-        $('#tableKajian').on('click', '.delKajian', function () {
+        $('#tableKajian').on('click', '.delkajian', function () {
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -878,7 +886,7 @@
             })
         })
 
-        $('#tableMateri').on('click', '.delMateri', function () {
+        $('#tableMateri').on('click', '.delmateri', function () {
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -917,7 +925,7 @@
             })
         })
 
-        $('#tablePustaka').on('click', '.delPustaka', function () {
+        $('#tablePustaka').on('click', '.delpustaka', function () {
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -956,7 +964,7 @@
             })
         })
 
-        $('#tableMedia').on('click', '.delMedia', function () {
+        $('#tableMedia').on('click', '.delmedia', function () {
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -995,7 +1003,7 @@
             })
         })
 
-        $('#tableMetode').on('click', '.delMetode', function () {
+        $('#tableMetode').on('click', '.delmetode', function () {
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -1034,7 +1042,7 @@
             })
         })
 
-        $('#tablePbm').on('click', '.delPbm', function () {
+        $('#tablePbm').on('click', '.delpbm', function () {
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',

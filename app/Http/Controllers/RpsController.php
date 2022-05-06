@@ -144,19 +144,10 @@ class RpsController extends Controller
 
             $validation = $request->validate([
                 'deskripsi_mk' => 'required',
-                'prasyarat' => 'nullable',
             ]);
 
-            // $prasyarat = implode(' ', $request->prasyarat);
-
-            // $rps->deskripsi_mk = $request->deskripsi_mk;
-            // $rps->save();
-            // dd($rps);
             $updateRps = Rps::where('id', $rps->id)
                 ->update(['deskripsi_mk' => $request->deskripsi_mk]);
-
-            // $updateMk = MataKuliah::where('id', $rps->kurlkl_id)
-            //     ->update(['prasyarat' => $prasyarat]);
 
             if ($updateRps) {
                 Session::flash('message','Data berhasil diubah.');
