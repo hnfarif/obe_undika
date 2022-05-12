@@ -308,7 +308,15 @@
 
                     $('#responsi').val('');
                     $('#belajarMandiri').val('');
-                    $('#prak').val(data.mata_kuliah.sks * 60);
+                    $('#tm').val('');
+                    $('#sl').val('');
+                    $('#asl').val('');
+                    $('#asm').val('');
+                    $('#tm').attr('readonly', 'readonly');
+                    $('#sl').attr('readonly', 'readonly');
+                    $('#asl').attr('readonly', 'readonly');
+                    $('#asm').attr('readonly', 'readonly');
+                    $('#prak').removeAttr('readonly');
                 }
 
             })
@@ -325,22 +333,14 @@
                     $('#responsi').attr('readonly', 'readonly');
                     $('#belajarMandiri').attr('readonly', 'readonly');
                     $('#prak').attr('readonly', 'readonly');
+                    $('#tm').removeAttr('readonly');
+                    $('#sl').removeAttr('readonly');
+                    $('#asl').removeAttr('readonly');
+                    $('#asm').removeAttr('readonly');
                     $('#prak').val('');
                 }
 
             })
-        }
-    });
-
-    var path = "{{ route('create.getLlo') }}";
-    $('#kode_llo').typeahead({
-        source: function (query, process) {
-            return $.get(path, {
-                term: query,
-                rps_id: "{{ $rps->id }}"
-            }, function (data) {
-                return process(data);
-            });
         }
     });
 
@@ -546,6 +546,12 @@
         })
 
         $('#addLlo').click(function () {
+            var llo = '';
+            if ($('#kode_llo_opt').val()) {
+                llo = $('#kode_llo_opt').val();
+            } else if ($('#kode_llo').val()) {
+                llo = $('#kode_llo').val();
+            }
 
             $.ajax({
                 url: "{{ route('llo.session.store') }}",
@@ -555,12 +561,13 @@
                     '_token': "{{ csrf_token() }}",
                     'rps_id': "{{ $rps->id }}",
                     'clo_id': $('#clo_id').val(),
-                    'kode_llo': $('#kode_llo').val().toUpperCase(),
+                    'kode_llo': llo.toUpperCase(),
                     'des_llo': $('#des_llo').val(),
                     'capai_llo': $('#capai_llo').val(),
                     'btk_penilaian': $('#btk_penilaian').val(),
                     'bbt_penilaian': $('#bbt_penilaian').val(),
                     'des_penilaian': $('#des_penilaian').val(),
+                    'isPrak': $('input[type=radio][name=praktikum]:checked').val(),
                     'tm': $('#tm').val(),
                     'sl': $('#sl').val(),
                     'asl': $('#asl').val(),
@@ -595,22 +602,42 @@
                         $('#formAgenda').modal('hide');
                         tableLlo.ajax.reload();
                     } else {
+                        $(".invalid-feedback").attr('hidden', 'hidden');
+                        $(".form-control + span").removeClass('is-invalid');
+                        $(".form-control").removeClass('is-invalid');
                         if (data.error) {
 
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops, Terdapat Data yang error!',
+                                text: "Mohon perbaiki data Anda!",
+                            })
+
+                            console.log(data.error);
                             data.error.forEach(element => {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops, Terdapat Data yang kosong!',
-                                    text: element,
-                                })
+                                var mySubString = element.substring(
+                                    element.indexOf("The ") + 4,
+                                    element.lastIndexOf(" field"),
+
+                                );
+                                var key = mySubString.split(' ').join('_')
+
+                                $("#" + key + " + span").addClass('is-invalid');
+                                $("#" + key + "_opt + span").addClass('is-invalid');
+                                $("#" + key).addClass('is-invalid');
+                                $(".inv" + key).removeAttr('hidden');
+                                $(".inv" + key).text(element);
                             });
+
+
+
                         } else if (data.errBbt) {
 
                             Array.from(data.errBbt).forEach(element => {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Oops, ada kesalahan!',
-                                    text: 'Maaf data yang anda masukkan dijumlahkan melebihi 100%, Harap perbaiki data anda',
+                                    text: 'Maaf data bobot penilaian yang anda masukkan dijumlahkan melebihi 100%, Harap perbaiki data anda',
                                 })
                             });
                         } else if (data.errMnt) {
@@ -945,7 +972,7 @@
         $('#formAgenda').on('hidden.bs.modal', function (e) {
             $(this)
                 .find(
-                    "#kode_llo,#bbt_penilaian,#inKajian,#inMateri,#judul,#bab,#halaman,#mediaPembelajaran,#metodePem,#tm,#sl,#asl,#asm,textarea,select"
+                    "#kode_llo,#kode_llo_opt,#bbt_penilaian,#inKajian,#inMateri,#judul,#bab,#halaman,#mediaPembelajaran,#metodePem,#tm,#sl,#asl,#asm,textarea,select"
                 )
                 .val('')
                 .end()
@@ -965,6 +992,39 @@
         });
 
 
+
+        $("#addNewLlo").on('click', function () {
+            $('#inNewLlo').removeAttr('hidden');
+            $('#sltLlo').attr('hidden', 'hidden');
+            $('#kode_llo_opt').val('default').change();
+            $('#des_llo').val('');
+
+        })
+
+        $("#cancelAddNewLlo").on('click', function () {
+            $('#inNewLlo').attr('hidden', 'hidden');
+            $('#sltLlo').removeAttr('hidden');
+            $('#kode_llo').val('');
+
+        })
+
+        $("#kode_llo_opt").on('change', function () {
+            var kode_llo = $(this).val();
+
+            $.ajax({
+                url: "{{ route('create.getLlo') }}",
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'rps_id': "{{ $rps->id }}",
+                    'kode_llo': kode_llo,
+                },
+                success: function (data) {
+                    $("#des_llo").val(data)
+                }
+            })
+        });
     })
 
 </script>

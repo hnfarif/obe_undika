@@ -2,6 +2,18 @@
 @section('rps', 'active')
 @section('agenda', 'active')
 @section('content')
+<style>
+    .input-group .select2-container {
+        width: 92% !important;
+        padding: 0;
+    }
+
+    .is-invalid .select2-selection,
+    .needs-validation~span>.select2-dropdown {
+        border-color: red !important;
+    }
+
+</style>
 <div class="main-wrapper container">
     @include('layouts.navbar')
     <div class="main-content">

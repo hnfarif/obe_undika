@@ -50,6 +50,7 @@ class AgendaController extends Controller
         $penilaian = Penilaian::where('rps_id', $rps->id)->orderBy('id','asc')->get();
 
         $clo = Clo::where('rps_id', $rps->id)->orderBy('id','asc')->get();
+        $llo = Llo::where('rps_id', $rps->id)->orderBy('id','asc')->get();
         // session()->forget('listLlo');
         // session()->flush();
         $listLlo = session('listLlo-'.$rps->id);
@@ -141,7 +142,7 @@ class AgendaController extends Controller
             })->rawColumns(['capai_llo','btk_penilaian','pbm','materi','metode','aksi'])
             ->make(true);
         }
-        return view('rps.agenda.create', compact('rps','clo', 'listLlo', 'penilaian'));
+        return view('rps.agenda.create', compact('rps','clo','llo', 'listLlo', 'penilaian'));
     }
 
     /**
@@ -511,47 +512,26 @@ class AgendaController extends Controller
 
     public function listLlo(Request $request)
     {
-        if ($request->btk_penilaian || $request->bbt_penilaian || $request->des_penilaian) {
-            $validatedData =  Validator::make($request->all(), [
-                'clo_id' => 'required',
-                'kode_llo' => 'required|regex:/^LLO\d/',
-                'des_llo' => 'required',
-                'capai_llo' => 'required',
-                'btk_penilaian' => 'required',
-                'bbt_penilaian' => 'required',
-                'des_penilaian' => 'required',
-                'tm' => 'nullable',
-                'sl' => 'nullable',
-                'asl' => 'nullable',
-                'asm' => 'nullable',
-                'responsi' => 'nullable',
-                'belajarMandiri' => 'nullable',
-                'prak' => 'nullable',
-
-            ]);
-        }else{
-            $validatedData =  Validator::make($request->all(), [
-                'clo_id' => 'required',
-                'kode_llo' => 'required|regex:/^LLO\d/',
-                'des_llo' => 'required',
-                'capai_llo' => 'required',
-                'btk_penilaian' => 'nullable',
-                'bbt_penilaian' => 'nullable',
-                'des_penilaian' => 'nullable',
-                'tm' => 'nullable',
-                'sl' => 'nullable',
-                'asl' => 'nullable',
-                'asm' => 'nullable',
-                'responsi' => 'nullable',
-                'belajarMandiri' => 'nullable',
-                'prak' => 'nullable',
-
-            ]);
-        }
-
-
-
         // dd($request->all());
+        $validatedData =  Validator::make($request->all(), [
+            'clo_id' => 'required',
+            'kode_llo' => 'required|regex:/^LLO\d/',
+            'des_llo' => 'required',
+            'capai_llo' => 'required',
+            'btk_penilaian' => 'required_with:bbt_penilaian,des_penilaian',
+            'bbt_penilaian' => 'required_with:btk_penilaian',
+            'des_penilaian' => 'required_with:btk_penilaian',
+            'tm' => 'required_without_all:sl,asl,asm,prak',
+            'sl' => 'required_without_all:tm,asl,asm,prak',
+            'asl' => 'required_without_all:tm,sl,asm,prak',
+            'asm' => 'required_without_all:tm,sl,asl,prak',
+            'responsi' => 'nullable',
+            'belajarMandiri' => 'nullable',
+            'prak' => 'required_if:isPrak,"1"',
+
+        ]);
+
+
         $listLlo = [];
 
         if ($validatedData->passes()) {
@@ -1007,7 +987,7 @@ class AgendaController extends Controller
 
     public function getLlo(Request $request){
 
-        $llo = Llo::select('kode_llo')->where("kode_llo","LIKE", "%{$request->term}%")->where('rps_id', $request->rps_id)->pluck('kode_llo');
+        $llo = Llo::select('deskripsi')->where("kode_llo", "{$request->kode_llo}")->where('rps_id', $request->rps_id)->pluck('deskripsi');
 
         return $llo;
 
