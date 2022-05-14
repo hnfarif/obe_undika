@@ -101,6 +101,7 @@ Route::prefix('rps')->middleware('ensureUserRole:bagian,dosen,dosenBagian')->gro
     Route::get('/agenda/materi/deleteall', [AgendaController::class, 'delAllMateri'])->name('materi.session.deleteall');
     Route::get('/getsks', [AgendaController::class, 'getSks'])->name('kuliah.getSks');
     Route::get('/getLlo', [AgendaController::class, 'getLlo'])->name('create.getLlo');
+    Route::get('/session/getLlo', [AgendaController::class, 'getLloSession'])->name('create.session.getLlo');
 
     Route::get('/rangkuman/{rps}', [RpsController::class, 'rangkuman'])->name('rangkuman.index');
 

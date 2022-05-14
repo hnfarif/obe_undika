@@ -60,6 +60,8 @@ class AgendaController extends Controller
             $listLlo = [];
         }
 
+
+        // dd($uniqueLlo);
         if ($request->ajax()) {
 
             return DataTables::of($listLlo)
@@ -993,6 +995,23 @@ class AgendaController extends Controller
 
     }
 
+    public function getLloSession(Request $request){
+
+        $listLlo = session('listLlo-'.$request->rps_id);
+        $llo = Llo::where('rps_id', $request->rps_id)->orderBy('id','asc')->pluck('kode_llo')->toArray();
+        $uniqueLlo = array();
+        foreach ($listLlo as $lloSes) {
+
+            if(in_array($lloSes['kode_llo'], $uniqueLlo) || in_array($lloSes['kode_llo'], $llo)){
+                continue;
+            }
+            array_push($uniqueLlo, $lloSes['kode_llo']);
+
+
+        }
+
+        return $uniqueLlo;
+    }
 
 
 }

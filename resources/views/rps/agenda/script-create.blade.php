@@ -344,7 +344,6 @@
         }
     });
 
-
     $(document).ready(function () {
 
 
@@ -553,6 +552,10 @@
                 llo = $('#kode_llo').val();
             }
 
+            $(".invalid-feedback").attr('hidden', 'hidden');
+            $(".form-control + span").removeClass('is-invalid');
+            $(".form-control").removeClass('is-invalid');
+
             $.ajax({
                 url: "{{ route('llo.session.store') }}",
                 type: "GET",
@@ -606,27 +609,39 @@
                         $(".form-control + span").removeClass('is-invalid');
                         $(".form-control").removeClass('is-invalid');
                         if (data.error) {
-
+                            var validation = "";
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops, Terdapat Data yang error!',
                                 text: "Mohon perbaiki data Anda!",
                             })
 
-                            console.log(data.error);
                             data.error.forEach(element => {
+
+                                if (element.includes("format")) {
+                                    validation = "format";
+                                } else {
+                                    validation = "field"
+                                }
+
                                 var mySubString = element.substring(
                                     element.indexOf("The ") + 4,
-                                    element.lastIndexOf(" field"),
+                                    element.lastIndexOf(" " + validation),
+
 
                                 );
                                 var key = mySubString.split(' ').join('_')
 
                                 $("#" + key + " + span").addClass('is-invalid');
-                                $("#" + key + "_opt + span").addClass('is-invalid');
-                                $("#" + key).addClass('is-invalid');
-                                $(".inv" + key).removeAttr('hidden');
-                                $(".inv" + key).text(element);
+                                $("#" +
+                                    key + "_opt + span").addClass('is-invalid');
+                                $("#" +
+                                    key).addClass('is-invalid');
+                                $(".inv" + key)
+                                    .removeAttr('hidden');
+                                $(".inv" + key).text(
+                                    element);
+
                             });
 
 
@@ -982,6 +997,8 @@
             $('.sn-capai').summernote('code', '');
             $('.sn-pen').summernote('code', '');
 
+
+
         })
 
 
@@ -991,13 +1008,57 @@
 
         });
 
+        $('#btnFormClo').on('click', function () {
+            $.ajax({
+                url: "{{ route('create.session.getLlo') }}",
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'rps_id': "{{ $rps->id }}",
+                },
+                success: function (data) {
+                    console.log(data);
+                    $("#kode_llo_opt").select2("destroy");
+                    $("#kode_llo_opt").select2();
 
+                    if ($("#recentSession").children().length > 0 && data > 0) {
+                        $('#recentSession').children("option").remove();
+                        data.forEach(element => {
+                            $("#recentSession").append(
+                                '<option value="' + element +
+                                '">' + element +
+                                '</option>');
+
+                        });
+
+                    } else if (data == 0) {
+                        $('#recentSession').children("option").remove();
+                        $("#recentSession").append(
+                            '<option value="0" disabled>Tidak ada data</option>');
+
+                    } else {
+                        $('#recentSession').children("option").remove();
+                        data.forEach(element => {
+                            $("#recentSession").append(
+                                '<option value="' + element +
+                                '">' + element +
+                                '</option>');
+                        });
+                    }
+
+
+                }
+            })
+        })
 
         $("#addNewLlo").on('click', function () {
             $('#inNewLlo').removeAttr('hidden');
             $('#sltLlo').attr('hidden', 'hidden');
             $('#kode_llo_opt').val('default').change();
             $('#des_llo').val('');
+            $('#des_llo').removeAttr('readonly');
+
 
         })
 
@@ -1005,6 +1066,7 @@
             $('#inNewLlo').attr('hidden', 'hidden');
             $('#sltLlo').removeAttr('hidden');
             $('#kode_llo').val('');
+            $('#des_llo').attr('readonly', 'readonly');
 
         })
 
@@ -1020,11 +1082,22 @@
                     'rps_id': "{{ $rps->id }}",
                     'kode_llo': kode_llo,
                 },
+                beforeSend: function () {
+                    $("#loadDesc").show();
+                },
                 success: function (data) {
                     $("#des_llo").val(data)
+                },
+                complete: function (data) {
+                    $("#loadDesc").hide();
                 }
             })
+
+
         });
-    })
+
+
+
+    });
 
 </script>

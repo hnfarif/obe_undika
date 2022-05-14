@@ -32,12 +32,19 @@
                                 <label>Kode LLO</label>
                                 <div class="input-group" id="sltLlo">
                                     <select class="form-control select2" name="kode_llo" id="kode_llo_opt" required>
-                                        <option value="default" selected disabled> Pilih Kode LLO</option>
-                                        @foreach ($llo as $i)
+                                        <optgroup>
+                                            <option value="default" selected disabled> Pilih Kode LLO</option>
+                                            @foreach ($llo as $i)
 
-                                        <option value="{{ $i->kode_llo }}">{{ $i->kode_llo }}
-                                        </option>
-                                        @endforeach
+                                            <option value="{{ $i->kode_llo }}">{{ $i->kode_llo }}
+                                            </option>
+                                            @endforeach
+                                        </optgroup>
+
+                                        <optgroup label="Recently" id="recentSession">
+
+                                        </optgroup>
+
                                     </select>
                                     <div class="input-group-append ml-2">
                                         <button style="width: 30px; height:30px;"
@@ -51,8 +58,7 @@
                                 </div>
 
                                 <div class="input-group" id="inNewLlo" hidden>
-                                    <input type="text" maxlength="6" name="kode_llo" id="kode_llo"
-                                        class="form-control @error('kode_llo') is-invalid @enderror typeahead"
+                                    <input type="text" maxlength="6" name="kode_llo" id="kode_llo" class="form-control"
                                         placeholder="cth: LLO1" required>
                                     <div class="input-group-append ml-2">
                                         <button style="width: 30px; height:30px;"
@@ -69,8 +75,14 @@
 
                             <div class="form-group">
                                 <label>Deskripsi LLO</label>
-                                <textarea id="des_llo" name="des_llo" id="" style="height: 100px"
-                                    class="form-control @error('des_llo') is-invalid @enderror" required></textarea>
+                                <textarea id="des_llo" name="des_llo" style="height: 100px"
+                                    class="form-control @error('des_llo') is-invalid @enderror" required readonly>
+
+                                </textarea>
+                                <div class="spinner-border text-primary" id="loadDesc" role="status"
+                                    style="display: none;">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
                                 <div class="invalid-feedback invdes_llo" hidden>
 
                                 </div>
