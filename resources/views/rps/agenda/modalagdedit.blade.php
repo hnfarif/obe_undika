@@ -3,6 +3,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ttlAgd">Form Edit data Minggu ke</h5>
+                <div class="spinner-border text-primary" id="loadTitle" role="status" style="display: none;">
+                </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -16,51 +18,55 @@
                             <div class="form-group ui-menu ui-menu-item">
                                 <input type="hidden" id="idDtl">
                                 <label>Kode CLO</label>
-                                <select class="form-control @error('clo_id') is-invalid @enderror select2" name="clo_id"
-                                    id="clo_id" required>
+                                <select class="form-control select2" name="clo_id" id="clo_id" required>
                                     @foreach ($clo as $i)
 
                                     <option value="{{ $i->id }}">{{ $i->kode_clo.' - '.$i->deskripsi  }}
                                     </option>
                                     @endforeach
                                 </select>
-                                @error('clo_id')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+                                <div class="invalid-feedback invclo_id" hidden>
+
                                 </div>
-                                @enderror
                             </div>
                             <div class="form-group">
                                 <label>Kode LLO</label>
-                                <input type="text" maxlength="6" autocomplete="off" name="kode_llo" id="kode_llo"
-                                    class="form-control @error('kode_llo') is-invalid @enderror" placeholder="cth: LLO1"
-                                    required>
-                                @error('kode_llo')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+                                <div class="input-group" id="sltLlo">
+                                    <select class="form-control select2" name="kode_llo" id="kode_llo_opt" required>
+                                        @foreach ($llo as $i)
+
+                                        <option data-sts="lloDb" data-index="true" value="{{ $i->id }}">
+                                            {{ $i->kode_llo }}
+                                        </option>
+                                        @endforeach
+
+                                    </select>
+
+                                    <div class="invalid-feedback invkode_llo" hidden>
+
+                                    </div>
                                 </div>
-                                @enderror
+
                             </div>
                             <div class="form-group">
                                 <label>Deskripsi LLO</label>
-                                <textarea id="des_llo" name="des_llo" id="" style="height: 100px"
-                                    class="form-control @error('des_llo') is-invalid @enderror" required></textarea>
-                                @error('des_llo')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+                                <textarea id="des_llo" name="des_llo" style="height: 100px" class="form-control"
+                                    required></textarea>
+                                <div class="spinner-border text-primary" id="loadDesc" role="status"
+                                    style="display: none;">
+                                    <span class="sr-only">Loading...</span>
                                 </div>
-                                @enderror
+                                <div class="invalid-feedback invdes_llo" hidden>
+
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>Ketercapaian LLO</label>
-                                <textarea id="capai_llo" name="capai_llo"
-                                    class="form-control  @error('capai_llo') is-invalid @enderror sn-capai"
+                                <textarea id="capai_llo" name="capai_llo" class="form-control sn-capai"
                                     required></textarea>
-                                @error('capai_llo')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+                                <div class="invalid-feedback invcapai_llo" hidden>
+
                                 </div>
-                                @enderror
                             </div>
 
 
@@ -78,16 +84,25 @@
                                     @endforeach
 
                                 </select>
+                                <div class="invalid-feedback invbtk_penilaian" hidden>
+
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>Bobot bentuk penilaian (%)</label>
                                 <input id="bbt_penilaian" name="bbt_penilaian" type="number" class="form-control">
+                                <div class="invalid-feedback invbbt_penilaian" hidden>
+
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>Deskripsi Penilaian</label>
                                 <textarea id="des_penilaian" name="des_penilaian"
                                     class="form-control  @error('des_penilaian') is-invalid @enderror sn-pen"
                                     required></textarea>
+                                <div class="invalid-feedback invdes_penilaian" hidden>
+
+                                </div>
                             </div>
                         </div>
 
@@ -319,24 +334,36 @@
                             <div class="form-group">
                                 <label>Tatap Muka (menit/mg)</label>
                                 <input type="number" id="tm" name="tm" class="form-control">
+                                <div class="invalid-feedback invtm" hidden>
+
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Synchronous Learning (menit/mg)</label>
                                 <input type="number" id="sl" name="sl" class="form-control">
+                                <div class="invalid-feedback invsl" hidden>
+
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Asynchronous Learning (menit/mg)</label>
                                 <input type="number" id="asl" name="asl" class="form-control">
+                                <div class="invalid-feedback invasl" hidden>
+
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Assessment (menit/mg)</label>
                                 <input type="number" id="asm" name="asm" class="form-control">
+                                <div class="invalid-feedback invasm" hidden>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -344,19 +371,28 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Responsi dan Tutorial (menit/mg)</label>
-                                <input type="text" id="responsi" class="form-control" readonly>
+                                <input type="number" id="responsi" class="form-control" readonly>
+                                <div class="invalid-feedback invresponsi" hidden>
+
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Belajar Mandiri (menit/mg)</label>
-                                <input type="text" id="belajarMandiri" class="form-control" readonly>
+                                <input type="number" id="belajarMandiri" class="form-control" readonly>
+                                <div class="invalid-feedback invbelajarMandiri" hidden>
+
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Praktikum (menit/mg)</label>
-                                <input type="text" id="prak" class="form-control" readonly>
+                                <input type="number" id="prak" class="form-control" readonly>
+                                <div class="invalid-feedback invprak" hidden>
+
+                                </div>
                             </div>
                         </div>
                     </div>

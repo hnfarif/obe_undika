@@ -14,7 +14,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Kode CLO</label>
-                                <select class="form-control select2 " name="clo_id" id="clo_id" required>
+                                <select class="form-control select2" name="clo_id" id="clo_id" required>
                                     <option value="default" selected disabled> Pilih Kode CLO</option>
                                     @foreach ($clo as $i)
 
@@ -36,12 +36,12 @@
                                             <option value="default" selected disabled> Pilih Kode LLO</option>
                                             @foreach ($llo as $i)
 
-                                            <option value="{{ $i->kode_llo }}">{{ $i->kode_llo }}
+                                            <option data-sts="lloDb" value="{{ $i->kode_llo }}">{{ $i->kode_llo }}
                                             </option>
                                             @endforeach
                                         </optgroup>
 
-                                        <optgroup label="Recently" id="recentSession">
+                                        <optgroup label="Baru saja" id="recentSession">
 
                                         </optgroup>
 
@@ -75,8 +75,8 @@
 
                             <div class="form-group">
                                 <label>Deskripsi LLO</label>
-                                <textarea id="des_llo" name="des_llo" style="height: 100px"
-                                    class="form-control @error('des_llo') is-invalid @enderror" required readonly>
+                                <textarea id="des_llo" name="des_llo" style="height: 100px" class="form-control"
+                                    required readonly>
 
                                 </textarea>
                                 <div class="spinner-border text-primary" id="loadDesc" role="status"
@@ -89,8 +89,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Ketercapaian LLO</label>
-                                <textarea id="capai_llo" name="capai_llo"
-                                    class="form-control  @error('capai_llo') is-invalid @enderror sn-capai"
+                                <textarea id="capai_llo" name="capai_llo" class="form-control sn-capai"
                                     required></textarea>
                                 <div class="invalid-feedback invcapai_llo" hidden>
 
@@ -466,7 +465,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Praktikum (menit/mg)</label>
-                                <input type="nuber" id="prak" class="form-control" readonly>
+                                <input type="number" id="prak" class="form-control" readonly>
                                 <div class="invalid-feedback invprak" hidden>
 
                                 </div>

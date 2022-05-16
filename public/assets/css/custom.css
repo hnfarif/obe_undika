@@ -127,4 +127,10 @@ input::-webkit-inner-spin-button {
 }
 
 
+.is-invalid .select2-selection,
+.needs-validation~span>.select2-dropdown {
+    border-color: red !important;
+}
+
+
 /*# sourceMappingURL=custom.css.map */

@@ -1,4 +1,3 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 <script>
     var tableLlo = $('#tableLlo').DataTable({
         "lengthMenu": [
@@ -545,6 +544,8 @@
         })
 
         $('#addLlo').click(function () {
+            const d = new Date();
+            let ms = d.valueOf();
             var llo = '';
             if ($('#kode_llo_opt').val()) {
                 llo = $('#kode_llo_opt').val();
@@ -563,6 +564,7 @@
                 data: {
                     '_token': "{{ csrf_token() }}",
                     'rps_id': "{{ $rps->id }}",
+                    'idRow': ms,
                     'clo_id': $('#clo_id').val(),
                     'kode_llo': llo.toUpperCase(),
                     'des_llo': $('#des_llo').val(),
@@ -724,8 +726,7 @@
                         data: {
                             '_token': "{{ csrf_token() }}",
                             'rps_id': "{{ $rps->id }}",
-                            'kodeClo': $(this).data('clo'),
-                            'kodeLlo': $(this).data('llo'),
+                            'idRow': $(this).data('id'),
                         },
                         success: function (data) {
                             Swal.fire({
@@ -1027,7 +1028,7 @@
                         data.forEach(element => {
                             $("#recentSession").append(
                                 '<option value="' + element +
-                                '">' + element +
+                                '" data-sts="lloSes">' + element +
                                 '</option>');
 
                         });
@@ -1042,7 +1043,7 @@
                         data.forEach(element => {
                             $("#recentSession").append(
                                 '<option value="' + element +
-                                '">' + element +
+                                '" data-sts="lloSes">' + element +
                                 '</option>');
                         });
                     }
@@ -1070,9 +1071,10 @@
 
         })
 
-        $("#kode_llo_opt").on('change', function () {
-            var kode_llo = $(this).val();
-
+        $("#kode_llo_opt, input[type=radio][name=praktikum]").on('change', function () {
+            var kode_llo = $("#kode_llo_opt").val();
+            var isPrak = $("input[type=radio][name=praktikum]:checked").val();
+            var db = ($('#kode_llo_opt option:selected').attr('data-sts') == 'lloDb') ? true : false;
             $.ajax({
                 url: "{{ route('create.getLlo') }}",
                 type: "GET",
@@ -1081,6 +1083,8 @@
                     '_token': "{{ csrf_token() }}",
                     'rps_id': "{{ $rps->id }}",
                     'kode_llo': kode_llo,
+                    'isDb': db,
+                    'isPrak': isPrak,
                 },
                 beforeSend: function () {
                     $("#loadDesc").show();

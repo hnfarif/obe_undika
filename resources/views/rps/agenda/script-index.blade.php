@@ -5,20 +5,6 @@
         scroller: true,
     });
 
-    if ($('input[type=radio][name=praktikum]:checked').val() == '0') {
-        $.ajax({
-            url: "{{ route('kuliah.getSks') }}",
-            type: 'GET',
-            data: {
-                'rps_id': "{{ $rps->id }}",
-            },
-            success: function (data) {
-                $('#responsi').val(data.mata_kuliah.sks * 60);
-                $('#belajarMandiri').val(data.mata_kuliah.sks * 60);
-            }
-
-        })
-    }
 
     $('input[type=radio][name=praktikum]').change(function () {
         if (this.value == '1') {
@@ -33,7 +19,15 @@
 
                     $('#responsi').val('');
                     $('#belajarMandiri').val('');
-                    $('#prak').val(data.mata_kuliah.sks * 60);
+                    $('#tm').val('');
+                    $('#sl').val('');
+                    $('#asl').val('');
+                    $('#asm').val('');
+                    $('#tm').attr('readonly', 'readonly');
+                    $('#sl').attr('readonly', 'readonly');
+                    $('#asl').attr('readonly', 'readonly');
+                    $('#asm').attr('readonly', 'readonly');
+                    $('#prak').removeAttr('readonly');
                 }
 
             })
@@ -50,6 +44,10 @@
                     $('#responsi').attr('readonly', 'readonly');
                     $('#belajarMandiri').attr('readonly', 'readonly');
                     $('#prak').attr('readonly', 'readonly');
+                    $('#tm').removeAttr('readonly');
+                    $('#sl').removeAttr('readonly');
+                    $('#asl').removeAttr('readonly');
+                    $('#asm').removeAttr('readonly');
                     $('#prak').val('');
                 }
 
@@ -311,6 +309,9 @@
                     id: id,
                     rps_id: "{{ $rps->id }}"
                 },
+                beforeSend: function () {
+                    $("#loadTitle").show();
+                },
                 success: function (data) {
                     // console.log(data);
                     $('#ttlAgd').html('Edit Agenda Belajar Minggu Ke ' + data.agenda_belajar
@@ -323,7 +324,15 @@
                             );
                         }
                     });
-                    $('#kode_llo').val(data.llo.kode_llo)
+                    $('#kode_llo_opt').children("option").each(function () {
+                        if ($(this).val() == data.llo_id) {
+                            $(this).remove();
+                            $('#kode_llo_opt').prepend(
+                                `<option selected data-sts="lloDb" data-index="true" value="${data.llo_id}">${data.llo.kode_llo}</option>`
+                            );
+                        }
+                    });
+                    // $('#kode_llo').val(data.llo.kode_llo)
                     if (data.praktikum) {
 
                         $('#des_llo').val(data.llo.deskripsi_prak)
@@ -355,11 +364,24 @@
                     $('#prak').val(data.praktikum)
                     if (data.praktikum) {
                         $('#radioyes').prop("checked", true);
+                        $('#prak').removeAttr('readonly');
+                        $('#tm').attr('readonly', 'readonly');
+                        $('#sl').attr('readonly', 'readonly');
+                        $('#asl').attr('readonly', 'readonly');
+                        $('#asm').attr('readonly', 'readonly');
+
                     } else {
                         $('#radiono').prop("checked", true);
+                        $('#prak').attr('readonly', 'readonly');
+                        $('#tm').removeAttr('readonly');
+                        $('#sl').removeAttr('readonly');
+                        $('#asl').removeAttr('readonly');
+                        $('#asm').removeAttr('readonly');
                     }
+                },
+                complete: function () {
+                    $("#loadTitle").hide();
                 }
-
             })
 
         })
@@ -827,12 +849,13 @@
                     'rps_id': "{{ $rps->id }}",
                     'idDtl': $('#idDtl').val(),
                     'clo_id': $('#clo_id').val(),
-                    'kode_llo': $('#kode_llo').val().toUpperCase(),
+                    'kode_llo': $('#kode_llo_opt').val(),
                     'des_llo': $('#des_llo').val(),
                     'capai_llo': $('#capai_llo').val(),
                     'btk_penilaian': $('#btk_penilaian').val(),
                     'bbt_penilaian': $('#bbt_penilaian').val(),
                     'des_penilaian': $('#des_penilaian').val(),
+                    'isPrak': $('input[type=radio][name=praktikum]:checked').val(),
                     'tm': $('#tm').val(),
                     'sl': $('#sl').val(),
                     'asl': $('#asl').val(),
@@ -857,15 +880,45 @@
                         }, 1500);
 
                     } else {
+                        $(".invalid-feedback").attr('hidden', 'hidden');
+                        $(".form-control + span").removeClass('is-invalid');
+                        $(".form-control").removeClass('is-invalid');
                         if (data.error) {
+                            var validation = "";
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops, Terdapat Data yang error!',
+                                text: "Mohon perbaiki data Anda!",
+                            })
 
                             data.error.forEach(element => {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops, Terdapat Data yang kosong!',
-                                    text: element,
-                                })
+
+                                if (element.includes("format")) {
+                                    validation = "format";
+                                } else {
+                                    validation = "field"
+                                }
+
+                                var mySubString = element.substring(
+                                    element.indexOf("The ") + 4,
+                                    element.lastIndexOf(" " + validation),
+
+
+                                );
+                                var key = mySubString.split(' ').join('_')
+
+                                $("#" + key + " + span").addClass('is-invalid');
+                                $("#" +
+                                    key + "_opt + span").addClass('is-invalid');
+                                $("#" +
+                                    key).addClass('is-invalid');
+                                $(".inv" + key)
+                                    .removeAttr('hidden');
+                                $(".inv" + key).text(
+                                    element);
+
                             });
+
                         } else if (data.errBbt) {
 
                             Array.from(data.errBbt).forEach(element => {
@@ -893,6 +946,36 @@
             })
 
         })
+
+        $("#kode_llo_opt, input[type=radio][name=praktikum]").on('change', function () {
+            var kode_llo = $("#kode_llo_opt").val();
+            var isPrak = $("input[type=radio][name=praktikum]:checked").val();
+            var db = ($('#kode_llo_opt option:selected').attr('data-sts') == 'lloDb') ? true : false;
+            $.ajax({
+                url: "{{ route('create.getLlo') }}",
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'rps_id': "{{ $rps->id }}",
+                    'kode_llo': kode_llo,
+                    'isDb': db,
+                    'isIndex': $('#kode_llo_opt option:selected').attr('data-index'),
+                    'isPrak': isPrak,
+                },
+                beforeSend: function () {
+                    $("#loadDesc").show();
+                },
+                success: function (data) {
+                    $("#des_llo").val(data)
+                },
+                complete: function (data) {
+                    $("#loadDesc").hide();
+                }
+            })
+
+
+        });
     });
 
 </script>

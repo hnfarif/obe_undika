@@ -8,11 +8,6 @@
         padding: 0;
     }
 
-    .is-invalid .select2-selection,
-    .needs-validation~span>.select2-dropdown {
-        border-color: red !important;
-    }
-
 </style>
 <div class="main-wrapper container">
     @include('layouts.navbar')

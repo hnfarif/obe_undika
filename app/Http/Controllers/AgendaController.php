@@ -33,10 +33,11 @@ class AgendaController extends Controller
 
         $clo = Clo::where('rps_id', $rps->id)->orderBy('id')->get();
         $penilaian = Penilaian::where('rps_id', $rps->id)->get();
+        $llo = Llo::where('rps_id', $rps->id)->orderBy('id','asc')->get();
         // $agenda = AgendaBelajar::where('rps_id', $rps->id)->with('detailAgendas')->get();
 
         // dd($agenda);
-        return view('rps.agenda.index', compact('rps','agenda','clo', 'penilaian'));
+        return view('rps.agenda.index', compact('rps','agenda','clo','llo', 'penilaian'));
     }
 
     /**
@@ -139,7 +140,7 @@ class AgendaController extends Controller
                 return $metode.'<br>';
             })
             ->addColumn('aksi', function ($data) {
-                return '<button class="btn btn-danger deleteLlo" data-clo="'.$data['clo_id'].'" data-llo="'.$data['kode_llo'].'"><i class="fas fa-trash"></i>
+                return '<button class="btn btn-danger deleteLlo" data-id="'.$data['idRow'].'"><i class="fas fa-trash"></i>
                 </button>';
             })->rawColumns(['capai_llo','btk_penilaian','pbm','materi','metode','aksi'])
             ->make(true);
@@ -362,43 +363,23 @@ class AgendaController extends Controller
      */
     public function update(Request $request)
     {
-        if ($request->btk_penilaian || $request->bbt_penilaian || $request->des_penilaian) {
-            $validatedData =  Validator::make($request->all(), [
-                'clo_id' => 'required',
-                'kode_llo' => 'required|regex:/^LLO\d/',
-                'des_llo' => 'required',
-                'capai_llo' => 'required',
-                'btk_penilaian' => 'required',
-                'bbt_penilaian' => 'required',
-                'des_penilaian' => 'required',
-                'tm' => 'nullable',
-                'sl' => 'nullable',
-                'asl' => 'nullable',
-                'asm' => 'nullable',
-                'responsi' => 'nullable',
-                'belajarMandiri' => 'nullable',
-                'prak' => 'nullable',
+        $validatedData =  Validator::make($request->all(), [
+            'clo_id' => 'required',
+            'kode_llo' => 'required',
+            'des_llo' => 'required',
+            'capai_llo' => 'required',
+            'btk_penilaian' => 'required_with:bbt_penilaian,des_penilaian',
+            'bbt_penilaian' => 'required_with:btk_penilaian',
+            'des_penilaian' => 'required_with:btk_penilaian',
+            'tm' => 'required_without_all:sl,asl,asm,prak',
+            'sl' => 'required_without_all:tm,asl,asm,prak',
+            'asl' => 'required_without_all:tm,sl,asm,prak',
+            'asm' => 'required_without_all:tm,sl,asl,prak',
+            'responsi' => 'nullable',
+            'belajarMandiri' => 'nullable',
+            'prak' => 'required_if:isPrak,"1"',
 
-            ]);
-        }else{
-            $validatedData =  Validator::make($request->all(), [
-                'clo_id' => 'required',
-                'kode_llo' => 'required|regex:/^LLO\d/',
-                'des_llo' => 'required',
-                'capai_llo' => 'required',
-                'btk_penilaian' => 'nullable',
-                'bbt_penilaian' => 'nullable',
-                'des_penilaian' => 'nullable',
-                'tm' => 'nullable',
-                'sl' => 'nullable',
-                'asl' => 'nullable',
-                'asm' => 'nullable',
-                'responsi' => 'nullable',
-                'belajarMandiri' => 'nullable',
-                'prak' => 'nullable',
-
-            ]);
-        }
+        ]);
 
         if ($validatedData->passes()) {
 
@@ -412,43 +393,24 @@ class AgendaController extends Controller
             if($totalBtk <= 100){
                 if ($totalMnt <= $request->responsi) {
 
-                    $filLlo = LLo::where('rps_id', $request->rps_id)->where('kode_llo', $request->kode_llo)->first();
+                    $filLlo = LLo::where('rps_id', $request->rps_id)->where('id', $request->kode_llo)->first();
 
-                    if (!$filLlo) {
-                        if($request->prak){
-                            $llo = new Llo;
-                            $llo->kode_llo = $request->kode_llo;
-                            $llo->deskripsi = null;
-                            $llo->deskripsi_prak =  $request->des_llo;
-                            $llo->rps_id = $request->rps_id;
-                            $llo->save();
-                            $filLlo = LLo::where('rps_id', $request->rps_id)->where('kode_llo', $request->kode_llo)->first();
-                        }else{
-                            $llo = new Llo;
-                            $llo->kode_llo = $request->kode_llo;
-                            $llo->deskripsi = $request->des_llo;
-                            $llo->deskripsi_prak =  null;
-                            $llo->rps_id = $request->rps_id;
-                            $llo->save();
-                            $filLlo = LLo::where('rps_id', $request->rps_id)->where('kode_llo', $request->kode_llo)->first();
-                        }
 
-                    }else{
-                        if($request->prak){
+                    if($request->prak){
 
-                            LLo::where('rps_id', $request->rps_id)->where('kode_llo', $request->kode_llo)->update([
+                        LLo::where('rps_id', $request->rps_id)->where('id', $request->kode_llo)->update([
                                 'deskripsi_prak' => $request->des_llo,
                         ]);
 
 
-                        }else{
+                    }else{
 
-                            LLo::where('rps_id', $request->rps_id)->where('kode_llo', $request->kode_llo)->update([
-                                'deskripsi' => $request->des_llo,
-                            ]);
+                        LLo::where('rps_id', $request->rps_id)->where('id', $request->kode_llo)->update([
+                            'deskripsi' => $request->des_llo,
+                        ]);
 
-                        }
                     }
+
                     DetailAgenda::where('id', $request->idDtl)->update([
                         'clo_id' => $request->clo_id,
                         'llo_id' => $filLlo->id,
@@ -514,7 +476,7 @@ class AgendaController extends Controller
 
     public function listLlo(Request $request)
     {
-        // dd($request->all());
+
         $validatedData =  Validator::make($request->all(), [
             'clo_id' => 'required',
             'kode_llo' => 'required|regex:/^LLO\d/',
@@ -601,7 +563,7 @@ class AgendaController extends Controller
         $listLlo = session('listLlo-'.$request->rps_id);
 
         foreach ($listLlo as $key => $item) {
-            if($item['clo_id'] == $request->kodeClo && $item['kode_llo'] == $request->kodeLlo){
+            if($item['idRow'] == $request->idRow){
                 unset($listLlo[$key]);
             }
         }
@@ -988,8 +950,34 @@ class AgendaController extends Controller
     }
 
     public function getLlo(Request $request){
+        // dd($request->all());
+        $listLlo = session('listLlo-'.$request->rps_id);
+        if($request->isDb == "true"){
+            if (isset($request->isIndex)) {
+                if ($request->isPrak == "1") {
+                    $llo = Llo::select('deskripsi_prak')->where("id", $request->kode_llo)->where('rps_id', $request->rps_id)->pluck('deskripsi_prak');
+                }else{
+                    $llo = Llo::select('deskripsi')->where("id", $request->kode_llo)->where('rps_id', $request->rps_id)->pluck('deskripsi');
+                }
+            }else{
 
-        $llo = Llo::select('deskripsi')->where("kode_llo", "{$request->kode_llo}")->where('rps_id', $request->rps_id)->pluck('deskripsi');
+                if ($request->isPrak == "1") {
+                    $llo = Llo::select('deskripsi_prak')->where("kode_llo", $request->kode_llo)->where('rps_id', $request->rps_id)->pluck('deskripsi_prak');
+                }else{
+                    $llo = Llo::select('deskripsi')->where("kode_llo", $request->kode_llo)->where('rps_id', $request->rps_id)->pluck('deskripsi');
+                }
+            }
+        }else{
+            // dd($listLlo);
+            foreach ($listLlo as $l) {
+                if($l['kode_llo'] == $request->kode_llo && $l['isPrak'] == $request->isPrak){
+                    $llo[] = $l['des_llo'];
+                    break;
+                }else{
+                    $llo[] = "";
+                }
+            }
+        }
 
         return $llo;
 
