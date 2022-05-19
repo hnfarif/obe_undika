@@ -15,71 +15,39 @@
                                 <h4>Daftar Rencana Pembelajaran Semester</h4>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">
-                                                    #
-                                                </th>
-                                                <th>Kode MK</th>
-                                                <th>Mata Kuliah</th>
-                                                <th>Semester</th>
-                                                <th>SKS</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    1
-                                                </td>
-                                                <td>35533</td>
-                                                <td>Teknologi Big Data</td>
-                                                <td>
-                                                    7
-                                                </td>
-                                                <td>
-                                                    3
-                                                </td>
-                                                <td><a href="{{ route('kelola.nilai-mhs') }}"
-                                                        class="btn btn-light">Lihat</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    1
-                                                </td>
-                                                <td>35533</td>
-                                                <td>Sistem Pendukung Keputusan</td>
-                                                <td>
-                                                    7
-                                                </td>
-                                                <td>
-                                                    3
-                                                </td>
 
-                                                <td><a href="#" class="btn btn-info">Ubah</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    1
-                                                </td>
-                                                <td>35533</td>
-                                                <td>Arsitektur Enterprise</td>
-                                                <td>
-                                                    7
-                                                </td>
-                                                <td>
-                                                    3
-                                                </td>
+                                <table class="table table-striped" id="tableJdw">
+                                    <thead>
+                                        <tr>
 
-                                                <td><a href="#" class="btn btn-info">Ubah</a></td>
-                                            </tr>
+                                            <th>Kode MK</th>
+                                            <th>Mata Kuliah</th>
+                                            <th>Kelas</th>
+                                            <th>Ruang</th>
+                                            <th>Prodi</th>
+                                            <th>SKS</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($jdwkul as $jdw)
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        <tr>
+                                            <td>{{ $jdw->klkl_id }}</td>
+                                            <td>{{ $jdw->getNameMataKuliah($jdw->klkl_id,$jdw->prodi) }}</td>
+                                            <td>{{ $jdw->kelas }}</td>
+                                            <td>{{ $jdw->ruang_id }}</td>
+                                            <td>{{ $jdw->getNameProdi($jdw->prodi) }}</td>
+                                            <td>{{ $jdw->sks }}</td>
+                                            <td><button data-mk="{{ $jdw->prodi.$jdw->klkl_id }}"
+                                                    class="btn btn-light btnUbahNilai">Ubah Nilai</button>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
 
@@ -94,3 +62,39 @@
     @include('layouts.footer')
 </div>
 @endsection
+
+@push('script')
+<script>
+    $("#tableJdw").DataTable();
+    $(document).ready(function () {
+
+        $(".btnUbahNilai").on('click', function () {
+            // window.location.href = "{{ url('/instrumen-nilai/create') }}";
+            $.ajax({
+                url: "{{  route('instrumen.cekrps') }}",
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    'kode_mk': $(this).data('mk'),
+                },
+                success: function (data) {
+                    console.log(data);
+                    if ($.isEmptyObject(data.error)) {
+                        window.location.href = data.url;
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops, Ada yang salah!',
+                            text: data.error,
+                        })
+
+                    }
+                }
+
+            })
+        })
+
+    })
+
+</script>
+@endpush

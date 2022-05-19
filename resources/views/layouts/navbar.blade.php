@@ -176,7 +176,7 @@
             </li>
 
             <li class="nav-item @yield('instrumen-nilai')">
-                <a href="{{ route('kelola.instrumen-nilai') }}" class="nav-link"><i
+                <a href="{{ route('instrumen.nilai.index') }}" class="nav-link"><i
                         class="fas fa-table"></i><span>Instrumen
                         Nilai</span></a>
             </li>

@@ -968,7 +968,7 @@ class AgendaController extends Controller
                 }
             }
         }else{
-            // dd($listLlo);
+
             foreach ($listLlo as $l) {
                 if($l['kode_llo'] == $request->kode_llo && $l['isPrak'] == $request->isPrak){
                     $llo[] = $l['des_llo'];

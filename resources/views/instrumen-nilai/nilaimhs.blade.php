@@ -25,38 +25,29 @@
                                 <table class="table table-striped table-responsive" width="100%">
                                     <thead>
                                         <tr>
-                                            <th rowspan="3">#</th>
+
                                             <th rowspan="3">NIM</th>
                                             <th rowspan="3">Nama Mahasiswa</th>
-                                            <th colspan="5">CLO-01</th>
-                                            <th rowspan="3" class="align-text-top">Total CLO-01</th>
-                                            <th colspan="5">CLO-02</th>
-                                            <th rowspan="3" class="align-text-top">Total CLO-02</th>
+                                            @foreach ($clo as $c)
+
+                                            <th colspan="{{ $penilaian->count() }}">{{ $c->kode_clo }}</th>
+                                            <th rowspan="3" class="align-text-top">Total {{ $c->kode_clo }}</th>
+                                            @endforeach
 
                                         </tr>
                                         <tr>
-                                            <th>Menyampaikan Pendapat</th>
-                                            <th>Tugas Mandiri</th>
-                                            <th>Menyampaikan Pendapat</th>
-                                            <th>Tugas Mandiri</th>
-                                            <th>Tugas Kelompok</th>
-                                            <th>Tugas Kelompok</th>
-                                            <th>Tugas Kelompok</th>
-                                            <th>Tugas Kelompok</th>
-                                            <th>Tugas Kelompok</th>
-                                            <th>Tugas Kelompok</th>
+                                            @foreach ($clo as $c)
+                                            @foreach ($penilaian as $p)
+                                            <th>{{ $p->btk_penilaian }}</th>
+                                            @endforeach
+                                            @endforeach
                                         </tr>
                                         <tr>
-                                            <th>TGS</th>
-                                            <th>TGS</th>
-                                            <th>TGS</th>
-                                            <th>TGS</th>
-                                            <th>TGS</th>
-                                            <th>TGS</th>
-                                            <th>TGS</th>
-                                            <th>TGS</th>
-                                            <th>TGS</th>
-                                            <th>TGS</th>
+                                            @foreach ($clo as $c)
+                                            @foreach ($penilaian as $p)
+                                            <th>{{ $p->jenis }}</th>
+                                            @endforeach
+                                            @endforeach
 
                                         </tr>
 

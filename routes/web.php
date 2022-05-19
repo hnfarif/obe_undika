@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\CloController;
+use App\Http\Controllers\InstrumenNilaiController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PeoController;
 use App\Http\Controllers\PeoPloController;
@@ -107,17 +108,11 @@ Route::prefix('rps')->middleware('ensureUserRole:bagian,dosen,dosenBagian')->gro
 
 });
 
-Route::prefix('instrumen-nilai')->group(function (){
+Route::prefix('instrumen')->name('instrumen.')->group(function (){
 
+    Route::get('/cekrps', [InstrumenNilaiController::class, 'cekRps'])->name('cekrps');
 
-    Route::get('/', function (){
-
-        return view('instrumen-nilai.index');
-    })->name('kelola.instrumen-nilai');
-    Route::get('/mhs', function (){
-
-        return view('instrumen-nilai.nilaimhs');
-    })->name('kelola.nilai-mhs');
+    Route::resource('nilai', InstrumenNilaiController::class);
 });
 
 Route::prefix('plotting')->group(function(){
