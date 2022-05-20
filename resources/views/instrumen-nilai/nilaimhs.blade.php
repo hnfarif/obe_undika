@@ -53,6 +53,13 @@
 
                                     </thead>
                                     <tbody>
+                                        @foreach ($krs as $k)
+                                        <tr>
+                                            <td>{{ $k->mhs_nim }}</td>
+                                            <td>{{ $k->mahasiswa->nama }}</td>
+                                        </tr>
+                                        @endforeach
+
                                     </tbody>
 
                                 </table>
@@ -78,103 +85,8 @@
 <script>
     $(document).ready(function () {
         // $('.table').DataTable();
-        var colom = [];
-        $.ajax({
-            url: '',
-            method: 'get',
-            async: false,
-            success: function (data) {
-                colom = data;
-            }
-        })
-        var table_detail = $('.table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('data-nilai-mhs') }}",
-            columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
-                {
-                    data: 'kode_clo',
-                    name: 'kode_clo'
-                },
-                {
-                    data: 'pendapat',
-                    name: 'pendapat'
-                },
-                {
-                    data: 'mandiri',
-                    name: 'mandiri'
-                },
-                {
-                    data: 'kelompok',
-                    name: 'kelompok'
-                },
-                {
-                    data: 'presentasi',
-                    name: 'presentasi'
-                },
-                {
-                    data: 'uts',
-                    name: 'uts'
-                },
-                {
-                    data: 'uas',
-                    name: 'uas'
-                },
-                {
-                    data: 'total_bobot',
-                    name: 'total_bobot'
-                },
-                {
-                    data: 'total_bobot',
-                    name: 'total_bobot'
-                },
-                {
-                    data: 'total_bobot',
-                    name: 'total_bobot'
-                },
-                {
-                    data: 'total_bobot',
-                    name: 'total_bobot'
-                },
-                {
-                    data: 'total_bobot',
-                    name: 'total_bobot'
-                },
-                {
-                    data: 'total_bobot',
-                    name: 'total_bobot'
-                },
-                {
-                    data: 'total_bobot',
-                    name: 'total_bobot'
-                },
 
-                // {data: 'action', name: 'action', orderable: false, searchable: false},
-            ],
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/id.json'
-            },
-            createdRow: function (row, data, dataIndex) {
-                console.log(data)
-                $(row).find('td:eq(3)').addClass('updateqty');
-                $(row).find('td:eq(3)').attr('data-idbarang', data['kode_clo']);
-                $.each($('td:eq(2)', row), function (colIndex) {
-                    $(this).attr('contenteditable', 'true');
-                });
-                $.each($('td:eq(3)', row), function (colIndex) {
-                    $(this).attr('contenteditable', 'true');
-                });
-                $.each($('td:eq(4)', row), function (colIndex) {
-                    $(this).attr('contenteditable', 'true');
-                });
-                $.each($('td:eq(5)', row), function (colIndex) {
-                    $(this).attr('contenteditable', 'true');
-                });
-            }
-        })
+
     })
 
 </script>

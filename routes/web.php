@@ -108,11 +108,11 @@ Route::prefix('rps')->middleware('ensureUserRole:bagian,dosen,dosenBagian')->gro
 
 });
 
-Route::prefix('instrumen')->name('instrumen.')->group(function (){
+Route::prefix('penilaian')->name('penilaian.')->group(function (){
 
     Route::get('/cekrps', [InstrumenNilaiController::class, 'cekRps'])->name('cekrps');
 
-    Route::resource('nilai', InstrumenNilaiController::class);
+    Route::resource('clo', InstrumenNilaiController::class);
 });
 
 Route::prefix('plotting')->group(function(){

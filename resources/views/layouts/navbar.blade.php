@@ -176,9 +176,8 @@
             </li>
 
             <li class="nav-item @yield('instrumen-nilai')">
-                <a href="{{ route('instrumen.nilai.index') }}" class="nav-link"><i
-                        class="fas fa-table"></i><span>Instrumen
-                        Nilai</span></a>
+                <a href="{{ route('penilaian.clo.index') }}" class="nav-link"><i
+                        class="fas fa-table"></i><span>Penilaian CLO</span></a>
             </li>
             <li class="nav-item @yield('plottingmonev')">
                 <a href="{{ route('kelola.plotting') }}" class="nav-link"><i

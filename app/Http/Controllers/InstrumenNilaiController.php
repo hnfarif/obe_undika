@@ -33,7 +33,8 @@ class InstrumenNilaiController extends Controller
     {
         $clo = Clo::where('rps_id', $request->get('rps_id'))->get();
         $penilaian = Penilaian::where('rps_id', $request->get('rps_id'))->orderBy('id', 'asc')->get();
-        $krs = Krs::where('jkul_klkl_id', $request->get('klkl_id'))->get();
+        $krs = Krs::where('jkul_klkl_id', $request->get('klkl_id'))->with('mahasiswa')->get();
+
 
         return view('instrumen-nilai.nilaimhs', compact('clo', 'penilaian', 'krs'));
     }
@@ -110,8 +111,7 @@ class InstrumenNilaiController extends Controller
             $rps = $rps->first();
             return response()->json([
                 'rps' => $rps,
-                'url' => route('instrumen.nilai.create', ['rps_id' => $rps->id]),
-                'klkl_id' => substr($request->kode_mk, 5),
+                'url' => route('penilaian.clo.create', ['rps_id' => $rps->id, 'klkl_id' => substr($request->kode_mk, 5)]),
             ]);
         }
     }

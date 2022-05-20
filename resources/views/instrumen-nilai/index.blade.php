@@ -12,7 +12,7 @@
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Daftar Rencana Pembelajaran Semester</h4>
+                                <h4>Daftar Mata Kuliah</h4>
                             </div>
                             <div class="card-body">
 
@@ -40,7 +40,7 @@
                                             <td>{{ $jdw->getNameProdi($jdw->prodi) }}</td>
                                             <td>{{ $jdw->sks }}</td>
                                             <td><button data-mk="{{ $jdw->prodi.$jdw->klkl_id }}"
-                                                    class="btn btn-light btnUbahNilai">Ubah Nilai</button>
+                                                    class="btn btn-primary btnUbahNilai">Penilaian CLO</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -71,7 +71,7 @@
         $(".btnUbahNilai").on('click', function () {
             // window.location.href = "{{ url('/instrumen-nilai/create') }}";
             $.ajax({
-                url: "{{  route('instrumen.cekrps') }}",
+                url: "{{  route('penilaian.cekrps') }}",
                 type: 'GET',
                 dataType: 'json',
                 data: {

@@ -13,4 +13,9 @@ class Krs extends Model
     protected $table = 'krs_tf';
     public $incrementing = false;
     protected $primaryKey = null;
+
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'mhs_nim', 'nim');
+    }
 }
