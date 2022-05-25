@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AgendaBelajar;
 use App\Models\Clo;
+use App\Models\DetailAgenda;
+use App\Models\DetailInstrumenNilai;
+use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
+use App\Models\KaryawanDosen;
 use App\Models\Krs;
 use App\Models\Penilaian;
 use App\Models\Rps;
+use App\Models\Semester;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InstrumenNilaiController extends Controller
 {
@@ -19,8 +26,19 @@ class InstrumenNilaiController extends Controller
     public function index()
     {
         $nik_kary = auth()->user()->nik;
-        // dd($nik_kary);
-        $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->get();
+        $kary = KaryawanDosen::where('nik',$nik_kary)->first();
+        $smt = Semester::where('fak_id', $kary->fakul_id)->first();
+        $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")->where('is_active', '1')
+        ->where('semester', $smt->smt_aktif)
+        ->pluck('kurlkl_id')->toArray();
+
+        $arrKlkl = [];
+        foreach ($rps as $i) {
+            $arrKlkl[] = substr($i, 5);
+        }
+
+        $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->get();
+
         return view('instrumen-nilai.index', compact('jdwkul'));
     }
 
@@ -31,12 +49,22 @@ class InstrumenNilaiController extends Controller
      */
     public function create(Request $request)
     {
-        $clo = Clo::where('rps_id', $request->get('rps_id'))->get();
-        $penilaian = Penilaian::where('rps_id', $request->get('rps_id'))->orderBy('id', 'asc')->get();
-        $krs = Krs::where('jkul_klkl_id', $request->get('klkl_id'))->with('mahasiswa')->get();
+        $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
 
 
-        return view('instrumen-nilai.nilaimhs', compact('clo', 'penilaian', 'krs'));
+        // $clo = Clo::where('rps_id', $instru->rps_id)->get();
+        // $penilaian = Penilaian::where('rps_id', $instru->rps_id)->orderBy('id', 'asc')->get();
+
+        $agd = AgendaBelajar::where('rps_id', $instru->rps_id)->pluck('id')->toArray();
+        $dtlAgd = DetailAgenda::whereIn('agd_id', $agd)->with('penilaian','clo')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
+        $krs = Krs::where('jkul_klkl_id', $instru->klkl_id)->with('mahasiswa')->get();
+
+        $dtlInstru = DetailInstrumenNilai::where('ins_nilai_id', $instru->id)->get();
+
+        // dd($dtlAgd);
+
+
+        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru'));
     }
 
     /**
@@ -97,7 +125,11 @@ class InstrumenNilaiController extends Controller
 
     public function cekRps(Request $request)
     {
-        $rps = Rps::where('kurlkl_id', $request->kode_mk)->where('is_active', '1')->get();
+        $nik_kary = auth()->user()->nik;
+        $kary = KaryawanDosen::where('nik',$nik_kary)->first();
+        $smt = Semester::where('fak_id', $kary->fakul_id)->first();
+
+        $rps = Rps::where('kurlkl_id', $request->kode_mk)->where('is_active', '1')->where('semester', $smt->smt_aktif)->get();
 
         if ($rps->count() > 1 ) {
             return response()->json([
@@ -109,10 +141,25 @@ class InstrumenNilaiController extends Controller
             ]);
         }else{
             $rps = $rps->first();
-            return response()->json([
-                'rps' => $rps,
-                'url' => route('penilaian.clo.create', ['rps_id' => $rps->id, 'klkl_id' => substr($request->kode_mk, 5)]),
-            ]);
+            $instru = InstrumenNilai::where('rps_id', $rps->id)->where('klkl_id', substr($request->kode_mk, 5))->first();
+
+            if ($instru) {
+                return response()->json([
+                    'url' => route('penilaian.clo.create', ['ins' => $instru->id ]),
+                ]);
+
+            }else{
+                $newInstru = InstrumenNilai::create([
+                    'rps_id' => $rps->id,
+                    'klkl_id' => substr($request->kode_mk, 5),
+                    'semester' => $smt->smt_aktif,
+                ]);
+
+                return response()->json([
+                    'url' => route('penilaian.clo.create', ['ins' => $newInstru->id ]),
+                ]);
+            }
+
         }
     }
 }

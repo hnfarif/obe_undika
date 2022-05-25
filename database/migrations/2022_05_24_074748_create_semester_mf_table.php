@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAgdBljrTable extends Migration
+class CreateSemesterMfTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateAgdBljrTable extends Migration
      */
     public function up()
     {
-        Schema::create('agd_bljr', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('rps_id')->unsigned();
-            $table->string('pekan',3);
+        Schema::create('semester_mf', function (Blueprint $table) {
 
-
-            $table->foreign('rps_id')->references('id')->on('rps')->onDelete('cascade');
+            $table->string('fak_id',5)->primary();
+            $table->string('smt_aktif',3);
+            $table->string('smt_yad',3);
+            $table->string('smt_lain',3);
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateAgdBljrTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('agd_bljr');
+        Schema::dropIfExists('semester_mf');
     }
 }

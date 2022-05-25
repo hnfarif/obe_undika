@@ -3,6 +3,10 @@
         scrollY: 500,
         scrollX: true,
         scroller: true,
+        columnDefs: [{
+            type: 'natural',
+            targets: 0
+        }]
     });
 
 

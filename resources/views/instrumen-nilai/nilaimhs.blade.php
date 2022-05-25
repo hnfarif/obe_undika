@@ -1,6 +1,16 @@
 @extends('layouts.main')
 @section('instrumen-nilai', 'active')
 @section('content')
+<style>
+    table.dataTable.table-striped.DTFC_Cloned tbody tr:nth-of-type(odd) {
+        background-color: #F3F3F3;
+    }
+
+    table.dataTable.table-striped.DTFC_Cloned tbody tr:nth-of-type(even) {
+        background-color: white;
+    }
+
+</style>
 <div class="main-wrapper container">
     @include('layouts.navbar')
     <div class="main-content">
@@ -22,30 +32,52 @@
                             </div>
                             <div class="card-body">
 
-                                <table class="table table-striped table-responsive" width="100%">
+                                <table class="table table-striped table-responsive" width="100%" id="tableIns">
                                     <thead>
                                         <tr>
 
-                                            <th rowspan="3">NIM</th>
-                                            <th rowspan="3">Nama Mahasiswa</th>
-                                            @foreach ($clo as $c)
+                                            <th rowspan="4" class="align-middle text-center">NIM</th>
+                                            <th rowspan="4" class="align-middle text-center">Nama Mahasiswa</th>
+                                            @foreach ($dtlAgd->unique('clo_id') as $da)
 
-                                            <th colspan="{{ $penilaian->count() }}">{{ $c->kode_clo }}</th>
-                                            <th rowspan="3" class="align-text-top">Total {{ $c->kode_clo }}</th>
+                                            <th
+                                                colspan="{{ $dtlAgd->where('clo_id', $da->clo_id)->where('penilaian_id', '<>', null)->count() }}">
+
+                                                {{ $da->clo->kode_clo }}
+
+
+                                            </th>
+                                            <th rowspan="4" class="align-middle text-center bg-light">Total
+                                                {{ $da->clo->kode_clo }}
+                                            </th>
                                             @endforeach
 
                                         </tr>
                                         <tr>
-                                            @foreach ($clo as $c)
-                                            @foreach ($penilaian as $p)
-                                            <th>{{ $p->btk_penilaian }}</th>
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                            $pen)
+
+                                            <th>{{ $pen->penilaian->btk_penilaian}}</th>
                                             @endforeach
                                             @endforeach
                                         </tr>
                                         <tr>
-                                            @foreach ($clo as $c)
-                                            @foreach ($penilaian as $p)
-                                            <th>{{ $p->jenis }}</th>
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                            $pen)
+
+                                            <th>{{ $pen->penilaian->jenis}}</th>
+                                            @endforeach
+                                            @endforeach
+
+                                        </tr>
+                                        <tr>
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                            $pen)
+
+                                            <th>{{ $pen->bobot.'%'}}</th>
                                             @endforeach
                                             @endforeach
 
@@ -57,6 +89,18 @@
                                         <tr>
                                             <td>{{ $k->mhs_nim }}</td>
                                             <td>{{ $k->mahasiswa->nama }}</td>
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                            $pen)
+
+                                            <td>
+                                                <input type="number" min="0" max="100"
+                                                    value=""
+                                                    class="form-control text-center nilai" style="min-width:60px;">
+                                            </td>
+                                            @endforeach
+                                            <td></td>
+                                            @endforeach
                                         </tr>
                                         @endforeach
 
@@ -78,16 +122,25 @@
     @include('layouts.footer')
 </div>
 @endsection
-@section('script')
-<script src="{{ asset('assets/js/page/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('assets/js/page/dataTables.bootstrap4.js') }}"></script>
-<script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
+@push('script')
+
+<script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
 <script>
     $(document).ready(function () {
-        // $('.table').DataTable();
+        $('#tableIns').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            scrollCollapse: true,
+            scroller: true,
+            select: true,
+            fixedColumns:{
+                left: 2
+            }
+        });
 
 
     })
 
 </script>
-@endsection
+@endpush

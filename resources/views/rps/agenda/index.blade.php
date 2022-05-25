@@ -122,6 +122,9 @@
                                                 {{ $i->clo->kode_clo}}
                                             </td>
                                             <td class="">
+                                                @if ($i->llo_id)
+
+
                                                 @if ($i->praktikum)
 
                                                 {!! '<b>'.$i->llo->kode_llo.'</b>
@@ -132,6 +135,9 @@
                                                 @else
                                                 {!! '<b>'.$i->llo->kode_llo.'</b> <br>'.$i->llo->deskripsi.'<br>
                                                 <b>Ketercapaian '.$i->llo->kode_llo.'</b> <br>'.$i->capaian_llo !!}
+                                                @endif
+                                                @else
+                                                -
                                                 @endif
                                             </td>
                                             <td>
@@ -263,5 +269,6 @@
 @include('rps.agenda.modalagdedit')
 @endsection
 @push('script')
+<script src="//cdn.datatables.net/plug-ins/1.12.0/sorting/natural.js"></script>
 @include('rps.agenda.script-index')
 @endpush

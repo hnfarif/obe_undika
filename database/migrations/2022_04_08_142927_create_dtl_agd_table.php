@@ -17,7 +17,7 @@ class CreateDtlAgdTable extends Migration
             $table->id();
             $table->bigInteger('agd_id')->unsigned();
             $table->bigInteger('clo_id')->unsigned();
-            $table->bigInteger('llo_id')->unsigned();
+            $table->bigInteger('llo_id')->unsigned()->nullable();
             $table->bigInteger('penilaian_id')->unsigned()->nullable();
             $table->integer('bobot')->nullable();
             $table->text('capaian_llo')->nullable();

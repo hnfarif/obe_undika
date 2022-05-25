@@ -447,7 +447,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Responsi dan Tutorial (menit/mg)</label>
-                                <input type="number" id="responsi" class="form-control" readonly>
+                                <input type="number" id="responsi" class="form-control">
                                 <div class="invalid-feedback invresponsi" hidden>
 
                                 </div>
@@ -456,7 +456,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Belajar Mandiri (menit/mg)</label>
-                                <input type="number" id="belajarMandiri" class="form-control" readonly>
+                                <input type="number" id="belajarMandiri" class="form-control">
                                 <div class="invalid-feedback invbelajarMandiri" hidden>
 
                                 </div>

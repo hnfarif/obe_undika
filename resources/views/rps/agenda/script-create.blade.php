@@ -329,8 +329,6 @@
                 success: function (data) {
                     $('#responsi').val(data.mata_kuliah.sks * 60);
                     $('#belajarMandiri').val(data.mata_kuliah.sks * 60);
-                    $('#responsi').attr('readonly', 'readonly');
-                    $('#belajarMandiri').attr('readonly', 'readonly');
                     $('#prak').attr('readonly', 'readonly');
                     $('#tm').removeAttr('readonly');
                     $('#sl').removeAttr('readonly');
@@ -565,6 +563,7 @@
                     '_token': "{{ csrf_token() }}",
                     'rps_id': "{{ $rps->id }}",
                     'idRow': ms,
+                    'week': $('#optweek').val(),
                     'clo_id': $('#clo_id').val(),
                     'kode_llo': llo.toUpperCase(),
                     'des_llo': $('#des_llo').val(),
@@ -1010,6 +1009,7 @@
         });
 
         $('#btnFormClo').on('click', function () {
+
             $.ajax({
                 url: "{{ route('create.session.getLlo') }}",
                 type: "GET",
@@ -1019,7 +1019,7 @@
                     'rps_id': "{{ $rps->id }}",
                 },
                 success: function (data) {
-                    console.log(data);
+                    // console.log(data);
                     $("#kode_llo_opt").select2("destroy");
                     $("#kode_llo_opt").select2();
 

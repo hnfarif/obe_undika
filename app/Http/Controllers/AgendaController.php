@@ -187,43 +187,48 @@ class AgendaController extends Controller
 
                 $filClo = Clo::where('rps_id', $rps->id)->where('kode_clo', $value['clo_id'])->first();
 
-                $filLlo = LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->first();
+                if ($value['kode_llo']) {
+                    $filLlo = LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->first();
 
-                if (!$filLlo) {
-                    if($value['prak']){
-                        $llo = new Llo;
-                        $llo->kode_llo = $value['kode_llo'];
-                        $llo->deskripsi = null;
-                        $llo->deskripsi_prak =  $value['des_llo'];
-                        $llo->rps_id = $rps->id;
-                        $llo->save();
-                        $filLlo = LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->first();
+                    if (!$filLlo) {
+                        if($value['prak']){
+                            $llo = new Llo;
+                            $llo->kode_llo = $value['kode_llo'];
+                            $llo->deskripsi = null;
+                            $llo->deskripsi_prak =  $value['des_llo'];
+                            $llo->rps_id = $rps->id;
+                            $llo->save();
+                            $filLlo = LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->first();
+                        }else{
+                            $llo = new Llo;
+                            $llo->kode_llo = $value['kode_llo'];
+                            $llo->deskripsi = $value['des_llo'];
+                            $llo->deskripsi_prak =  null;
+                            $llo->rps_id = $rps->id;
+                            $llo->save();
+                            $filLlo = LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->first();
+                        }
+
                     }else{
-                        $llo = new Llo;
-                        $llo->kode_llo = $value['kode_llo'];
-                        $llo->deskripsi = $value['des_llo'];
-                        $llo->deskripsi_prak =  null;
-                        $llo->rps_id = $rps->id;
-                        $llo->save();
-                        $filLlo = LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->first();
+                        if($value['prak']){
+                            if(!$filLlo->deskripsi_prak){
+                                LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->update([
+                                     'deskripsi_prak' => $value['des_llo'],
+                                 ]);
+                            }
+
+                        }else{
+                            if(!$filLlo->deskripsi){
+
+                                LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->update([
+                                    'deskripsi' => $value['des_llo'],
+                                ]);
+                            }
+                        }
                     }
 
                 }else{
-                    if($value['prak']){
-                        if(!$filLlo->deskripsi_prak){
-                            LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->update([
-                                 'deskripsi_prak' => $value['des_llo'],
-                             ]);
-                        }
-
-                    }else{
-                        if(!$filLlo->deskripsi){
-
-                            LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->update([
-                                'deskripsi' => $value['des_llo'],
-                            ]);
-                        }
-                    }
+                    $filLlo = '';
                 }
 
                 $dtlAgenda = new DetailAgenda;
@@ -235,7 +240,7 @@ class AgendaController extends Controller
 
                 }
                 $dtlAgenda->clo_id = $filClo->id;
-                $dtlAgenda->llo_id = $filLlo->id;
+                $dtlAgenda->llo_id = ($filLlo) ? $filLlo->id : null;
                 $dtlAgenda->penilaian_id = $filPen->id;
                 $dtlAgenda->bobot = $value['bbt_penilaian'];
                 $dtlAgenda->capaian_llo = $value['capai_llo'];
@@ -450,11 +455,21 @@ class AgendaController extends Controller
     {
         $dtlAgd = DetailAgenda::find($id);
         $ifAgd = DetailAgenda::where('agd_id', $dtlAgd->agd_id)->count();
+        $ifLlo = DetailAgenda::where('id', $dtlAgd->llo_id)->count();
         if($ifAgd == 1){
             $agd = AgendaBelajar::find($dtlAgd->agd_id);
             $agd->delete();
+
+            if ($ifLlo == 1) {
+                $llo = LLo::find($dtlAgd->llo_id);
+                $llo->delete();
+            }
         }else{
             $dtlAgd->delete();
+            if ($ifLlo == 1) {
+                $llo = LLo::find($dtlAgd->llo_id);
+                $llo->delete();
+            }
         }
         // dd($ifAgd);
         if ($dtlAgd) {
@@ -476,12 +491,22 @@ class AgendaController extends Controller
 
     public function listLlo(Request $request)
     {
+        if ($request->week == 'UTS' || $request->week == 'UAS') {
+            $condLlo = 'nullable';
+            $conDes = 'nullable';
+            $conCapai = 'nullable';
+
+        }else{
+            $condLlo = 'required|regex:/^LLO\d/';
+            $conDes = 'required';
+            $conCapai = 'required';
+        }
 
         $validatedData =  Validator::make($request->all(), [
             'clo_id' => 'required',
-            'kode_llo' => 'required|regex:/^LLO\d/',
-            'des_llo' => 'required',
-            'capai_llo' => 'required',
+            'kode_llo' => $condLlo,
+            'des_llo' => $conDes,
+            'capai_llo' => $conCapai,
             'btk_penilaian' => 'required_with:bbt_penilaian,des_penilaian',
             'bbt_penilaian' => 'required_with:btk_penilaian',
             'des_penilaian' => 'required_with:btk_penilaian',
@@ -498,6 +523,9 @@ class AgendaController extends Controller
 
         $listLlo = [];
 
+        $rps = Rps::find($request->rps_id);
+        $mk = MataKuliah::where('id', $rps->kurlkl_id)->first();
+
         if ($validatedData->passes()) {
 
             $sumBtk = DetailAgenda::whereHas('agendaBelajar', function($query) use ($request){
@@ -507,7 +535,7 @@ class AgendaController extends Controller
             $totalBtk = $sumBtk + $request->bbt_penilaian;
             $totalMnt = $request->tm + $request->sl + $request->asl + $request->asm;
             if($totalBtk <= 100){
-                if ($totalMnt <= $request->responsi) {
+                if ($totalMnt <= $mk->sks*60 && $request->responsi <= $mk->sks*60 && $request->belajarMandiri <= $mk->sks*60) {
                     if (session()->has('listLlo-'.$request->rps_id)) {
 
                         $dataLlo = session('listLlo-'.$request->rps_id);
@@ -546,7 +574,7 @@ class AgendaController extends Controller
                     return response()->json(['success' => 'Data berhasil Ditambahkan', 'listLlo' => $listLlo]);
 
                 }else{
-                    return response()->json(['errMnt' => 'Maaf total menit perkuliahan yang anda masukkan melebihi '.$request->responsi.' menit, Harap perbaiki data anda']);
+                    return response()->json(['errMnt' => 'Maaf total menit perkuliahan yang anda masukkan melebihi '.($mk->sks*60).' menit, Harap perbaiki data anda']);
                 }
 
             }else{
@@ -952,6 +980,10 @@ class AgendaController extends Controller
     public function getLlo(Request $request){
         // dd($request->all());
         $listLlo = session('listLlo-'.$request->rps_id);
+        $llo = '';
+
+
+
         if($request->isDb == "true"){
             if (isset($request->isIndex)) {
                 if ($request->isPrak == "1") {
@@ -966,18 +998,20 @@ class AgendaController extends Controller
                 }else{
                     $llo = Llo::select('deskripsi')->where("kode_llo", $request->kode_llo)->where('rps_id', $request->rps_id)->pluck('deskripsi');
                 }
-            }
+             }
         }else{
-
-            foreach ($listLlo as $l) {
-                if($l['kode_llo'] == $request->kode_llo && $l['isPrak'] == $request->isPrak){
-                    $llo[] = $l['des_llo'];
-                    break;
-                }else{
-                    $llo[] = "";
+            if ($listLlo) {
+                foreach ($listLlo as $l) {
+                    if($l['kode_llo'] == $request->kode_llo && $l['isPrak'] == $request->isPrak){
+                        $llo[] = $l['des_llo'];
+                        break;
+                    }else{
+                        $llo[] = "";
+                    }
                 }
             }
         }
+
 
         return $llo;
 
@@ -988,14 +1022,17 @@ class AgendaController extends Controller
         $listLlo = session('listLlo-'.$request->rps_id);
         $llo = Llo::where('rps_id', $request->rps_id)->orderBy('id','asc')->pluck('kode_llo')->toArray();
         $uniqueLlo = array();
-        foreach ($listLlo as $lloSes) {
+        if ($listLlo) {
 
-            if(in_array($lloSes['kode_llo'], $uniqueLlo) || in_array($lloSes['kode_llo'], $llo)){
-                continue;
+            foreach ($listLlo as $lloSes) {
+
+                if(in_array($lloSes['kode_llo'], $uniqueLlo) || in_array($lloSes['kode_llo'], $llo)){
+                    continue;
+                }
+                array_push($uniqueLlo, $lloSes['kode_llo']);
+
+
             }
-            array_push($uniqueLlo, $lloSes['kode_llo']);
-
-
         }
 
         return $uniqueLlo;

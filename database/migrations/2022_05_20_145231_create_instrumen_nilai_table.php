@@ -17,7 +17,7 @@ class CreateInstrumenNilaiTable extends Migration
             $table->id();
             $table->string('klkl_id', 10);
             $table->bigInteger('rps_id')->unsigned();
-
+            $table->string('semester', 3);
             $table->foreign('rps_id')->references('id')->on('rps')->onDelete('cascade');
             $table->timestamps();
         });
