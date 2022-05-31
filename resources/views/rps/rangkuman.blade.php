@@ -69,7 +69,8 @@
                                                 <td>
                                                     @foreach ($dataRps as $i)
 
-                                                    {{ round(($i->matakuliah->sks*50*$i->agendabelajars->count()/60),2). ' jam / '.$i->agendabelajars->count().' pertemuan = '. round(($i->matakuliah->sks*50*$i->agendabelajars->count()/60)/$i->agendabelajars->count(),2). ' jam' }}
+                                                    {{ (round(($i->matakuliah->sks*50*$i->agendabelajars->count() ?? 0/60),2). ' jam / '.$i->agendabelajars->count() ?? 0 ." pertemuan = ". round(($i->matakuliah->sks*50*$i->agendabelajars->count()?? 0 /60)/$i->agendabelajars->count() ?? 0,2). ' jam') }}
+
                                                     @endforeach
 
                                                 </td>
@@ -194,7 +195,7 @@
                                                     @foreach ($dataRps as $i)
                                                     @if ($i->matakuliah->sks)
 
-                                                    {{ round(($i->matakuliah->sks*$i->agendabelajars->count()),2).' jam / '.$i->agendabelajars->count().' pertemuan = '. round(($i->matakuliah->sks*$i->agendabelajars->count())/$i->agendabelajars->count(),2).' jam'  }}
+                                                    {{ round(($i->matakuliah->sks*$i->agendabelajars->count() ?? 0),2).' jam / '.$i->agendabelajars->count() ?? 0 .' pertemuan = '. round(($i->matakuliah->sks*$i->agendabelajars->count() ?? 0)/$i->agendabelajars->count() ?? 0,2).' jam'  }}
                                                     @endif
                                                     @endforeach
                                                 </td>
@@ -215,7 +216,7 @@
                                                     @foreach ($dataRps as $i)
                                                     @if ($i->matakuliah->sks)
 
-                                                    {{ round(($i->matakuliah->sks*$i->agendabelajars->count()),2).' jam / '.$i->agendabelajars->count().' pertemuan = '. round(($i->matakuliah->sks*$i->agendabelajars->count())/$i->agendabelajars->count(),2).' jam'  }}
+                                                    {{ round(($i->matakuliah->sks*$i->agendabelajars->count() ?? 0 ),2).' jam / '.$i->agendabelajars->count() ?? 0 .' pertemuan = '. round(($i->matakuliah->sks*$i->agendabelajars->count() ?? 0 )/$i->agendabelajars->count() ?? 0 ,2).' jam'  }}
                                                     @endif
                                                     @endforeach
                                                 </td>

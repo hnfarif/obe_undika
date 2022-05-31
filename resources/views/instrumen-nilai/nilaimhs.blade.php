@@ -27,8 +27,12 @@
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header ">
                                 <h4>Daftar Nilai Mahasiswa</h4>
+                                <button class="btn btn-primary ml-auto btnSimpanNilai" disabled><i
+                                        class="fas fa-save"></i> Simpan
+                                    Penilaian
+                                    CLO</button>
                             </div>
                             <div class="card-body">
 
@@ -47,7 +51,9 @@
 
 
                                             </th>
-                                            <th rowspan="4" class="align-middle text-center bg-light">Total
+                                            <th rowspan="4" class="align-middle text-center bg-light">
+
+                                                Total
                                                 {{ $da->clo->kode_clo }}
                                             </th>
                                             @endforeach
@@ -87,15 +93,24 @@
                                     <tbody>
                                         @foreach ($krs as $k)
                                         <tr>
-                                            <td>{{ $k->mhs_nim }}</td>
-                                            <td>{{ $k->mahasiswa->nama }}</td>
+                                            <td>
+                                                {{ $k->mhs_nim }}
+                                            </td>
+                                            <td>
+
+                                                {{ $k->mahasiswa->nama }}
+                                            </td>
                                             @foreach ($dtlAgd->unique('clo_id') as $cl)
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                             $pen)
 
                                             <td>
-                                                <input type="number" min="0" max="100"
-                                                    value=""
+                                                <input type="hidden" id="idDtlAgd" value="{{ $pen->id }}">
+                                                <input type="hidden" id="nim" value="{{ $k->mhs_nim }}">
+                                                <input type="number"
+                                                    value="{{ $pen->detailInstrumenNilai->where('mhs_nim', $k->mhs_nim)->first()->nilai ?? '' }}"
+                                                    max="100"
+                                                    min="0"
                                                     class="form-control text-center nilai" style="min-width:60px;">
                                             </td>
                                             @endforeach
@@ -123,24 +138,5 @@
 </div>
 @endsection
 @push('script')
-
-<script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#tableIns').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            scrollCollapse: true,
-            scroller: true,
-            select: true,
-            fixedColumns:{
-                left: 2
-            }
-        });
-
-
-    })
-
-</script>
+@include('instrumen-nilai.script-nilaimhs')
 @endpush

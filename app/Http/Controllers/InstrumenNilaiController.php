@@ -48,15 +48,11 @@ class InstrumenNilaiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {
+    {   $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
 
-
-        // $clo = Clo::where('rps_id', $instru->rps_id)->get();
-        // $penilaian = Penilaian::where('rps_id', $instru->rps_id)->orderBy('id', 'asc')->get();
-
         $agd = AgendaBelajar::where('rps_id', $instru->rps_id)->pluck('id')->toArray();
-        $dtlAgd = DetailAgenda::whereIn('agd_id', $agd)->with('penilaian','clo')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
+        $dtlAgd = DetailAgenda::whereIn('agd_id', $agd)->with('penilaian','clo','detailInstrumenNilai')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
         $krs = Krs::where('jkul_klkl_id', $instru->klkl_id)->with('mahasiswa')->get();
 
         $dtlInstru = DetailInstrumenNilai::where('ins_nilai_id', $instru->id)->get();
@@ -64,7 +60,7 @@ class InstrumenNilaiController extends Controller
         // dd($dtlAgd);
 
 
-        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru'));
+        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns'));
     }
 
     /**
@@ -75,7 +71,27 @@ class InstrumenNilaiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        foreach ($request->get('dataNilai') as $n) {
+
+            $findDtlIns = DetailInstrumenNilai::where('mhs_nim', $n['nim'])->where('dtl_agd_id', $n['dtl_id'])->first();
+
+            if ($findDtlIns) {
+
+                $dtlIns = DetailInstrumenNilai::where('id', $findDtlIns->id)->update([
+                    'nilai' => $n['nilai'],
+                ]);
+
+            } else {
+                $dtlIns = new DetailInstrumenNilai();
+                $dtlIns->ins_nilai_id = $request->get('idIns');
+                $dtlIns->dtl_agd_id = $n['dtl_id'];
+                $dtlIns->mhs_nim = $n['nim'];
+                $dtlIns->nilai = $n['nilai'];
+                $dtlIns->save();
+
+            }
+        }
+        return response()->json(['success' => 'Data Berhasil Disimpan']);
     }
 
     /**

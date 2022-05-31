@@ -39,4 +39,8 @@ class DetailAgenda extends Model
         return $this->hasMany(MateriKuliah::class, 'dtl_agd_id', 'id');
     }
 
+    public function detailInstrumenNilai(){
+        return $this->hasMany(DetailInstrumenNilai::class, 'dtl_agd_id', 'id');
+    }
+
 }

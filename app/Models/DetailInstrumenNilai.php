@@ -11,4 +11,15 @@ class DetailInstrumenNilai extends Model
 
     protected $table = 'dtl_ins_nilai';
     protected $guarded = ["id"];
+
+    public function insNilai()
+    {
+        return $this->hasMany(InstrumenNilai::class);
+    }
+
+    public function detailAgenda()
+    {
+        return $this->belongsTo(DetailAgenda::class, 'dtl_agd_id', 'id');
+    }
+
 }
