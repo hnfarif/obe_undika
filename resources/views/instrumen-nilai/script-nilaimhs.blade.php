@@ -15,7 +15,57 @@
             }
         });
 
+        $('.ttlClo').each(function (i, v) {
+            var sum = 0;
+            var dataCl = $(this).data('cl');
+            $(this).prevAll('td').find('.nilai').each(function () {
+                var bbt = $(this).closest('td').find('#bobot').val();
+                if ($(this).data('cl') == dataCl) {
+                    sum += +($(this).val() * (bbt / 100));
+                }
+            });
+            $(this).text(sum);
+        });
 
+        $('.nKvs').each(function (i, v) {
+
+            var sumBbt = $(this).data('sumbobot');
+            var ttlClo = parseFloat($(this).prev().text());
+            if (sumBbt == 0) {
+                sumBbt = 1;
+            }
+            var nKvs = (ttlClo / sumBbt) * 100;
+            $(this).text(nKvs.toFixed(2));
+        });
+
+        $('.stsLulus').each(function (i, v) {
+            var nilaiMin = $(this).data('nilaimin');
+            var nKvs = parseFloat($(this).prev().text());
+            if (nKvs >= nilaiMin) {
+                $(this).text('L');
+            } else {
+                $(this).text('TL');
+            }
+        });
+
+        $('.avgTtl').each(function (i, v) {
+            var arr = [];
+            var sum = 0;
+            var dataCl = $(this).data('cl');
+            $(this).closest('table').find('tbody').find('tr').find('.ttlClo').each(function () {
+                var dataCl2 = $(this).data('cl');
+                if (dataCl == dataCl2) {
+                    arr.push(parseFloat($(this).text()));
+                }
+            });
+
+            for (var number of arr) {
+                sum += number;
+            }
+
+            var avg = sum / arr.length;
+            $(this).text(avg.toFixed(2));
+        })
     })
 
     $('.btnSimpanNilai').on('click', function () {
@@ -30,15 +80,15 @@
             },
             success: function (data) {
                 Swal.fire({
-                    title: 'Berhasil',
-                    text: data.success,
-                    type: 'success',
-                    confirmButtonText: 'Ok'
-                }).then((result) => {
-                    if (result.value) {
-                        location.reload();
-                    }
+                    position: 'top-end',
+                    icon: 'success',
+                    title: data.success,
+                    showConfirmButton: false,
+                    timer: 1500
                 })
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
             }
 
         })
@@ -59,11 +109,11 @@
 
         });
 
-        if (temp.nilai > 100) {
+        if (temp.nilai > 100 || temp.nilai < 0) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Nilai tidak boleh lebih dari 100',
+                text: 'Nilai tidak boleh lebih dari 100 atau kurang dari 0',
             })
             $(this).val('');
         } else if (temp.nilai != '') {

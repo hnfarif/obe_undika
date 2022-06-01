@@ -43,4 +43,9 @@ class DetailAgenda extends Model
         return $this->hasMany(DetailInstrumenNilai::class, 'dtl_agd_id', 'id');
     }
 
+    public function getTotalClo($data)
+    {
+        dd($data);
+    }
+
 }
