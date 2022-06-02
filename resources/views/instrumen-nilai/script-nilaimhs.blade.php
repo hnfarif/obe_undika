@@ -24,7 +24,7 @@
                     sum += +($(this).val() * (bbt / 100));
                 }
             });
-            $(this).text(sum);
+            $(this).text(sum.toFixed(2));
         });
 
         $('.nKvs').each(function (i, v) {
@@ -66,6 +66,88 @@
             var avg = sum / arr.length;
             $(this).text(avg.toFixed(2));
         })
+
+        $('.avgKvs').each(function (i, v) {
+
+            var arr = [];
+            var sum = 0;
+            var dataCl = $(this).data('cl');
+
+            $(this).closest('table').find('tbody').find('tr').find('.nKvs').each(function () {
+                var dataCl2 = $(this).data('cl');
+                if (dataCl == dataCl2) {
+                    arr.push(parseFloat($(this).text()));
+                }
+            });
+
+            for (var number of arr) {
+                sum += number;
+            }
+
+            var avg = sum / arr.length;
+            $(this).text(avg.toFixed(2));
+        })
+
+        $('.avgStsLulus').each(function (i, v) {
+            var getKvs = parseFloat($(this).prev().text());
+            var getNilaiMin = $(this).data('nilaimin');
+            if (getKvs >= getNilaiMin) {
+                $(this).text('L');
+            } else {
+                $(this).text('TL');
+            }
+
+
+        })
+
+        $('.naObe').each(function (i, v) {
+            var sum = 0;
+
+            $(this).prevAll('.nKvs').each(function (i, v) {
+                var bbt = $(this).data('sumbobot');
+                var nKvs = parseFloat($(this).text());
+                sum += (nKvs * (bbt / 100));
+            });
+
+            $(this).text(Math.round(sum));
+        });
+
+        $('.nhObe').each(function (i, v) {
+
+            var naObe = parseFloat($(this).prev().text());
+
+            if (naObe < 40) {
+                $(this).text('E');
+            } else if (naObe >= 40 && naObe < 55) {
+                $(this).text('D');
+
+            } else if (naObe >= 55 && naObe < 60) {
+                $(this).text('C');
+            } else if (naObe >= 60 && naObe < 65) {
+                $(this).text('C+');
+            } else if (naObe >= 65 && naObe < 75) {
+                $(this).text('B');
+            } else if (naObe >= 75 && naObe < 80) {
+                $(this).text('B+');
+            } else if (naObe >= 80) {
+                $(this).text('A');
+            }
+
+        })
+
+        $('input[type=radio][name=optvclo]').change(function () {
+            if ($(this).val() == '1') {
+                $('.penClo').removeClass('d-none');
+                $('.rangClo').addClass('d-none');
+                $('.titleClo').text('Instrumen Nilai Mahasiswa')
+            } else {
+                $('.penClo').addClass('d-none');
+                $('.rangClo').removeClass('d-none');
+                $('.titleClo').text('Rangkuman Ketercapaian CLO')
+            }
+        })
+
+
     })
 
     $('.btnSimpanNilai').on('click', function () {
