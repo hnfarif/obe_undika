@@ -147,6 +147,56 @@
             }
         })
 
+        $('.rangAvgKvs').each(function (i, v) {
+
+            var rangDataCl = $(this).data('cl');
+            var getKvs = '';
+            $('.penClo').find('table').find('tfoot').find('tr').find('.avgKvs').each(function () {
+                var dataCl = $(this).data('cl');
+                if (dataCl == rangDataCl) {
+                    getKvs = $(this).text();
+                }
+            });
+
+            $(this).text(getKvs);
+        })
+
+        $('.rangKet').each(function (i, v) {
+
+            var getAvg = parseFloat($(this).prev().text());
+            var getTargetClo = parseInt($(this).prev().prev().text());
+
+            if (getAvg < getTargetClo) {
+                $(this).text('Tidak Tercapai');
+            } else {
+                $(this).text('Tercapai');
+            }
+
+        })
+
+        $('.rangJmlLulus').each(function (i, v) {
+            var sum = 0;
+            var dataCl = $(this).data('cl');
+            $('.penClo').find('table').find('tbody').find('tr').find('.stsLulus').each(function () {
+                if ($(this).data('cl') == dataCl) {
+                    sum += +($(this).text() == 'L' ? 1 : 0);
+                }
+
+            })
+            $(this).text(sum);
+        })
+
+        $('.rangJmlTl').each(function (i, v) {
+            var sum = 0;
+            var dataCl = $(this).data('cl');
+            $('.penClo').find('table').find('tbody').find('tr').find('.stsLulus').each(function () {
+                if ($(this).data('cl') == dataCl) {
+                    sum += +($(this).text() == 'TL' ? 1 : 0);
+                }
+
+            })
+            $(this).text(sum);
+        })
 
     })
 

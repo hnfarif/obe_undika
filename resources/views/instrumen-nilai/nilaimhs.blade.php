@@ -182,7 +182,7 @@
 
                                             </td>
 
-                                            <td class="text-center align-middle stsLulus"
+                                            <td class="text-center align-middle stsLulus" data-cl="{{ $cl->clo_id }}"
                                             data-nilaimin="{{ $cl->clo->nilai_min }}"
                                             >
 
@@ -234,9 +234,9 @@
                                <h4>Rangkuman CLO</h4>
                             </div>
                             <div class="card-body">
-                                <table class="table table-striped table-responsive">
+                                <table class="table table-striped table-responsive" width="100%">
                                     <thead>
-                                        <tr>
+                                        <tr class="text-center align-middle">
                                             <th>ID CLO</th>
                                             <th>Target CLO</th>
                                             <th>Rata - rata Nilai Capaian CLO</th>
@@ -247,9 +247,29 @@
 
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
+                                        @foreach ($dtlAgd->unique('clo_id') as $da)
+
+                                        <tr class="text-center align-middle">
+                                            <td style="width:100px;">
+                                                {{ $da->clo->kode_clo }}
+                                            </td>
+                                            <td class="tgtClo">
+                                                {{ $da->clo->nilai_min }}
+                                            </td>
+                                            <td class="rangAvgKvs" data-cl="{{ $da->clo_id }}">
+
+                                            </td>
+                                            <td class="rangKet">
+
+                                            </td>
+                                            <td class="rangJmlLulus" data-cl="{{ $da->clo_id }}">
+
+                                            </td>
+                                            <td class="rangJmlTl" data-cl="{{ $da->clo_id }}">
+
+                                            </td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

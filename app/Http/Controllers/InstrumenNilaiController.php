@@ -73,7 +73,8 @@ class InstrumenNilaiController extends Controller
     {
         foreach ($request->get('dataNilai') as $n) {
 
-            $findDtlIns = DetailInstrumenNilai::where('mhs_nim', $n['nim'])->where('dtl_agd_id', $n['dtl_id'])->first();
+            $findDtlIns = DetailInstrumenNilai::where('mhs_nim', $n['nim'])->where('dtl_agd_id', $n['dtl_id'])
+            ->where('ins_nilai_id', $request->get('idIns'))->first();
 
             if ($findDtlIns) {
 
@@ -157,7 +158,9 @@ class InstrumenNilaiController extends Controller
             ]);
         }else{
             $rps = $rps->first();
-            $instru = InstrumenNilai::where('rps_id', $rps->id)->where('klkl_id', substr($request->kode_mk, 5))->first();
+            $instru = InstrumenNilai::where('rps_id', $rps->id)->where('klkl_id', substr($request->kode_mk, 5))
+            ->where('nik', $nik_kary)
+            ->first();
 
             if ($instru) {
                 return response()->json([
@@ -169,6 +172,7 @@ class InstrumenNilaiController extends Controller
                     'rps_id' => $rps->id,
                     'klkl_id' => substr($request->kode_mk, 5),
                     'semester' => $smt->smt_aktif,
+                    'nik' => $nik_kary,
                 ]);
 
                 return response()->json([
