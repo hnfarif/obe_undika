@@ -12,4 +12,8 @@ class InstrumenNilai extends Model
     protected $table = 'instrumen_nilai';
     protected $guarded = ["id"];
 
+    public function karyawan()
+    {
+        return $this->belongsTo(KaryawanDosen::class, 'nik', 'nik');
+    }
 }

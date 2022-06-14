@@ -112,6 +112,8 @@ Route::prefix('penilaian')->name('penilaian.')->group(function (){
 
     Route::get('/cekrps', [InstrumenNilaiController::class, 'cekRps'])->name('cekrps');
 
+    Route::put('/nilaimin', [InstrumenNilaiController::class, 'uptNilaiMin'])->name('putNilaiMin');
+
     Route::resource('clo', InstrumenNilaiController::class);
 });
 

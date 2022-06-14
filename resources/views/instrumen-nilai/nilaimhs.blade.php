@@ -16,11 +16,95 @@
     <div class="main-content">
         <section class="section">
             <div class="section-body">
+
                 <div class="d-flex align-items-center my-0">
-                    <h2 class="section-title">Target CLO</h2>
+                    <h2 class="section-title titleClo">Instrumen Nilai Mahasiswa</h2>
+                    <div class="ml-auto">
+                        <div class="selectgroup w-100">
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optvclo" value="ttgMk" class="selectgroup-input">
+                                <span class="selectgroup-button">Tentang MK</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optvclo" value="penClo" class="selectgroup-input" checked="">
+                                <span class="selectgroup-button">Penilaian CLO</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optvclo" value="konvAak" class="selectgroup-input">
+                                <span class="selectgroup-button">Konversi AAK</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optvclo" value="rangClo" class="selectgroup-input">
+                                <span class="selectgroup-button">Rangkuman CLO</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="row">
+                <div class="row ttgMk d-none">
+                    <div class="col-12 col-md-6 col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Deskripsi Mata Kuliah</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table-sm table-responsive">
+                                    <thead>
+                                        <tr class="">
+                                            <th style="min-width: 200px;">Program Studi</th>
+                                            <td style="width: 100%;">{{ $mk->prodi->nama }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nama MK</th>
+                                            <td style="width: 100%;">{{ $mk->nama }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Kelas</th>
+                                            <td style="width: 100%;">{{ $jdw->kelas }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Dosen</th>
+                                            <td style="width: 100%;">{{ $instru->karyawan->nama }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Semester</th>
+                                            <td style="width: 100%;">{{ $instru->semester }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Target Nilai Min MK</th>
+                                            <td style="width: 100%;">
+                                                <form action="{{ route('penilaian.putNilaiMin') }}" method="POST"
+                                                    class="d-flex">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" value="{{ $idIns }}" name="idIns">
+                                                    <input class="form-control w-25" type="number" name="nilai_min_mk"
+                                                        id="nilai_min_mk" required value="{{ $instru->nilai_min_mk }}"
+                                                        @if ($instru->nilai_min_mk)
+                                                    readonly @endif>
+
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-primary ml-3 @if ($instru->nilai_min_mk) d-none @endif btnSaveNilaiMk">
+                                                        <i class="fas fa-save">
+                                                        </i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-primary ml-3 @if (!$instru->nilai_min_mk) d-none @endif  btnEditNilaiMk">
+                                                        <i class="fas fa-edit">
+                                                        </i>
+                                                    </button>
+                                                </form>
+
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card">
                             <div class="card-header">
@@ -48,22 +132,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center my-0">
-                    <h2 class="section-title titleClo">Instrumen Nilai Mahasiswa</h2>
-                    <div class="ml-auto">
-                        <div class="selectgroup w-100">
-                            <label class="selectgroup-item">
-                                <input type="radio" name="optvclo" value="1" class="selectgroup-input" checked="">
-                                <span class="selectgroup-button">Penilaian CLO</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="radio" name="optvclo" value="0" class="selectgroup-input">
-                                <span class="selectgroup-button">Rangkuman CLO</span>
-                            </label>
                         </div>
                     </div>
                 </div>
@@ -142,7 +210,7 @@
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                             $pen)
 
-                                            <th>{{ $pen->bobot.'%'}}</th>
+                                            <th class="bbtPen" data-jns="{{ $pen->penilaian->jenis }}">{{ $pen->bobot.'%'}}</th>
                                             @endforeach
                                             @endforeach
 
@@ -172,7 +240,9 @@
                                                     ->where('ins_nilai_id', $idIns)->first()->nilai ?? '' }}"
                                                     max="100"
                                                     min="0"
-                                                    class="form-control text-center nilai" data-cl="{{ $cl->clo_id }}" style="min-width:60px;">
+                                                    class="form-control text-center nilai" data-cl="{{ $cl->clo_id }}"
+                                                    data-jns ="{{ $pen->penilaian->jenis }}"
+                                                    style="min-width:60px;">
                                             </td>
                                             @endforeach
                                             <td class="text-center align-middle ttlClo" data-cl="{{ $cl->clo_id }}"></td>
@@ -188,8 +258,11 @@
 
                                             </td>
                                             @endforeach
+
                                             <td class="align-middle text-center naObe" ></td>
+
                                             <td class="align-middle text-center nhObe"></td>
+
                                             <td class="align-middle text-center stsaLulus"></td>
                                         </tr>
                                         @endforeach
@@ -228,7 +301,7 @@
                 </div>
 
                 <div class="row rangClo d-none">
-                    <div class="col-12 col-md-6 col-lg-12">
+                    <div class="col-12 col-md-12 col-lg-12">
                         <div class="card">
                             <div class="card-header">
                                <h4>Rangkuman CLO</h4>
@@ -237,12 +310,14 @@
                                 <table class="table table-striped table-responsive" width="100%">
                                     <thead>
                                         <tr class="text-center align-middle">
-                                            <th>ID CLO</th>
+                                            <th style="min-width: 100px;">ID CLO</th>
                                             <th>Target CLO</th>
-                                            <th>Rata - rata Nilai Capaian CLO</th>
+                                            <th style="min-width: 100px;">Rata - rata Nilai Capaian CLO</th>
                                             <th>Keterangan</th>
                                             <th>Jumlah Mahasiswa memenuhi target</th>
                                             <th>Jumlah Mahasiswa belum memenuhi target</th>
+                                            <th>Penyebab Kegagalan</th>
+                                            <th>Langkah Perbaikan</th>
                                         </tr>
 
                                     </thead>
@@ -268,6 +343,112 @@
                                             <td class="rangJmlTl" data-cl="{{ $da->clo_id }}">
 
                                             </td>
+                                            <td>
+                                                <textarea class="form-control mt-2 mb-2" name="descGagal" id="" style="width:200px; height: 80px;"></textarea>
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control mt-2 mb-2" name="descGagal" id="" style="width:200px; height: 80px;"></textarea>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table-sm table-bordered" width="100%">
+                                    <thead>
+                                        <tr class="align-middle text-center">
+                                            <th>Total CLO Tercapai</th>
+                                            <th class="ttlCapai"></th>
+                                            <th class="preCapai"></th>
+
+                                        </tr>
+                                        <tr class="align-middle text-center">
+                                            <th>Total CLO Tidak Tercapai</th>
+                                            <th class=" ttlNoCapai"></th>
+                                            <th class="preNoCapai"></th>
+                                        </tr>
+                                    </thead>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table-sm table-bordered" width="100%">
+                                    <thead>
+                                        <tr class="align-middle text-center">
+                                            <th>Total MHS Mencapai CLO</th>
+                                            <th style="min-width: 100px;" class="ttlMhsCapai"></th>
+                                            <th class="preMhsCapai"></th>
+
+                                        </tr>
+                                        <tr class="align-middle text-center">
+                                            <th style="min-width: 250px;">Total MHS Tidak Mencapai CLO</th>
+                                            <th class=" ttlMhsNoCapai"></th>
+                                            <th class="preMhsNoCapai"></th>
+                                        </tr>
+                                    </thead>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row konvAak d-none">
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>                                Konversi AAK
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped table-responsive" width="100%" id="tableKonv">
+                                    <thead>
+                                        <tr class="align-middle text-center">
+                                            <th class="align-middle" rowspan="2">NIM</th>
+                                            <th class="align-middle" rowspan="2">Nama Mahasiswa</th>
+                                            @foreach ($dtlAgd->where('penilaian_id', '<>', null)->map(function($d){return $d->penilaian;})->unique('jenis') as $da)
+
+                                            <th>{{ $da->jenis }}</th>
+                                            @endforeach
+                                            <th class="align-middle" rowspan="2" >Nilai Mentah Akhir AAK</th>
+                                            <th class="align-middle" rowspan="2">Nilai Huruf AAK</th>
+                                            <th class="align-middle"  rowspan="2">Status Kelulusan AAK (L/TL)</th>
+                                        </tr>
+                                        <tr class="text-center align-middle">
+                                            @foreach ($dtlAgd->where('penilaian_id', '<>', null)->map(function($d){return $d->penilaian;})->unique('jenis') as $da)
+
+                                            <th class="bbtKonv" data-jns="{{ $da->jenis }}"></th>
+
+                                            @endforeach
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($krs as $k)
+                                        <tr class="text-center align-middle">
+                                            <td>
+                                                {{ $k->mhs_nim }}
+                                            </td>
+                                            <td>
+                                                {{ $k->mahasiswa->nama }}
+                                            </td>
+                                            @foreach ($dtlAgd->where('penilaian_id', '<>', null)->map(function($d){return $d->penilaian;})->unique('jenis') as $da)
+
+                                            <td class="nilaiKonv" data-jns="{{ $da->jenis }}" data-nim="{{ $k->mhs_nim }}">
+                                            ></td>
+
+                                            @endforeach
+                                            <td class="naAak"></td>
+                                            <td class="nhAak"></td>
+                                            <td class="stsLulusAak"></td>
                                         </tr>
                                         @endforeach
                                     </tbody>

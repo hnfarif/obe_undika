@@ -37,6 +37,8 @@ class Penilaian extends Model
         return $total;
     }
 
+
+
     // public function getBobot($penilaian,$clo)
     // {
     //     $bobot = BobotPenilaian::where('penilaian_id',$penilaian)->where('clo_id',$clo)->first();

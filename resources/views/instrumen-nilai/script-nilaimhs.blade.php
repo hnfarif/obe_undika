@@ -1,6 +1,11 @@
 <script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
 <script>
     var data = Array();
+    var sumCapai = 0;
+    var sumNoCapai = 0;
+
+    var sumMhsCapai = 0;
+    var sumMhsNoCapai = 0;
 
     $(document).ready(function () {
         $('#tableIns').DataTable({
@@ -13,6 +18,21 @@
             fixedColumns: {
                 left: 2
             }
+        });
+
+        $('#tableKonv').DataTable({
+            paging: false,
+            autoWidth: false,
+            searching: false,
+            info: false,
+            scrollCollapse: true,
+            scroller: true,
+            select: true,
+            fixedColumns: {
+                left: 2
+            },
+
+
         });
 
         $('.ttlClo').each(function (i, v) {
@@ -43,8 +63,10 @@
             var nKvs = parseFloat($(this).prev().text());
             if (nKvs >= nilaiMin) {
                 $(this).text('L');
+
             } else {
                 $(this).text('TL');
+
             }
         });
 
@@ -135,15 +157,60 @@
 
         })
 
+        $('.stsaLulus').each(function (i, v) {
+
+            var nMin = $('#nilai_min_mk').val();
+            var arrLulus = [];
+
+            var naObe = parseFloat($(this).prev().prev().text());
+
+
+            if (nMin) {
+
+
+                $(this).prevAll('.stsLulus').each(function (i, v) {
+
+                    arrLulus.push($(this).text());
+                })
+
+                if (!arrLulus.includes('TL') && naObe >= nMin) {
+                    $(this).text('L')
+                    sumMhsCapai++;
+                } else {
+                    $(this).text('TL')
+                    sumMhsNoCapai++;
+                }
+
+            } else {
+                $(this).text('isi nilai min mk');
+            }
+        })
+
         $('input[type=radio][name=optvclo]').change(function () {
-            if ($(this).val() == '1') {
+            if ($(this).val() == 'penClo') {
                 $('.penClo').removeClass('d-none');
                 $('.rangClo').addClass('d-none');
+                $('.konvAak').addClass('d-none');
+                $('.ttgMk').addClass('d-none');
                 $('.titleClo').text('Instrumen Nilai Mahasiswa')
-            } else {
+            } else if ($(this).val() == 'rangClo') {
                 $('.penClo').addClass('d-none');
                 $('.rangClo').removeClass('d-none');
+                $('.konvAak').addClass('d-none');
+                $('.ttgMk').addClass('d-none');
                 $('.titleClo').text('Rangkuman Ketercapaian CLO')
+            } else if ($(this).val() == 'konvAak') {
+                $('.penClo').addClass('d-none');
+                $('.rangClo').addClass('d-none');
+                $('.ttgMk').addClass('d-none');
+                $('.konvAak').removeClass('d-none');
+                $('.titleClo').text('Konversi AAK')
+            } else {
+                $('.penClo').addClass('d-none');
+                $('.rangClo').addClass('d-none');
+                $('.konvAak').addClass('d-none');
+                $('.ttgMk').removeClass('d-none');
+                $('.titleClo').text('Tentang Mata Kuliah')
             }
         })
 
@@ -163,13 +230,16 @@
 
         $('.rangKet').each(function (i, v) {
 
+
             var getAvg = parseFloat($(this).prev().text());
             var getTargetClo = parseInt($(this).prev().prev().text());
 
             if (getAvg < getTargetClo) {
                 $(this).text('Tidak Tercapai');
+                sumNoCapai++;
             } else {
                 $(this).text('Tercapai');
+                sumCapai++;
             }
 
         })
@@ -197,6 +267,113 @@
             })
             $(this).text(sum);
         })
+
+        $('.bbtKonv').each(function (i, v) {
+
+            var sum = 0;
+            var dataJns = $(this).data('jns');
+
+            $('.penClo').find('table').find('thead').find('tr').find('.bbtPen').each(function () {
+                if ($(this).data('jns') == dataJns) {
+                    sum += +parseFloat($(this).text());
+                }
+            })
+
+            $(this).text(sum + '%');
+
+        });
+
+        $('.nilaiKonv').each(function (i, v) {
+
+            var sum = 0;
+            var dataJns = $(this).data('jns');
+            var bobotJns = 0;
+            var dataNim = $(this).data('nim');
+
+            $('.penClo').find('table').find('tbody').find('tr').find('.nilai').each(function () {
+                var bbt = $(this).closest('td').find('#bobot').val();
+                var nim = $(this).closest('td').find('#nim').val();
+                if ($(this).data('jns') == dataJns && nim == dataNim) {
+                    sum += +parseFloat($(this).val() * bbt);
+                }
+            })
+
+            $('.konvAak').find('table').find('thead').find('tr').find('.bbtKonv').each(function () {
+                if ($(this).data('jns') == dataJns) {
+                    bobotJns = parseFloat($(this).text().replace('%', ''));
+                }
+
+            })
+
+            $(this).text((sum / bobotJns).toFixed(0));
+        });
+
+        $('.naAak').each(function (i, v) {
+            var sum = 0;
+
+            $(this).closest('tr').find('.nilaiKonv').each(function (j, v) {
+                var bbt = parseFloat($(this).closest('table').find('thead').find('tr').find(
+                    '.bbtKonv').eq(
+                    j).text().replace('%', ''));
+
+                sum += parseFloat($(this).text()) * bbt / 100;
+
+            })
+            $(this).text(Math.round(sum));
+        })
+
+        $('.nhAak').each(function (i, v) {
+
+            var naAak = parseFloat($(this).prev().text());
+
+            if (naAak < 40) {
+                $(this).text('E');
+            } else if (naAak >= 40 && naAak < 55) {
+                $(this).text('D');
+
+            } else if (naAak >= 55 && naAak < 60) {
+                $(this).text('C');
+            } else if (naAak >= 60 && naAak < 65) {
+                $(this).text('C+');
+            } else if (naAak >= 65 && naAak < 75) {
+                $(this).text('B');
+            } else if (naAak >= 75 && naAak < 80) {
+                $(this).text('B+');
+            } else if (naAak >= 80) {
+                $(this).text('A');
+            }
+
+        })
+
+        $('.stsLulusAak').each(function (i, v) {
+            var naAak = parseFloat($(this).prev().prev().text());
+            var nMin = $("#nilai_min_mk").val();
+            if (naAak >= nMin) {
+                $(this).text('L');
+            } else {
+                $(this).text('TL');
+            }
+        })
+
+        $('.btnEditNilaiMk').click(function () {
+            $('#nilai_min_mk').removeAttr('readonly');
+            $('.btnSaveNilaiMk').removeClass('d-none');
+            $(this).addClass('d-none');
+        })
+
+
+        $('.ttlCapai').text(sumCapai);
+        $('.ttlNoCapai').text(sumNoCapai);
+
+        $('.ttlMhsCapai').text(sumMhsCapai + ' Mahasiswa');
+        $('.ttlMhsNoCapai').text(sumMhsNoCapai + ' Mahasiswa');
+
+        $('.preCapai').text(Math.round(sumCapai / (sumCapai + sumNoCapai) * 100) + '%');
+        $('.preNoCapai').text(Math.round(sumNoCapai / (sumCapai + sumNoCapai) * 100) + '%');
+
+        $('.preMhsCapai').text(Math.round(sumMhsCapai / (sumMhsCapai + sumMhsNoCapai) * 100) + '%');
+
+        $('.preMhsNoCapai').text(Math.round(sumMhsNoCapai / (sumMhsCapai + sumMhsNoCapai) * 100) + '%');
 
     })
 

@@ -16,9 +16,10 @@ class CreateInstrumenNilaiTable extends Migration
         Schema::create('instrumen_nilai', function (Blueprint $table) {
             $table->id();
             $table->string('klkl_id', 10);
+            $table->string('nik', 6);
             $table->bigInteger('rps_id')->unsigned();
             $table->string('semester', 3);
-            $table->string('nik', 6);
+            $table->integer('nilai_min_mk')->unsigned();
             $table->foreign('rps_id')->references('id')->on('rps')->onDelete('cascade');
             $table->timestamps();
         });

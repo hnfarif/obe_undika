@@ -10,11 +10,13 @@ use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\Krs;
+use App\Models\MataKuliah;
 use App\Models\Penilaian;
 use App\Models\Rps;
 use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class InstrumenNilaiController extends Controller
 {
@@ -51,16 +53,23 @@ class InstrumenNilaiController extends Controller
     {   $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
 
+        $jdw = JadwalKuliah::where('klkl_id', $instru->klkl_id)->where('kary_nik', $instru->nik)->where('sts_kul', '1')->first();
+
         $agd = AgendaBelajar::where('rps_id', $instru->rps_id)->pluck('id')->toArray();
         $dtlAgd = DetailAgenda::whereIn('agd_id', $agd)->with('penilaian','clo','detailInstrumenNilai')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
-        $krs = Krs::where('jkul_klkl_id', $instru->klkl_id)->with('mahasiswa')->get();
+
+        $krs = Krs::where('jkul_klkl_id', $instru->klkl_id)->where('jkul_kelas', $jdw->kelas)->with('mahasiswa')->get();
 
         $dtlInstru = DetailInstrumenNilai::where('ins_nilai_id', $instru->id)->get();
 
-        // dd($dtlAgd);
+        $rps = Rps::where('id', $instru->rps_id)->first();
+
+        $mk = MataKuliah::where('id', $rps->kurlkl_id)->with('prodi')->first();
 
 
-        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns'));
+
+
+        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw'));
     }
 
     /**
@@ -182,4 +191,18 @@ class InstrumenNilaiController extends Controller
 
         }
     }
+
+    public function uptNilaiMin(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'nilai_min' => 'required|numeric',
+        ]);
+
+        $instru = InstrumenNilai::where('id', $request->get('idIns'))->first();
+        $instru->nilai_min_mk = $request->get('nilai_min_mk');
+        $instru->save();
+
+        return redirect()->back();
+    }
+
 }
