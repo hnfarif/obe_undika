@@ -161,7 +161,6 @@
 
                                                 {{ $da->clo->kode_clo }}
 
-
                                             </th>
                                             <th rowspan="4" class="align-middle text-center bg-light">
 
@@ -305,9 +304,11 @@
                         <div class="card">
                             <div class="card-header">
                                <h4>Rangkuman CLO</h4>
+                               <button class="btn btn-primary ml-auto btnSaveSum" disabled><i
+                                class="fas fa-save"></i> Simpan Rangkuman </button>
                             </div>
                             <div class="card-body">
-                                <table class="table table-striped table-responsive" width="100%">
+                                <table class="table table-striped table-responsive" width="100%" id="tableSummary">
                                     <thead>
                                         <tr class="text-center align-middle">
                                             <th style="min-width: 100px;">ID CLO</th>
@@ -324,30 +325,37 @@
                                     <tbody>
                                         @foreach ($dtlAgd->unique('clo_id') as $da)
 
-                                        <tr class="text-center align-middle">
-                                            <td style="width:100px;">
+                                        <tr class="text-center">
+                                            <td style="width:100px;" class="align-middle">
                                                 {{ $da->clo->kode_clo }}
                                             </td>
-                                            <td class="tgtClo">
+                                            <td class="tgtClo align-middle">
                                                 {{ $da->clo->nilai_min }}
                                             </td>
-                                            <td class="rangAvgKvs" data-cl="{{ $da->clo_id }}">
+                                            <td class="align-middle rangAvgKvs" data-cl="{{ $da->clo_id }}">
 
                                             </td>
-                                            <td class="rangKet">
+                                            <td class="align-middle rangKet">
 
                                             </td>
-                                            <td class="rangJmlLulus" data-cl="{{ $da->clo_id }}">
+                                            <td class="align-middle rangJmlLulus" data-cl="{{ $da->clo_id }}">
 
                                             </td>
-                                            <td class="rangJmlTl" data-cl="{{ $da->clo_id }}">
+                                            <td class="align-middle rangJmlTl" data-cl="{{ $da->clo_id }}">
 
                                             </td>
                                             <td>
-                                                <textarea class="form-control mt-2 mb-2" name="descGagal" id="" style="width:200px; height: 80px;"></textarea>
+                                                <textarea class="form-control mt-2 mb-2 csFail"  id="csFail" style="width:200px; height: 80px;"
+                                                data-clo="{{ $da->clo_id }}"
+                                                data-ins="{{ $idIns }}"
+                                                data-sts="csFail"
+                                                >{{ $summary->where('clo_id', $da->clo_id)->first()->sbb_gagal ?? ' ' }}</textarea>
                                             </td>
                                             <td>
-                                                <textarea class="form-control mt-2 mb-2" name="descGagal" id="" style="width:200px; height: 80px;"></textarea>
+                                                <textarea class="form-control mt-2 mb-2 improvClo" id="improvClo" style="width:200px; height: 80px;"
+                                                data-clo="{{ $da->clo_id }}"
+                                                data-ins="{{ $idIns }}"
+                                                data-sts="improvClo">{{ $summary->where('clo_id', $da->clo_id)->first()->perbaikan ?? ' ' }}</textarea>
                                             </td>
                                         </tr>
                                         @endforeach

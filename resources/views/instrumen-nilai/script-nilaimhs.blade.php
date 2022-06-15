@@ -1,6 +1,8 @@
 <script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
 <script>
     var data = Array();
+    var dataSummary = Array();
+
     var sumCapai = 0;
     var sumNoCapai = 0;
 
@@ -33,6 +35,13 @@
             },
 
 
+        });
+
+        $('#tableSummary').DataTable({
+            paging: false,
+            autoWidth: false,
+            searching: false,
+            info: false,
         });
 
         $('.ttlClo').each(function (i, v) {
@@ -436,7 +445,59 @@
             $('.btnSimpanNilai').attr('disabled', 'disabled');
         }
 
-        console.log(data);
+    })
+
+    $('.btnSaveSum').on('click', function () {
+
+        $.ajax({
+            url: "{{ route('penilaian.storeSummary') }}",
+            type: 'POST',
+            data: {
+                '_token': '{{ csrf_token() }}',
+                'dataSum': dataSummary,
+            },
+            success: function (data) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: data.success,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            }
+
+        })
+    })
+    $('#tableSummary').on('blur', '.csFail , .improvClo', function () {
+
+        var temp = {
+            'idClo': $(this).data('clo'),
+            'idIns': $(this).data('ins'),
+            'desc': $(this).val(),
+            'sts': $(this).data('sts')
+
+        };
+
+        dataSummary.forEach(element => {
+            if (element.idClo == temp.idClo && element.idIns == temp.idIns && element.sts == temp.sts) {
+                dataSummary.splice(dataSummary.indexOf(element), 1);
+            }
+
+        });
+
+        if (temp.desc != '') {
+            dataSummary.push(temp);
+        }
+
+        if (dataSummary.length > 0) {
+            $('.btnSaveSum').removeAttr('disabled');
+        } else {
+            $('.btnSaveSum').attr('disabled', 'disabled');
+        }
+
     })
 
 </script>

@@ -114,6 +114,8 @@ Route::prefix('penilaian')->name('penilaian.')->group(function (){
 
     Route::put('/nilaimin', [InstrumenNilaiController::class, 'uptNilaiMin'])->name('putNilaiMin');
 
+    Route::post('/save-summary', [InstrumenNilaiController::class, 'storeSummary'])->name('storeSummary');
+
     Route::resource('clo', InstrumenNilaiController::class);
 });
 

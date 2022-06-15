@@ -12,6 +12,7 @@ use App\Models\KaryawanDosen;
 use App\Models\Krs;
 use App\Models\MataKuliah;
 use App\Models\Penilaian;
+use App\Models\RangkumanClo;
 use App\Models\Rps;
 use App\Models\Semester;
 use Illuminate\Http\Request;
@@ -66,10 +67,9 @@ class InstrumenNilaiController extends Controller
 
         $mk = MataKuliah::where('id', $rps->kurlkl_id)->with('prodi')->first();
 
+        $summary = RangkumanClo::where('ins_nilai_id', $idIns)->get();
 
-
-
-        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw'));
+        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary'));
     }
 
     /**
@@ -203,6 +203,45 @@ class InstrumenNilaiController extends Controller
         $instru->save();
 
         return redirect()->back();
+    }
+
+    public function storeSummary(Request $request)
+    {
+        foreach ($request->get('dataSum') as $sum) {
+
+            $findSum = RangkumanClo::where('clo_id', $sum['idClo'])->where('ins_nilai_id', $sum['idIns'])->first();
+
+            if ($findSum) {
+                if ($sum['sts'] == 'improvClo') {
+                    RangkumanClo::where('clo_id', $sum['idClo'])->where('ins_nilai_id', $sum['idIns'])->update([
+                        'perbaikan' => $sum['desc'],
+                    ]);
+                }else{
+                    RangkumanClo::where('clo_id', $sum['idClo'])->where('ins_nilai_id', $sum['idIns'])->update([
+                        'sbb_gagal' => $sum['desc'],
+                    ]);
+                }
+            }else{
+                if ($sum['sts'] == 'improvClo') {
+                    RangkumanClo::create([
+                        'clo_id' => $sum['idClo'],
+                        'ins_nilai_id' => $sum['idIns'],
+                        'perbaikan' => $sum['desc'],
+
+                    ]);
+                }else{
+                    RangkumanClo::create([
+                        'clo_id' => $sum['idClo'],
+                        'ins_nilai_id' => $sum['idIns'],
+                        'sbb_gagal' => $sum['desc'],
+
+                    ]);
+                }
+
+            }
+
+        }
+        return response()->json(['success' => 'Data Berhasil Disimpan']);
     }
 
 }
