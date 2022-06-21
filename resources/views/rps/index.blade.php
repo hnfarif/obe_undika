@@ -6,8 +6,6 @@
     @include('layouts.navbar')
     <div class="main-content">
         <section class="section">
-
-
             <div class="section-body">
 
                 @if (session()->has('message'))

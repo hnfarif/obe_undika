@@ -69,7 +69,7 @@
     $(document).ready(function () {
 
         $(".btnUbahNilai").on('click', function () {
-            // window.location.href = "{{ url('/instrumen-nilai/create') }}";
+
             $.ajax({
                 url: "{{  route('penilaian.cekrps') }}",
                 type: 'GET',
@@ -78,7 +78,7 @@
                     'kode_mk': $(this).data('mk'),
                 },
                 success: function (data) {
-                    console.log(data);
+                    // console.log(data.error);
                     if ($.isEmptyObject(data.error)) {
                         window.location.href = data.url;
                     } else {

@@ -8,6 +8,7 @@ use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PeoController;
 use App\Http\Controllers\PeoPloController;
 use App\Http\Controllers\PloController;
+use App\Http\Controllers\PlottingMonevController;
 use App\Http\Controllers\RpsController;
 use App\Http\Controllers\UserController;
 use App\Models\AgendaBelajar;
@@ -119,13 +120,9 @@ Route::prefix('penilaian')->name('penilaian.')->group(function (){
     Route::resource('clo', InstrumenNilaiController::class);
 });
 
-Route::prefix('plotting')->group(function(){
+Route::prefix('monev')->name('monev.')->group(function(){
 
-    Route::get('/', function (){
-
-        return view('plotting-gpm.index');
-    })->name('kelola.plotting');
-
+    Route::resource('plotting', PlottingMonevController::class);
 });
 
 

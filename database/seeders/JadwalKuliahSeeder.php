@@ -184,21 +184,24 @@ class JadwalKuliahSeeder extends Seeder
         foreach ($kardos as $k){
 
             foreach ($mk as $m) {
-                JadwalKuliah::create([
-                    'kary_nik' => $k['nik'],
-                    'klkl_id' => substr($m->id, 5),
-                    'kelas' => 'P1',
-                    'hari' => 1,
-                    'mulai' => date('Y-m-d H:i:s'),
-                    'selesai' => date('Y-m-d H:i:s', strtotime('+1 hour')),
-                    'kapasitas' => 30,
-                    'terisi' => 20,
-                    'isi_temp' => 0,
-                    'sts_kul' => "1",
-                    'ruang_id' => "MY202",
-                    'prodi' => $k['fakul_id'],
-                    'sks' => $m['sks'],
-                ]);
+                if ($m->fakul_id == '41010') {
+                    JadwalKuliah::create([
+                        'kary_nik' => $k['nik'],
+                        'klkl_id' => substr($m->id, 5),
+                        'kelas' => 'P1',
+                        'hari' => 1,
+                        'mulai' => date('Y-m-d H:i:s'),
+                        'selesai' => date('Y-m-d H:i:s', strtotime('+1 hour')),
+                        'kapasitas' => 30,
+                        'terisi' => 20,
+                        'isi_temp' => 0,
+                        'sts_kul' => "1",
+                        'ruang_id' => "MY202",
+                        'prodi' => $k['fakul_id'],
+                        'sks' => $m['sks'],
+                    ]);
+                }
+
             }
         }
     }

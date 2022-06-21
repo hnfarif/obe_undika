@@ -18,9 +18,9 @@ class JadwalKuliah extends Model
 
     public function getNameMataKuliah($mk, $prodi)
     {
-        $mk = MataKuliah::where('id', $prodi.$mk)->first();
+        $maku = MataKuliah::where('id', $prodi.$mk)->first();
 
-        return $mk->nama;
+        return $maku->nama;
     }
 
 
@@ -29,5 +29,12 @@ class JadwalKuliah extends Model
         $prodi = Prodi::where('id', $prodi)->first();
 
         return $prodi->nama;
+    }
+
+    public function getNameKary($nik)
+    {
+        $kary = KaryawanDosen::where('nik', $nik)->first();
+
+        return $kary->nama;
     }
 }

@@ -180,7 +180,7 @@
                         class="fas fa-table"></i><span>Penilaian CLO</span></a>
             </li>
             <li class="nav-item @yield('plottingmonev')">
-                <a href="{{ route('kelola.plotting') }}" class="nav-link"><i
+                <a href="{{ route('monev.plotting.index') }}" class="nav-link"><i
                         class="fas fa-vector-square"></i><span>Plotting
                         Monev</span></a>
             </li>

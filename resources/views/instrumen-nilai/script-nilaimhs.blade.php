@@ -396,6 +396,16 @@
                 'dataNilai': data,
                 'idIns': "{{ $idIns }}"
             },
+            beforeSend: function () {
+                Swal.fire({
+                    title: 'Menyimpan data...',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading()
+                    }
+                })
+            },
             success: function (data) {
                 Swal.fire({
                     position: 'top-end',
@@ -456,7 +466,18 @@
                 '_token': '{{ csrf_token() }}',
                 'dataSum': dataSummary,
             },
+            beforeSend: function () {
+                Swal.fire({
+                    title: 'Menyimpan data...',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading()
+                    }
+                })
+            },
             success: function (data) {
+                Swal.close();
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -467,7 +488,8 @@
                 setTimeout(() => {
                     location.reload();
                 }, 1500);
-            }
+
+            },
 
         })
     })

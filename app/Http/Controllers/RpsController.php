@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AgendaBelajar;
 use App\Models\DetailAgenda;
+use App\Models\InstrumenNilai;
 use App\Models\KaryawanDosen;
 use App\Models\MataKuliah;
 use App\Models\MateriKuliah;
@@ -38,7 +39,7 @@ class RpsController extends Controller
     {
         $mk = MataKuliah::where('status', 1)->get();
         $dosens = KaryawanDosen::all();
-        // dd($dosens);
+
         return view('rps.plottingmk', compact('mk','dosens'));
     }
 
@@ -53,22 +54,31 @@ class RpsController extends Controller
        $validatedData = $request->validate([
             'rumpun_mk' => 'required',
             'ketua_rumpun' => 'required',
+            'semester' => 'required',
             'mklist' => 'required',
         ]);
 
         // dd($request->all());
 
         foreach ($request->mklist as $i) {
-            $rps = new Rps;
+
+
             $mk = MataKuliah::where('id',$i)->first();
-            $dosen = KaryawanDosen::where('nik',$request->ketua_rumpun)->first();
-            $rps->kurlkl_id = $i;
-            $rps->nik = $dosen->nik;
-            $rps->nama_mk = $mk->nama;
-            $rps->rumpun_mk = $request->rumpun_mk;
-            $rps->semester = $request->semester;
-            $rps->is_active = 1;
-            $rps->save();
+            $findRps = Rps::where('kurlkl_id', $i)->where('semester',$request->semester)->where('is_active', '1')->first();
+
+            if ($findRps) {
+                continue;
+            }else{
+                $rps = new Rps;
+                $rps->kurlkl_id = $i;
+                $rps->nik = $request->ketua_rumpun;
+                $rps->nama_mk = $mk->nama;
+                $rps->rumpun_mk = $request->rumpun_mk;
+                $rps->semester = $request->semester;
+                $rps->is_active = 1;
+                $rps->save();
+
+            }
 
             Session::flash('message', 'Data berhasil ditambahkan!');
             Session::flash('alert-class', 'alert-success');
