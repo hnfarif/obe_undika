@@ -20,6 +20,7 @@
 
                                     <option value="{{ $i->kode_clo }}">{{ $i->kode_clo.' - '.$i->deskripsi  }}
                                     </option>
+
                                     @endforeach
                                 </select>
 

@@ -122,6 +122,12 @@ Route::prefix('penilaian')->name('penilaian.')->group(function (){
 
 Route::prefix('monev')->name('monev.')->group(function(){
 
+    Route::get('/add-dosen', [PlottingMonevController::class, 'addDosenSession'])->name('addDosen');
+
+    Route::get('/listmonev', [PlottingMonevController::class, 'getListMonev'])->name('listMonev');
+
+    Route::get('/deletemonev', [PlottingMonevController::class, 'deleteMonev'])->name('deleteMonev');
+
     Route::resource('plotting', PlottingMonevController::class);
 });
 
