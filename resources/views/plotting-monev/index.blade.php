@@ -8,6 +8,14 @@
         <section class="section">
 
             <div class="section-body">
+                @if (session()->has('message'))
+                <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
+                    {{ session()->get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-12">
 
@@ -35,27 +43,35 @@
                                                 <th>NIK</th>
                                                 <th>Nama Dosen</th>
                                                 <th>Ruang</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+
+                                            @foreach ($pltMnv as $m)
                                             <tr>
                                                 <td>
-                                                    1
+                                                    {{ $m->prodi }}
                                                 </td>
-                                                <td>35533</td>
-                                                <td>Teknologi Big Data</td>
+                                                <td>{{ $m->klkl_id }}</td>
+                                                <td>{{ $m->getNameMataKuliah($m->klkl_id, $m->prodi) }}</td>
                                                 <td>
-                                                    7
-                                                </td>
-                                                <td>
-                                                    3
+                                                    {{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar)['kelas'] }}
                                                 </td>
                                                 <td>
-                                                    3
+                                                    {{ $m->nik_pengajar }}
+                                                </td>
+                                                <td>
+                                                    {{ $m->getNameKary($m->nik_pengajar) }}
+                                                </td>
+                                                <td>
+                                                    {{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar)['ruang'] }}
                                                 </td>
                                                 <td><a href="" class="btn btn-light">Lihat</a>
                                                 </td>
                                             </tr>
+                                            @endforeach
+
 
                                         </tbody>
                                     </table>

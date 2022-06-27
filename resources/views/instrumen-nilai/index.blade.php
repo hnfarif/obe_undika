@@ -39,8 +39,10 @@
                                             <td>{{ $jdw->ruang_id }}</td>
                                             <td>{{ $jdw->getNameProdi($jdw->prodi) }}</td>
                                             <td>{{ $jdw->sks }}</td>
-                                            <td><button data-mk="{{ $jdw->prodi.$jdw->klkl_id }}"
-                                                    class="btn btn-primary btnUbahNilai">Penilaian CLO</button>
+                                            <td><button data-mk="{{ $jdw->prodi.$jdw->klkl_id }}" class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) btn-primary @else btn-success @endif btn-sm
+                                                    btnUbahNilai">@if ($instru->where('klkl_id',
+                                                    $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) Edit Nilai
+                                                    @else Buat Instrumen @endif</button>
                                             </td>
                                         </tr>
                                         @endforeach

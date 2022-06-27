@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
+use App\Models\PlottingMonev;
 use App\Models\Rps;
 use App\Models\Semester;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -19,7 +22,9 @@ class PlottingMonevController extends Controller
      */
     public function index()
     {
-        return view('plotting-monev.index');
+        $nik = auth()->user()->nik;
+        $pltMnv = PlottingMonev::where('nik_pemonev', $nik)->get();
+        return view('plotting-monev.index', compact('pltMnv'));
     }
 
     /**
@@ -30,20 +35,20 @@ class PlottingMonevController extends Controller
     public function create()
     {
         // session()->forget('listMonev-'.auth()->user()->nik);
-        $rps = Rps::where('is_active', '1')->where('semester', '202')->pluck('kurlkl_id')->toArray();
+        $rps = Rps::where('is_active', '1')->pluck('kurlkl_id')->toArray();
 
         $arrKlkl = [];
         foreach ($rps as $i) {
             $arrKlkl[] = substr($i, 5);
         }
 
-        $jdwkul = JadwalKuliah::where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->paginate(10);
+        $jdwkul = JadwalKuliah::where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->get();
 
         $kary = KaryawanDosen::where('fakul_id', '<>', null)->get();
-        // dd($kary);
-        // dd($jdwkul);
 
-        return view('plotting-monev.create', compact('jdwkul', 'kary'));
+        $instru = InstrumenNilai::all();
+
+        return view('plotting-monev.create', compact('jdwkul', 'kary', 'instru'));
     }
 
     /**
@@ -54,7 +59,39 @@ class PlottingMonevController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validatedData = $request->validate([
+            'dosen_pemonev' => 'required',
+        ]);
+
+        $listMonev = session('listMonev-'.$request->nikAdm) ?? [];
+
+        if ($listMonev != []) {
+
+            foreach ($listMonev as $i) {
+
+                $instru = InstrumenNilai::where('klkl_id', $i['mkId'])->where('nik', $i['dosPeng'])->first();
+
+                if($instru){
+                    PlottingMonev::create([
+                        'ins_nilai_id' => $instru->id,
+                        'nik_pemonev' => $request->dosen_pemonev,
+                        'nik_pengajar' => $i['dosPeng'],
+                        'klkl_id' => $i['mkId'],
+                        'prodi' => $i['prodi'],
+
+                    ]);
+                }
+            }
+        }else{
+            Session::flash('message', 'Daftar Mata Kuliah yang di monev tidak boleh kosong!');
+            Session::flash('alert-class', 'alert-danger');
+            return back();
+        }
+        Session::flash('message', 'Data berhasil ditambahkan!');
+        Session::flash('alert-class', 'alert-success');
+        session()->forget('listMonev-'.auth()->user()->nik);
+        return redirect()->route('monev.plotting.index');
     }
 
     /**
@@ -146,7 +183,7 @@ class PlottingMonevController extends Controller
 
         return DataTables::of($listMonev)
         ->addColumn('aksi', function ($data) {
-        return '<button class="btn btn-danger delMonev'.'" data-nik="'.$data['dosPeng'].'" data-mk="'.$data['mkId'].'"><i class="fas fa-trash"></i></button>';
+        return '<button type="button" class="btn btn-danger delMonev" data-nik="'.$data['dosPeng'].'" data-mk="'.$data['mkId'].'"><i class="fas fa-trash"></i></button>';
         })->rawColumns(['aksi'])
         ->make(true);
     }

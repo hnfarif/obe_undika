@@ -46,6 +46,7 @@
                     'nameDosPeng': $('#dosen_pengajar').find(':selected').data('karyname'),
                     'mkId': $('#dosen_pengajar').find(':selected').data('klkl'),
                     'mkName': $('#dosen_pengajar').find(':selected').data('namamk'),
+                    'prodi': $('#dosen_pengajar').find(':selected').data('prodi'),
                 },
                 success: function (data) {
 

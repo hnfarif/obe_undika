@@ -42,7 +42,9 @@ class InstrumenNilaiController extends Controller
 
         $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->get();
 
-        return view('instrumen-nilai.index', compact('jdwkul'));
+        $instru = InstrumenNilai::all();
+
+        return view('instrumen-nilai.index', compact('jdwkul', 'instru'));
     }
 
     /**
