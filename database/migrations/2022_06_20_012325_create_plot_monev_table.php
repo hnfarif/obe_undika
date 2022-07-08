@@ -15,13 +15,12 @@ class CreatePlotMonevTable extends Migration
     {
         Schema::create('plot_monev', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('ins_nilai_id')->unsigned();
             $table->string('nik_pemonev', 6);
             $table->string('nik_pengajar', 6);
             $table->string('klkl_id', 5);
             $table->string('prodi', 6);
+            $table->string('semester', 3);
 
-            $table->foreign('ins_nilai_id')->references('id')->on('instrumen_nilai')->onDelete('cascade');
             $table->timestamps();
         });
     }

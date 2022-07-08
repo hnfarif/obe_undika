@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\CloController;
+use App\Http\Controllers\InstrumenMonevController;
 use App\Http\Controllers\InstrumenNilaiController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PeoController;
@@ -122,13 +123,12 @@ Route::prefix('penilaian')->name('penilaian.')->group(function (){
 
 Route::prefix('monev')->name('monev.')->group(function(){
 
-    Route::get('/add-dosen', [PlottingMonevController::class, 'addDosenSession'])->name('addDosen');
+    Route::get('/kriteria/create', [PlottingMonevController::class, 'createCriteria'])->name('createCriteria');
 
-    Route::get('/listmonev', [PlottingMonevController::class, 'getListMonev'])->name('listMonev');
-
-    Route::get('/deletemonev', [PlottingMonevController::class, 'deleteMonev'])->name('deleteMonev');
+    Route::post('/kriteria/store', [PlottingMonevController::class, 'storeCriteria'])->name('storeCriteria');
 
     Route::resource('plotting', PlottingMonevController::class);
+    Route::resource('instrumen', InstrumenMonevController::class);
 });
 
 

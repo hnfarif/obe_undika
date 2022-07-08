@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
+use App\Models\KriteriaMonev;
 use App\Models\PlottingMonev;
 use App\Models\Rps;
 use App\Models\Semester;
@@ -24,7 +25,8 @@ class PlottingMonevController extends Controller
     {
         $nik = auth()->user()->nik;
         $pltMnv = PlottingMonev::where('nik_pemonev', $nik)->get();
-        return view('plotting-monev.index', compact('pltMnv'));
+        $kri = KriteriaMonev::all();
+        return view('plotting-monev.index', compact('pltMnv', 'kri'));
     }
 
     /**
@@ -35,20 +37,35 @@ class PlottingMonevController extends Controller
     public function create()
     {
         // session()->forget('listMonev-'.auth()->user()->nik);
-        $rps = Rps::where('is_active', '1')->pluck('kurlkl_id')->toArray();
+        $rpsKl = Rps::where('is_active', '1')->pluck('kurlkl_id')->toArray();
+        $rps = Rps::where('is_active', '1')->pluck('semester')->toArray();
+        $plot = PlottingMonev::whereIn('semester', $rps)->get();
+        // dd($plot);
+        $arrJdwkul = [];
 
-        $arrKlkl = [];
-        foreach ($rps as $i) {
-            $arrKlkl[] = substr($i, 5);
+        foreach ($rpsKl as $i) {
+            $arrKurlkl[] = substr($i,5);
         }
 
-        $jdwkul = JadwalKuliah::where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->get();
+        $jdwkul = JadwalKuliah::whereIn('klkl_id', $arrKurlkl)->get();
 
+        // dd($jdwkul);
+
+        foreach ($jdwkul as $i) {
+           $cek = PlottingMonev::where('klkl_id', $i->klkl_id)->where('nik_pengajar', $i->kary_nik)->first();
+              if(!$cek){
+                $arrJdwkul[] = $i;
+              }
+        }
+        // dd($arrJdwkul);
+        $jdwkul = $arrJdwkul;
         $kary = KaryawanDosen::where('fakul_id', '<>', null)->get();
 
-        $instru = InstrumenNilai::all();
+        $smt = Semester::all();
 
-        return view('plotting-monev.create', compact('jdwkul', 'kary', 'instru'));
+        // dd($jdwkul);
+
+        return view('plotting-monev.create', compact('jdwkul', 'kary', 'smt'));
     }
 
     /**
@@ -60,37 +77,27 @@ class PlottingMonevController extends Controller
     public function store(Request $request)
     {
 
+        // dd($request->all());
         $validatedData = $request->validate([
             'dosen_pemonev' => 'required',
+            'mk_monev' => 'required',
         ]);
+        foreach ($request->mk_monev as $i) {
+            $expData = explode("-", $i);
+            $smt = Semester::where('fak_id', $expData[2])->first();
+            PlottingMonev::create([
+                'nik_pemonev' => $request->dosen_pemonev,
+                'nik_pengajar' => $expData[0],
+                'klkl_id' => $expData[1],
+                'prodi' => $expData[2],
+                'semester' => $smt->smt_aktif,
 
-        $listMonev = session('listMonev-'.$request->nikAdm) ?? [];
-
-        if ($listMonev != []) {
-
-            foreach ($listMonev as $i) {
-
-                $instru = InstrumenNilai::where('klkl_id', $i['mkId'])->where('nik', $i['dosPeng'])->first();
-
-                if($instru){
-                    PlottingMonev::create([
-                        'ins_nilai_id' => $instru->id,
-                        'nik_pemonev' => $request->dosen_pemonev,
-                        'nik_pengajar' => $i['dosPeng'],
-                        'klkl_id' => $i['mkId'],
-                        'prodi' => $i['prodi'],
-
-                    ]);
-                }
-            }
-        }else{
-            Session::flash('message', 'Daftar Mata Kuliah yang di monev tidak boleh kosong!');
-            Session::flash('alert-class', 'alert-danger');
-            return back();
+            ]);
         }
+
         Session::flash('message', 'Data berhasil ditambahkan!');
         Session::flash('alert-class', 'alert-success');
-        session()->forget('listMonev-'.auth()->user()->nik);
+
         return redirect()->route('monev.plotting.index');
     }
 
@@ -139,62 +146,32 @@ class PlottingMonevController extends Controller
         //
     }
 
-    public function addDosenSession(Request $request)
+
+    public function createCriteria()
     {
-        $validatedData =  Validator::make($request->all(), [
 
-            'dosPeng' => 'required',
+        return view('plotting-monev.create-criteria');
+    }
 
+    public function storeCriteria(Request $request)
+    {
+        $validatedData = $request->validate([
+            'kriteria_penilaian' => 'required',
+            'kategori' => 'required',
+            'bobot' => 'required',
+            'deskripsi' => 'required',
         ]);
 
-        $listMk = [];
+        KriteriaMonev::create([
+            'kategori' => $request->kategori,
+            'kri_penilaian' => $request->kriteria_penilaian,
+            'deskripsi' => $request->deskripsi,
+            'bobot' => $request->bobot,
+        ]);
 
-        if ($validatedData->passes()) {
-
-
-
-            if (session()->has('listMonev-'.$request->nikAdmin)) {
-
-                $dataMk = session('listMonev-'.$request->nikAdmin);
-
-                foreach ($dataMk as $item) {
-                    if(!($item['dosPeng'] == $request->dosPeng && $item['mkId'] == $request->mkId)){
-                        array_push($listMk, $item);
-                    }
-                }
-                array_push($listMk, $request->all());
-            }else{
-                array_push($listMk, $request->all());
-            }
-
-            session(['listMonev-'.$request->nikAdmin => $listMk]);
-            return response()->json(['success' => 'Data berhasil Ditambahkan']);
-        }
-
-        return response()->json(['error' => $validatedData->errors()->all()]);
+        Session::flash('message', 'Data berhasil ditambahkan!');
+        Session::flash('alert-class', 'alert-success');
+        return redirect()->route('monev.plotting.index');
     }
 
-    public function getListMonev(Request $request)
-    {
-        $listMonev = session('listMonev-'.$request->nikAdm);
-        if (!$listMonev) {
-            $listMonev = [];
-        }
-
-        return DataTables::of($listMonev)
-        ->addColumn('aksi', function ($data) {
-        return '<button type="button" class="btn btn-danger delMonev" data-nik="'.$data['dosPeng'].'" data-mk="'.$data['mkId'].'"><i class="fas fa-trash"></i></button>';
-        })->rawColumns(['aksi'])
-        ->make(true);
-    }
-
-    public function deleteMonev(Request $request)
-    {
-        $listMonev = session('listMonev-'.$request->nikAdmin);
-        $listMonev = array_filter($listMonev, function ($item) use ($request) {
-            return $item['dosPeng'] != $request->nik || $item['mkId'] != $request->mk;
-        });
-        session(['listMonev-'.$request->nikAdmin => $listMonev]);
-        return response()->json(['success' => 'Data berhasil Dihapus']);
-    }
 }

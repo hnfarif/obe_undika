@@ -35,8 +35,14 @@
                                             name="dosen_pemonev" required>
                                             <option selected disabled>Pilih Dosen</option>
                                             @foreach ($kary as $i)
+                                            @if (old('dosen_pemonev') == $i->nik)
+                                            <option value="{{ $i->nik }}" selected>{{ $i->nama }}
+                                            </option>
+                                            @else
                                             <option value="{{ $i->nik }}">{{ $i->nama }}
                                             </option>
+                                            @endif
+
 
                                             @endforeach
                                         </select>
@@ -47,53 +53,56 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>Dosen Pengajar</label>
-                                        <div class="row">
-                                            <div class="col-10">
-                                                <select
-                                                    class="form-control select2 @error('dosen_pengajar') is-invalid @enderror"
-                                                    name="dosen_pengajar" id="dosen_pengajar" required>
-                                                    <option selected disabled>Pilih Dosen</option>
-                                                    @foreach ($jdwkul as $i)
-                                                    @if ($instru->where('klkl_id',
-                                                    $i->klkl_id)->where('nik',$i->kary_nik)->first())
-                                                    <option value="{{ $i->kary_nik }}" data-prodi="{{ $i->prodi }}"
-                                                        data-klkl="{{ $i->klkl_id }}"
-                                                        data-namamk="{{ $i->getNameMataKuliah($i->klkl_id, $i->prodi) }}"
-                                                        data-karyname="{{ $i->getNameKary($i->kary_nik) }}">
-                                                        {{ $i->getNameMataKuliah($i->klkl_id, $i->prodi).' - '.$i->getNameKary($i->kary_nik) }}
-                                                    </option>
-                                                    @endif
-                                                    @endforeach
-                                                </select>
-                                                @error('dosen_pengajar')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
 
-                                            </div>
-                                            <div class="col-2 mt-auto mb-1">
-
-                                                <button type="button" class="btn btn-primary w-100" id="btnAddDosen"> <i
-                                                        class="fas fa-plus"></i> Tambah
-                                                    Dosen</button>
-                                            </div>
+                                        <label>Pilih Matakuliah yang dimonev</label>
+                                        @error('mk_monev')
+                                        <div class="text-danger">
+                                            {{ $message }}
                                         </div>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <table class="table table-striped" id="tableMonev" width="100%">
+                                        @enderror
+                                        <table class="table table-striped table-responsive" id="tableMonev"
+                                            width="100%">
                                             <thead>
-                                                <th>Nama MataKuliah</th>
-                                                <th>Nama dosen</th>
-                                                <th>Aksi</th>
+                                                <th>Prodi</th>
+                                                <th>Kode Mata Kuliah</th>
+                                                <th>Nama Mata Kuliah</th>
+                                                <th>Kelas</th>
+                                                <th>Hari</th>
+                                                <th>NIK</th>
+                                                <th>Nama Dosen</th>
+                                                <th>Mahasiswa</th>
+                                                <th>Ruang</th>
+                                                <th>Pilih</th>
                                             </thead>
                                             <tbody>
-
+                                                @foreach ($jdwkul as $i)
+                                                <tr>
+                                                    <td>{{ $i->getNameProdi($i->prodi) }}</td>
+                                                    <td>{{ $i->klkl_id }}</td>
+                                                    <td>{{ $i->getNameMataKuliah($i->klkl_id,$i->prodi) }}</td>
+                                                    <td>{{ $i->kelas }}</td>
+                                                    <td>{{ $i->hari }}</td>
+                                                    <td>{{ $i->kary_nik }}</td>
+                                                    <td>{{ $i->getNameKary($i->kary_nik) }}</td>
+                                                    <td>{{ $i->terisi }}</td>
+                                                    <td>{{ $i->ruang_id }}</td>
+                                                    <td>
+                                                        <div class="custom-control custom-checkbox checkbox-xl">
+                                                            <input type="checkbox" name="mk_monev[]"
+                                                                value="{{ $i->kary_nik.'-'.$i->klkl_id.'-'.$i->prodi }}"
+                                                                class="custom-control-input"
+                                                                id="listMonev-{{ $loop->iteration }}">
+                                                            <label class="custom-control-label"
+                                                                for="listMonev-{{ $loop->iteration }}"></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
+
                                     </div>
+
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>

@@ -16,15 +16,31 @@
                     </button>
                 </div>
                 @endif
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-12">
+                <div class="my-3">
+                    <a href="{{ route('monev.plotting.create') }}" type="button" class="btn btn-primary"><i
+                            class="fas fa-plus"></i> Entri
+                        Plotting Monev</a>
 
-                        <div class="my-3">
-                            <a href="{{ route('monev.plotting.create') }}" type="button" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Entri
-                                Plotting Monev</a>
+                    <a href="{{ route('monev.createCriteria') }}" type="button" class="btn btn-primary"><i
+                            class="fas fa-plus"></i> Entri Kriteria Penilaian</a>
+                </div>
+                <div class="d-flex align-items-center my-0">
+                    <div class="ml-auto">
+                        <div class="selectgroup w-100">
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optvclo" value="plot" class="selectgroup-input" checked="">
+                                <span class="selectgroup-button">Daftar Plotting</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optvclo" value="kriMon" class="selectgroup-input">
+                                <span class="selectgroup-button">Kriteria Penilaian Monev</span>
+                            </label>
                         </div>
+                    </div>
+                </div>
 
+                <div class="row plot">
+                    <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4>Daftar monev</h4>
@@ -67,7 +83,67 @@
                                                 <td>
                                                     {{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar)['ruang'] }}
                                                 </td>
-                                                <td><a href="" class="btn btn-light">Lihat</a>
+                                                <td><a href="{{ route('monev.instrumen.index', ['id' => $m->id]) }}"
+                                                        class="btn btn-success btn-sm text-sm">Buat Instrumen Monev</a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row kriMon d-none">
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Daftar Kriteria</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-responsive" id="tableKri">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th>
+                                                    #
+                                                </th>
+                                                <th>
+                                                    Kategori
+                                                </th>
+                                                <th>Kriteria Penilaian</th>
+                                                <th style="min-width: 200px;">
+                                                    Deskripsi
+                                                </th>
+                                                <th>Bobot (%)</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach ($kri as $k)
+                                            <tr>
+                                                <td class="text-center">
+                                                    {{ $loop->iteration }}
+                                                </td>
+                                                <td>
+                                                    {{ $k->kategori }}
+                                                </td>
+                                                <td>
+                                                    {{ $k->kri_penilaian }}
+                                                </td>
+                                                <td>
+                                                    {{ $k->deskripsi }}
+                                                </td>
+                                                <td>
+                                                    {{ $k->bobot }}
+                                                </td>
+                                                <td><a href="" class="btn btn-light">Ubah</a>
                                                 </td>
                                             </tr>
                                             @endforeach

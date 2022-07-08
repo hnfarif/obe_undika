@@ -32,4 +32,14 @@ class PlottingMonev extends Model
 
         return $kary->nama;
     }
+
+    public function nikKaryawanJdw()
+    {
+        return $this->belongsTo(JadwalKuliah::class, 'nik_pengajar', 'kary_nik');
+    }
+
+    public function mkKaryawanJdw()
+    {
+        return $this->belongsTo(JadwalKuliah::class, 'klkl_id', 'klkl_id');
+    }
 }

@@ -37,4 +37,14 @@ class JadwalKuliah extends Model
 
         return $kary->nama;
     }
+
+    public function nikKaryawanMonev()
+    {
+        return $this->hasMany(PlottingMonev::class, 'nik_pengajar', 'kary_nik');
+    }
+
+    public function mkKaryawanMonev()
+    {
+        return $this->hasMany(PlottingMonev::class, 'klkl_id', 'klkl_id');
+    }
 }
