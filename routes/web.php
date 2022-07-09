@@ -127,6 +127,12 @@ Route::prefix('monev')->name('monev.')->group(function(){
 
     Route::post('/kriteria/store', [PlottingMonevController::class, 'storeCriteria'])->name('storeCriteria');
 
+    Route::get('/kriteria/show', [PlottingMonevController::class, 'showCriteria'])->name('showCriteria');
+
+    Route::put('/kriteria/update', [PlottingMonevController::class, 'updateCriteria'])->name('updateCriteria');
+
+    Route::delete('/kriteria/delete/{id}', [PlottingMonevController::class, 'deleteCriteria'])->name('deleteCriteria');
+
     Route::resource('plotting', PlottingMonevController::class);
     Route::resource('instrumen', InstrumenMonevController::class);
 });

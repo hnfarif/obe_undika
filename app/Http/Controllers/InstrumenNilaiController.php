@@ -10,12 +10,16 @@ use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\Krs;
+use App\Models\Kuliah;
 use App\Models\MataKuliah;
 use App\Models\Penilaian;
 use App\Models\RangkumanClo;
 use App\Models\Rps;
 use App\Models\Semester;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -53,25 +57,50 @@ class InstrumenNilaiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {   $idIns = $request->get('ins');
+    {
+        $now = Carbon::now();
+        // dd($now->endOfWeek()->format('d-m-Y'));
+        $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
 
         $jdw = JadwalKuliah::where('klkl_id', $instru->klkl_id)->where('kary_nik', $instru->nik)->where('sts_kul', '1')->first();
 
+        $kul = Kuliah::where('jkul_kelas', $jdw->kelas)->where('jkul_klkl_id', $jdw->prodi.$jdw->klkl_id)->where('jkul_kary_nik', $jdw->kary_nik)->get();
+
+        $week = 0;
+        foreach ($kul as $k) {
+            $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+            $weekEndDate = $now->endOfWeek()->format('Y-m-d');
+            $tglKul = Carbon::parse($k->tanggal)->format('Y-m-d');
+            if (($weekStartDate <= $tglKul) && ($tglKul <= $weekEndDate) ) {
+
+                $week++;
+
+            }
+        }
+
+        $rps = Rps::where('id', $instru->rps_id)->first();
+
+        $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
+
         $agd = AgendaBelajar::where('rps_id', $instru->rps_id)->pluck('id')->toArray();
+
+
         $dtlAgd = DetailAgenda::whereIn('agd_id', $agd)->with('penilaian','clo','detailInstrumenNilai')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
 
         $krs = Krs::where('jkul_klkl_id', $instru->klkl_id)->where('jkul_kelas', $jdw->kelas)->with('mahasiswa')->get();
 
         $dtlInstru = DetailInstrumenNilai::where('ins_nilai_id', $instru->id)->get();
 
-        $rps = Rps::where('id', $instru->rps_id)->first();
+
 
         $mk = MataKuliah::where('id', $rps->kurlkl_id)->with('prodi')->first();
 
         $summary = RangkumanClo::where('ins_nilai_id', $idIns)->get();
 
-        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary'));
+
+
+        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary', 'week', 'getPekan'));
     }
 
     /**

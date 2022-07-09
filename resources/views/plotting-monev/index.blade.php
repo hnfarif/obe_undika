@@ -143,7 +143,22 @@
                                                 <td>
                                                     {{ $k->bobot }}
                                                 </td>
-                                                <td><a href="" class="btn btn-light">Ubah</a>
+                                                <td class="d-flex my-auto">
+                                                    <button type="button" class="btn btn-light editKri mr-2"
+                                                        data-id="{{ $k->id }}" data-toggle="modal"
+                                                        data-target="#editKri"><i class="fas fa-edit"></i>
+                                                    </button>
+
+                                                    <form action="{{ route('monev.deleteCriteria', $k->id) }}"
+                                                        method="POST">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <input name="_method" type="hidden" value="DELETE">
+                                                        <a href="#" class="btn btn-danger delKri"><i
+                                                                class="fas fa-trash"></i>
+
+                                                        </a>
+                                                    </form>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -165,8 +180,8 @@
     </div>
     @include('layouts.footer')
 </div>
+@include('plotting-monev.modal-edit-kri')
 @endsection
-
 @push('script')
 @include('plotting-monev.script')
 @endpush

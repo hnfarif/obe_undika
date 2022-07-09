@@ -103,7 +103,7 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function (data) {
-                    console.log(data);
+
                     $("#id").val(data.id);
                     $("#kode_peo").val(data.kode_peo);
                     $("#deskripsi").val(data.deskripsi);

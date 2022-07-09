@@ -153,6 +153,12 @@ class PlottingMonevController extends Controller
         return view('plotting-monev.create-criteria');
     }
 
+    public function showCriteria(Request $request)
+    {
+        $data = KriteriaMonev::findOrFail($request->get('id'));
+        return response()->json($data);
+    }
+
     public function storeCriteria(Request $request)
     {
         $validatedData = $request->validate([
@@ -174,4 +180,40 @@ class PlottingMonevController extends Controller
         return redirect()->route('monev.plotting.index');
     }
 
+    public function updateCriteria(Request $request)
+    {
+        $validation = $request->validate([
+            'kri_penilaian' => 'required',
+            'kategori' => 'required',
+            'bobot' => 'required',
+            'deskripsi' => 'required',
+        ]);
+
+        $update = KriteriaMonev::where('id', $request->get('id'))
+        ->update($validation);
+
+        if ($update) {
+            Session::flash('message', 'Data Kriteria berhasil diubah!');
+            Session::flash('alert-class', 'alert-success');
+        }else{
+            Session::flash('message', 'Data Kriteria gagal diubah!');
+            Session::flash('alert-class', 'alert-danger');
+        }
+        return redirect()->route('monev.plotting.index');
+    }
+
+    public function deleteCriteria($id)
+    {
+        $kri = KriteriaMonev::destroy($id);
+
+        if ($kri) {
+            Session::flash('message', 'Data Kriteria berhasil dihapus!');
+            Session::flash('alert-class', 'alert-success');
+        }else{
+            Session::flash('message', 'Data Kriteria gagal diubah!');
+            Session::flash('alert-class', 'alert-danger');
+        }
+
+        return redirect()->route('monev.plotting.index');
+    }
 }
