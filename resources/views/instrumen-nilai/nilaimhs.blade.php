@@ -23,8 +23,12 @@
                         Harap mengisi nilai mahasiswa pada @foreach ($dtlAgd->where('agd_id',
                         $getPekan->id)->unique('clo_id') as $da)
                         {{ $da->clo->kode_clo }}
-                        @endforeach pada penilaian @foreach ($dtlAgd->where('agd_id', $getPekan->id) as $pen)
+                        @endforeach pada penilaian @foreach ($dtlAgd->where('agd_id', $getPekan->id) as $key => $pen)
+                        @if ($loop->last)
                         {{ $pen->penilaian->btk_penilaian ?? '' }}
+                        @else
+                        {{ $pen->penilaian->btk_penilaian.', ' ?? '' }}
+                        @endif
                         @endforeach
                     </div>
                 </div>

@@ -72,10 +72,10 @@ class InstrumenNilaiController extends Controller
             $weekStartDate = $now->startOfWeek()->format('Y-m-d');
             $weekEndDate = $now->endOfWeek()->format('Y-m-d');
             $tglKul = Carbon::parse($k->tanggal)->format('Y-m-d');
+            $week++;
             if (($weekStartDate <= $tglKul) && ($tglKul <= $weekEndDate) ) {
 
-                $week++;
-
+                break;
             }
         }
 
