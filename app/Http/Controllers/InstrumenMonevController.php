@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AgendaBelajar;
+use App\Models\InstrumenMonev;
+use App\Models\InstrumenNilai;
+use App\Models\KriteriaMonev;
+use App\Models\PlottingMonev;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class InstrumenMonevController extends Controller
 {
@@ -13,8 +19,29 @@ class InstrumenMonevController extends Controller
      */
     public function index(Request $request)
     {
-        dd($request->get('id'));
-        return view('plotting-monev.instrumen');
+        // dd($request->get('id'));
+
+        $plot = PlottingMonev::where('id', $request->get('id'))->first();
+        $cekInsNilai = InstrumenNilai::where('klkl_id', $plot->klkl_id)->where('nik', $plot->nik_pengajar)->where('semester', $plot->semester)->first();
+
+        if ($cekInsNilai) {
+            $cekInsMon = InstrumenMonev::where('plot_monev_id', $request->get('id'))->first();
+
+            if(!$cekInsMon){
+                $insMon = new InstrumenMonev;
+                $insMon->plot_monev_id = $request->get('id');
+                $insMon->ins_nilai_id = $cekInsNilai->id;
+                $insMon->save();
+            }
+            $kri = KriteriaMonev::all();
+            $agd = AgendaBelajar::where('rps_id', $cekInsNilai->rps_id)->get();
+            return view('instrumen-monev.index', compact('agd','kri'));
+        }else{
+            Session::flash('message', 'Buat instrumen monev gagal, karena dosen belum membuat instrumen penilaian CLO!');
+            Session::flash('alert-class', 'alert-danger');
+            return back();
+        }
+
     }
 
     /**

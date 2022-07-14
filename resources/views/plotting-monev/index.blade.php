@@ -111,7 +111,7 @@
                                         <thead>
                                             <tr class="text-center">
                                                 <th>
-                                                    #
+                                                    ID
                                                 </th>
                                                 <th>
                                                     Kategori
@@ -129,7 +129,7 @@
                                             @foreach ($kri as $k)
                                             <tr>
                                                 <td class="text-center">
-                                                    {{ $loop->iteration }}
+                                                    {{ $k->id }}
                                                 </td>
                                                 <td>
                                                     {{ $k->kategori }}
