@@ -30,6 +30,7 @@ class CreateDtlAgdTable extends Migration
             $table->integer('res_tutor')->nullable();
             $table->integer('bljr_mandiri')->nullable();
             $table->integer('praktikum')->nullable();
+            $table->date('tgl_nilai')->nullable();
 
 
             $table->foreign('agd_id')->references('id')->on('agd_bljr')->onDelete('cascade');

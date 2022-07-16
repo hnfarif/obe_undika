@@ -325,7 +325,7 @@
                             <div class="card-header">
                                <h4>Rangkuman CLO</h4>
                                <button class="btn btn-primary ml-auto btnSaveSum" disabled><i
-                                class="fas fa-save"></i> Simpan Rangkuman </button>
+                                class="fas fa-save"></i>Simpan Rangkuman</button>
                             </div>
                             <div class="card-body">
                                 <table class="table table-striped table-responsive" width="100%" id="tableSummary">

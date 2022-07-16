@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgendaBelajar;
+use App\Models\DetailAgenda;
 use App\Models\InstrumenMonev;
 use App\Models\InstrumenNilai;
 use App\Models\KriteriaMonev;
@@ -35,7 +36,9 @@ class InstrumenMonevController extends Controller
             }
             $kri = KriteriaMonev::all();
             $agd = AgendaBelajar::where('rps_id', $cekInsNilai->rps_id)->get();
-            return view('instrumen-monev.index', compact('agd','kri'));
+            $dtlAgd = DetailAgenda::whereIn('agd_id', $agd->pluck('id')->toArray())->with('penilaian','clo','detailInstrumenNilai','agendaBelajar')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
+            // dd($dtlAgd);
+            return view('instrumen-monev.index', compact('agd','kri','dtlAgd'));
         }else{
             Session::flash('message', 'Buat instrumen monev gagal, karena dosen belum membuat instrumen penilaian CLO!');
             Session::flash('alert-class', 'alert-danger');

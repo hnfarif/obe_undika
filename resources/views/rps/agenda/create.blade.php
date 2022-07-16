@@ -9,6 +9,7 @@
     }
 
 </style>
+<link rel="stylesheet" href="{{ asset('assets/css/daterangepicker/daterangepicker.css') }}">
 <div class="main-wrapper container">
     @include('layouts.navbar')
     <div class="main-content">
@@ -28,6 +29,7 @@
                         <form class="ml-auto" action="{{ route('agenda.store', $rps->id) }}" method="POST">
                             @csrf
                             <input type="hidden" name="week" id="week">
+                            <input type="hidden" name="tanggal" id="tanggal">
                             <button type="submit" class="btn btn-success ml-auto" id="btnSaveAgd"> <i
                                     class="fas fa-save"></i>
                                 Simpan Data</button>
@@ -47,6 +49,18 @@
                                 @endfor
                         </select>
                         @error('week')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-12 mb-3">
+                        <label>Pilih Tanggal</label>
+                        <input type="text" id="tgl_week" class="form-control datepicker">
+                        @error('tanggal')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

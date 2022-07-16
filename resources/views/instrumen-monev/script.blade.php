@@ -1,7 +1,7 @@
+<script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#tableMonev').DataTable({
-            'responsive': true,
             'info': false,
             'paging': false,
             'searching': false,
@@ -11,7 +11,16 @@
         $('#tableKri').DataTable({
             autoWidth: false,
         });
-
+        $('#tableInsMonev').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            scrollCollapse: true,
+            scroller: true,
+            fixedColumns: {
+                left: 3
+            }
+        });
         $('input[type=radio][name=optvclo]').change(function () {
             if ($(this).val() == 'plot') {
                 $('.plot').removeClass('d-none');

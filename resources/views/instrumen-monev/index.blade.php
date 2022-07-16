@@ -36,7 +36,96 @@
 
                 <div class="row plot">
                     @foreach ($kri->sortBy('id') as $k)
-                    @if ($loop->iteration == 2)
+                    @if($loop->iteration == 1)
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <table class="table table-bordered table-responsive" width="100%" id="">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" class="text-center align-middle">
+                                                Kriteria
+                                            </th>
+                                            <th rowspan="2" class="align-middle ">Keterangan</th>
+                                            <th rowspan="2" class="align-middle border">Bobot</th>
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            <th colspan="{{ $dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null)->count() }}"
+                                                class="border">
+                                                {{ $cl->clo->kode_clo }}
+                                            </th>
+                                            @endforeach
+                                            <th rowspan="2" class="align-middle border">Evaluasi</th>
+
+                                        </tr>
+                                        <tr>
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                            $pen)
+
+                                            <th class="border">
+                                                {{ $pen->penilaian->btk_penilaian}}
+                                            </th>
+
+                                            @endforeach
+                                            @endforeach
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="min-width: 200px;" rowspan="2" class="">
+
+                                                {{ $k->kri_penilaian }}
+                                            </td>
+                                            <td class="align-middle text-center border" >
+                                                RPS
+                                            </td>
+                                            <td rowspan="2" class="text-center align-middle border">
+                                                {{ $k->bobot }}
+                                            </td>
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                                $pen)
+
+                                                <td class="border">
+                                                    {{ 'M'.$pen->agendaBelajar->pekan}}
+                                                </td>
+
+                                            @endforeach
+                                            @endforeach
+                                            <td class="align-middle border" rowspan="2">
+                                                tes
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+
+                                            <td class="align-middle text-center border">Evaluasi CLO</td>
+
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                                $pen)
+
+                                                <td class="border">
+                                                    4
+                                                </td>
+
+                                            @endforeach
+                                            @endforeach
+
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    @elseif ($loop->iteration == 2)
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-body">

@@ -1,3 +1,4 @@
+<script src="{{ asset('assets/js/page/daterangepicker.js') }}"></script>
 <script>
     var tableLlo = $('#tableLlo').DataTable({
         "lengthMenu": [
@@ -1005,6 +1006,11 @@
         $('#optweek').on('change', function () {
             var week = $(this).val();
             $("#week").val(week);
+
+        });
+        $('#tgl_week').on('change', function () {
+            var tgl = $(this).val();
+            $("#tanggal").val(tgl);
 
         });
 

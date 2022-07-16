@@ -156,8 +156,10 @@ class AgendaController extends Controller
      */
     public function store(Request $request, Rps $rps)
     {
+        // dd($request->tanggal);
         $this->validate($request, [
             'week' => 'required',
+            'tanggal' => 'required'
         ]);
 
         $listLlo = session('listLlo-'.$rps->id);
@@ -252,6 +254,7 @@ class AgendaController extends Controller
                 $dtlAgenda->res_tutor = $value['responsi'];
                 $dtlAgenda->bljr_mandiri = $value['belajarMandiri'];
                 $dtlAgenda->praktikum = $value['prak'];
+                $dtlAgenda->tgl_nilai = ($dtlAgenda->penilaian_id) ? $request->tanggal : null;
                 $dtlAgenda->save();
 
                 if(isset($value['pustaka'])){
