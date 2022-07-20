@@ -174,6 +174,7 @@ class AgendaController extends Controller
                 $agdBelajar = new AgendaBelajar;
                 $agdBelajar->rps_id = $rps->id;
                 $agdBelajar->pekan = $request->week;
+                $agdBelajar->tgl_nilai = $request->tanggal;
                 $agdBelajar->save();
             }
 
@@ -254,7 +255,6 @@ class AgendaController extends Controller
                 $dtlAgenda->res_tutor = $value['responsi'];
                 $dtlAgenda->bljr_mandiri = $value['belajarMandiri'];
                 $dtlAgenda->praktikum = $value['prak'];
-                $dtlAgenda->tgl_nilai = ($dtlAgenda->penilaian_id) ? $request->tanggal : null;
                 $dtlAgenda->save();
 
                 if(isset($value['pustaka'])){
@@ -1041,5 +1041,37 @@ class AgendaController extends Controller
         return $uniqueLlo;
     }
 
+    public function cekPekan(Request $request){
+        $cekPekan = AgendaBelajar::where('rps_id', $request->rps_id)->where('pekan', $request->week)->first();
+        if($cekPekan){
+            return response()->json(['status' => 'success']);
+        }else{
+            return response()->json(['status' => 'error']);
+        }
+    }
 
+    public function uptDate(Request $request){
+
+        $this->validate($request, [
+            'tanggal' => 'required'
+        ]);
+        $updateDate = AgendaBelajar::find($request->agd_id);
+        $updateDate->tgl_nilai = $request->tanggal;
+        $updateDate->save();
+
+        Session::flash('message', 'Data berhasil diubah!');
+        Session::flash('alert-class', 'alert-success');
+
+        return back();
+    }
+
+    public function getDate(Request $request)
+    {
+        $date = AgendaBelajar::where('id', $request->id)->first();
+        if($date){
+            return response()->json(['status' => 'success', 'date' => $date->tgl_nilai]);
+        }else{
+            return response()->json(['status' => 'error']);
+        }
+    }
 }

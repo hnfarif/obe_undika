@@ -56,10 +56,10 @@
 
                     </div>
                 </div>
-                <div class="row">
+                <div class="row optDate d-none">
                     <div class="col-12 col-md-6 col-lg-12 mb-3">
                         <label>Pilih Tanggal</label>
-                        <input type="text" id="tgl_week" class="form-control datepicker">
+                        <input type="text" id="tgl_week" class="form-control" autocomplete="off">
                         @error('tanggal')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

@@ -17,7 +17,7 @@ class CreateAgdBljrTable extends Migration
             $table->id();
             $table->bigInteger('rps_id')->unsigned();
             $table->string('pekan',3);
-
+            $table->date('tgl_nilai')->nullable();
 
             $table->foreign('rps_id')->references('id')->on('rps')->onDelete('cascade');
             $table->timestamps();

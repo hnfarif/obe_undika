@@ -5,14 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\AgendaBelajar;
 use App\Models\Clo;
 use App\Models\DetailAgenda;
+use App\Models\DetailInstrumenMonev;
 use App\Models\DetailInstrumenNilai;
+use App\Models\InstrumenMonev;
 use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
+use App\Models\KriteriaMonev;
 use App\Models\Krs;
 use App\Models\Kuliah;
 use App\Models\MataKuliah;
+use App\Models\MingguKuliah;
 use App\Models\Penilaian;
+use App\Models\PlottingMonev;
 use App\Models\RangkumanClo;
 use App\Models\Rps;
 use App\Models\Semester;
@@ -65,24 +70,28 @@ class InstrumenNilaiController extends Controller
 
         $jdw = JadwalKuliah::where('klkl_id', $instru->klkl_id)->where('kary_nik', $instru->nik)->where('sts_kul', '1')->first();
 
-        $kul = Kuliah::where('jkul_kelas', $jdw->kelas)->where('jkul_klkl_id', $jdw->prodi.$jdw->klkl_id)->where('jkul_kary_nik', $jdw->kary_nik)->get();
+        $kul = MingguKuliah::where('smt', $instru->semester)->get();
 
-        $week = 0;
+        $week = '';
         foreach ($kul as $k) {
-            $weekStartDate = $now->startOfWeek()->format('Y-m-d');
-            $weekEndDate = $now->endOfWeek()->format('Y-m-d');
-            $tglKul = Carbon::parse($k->tanggal)->format('Y-m-d');
-            $week++;
-            if (($weekStartDate <= $tglKul) && ($tglKul <= $weekEndDate) ) {
+            $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
+            $weekEndDate = Carbon::parse($k->tgl_akhir)->format('Y-m-d');
 
+            if ($now >= $weekStartDate && $now <= $weekEndDate) {
+                $week = $k->minggu_ke;
                 break;
             }
-        }
 
+        }
+        // dd($week);
         $rps = Rps::where('id', $instru->rps_id)->first();
 
         $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
 
+        // dd($getPekan->tgl_nilai);
+        $startFill = Carbon::parse($getPekan->tgl_nilai)->format('Y-m-d');
+        $endFill = Carbon::parse($startFill)->addDays(14)->format('d-m-Y');
+        // dd($endFill);
         $agd = AgendaBelajar::where('rps_id', $instru->rps_id)->pluck('id')->toArray();
 
 
@@ -100,7 +109,7 @@ class InstrumenNilaiController extends Controller
 
 
 
-        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary', 'week', 'getPekan'));
+        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary', 'week', 'getPekan', 'now', 'startFill', 'endFill'));
     }
 
     /**
@@ -111,8 +120,22 @@ class InstrumenNilaiController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+        // untuk mendapatkan id kriteria monev
+        $kri = KriteriaMonev::orderBy('id', 'asc')->get();
+        $kriId = '';
+
+        foreach ($kri as $key => $k) {
+            if($key == 0){
+                $kriId = $k->id;
+                break;
+            }
+        }
+
+
         foreach ($request->get('dataNilai') as $n) {
 
+            // untuk menyimpan data ke dalam tabel detail instrumen nilai
             $findDtlIns = DetailInstrumenNilai::where('mhs_nim', $n['nim'])->where('dtl_agd_id', $n['dtl_id'])
             ->where('ins_nilai_id', $request->get('idIns'))->first();
 
@@ -131,7 +154,137 @@ class InstrumenNilaiController extends Controller
                 $dtlIns->save();
 
             }
+
+            // untuk memasukkan nilai ke detail instrumen monev
+            $insMonev = InstrumenMonev::where('ins_nilai_id', $request->get('idIns'))->first();
+            if ($insMonev) {
+                $dtlMonev = DetailInstrumenMonev::where('ins_monev_id', $insMonev->id)->where('dtl_agd_id', $n['dtl_id'])->first();
+                if(!$dtlMonev){
+                    $now = Carbon::now();
+                    $dtlAgd = DetailAgenda::where('id', $n['dtl_id'])->first();
+                    $agd = AgendaBelajar::where('id', $dtlAgd->agd_id)->first();
+                    $startDate = Carbon::parse($agd->tgl_awal)->format('d-m-Y');
+                    $twoWeek = Carbon::parse($agd->tgl_nilai)->addDays(14)->format('d-m-Y');
+                    $fourWeek = Carbon::parse($agd->tgl_nilai)->addDays(28)->format('d-m-Y');
+                    $sixWeek = Carbon::parse($agd->tgl_nilai)->addDays(42)->format('d-m-Y');
+                    $eightWeek = Carbon::parse($agd->tgl_nilai)->addDays(56)->format('d-m-Y');
+                    if ($now->format('d-m-Y') >= $startDate && $now->format('d-m-Y') <= $twoWeek) {
+                        DetailInstrumenMonev::create([
+                            'ins_monev_id' => $insMonev->id,
+                            'dtl_agd_id' => $n['dtl_id'],
+                            'id_kri' => $kriId,
+                            'nilai' => 4,
+
+                        ]);
+
+                    }else if($now->format('d-m-Y') >= $twoWeek && $now->format('d-m-Y') <= $fourWeek){
+                        DetailInstrumenMonev::create([
+                            'ins_monev_id' => $insMonev->id,
+                            'dtl_agd_id' => $n['dtl_id'],
+                            'id_kri' => $kriId,
+                            'nilai' => 3,
+
+                        ]);
+                    }else if($now->format('d-m-Y') >= $fourWeek && $now->format('d-m-Y') <= $sixWeek){
+                        DetailInstrumenMonev::create([
+                            'ins_monev_id' => $insMonev->id,
+                            'dtl_agd_id' => $n['dtl_id'],
+                            'id_kri' => $kriId,
+                            'nilai' => 2,
+
+                        ]);
+                    }else if($now->format('d-m-Y') >= $sixWeek && $now->format('d-m-Y') <= $eightWeek){
+                        DetailInstrumenMonev::create([
+                            'ins_monev_id' => $insMonev->id,
+                            'dtl_agd_id' => $n['dtl_id'],
+                            'id_kri' => $kriId,
+                            'nilai' => 1,
+
+                        ]);
+                    }else if($now->format('d-m-Y') >= $eightWeek){
+                        DetailInstrumenMonev::create([
+                            'ins_monev_id' => $insMonev->id,
+                            'dtl_agd_id' => $n['dtl_id'],
+                            'id_kri' => $kriId,
+                            'nilai' => 0,
+
+                        ]);
+                    }else{
+                        return response()->json(['success' => 'Data Berhasil Disimpan']);
+                    }
+                }
+
+            }else{
+                $insNilai = InstrumenNilai::where('id', $request->get('idIns'))->first();
+                $plot = PlottingMonev::where('klkl_id', $insNilai->klkl_id)->where('nik_pengajar', $insNilai->nik)->where('semester', $insNilai->semester)->first();
+
+                $insMonev = InstrumenMonev::create([
+                    'ins_nilai_id' => $request->get('idIns'),
+                    'plot_monev_id' => $plot->id,
+                ]);
+
+                $dtlMonev = DetailInstrumenMonev::where('ins_monev_id', $insMonev->id)->where('dtl_agd_id', $n['dtl_id'])->first();
+
+                if(!$dtlMonev){
+                    $now = Carbon::now();
+                    $dtlAgd = DetailAgenda::where('id', $n['dtl_id'])->first();
+                    $agd = AgendaBelajar::where('id', $dtlAgd->agd_id)->first();
+                    $twoWeek = Carbon::parse($agd->tgl_nilai)->addDays(14)->format('d-m-Y');
+                    $fourWeek = Carbon::parse($agd->tgl_nilai)->addDays(28)->format('d-m-Y');
+                    $sixWeek = Carbon::parse($agd->tgl_nilai)->addDays(42)->format('d-m-Y');
+                    $eightWeek = Carbon::parse($agd->tgl_nilai)->addDays(56)->format('d-m-Y');
+                    if ($twoWeek >= $now->format('Y-m-d')) {
+                        DetailInstrumenMonev::create([
+                            'ins_monev_id' => $insMonev->id,
+                            'dtl_agd_id' => $n['dtl_id'],
+                            'id_kri' => $kriId,
+                            'nilai' => 4,
+
+                        ]);
+
+                    }else if($fourWeek >= $now->format('Y-m-d')){
+                        DetailInstrumenMonev::create([
+                            'ins_monev_id' => $insMonev->id,
+                            'dtl_agd_id' => $n['dtl_id'],
+                            'id_kri' => $kriId,
+                            'nilai' => 3,
+
+                        ]);
+                    }else if($sixWeek >= $now->format('Y-m-d')){
+                        DetailInstrumenMonev::create([
+                            'ins_monev_id' => $insMonev->id,
+                            'dtl_agd_id' => $n['dtl_id'],
+                            'id_kri' => $kriId,
+                            'nilai' => 2,
+
+                        ]);
+                    }else if($eightWeek >= $now->format('Y-m-d')){
+                        DetailInstrumenMonev::create([
+                            'ins_monev_id' => $insMonev->id,
+                            'dtl_agd_id' => $n['dtl_id'],
+                            'id_kri' => $kriId,
+                            'nilai' => 1,
+
+                        ]);
+                    }else if($eightWeek <= $now->format('Y-m-d')){
+                        DetailInstrumenMonev::create([
+                            'ins_monev_id' => $insMonev->id,
+                            'dtl_agd_id' => $n['dtl_id'],
+                            'id_kri' => $kriId,
+                            'nilai' => 0,
+
+                        ]);
+                    }else{
+                        return response()->json(['success' => 'Data Berhasil Disimpan']);
+                    }
+                }
+            }
+
         }
+
+
+
+
         return response()->json(['success' => 'Data Berhasil Disimpan']);
     }
 

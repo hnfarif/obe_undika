@@ -16,22 +16,29 @@
     <div class="main-content">
         <section class="section">
             <div class="section-body">
-                <div class="alert alert-info alert-has-icon">
-                    <div class="alert-icon"><i class="far fa-lightbulb"></i></div>
+                @if ($startFill <= $now) <div class="alert alert-info alert-has-icon">
+                    <div class="alert-icon"><i class="far fa-lightbulb"></i> </div>
                     <div class="alert-body">
                         <div class="alert-title">Minggu Ke {{ $week }}</div>
-                        Harap mengisi nilai mahasiswa pada @foreach ($dtlAgd->where('agd_id',
+                        Harap mengisi nilai mahasiswa pada
+                        @foreach ($dtlAgd->where('agd_id',
                         $getPekan->id)->unique('clo_id') as $da)
                         {{ $da->clo->kode_clo }}
-                        @endforeach pada penilaian @foreach ($dtlAgd->where('agd_id', $getPekan->id) as $key => $pen)
-                        @if ($loop->last)
-                        {{ $pen->penilaian->btk_penilaian ?? '' }}
-                        @else
-                        {{ $pen->penilaian->btk_penilaian.', ' ?? '' }}
-                        @endif
+                        @endforeach pada penilaian
+                        @foreach ($dtlAgd->where('agd_id',
+                        $getPekan->id)->where('penilaian_id', '<>', null)->unique('penilaian_id') as $key => $pen)
+                                @if ($loop->last)
+                                {{ $pen->penilaian->btk_penilaian ?? '' }}
+                                @else
+                                {{ $pen->penilaian->btk_penilaian.', ' ?? '' }}
+                                @endif
                         @endforeach
+                        , sebelum tanggal {{ $endFill }}.
                     </div>
+
                 </div>
+                @endif
+
                 <div class="d-flex align-items-center my-0">
                     <h2 class="section-title titleClo">Instrumen Nilai Mahasiswa</h2>
                     <div class="ml-auto">
@@ -205,8 +212,13 @@
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                             $pen)
 
-                                            <th class="@if ($pen->agd_id == $getPekan->id)
-                                                bg-info text-white @endif">
+                                            <th class="
+                                            @if ($startFill <= $now)
+                                                @if ($pen->agd_id == $getPekan->id)
+                                                bg-info text-white
+                                                @endif
+                                            @endif
+                                            ">
                                                 {{ $pen->penilaian->btk_penilaian}}
                                             </th>
                                             @endforeach
@@ -217,8 +229,11 @@
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                             $pen)
 
-                                            <th class="@if ($pen->agd_id == $getPekan->id)
-                                                bg-info text-white @endif">{{ $pen->penilaian->jenis}}</th>
+                                            <th class=" @if ($startFill <= $now)
+                                            @if ($pen->agd_id == $getPekan->id)
+                                            bg-info text-white
+                                            @endif
+                                        @endif">{{ $pen->penilaian->jenis}}</th>
                                             @endforeach
                                             @endforeach
 
@@ -228,8 +243,11 @@
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                             $pen)
 
-                                            <th class="bbtPen @if ($pen->agd_id == $getPekan->id)
-                                                bg-info text-white @endif" data-jns="{{ $pen->penilaian->jenis }}">{{ $pen->bobot.'%'}}</th>
+                                            <th class="bbtPen  @if ($startFill <= $now)
+                                                @if ($pen->agd_id == $getPekan->id)
+                                                bg-info text-white
+                                                @endif
+                                            @endif" data-jns="{{ $pen->penilaian->jenis }}">{{ $pen->bobot.'%'}}</th>
                                             @endforeach
                                             @endforeach
 
@@ -261,7 +279,7 @@
                                                     min="0"
                                                     class="form-control text-center nilai" data-cl="{{ $cl->clo_id }}"
                                                     data-jns ="{{ $pen->penilaian->jenis }}"
-                                                    style="min-width:60px;">
+                                                    style="min-width:60px;" >
                                             </td>
                                             @endforeach
                                             <td class="text-center align-middle ttlClo" data-cl="{{ $cl->clo_id }}"></td>

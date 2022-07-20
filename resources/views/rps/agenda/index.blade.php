@@ -2,6 +2,7 @@
 @section('rps', 'active')
 @section('agenda', 'active')
 @section('content')
+<link rel="stylesheet" href="{{ asset('assets/css/daterangepicker/daterangepicker.css') }}">
 <div class="main-wrapper container">
     @include('layouts.navbar')
     <div class="main-content">
@@ -94,6 +95,7 @@
                                                 (menit/mg)
 
                                             </th>
+                                            <th rowspan="2" class="align-middle" style="min-width: 80px;">Tanggal</th>
                                             <th rowspan="2" class="align-middle">Aksi</th>
                                         </tr>
                                         <tr>
@@ -223,6 +225,12 @@
                                             <td>
                                                 {{ $i->praktikum }}
                                             </td>
+                                            <td>
+                                                @if ($i->penilaian_id)
+
+                                                {{ $i->agendaBelajar->getTglNilaiAttribute($i->agendaBelajar->tgl_nilai) }}
+                                                @endif
+                                            </td>
                                             <td class="d-flex">
 
                                                 <button id="btnEditAgd" data-toggle="modal" data-target="#editAgenda"
@@ -231,6 +239,14 @@
                                                         class="fas fa-edit"></i>
 
                                                 </button>
+                                                @if ($i->penilaian_id)
+                                                <button id="btnEditTgl" data-toggle="modal" data-target="#editTgl"
+                                                    data-id="{{ $i->agd_id }}"
+                                                    class="btn btn-info mr-1 my-auto btnEditTgl"><i
+                                                        class="far fa-calendar-alt"></i>
+
+                                                </button>
+                                                @endif
                                                 <form
                                                     action="{{ route('agenda.delete', ['id' => $i->id, 'rps' => $rps->id]) }}"
                                                     method="POST">
@@ -267,6 +283,7 @@
     @include('layouts.footer')
 </div>
 @include('rps.agenda.modalagdedit')
+@include('rps.agenda.modaltgledit')
 @endsection
 @push('script')
 <script src="//cdn.datatables.net/plug-ins/1.12.0/sorting/natural.js"></script>

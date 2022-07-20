@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,5 +22,10 @@ class AgendaBelajar extends Model
     public function detailAgendas()
     {
         return $this->hasMany(DetailAgenda::class, 'agd_id', 'id');
+    }
+
+    public function getTglNilaiAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format('d-m-Y') : null;
     }
 }

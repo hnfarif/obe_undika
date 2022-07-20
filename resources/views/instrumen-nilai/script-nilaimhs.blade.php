@@ -387,14 +387,14 @@
     })
 
     $('.btnSimpanNilai').on('click', function () {
-
+        // console.log(data);
         $.ajax({
             url: "{{ route('penilaian.clo.store') }}",
             type: 'POST',
             data: {
                 '_token': '{{ csrf_token() }}',
                 'dataNilai': data,
-                'idIns': "{{ $idIns }}"
+                'idIns': "{{ $idIns }}",
             },
             beforeSend: function () {
                 Swal.fire({
