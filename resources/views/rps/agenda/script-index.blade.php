@@ -415,27 +415,6 @@
 
         })
 
-        $('#tableAgd').on('click', '.btnEditTgl', function (e) {
-            var id = $(this).data('id');
-            $('#tgl_agd_id').val(id);
-            $.ajax({
-                url: "{{ route('agenda.getDate') }}",
-                type: "GET",
-                data: {
-                    id: $(this).data('id'),
-                },
-                beforeSend: function () {
-                    $("#loadeditTgl").show();
-                },
-                success: function (data) {
-                    $('#tgl_week').val(data.date)
-                },
-                complete: function () {
-                    $("#loadeditTgl").hide();
-                }
-
-            })
-        })
 
         $('#btnKajian').click(function () {
 
@@ -1005,17 +984,7 @@
 
         });
 
-        $('#tgl_week').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            minYear: 1901,
-            maxYear: parseInt(moment().format('YYYY'), 10),
-            locale: {
-                format: 'YYYY-MM-DD'
-            }
 
-
-        });
     });
 
 </script>

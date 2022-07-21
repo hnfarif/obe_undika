@@ -239,14 +239,7 @@
                                                         class="fas fa-edit"></i>
 
                                                 </button>
-                                                @if ($i->penilaian_id)
-                                                <button id="btnEditTgl" data-toggle="modal" data-target="#editTgl"
-                                                    data-id="{{ $i->agd_id }}"
-                                                    class="btn btn-info mr-1 my-auto btnEditTgl"><i
-                                                        class="far fa-calendar-alt"></i>
 
-                                                </button>
-                                                @endif
                                                 <form
                                                     action="{{ route('agenda.delete', ['id' => $i->id, 'rps' => $rps->id]) }}"
                                                     method="POST">
@@ -283,7 +276,6 @@
     @include('layouts.footer')
 </div>
 @include('rps.agenda.modalagdedit')
-@include('rps.agenda.modaltgledit')
 @endsection
 @push('script')
 <script src="//cdn.datatables.net/plug-ins/1.12.0/sorting/natural.js"></script>

@@ -8,6 +8,7 @@ use App\Models\DetailAgenda;
 use App\Models\Llo;
 use App\Models\MataKuliah;
 use App\Models\MateriKuliah;
+use App\Models\MingguKuliah;
 use App\Models\Penilaian;
 use App\Models\Rps;
 use Illuminate\Support\Facades\Validator;
@@ -159,7 +160,6 @@ class AgendaController extends Controller
         // dd($request->tanggal);
         $this->validate($request, [
             'week' => 'required',
-            'tanggal' => 'required'
         ]);
 
         $listLlo = session('listLlo-'.$rps->id);
@@ -170,11 +170,11 @@ class AgendaController extends Controller
         if($listLlo){
             $fAgd = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $request->week)->first();
             if (!$fAgd) {
-
+                $kul = MingguKuliah::where('smt', $rps->semester)->where('minggu_ke', $request->week)->first();
                 $agdBelajar = new AgendaBelajar;
                 $agdBelajar->rps_id = $rps->id;
                 $agdBelajar->pekan = $request->week;
-                $agdBelajar->tgl_nilai = $request->tanggal;
+                $agdBelajar->tgl_nilai = $kul->tgl_awal;
                 $agdBelajar->save();
             }
 

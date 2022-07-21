@@ -105,9 +105,9 @@ Route::prefix('rps')->middleware('ensureUserRole:bagian,dosen,dosenBagian')->gro
     Route::get('/getsks', [AgendaController::class, 'getSks'])->name('kuliah.getSks');
     Route::get('/getLlo', [AgendaController::class, 'getLlo'])->name('create.getLlo');
     Route::get('/session/getLlo', [AgendaController::class, 'getLloSession'])->name('create.session.getLlo');
-    Route::get('/cek-pekan', [AgendaController::class, 'cekPekan'])->name('agenda.cekPekan');
+
     Route::put('/update-tgl-agenda', [AgendaController::class, 'uptDate'])->name('agenda.uptDate');
-    Route::get('/getDate', [AgendaController::class, 'getDate'])->name('agenda.getDate');
+
     Route::get('/rangkuman/{rps}', [RpsController::class, 'rangkuman'])->name('rangkuman.index');
 
 });

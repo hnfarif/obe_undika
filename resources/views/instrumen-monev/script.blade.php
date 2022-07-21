@@ -71,6 +71,20 @@
 
 
         })
+        $('.eval-kri-1').each(function (i, v) {
+            var sum = 0;
+            var count = 0;
+
+            $('#kri-1').find('tbody').find('tr').find('.nilai-kri-1').each(function (j, v) {
+                if ($(this).text() != 0) {
+                    sum += +parseFloat($(this).text());
+                    count++;
+                }
+            })
+            // console.log(sum);
+            var avg = sum / parseFloat(count);
+            $(this).text(avg.toFixed(2));
+        })
 
     })
 

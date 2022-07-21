@@ -28,4 +28,16 @@ class AgendaBelajar extends Model
     {
         return $value ? Carbon::parse($value)->format('d-m-Y') : null;
     }
+
+    public function cekDate($startFill, $now)
+    {
+        $startFill = Carbon::parse($startFill);
+        $now = Carbon::parse($now);
+        if ($now>= $startFill) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }

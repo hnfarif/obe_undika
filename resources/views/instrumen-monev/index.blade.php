@@ -19,7 +19,6 @@
                 @endif
 
                 <div class="d-flex align-items-center my-0">
-                    <h2 class="section-title titleClo">Instrumen Monev</h2>
                     <div class="ml-auto">
                         <div class="selectgroup w-100">
                             <label class="selectgroup-item">
@@ -38,10 +37,13 @@
                     @foreach ($kri->sortBy('id') as $k)
                     @if($loop->iteration == 1)
                     <div class="col-12 col-md-6 col-lg-12">
+                        <div class="d-flex align-items-center my-0">
+                            <h2 class="section-title titleClo">Kriteria {{ $loop->iteration }}</h2>
+                        </div>
                         <div class="card">
                             <div class="card-body">
 
-                                <table class="table table-bordered table-responsive" width="100%" id="">
+                                <table class="table table-bordered table-responsive" width="100%" id="kri-1">
                                     <thead>
                                         <tr>
                                             <th rowspan="2" class="text-center align-middle">
@@ -94,13 +96,13 @@
 
                                             @endforeach
                                             @endforeach
-                                            <td class="align-middle border" rowspan="2">
+                                            <td class="align-middle border eval-kri-1" rowspan="2">
                                                 tes
                                             </td>
 
                                         </tr>
 
-                                        <tr>
+                                        <tr class="eval">
 
                                             <td class="align-middle text-center border">Evaluasi CLO</td>
 
@@ -108,8 +110,8 @@
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                                 $pen)
 
-                                                <td class="border">
-                                                    4
+                                                <td class="border nilai-kri-1">
+                                                    {{ $dtlInsMon->where('dtl_agd_id', $pen->id)->first()->nilai ?? '' }}
                                                 </td>
 
                                             @endforeach
@@ -127,6 +129,11 @@
                     </div>
                     @elseif ($loop->iteration == 2)
                     <div class="col-12 col-md-6 col-lg-12">
+                        <div class="d-flex align-items-center my-0">
+                            <h2 class="section-title titleClo">Kriteria {{ $loop->iteration }}</h2>
+
+                            <button class="ml-auto btn btn-primary"> <i class="fas fa-save"></i> Simpan </button>
+                        </div>
                         <div class="card">
                             <div class="card-body">
 
@@ -181,6 +188,9 @@
                     </div>
                     @elseif($loop->iteration == 3)
                     <div class="col-12 col-md-6 col-lg-12">
+                        <div class="d-flex align-items-center my-0">
+                            <h2 class="section-title titleClo">Kriteria {{ $loop->iteration }}</h2>
+                        </div>
                         <div class="card">
                             <div class="card-body d-flex">
 

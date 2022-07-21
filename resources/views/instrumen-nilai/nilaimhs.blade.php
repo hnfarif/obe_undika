@@ -279,7 +279,9 @@
                                                     min="0"
                                                     class="form-control text-center nilai" data-cl="{{ $cl->clo_id }}"
                                                     data-jns ="{{ $pen->penilaian->jenis }}"
-                                                    style="min-width:60px;" >
+                                                    style="min-width:60px;" @if (!$pen->agendaBelajar->cekDate($pen->agendaBelajar->tgl_nilai, $now))
+                                                    readonly
+                                                    @endif >
                                             </td>
                                             @endforeach
                                             <td class="text-center align-middle ttlClo" data-cl="{{ $cl->clo_id }}"></td>

@@ -1006,30 +1006,6 @@
         $('#optweek').on('change', function () {
             var week = $(this).val();
             $("#week").val(week);
-
-            $.ajax({
-                url: "{{ route('agenda.cekPekan') }}",
-                type: "GET",
-                dataType: "JSON",
-                data: {
-                    '_token': "{{ csrf_token() }}",
-                    'week': week,
-                    'rps_id': "{{ $rps->id }}",
-                },
-                success: function (data) {
-                    if (!(data.status == 'success')) {
-                        $('.optDate').removeClass('d-none');
-                    } else {
-                        $('.optDate').addClass('d-none');
-                    }
-                }
-            })
-
-        });
-        $('#tgl_week').on('change', function () {
-            var tgl = $(this).val();
-            $("#tanggal").val(tgl);
-
         });
 
         $('#btnFormClo').on('click', function () {
@@ -1124,17 +1100,7 @@
 
         });
 
-        $('#tgl_week').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            minYear: 1901,
-            maxYear: parseInt(moment().format('YYYY'), 10),
-            locale: {
-                format: 'YYYY-MM-DD'
-            }
 
-
-        });
 
     });
 
