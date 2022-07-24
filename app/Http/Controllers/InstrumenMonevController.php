@@ -7,8 +7,13 @@ use App\Models\DetailAgenda;
 use App\Models\DetailInstrumenMonev;
 use App\Models\InstrumenMonev;
 use App\Models\InstrumenNilai;
+use App\Models\JadwalKuliah;
 use App\Models\KriteriaMonev;
+use App\Models\Krs;
+use App\Models\MingguKuliah;
 use App\Models\PlottingMonev;
+use App\Models\Rps;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -25,7 +30,7 @@ class InstrumenMonevController extends Controller
 
         $plot = PlottingMonev::where('id', $request->get('id'))->first();
         $cekInsNilai = InstrumenNilai::where('klkl_id', $plot->klkl_id)->where('nik', $plot->nik_pengajar)->where('semester', $plot->semester)->first();
-
+        $insNilai = $cekInsNilai->id;
         if ($cekInsNilai) {
             $cekInsMon = InstrumenMonev::where('plot_monev_id', $request->get('id'))->first();
 
@@ -35,12 +40,41 @@ class InstrumenMonevController extends Controller
                 $insMon->ins_nilai_id = $cekInsNilai->id;
                 $insMon->save();
             }
+            $now = Carbon::now();
             $kri = KriteriaMonev::all();
             $agd = AgendaBelajar::where('rps_id', $cekInsNilai->rps_id)->get();
             $dtlAgd = DetailAgenda::whereIn('agd_id', $agd->pluck('id')->toArray())->with('penilaian','clo','detailInstrumenNilai','agendaBelajar')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
             $dtlInsMon = DetailInstrumenMonev::where('ins_monev_id', $cekInsMon->id)->get();
+
+            $kul = MingguKuliah::where('smt', $cekInsNilai->semester)->get();
+
+            $week = '';
+            foreach ($kul as $k) {
+                $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
+                $weekEndDate = Carbon::parse($k->tgl_akhir)->format('Y-m-d');
+
+                if ($now >= $weekStartDate && $now <= $weekEndDate) {
+                    $week = $k->minggu_ke;
+                    break;
+                }
+
+            }
+            // dd($week);
+            $rps = Rps::where('id', $cekInsNilai->rps_id)->first();
+
+            $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
+
+            // dd($getPekan->tgl_nilai);
+            $startFill = Carbon::parse($getPekan->tgl_nilai)->format('Y-m-d');
+            $endFill = Carbon::parse($startFill)->addDays(14)->format('d-m-Y');
+
             // dd($dtlAgd);
-            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon'));
+            $jdw = JadwalKuliah::where('klkl_id', $cekInsNilai->klkl_id)->where('kary_nik', $cekInsNilai->nik)->where('sts_kul', '1')->first();
+
+            $krs = Krs::where('jkul_klkl_id', $cekInsNilai->klkl_id)->where('jkul_kelas', $jdw->kelas)->with('mahasiswa')->get();
+            $jmlMhs = $krs->count();
+            $jmlPre = $krs->where('sts_pre', '1')->count();
+            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon'));
         }else{
             Session::flash('message', 'Buat instrumen monev gagal, karena dosen belum membuat instrumen penilaian CLO!');
             Session::flash('alert-class', 'alert-danger');
@@ -67,7 +101,15 @@ class InstrumenMonevController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        foreach ($request->get('dataNilai') as $key => $value) {
+            $insMon = new DetailInstrumenMonev;
+            $insMon->ins_monev_id = $request->get('idInsMon');
+            $insMon->agd_id = $value['agd_id'];
+            $insMon->id_kri = $value['kri_id'];
+            $insMon->nilai = $value['nilai'];
+            $insMon->save();
+        }
+        return response()->json(['success' => 'Data Berhasil Disimpan']);
     }
 
     /**

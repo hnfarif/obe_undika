@@ -16,12 +16,14 @@ class CreateDtlInsMonevTable extends Migration
         Schema::create('dtl_ins_monev', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('ins_monev_id')->unsigned();
-            $table->bigInteger('dtl_agd_id')->unsigned();
+            $table->bigInteger('dtl_agd_id')->unsigned()->nullable();
+            $table->bigInteger('agd_id')->unsigned()->nullable();
             $table->bigInteger('id_kri')->unsigned();
             $table->integer('nilai')->unsigned()->nullable();
 
             $table->foreign('ins_monev_id')->references('id')->on('instrumen_monev')->onDelete('cascade');
             $table->foreign('dtl_agd_id')->references('id')->on('dtl_agd')->onDelete('cascade');
+            $table->foreign('agd_id')->references('id')->on('agd_bljr')->onDelete('cascade');
             $table->foreign('id_kri')->references('id')->on('kri_monev')->onDelete('cascade');
             $table->timestamps();
         });

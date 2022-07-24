@@ -40,4 +40,8 @@ class AgendaBelajar extends Model
         }
 
     }
+
+    public function detailInstrumenMonev(){
+        return $this->hasMany(DetailInstrumenMonev::class, 'agd_id', 'id');
+    }
 }

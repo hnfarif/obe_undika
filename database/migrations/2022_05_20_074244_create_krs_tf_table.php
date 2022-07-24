@@ -18,6 +18,7 @@ class CreateKrsTfTable extends Migration
             $table->string('jkul_kelas', 2);
             $table->string('jkul_klkl_id', 10);
             $table->string('mhs_nim', 11);
+            $table->string('sts_pre', 1);
 
             $table->foreign('mhs_nim')->references('nim')->on('mhs_mf')->onDelete('cascade');
             $table->timestamps();
