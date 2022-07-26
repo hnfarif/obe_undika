@@ -19,11 +19,11 @@ class CreateDetailBeritaTable extends Migration
             $table->char('semester', 3);
             $table->string('nik', 6);
             $table->string('realisasi', 500);
-            $table->string('catatan', 300);
-            $table->string('nim_sah', 11);
+            $table->string('catatan', 300)->nullable();
+            $table->string('nim_sah', 11)->nullable();
             $table->date('waktu_entry');
             $table->string('prodi', 5);
-            $table->string('prk_group', 6);
+            $table->string('prk_group', 6)->nullable();
             $table->timestamps();
         });
     }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgendaBelajar;
+use App\Models\Bap;
 use App\Models\DetailAgenda;
+use App\Models\DetailBap;
 use App\Models\DetailInstrumenMonev;
 use App\Models\InstrumenMonev;
 use App\Models\InstrumenNilai;
@@ -13,6 +15,7 @@ use App\Models\Krs;
 use App\Models\MingguKuliah;
 use App\Models\PlottingMonev;
 use App\Models\Rps;
+use App\Models\Semester;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -30,8 +33,8 @@ class InstrumenMonevController extends Controller
 
         $plot = PlottingMonev::where('id', $request->get('id'))->first();
         $cekInsNilai = InstrumenNilai::where('klkl_id', $plot->klkl_id)->where('nik', $plot->nik_pengajar)->where('semester', $plot->semester)->first();
-        $insNilai = $cekInsNilai->id;
         if ($cekInsNilai) {
+            $insNilai = $cekInsNilai->id;
             $cekInsMon = InstrumenMonev::where('plot_monev_id', $request->get('id'))->first();
 
             if(!$cekInsMon){
@@ -70,11 +73,15 @@ class InstrumenMonevController extends Controller
 
             // dd($dtlAgd);
             $jdw = JadwalKuliah::where('klkl_id', $cekInsNilai->klkl_id)->where('kary_nik', $cekInsNilai->nik)->where('sts_kul', '1')->first();
-
+            $smt = Semester::where('fak_id', $jdw->prodi)->first();
             $krs = Krs::where('jkul_klkl_id', $cekInsNilai->klkl_id)->where('jkul_kelas', $jdw->kelas)->with('mahasiswa')->get();
             $jmlMhs = $krs->count();
             $jmlPre = $krs->where('sts_pre', '1')->count();
-            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon'));
+            $bapCol = Bap::where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->get();
+            $bap = Bap::where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->pluck('kode_bap')->toArray();
+            $dtlBap = DetailBap::whereIn('kode_bap', $bap)->where('kelas', $jdw->kelas)->where('semester', $smt->smt_aktif)->where('nik', $jdw->kary_nik)->get();
+
+            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bapCol', 'rps'));
         }else{
             Session::flash('message', 'Buat instrumen monev gagal, karena dosen belum membuat instrumen penilaian CLO!');
             Session::flash('alert-class', 'alert-danger');

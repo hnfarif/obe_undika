@@ -29,6 +29,10 @@
                                 <input type="radio" name="optMon" value="insNilai" class="selectgroup-input">
                                 <span class="selectgroup-button">Instrumen Nilai CLO</span>
                             </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optMon" value="bap" class="selectgroup-input">
+                                <span class="selectgroup-button">BAP</span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -132,7 +136,9 @@
                         <div class="d-flex align-items-center my-0">
                             <h2 class="section-title titleClo">Kriteria {{ $loop->iteration }}</h2>
 
-                            <button class="ml-auto btn btn-primary" id="btnSaveKri2" disabled> <i class="fas fa-save"></i> Simpan </button>
+                            <a class="ml-auto mr-1 btn btn-danger" target="_blank" href="{{ asset('storage/'.$rps->file_rps) }}"> <i class="fas fa-file-pdf"></i> Lihat File RPS </a>
+
+                            <button class="ml-2 btn btn-primary" id="btnSaveKri2" disabled> <i class="fas fa-save"></i> Simpan Nilai </button>
                         </div>
                         <div class="card">
                             <div class="card-body">
@@ -448,6 +454,53 @@
                             </div>
                         </div>
 
+                    </div>
+                </div>
+                <div class="row d-none bap">
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Berita Acara Perkuliahan</h4>
+                            </div>
+                            <div class="card-body">
+
+                                <table class="table table-striped table-responsive" width="100%" id="bap">
+                                    <thead>
+                                        <tr>
+                                            <th>Pertemuan</th>
+                                            <th>Tujuan</th>
+                                            <th>Pokok Bahasan</th>
+                                            <th>Realisasi</th>
+                                            <th>Catatan</th>
+                                            <th>Tanggal Entry</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($dtlBap->sortBy('kode_bap') as $db)
+                                        <tr>
+                                            <td>{{ $bapCol->where('kode_bap', $db->kode_bap)->first()->pertemuan ?? '' }}</td>
+                                            <td> {{ $bapCol->where('kode_bap', $db->kode_bap)->first()->tujuan ?? '-' }}</td>
+                                            <td>
+                                                {{ $bapCol->where('kode_bap', $db->kode_bap)->first()->pokok_bahasan ?? '-' }}
+                                            </td>
+                                            <td>
+                                                {{ $db->realisasi }}
+                                            </td>
+                                            <td>
+                                                {{ $db->catatan ?? '-' }}
+                                            </td>
+                                            <td>
+                                                {{ $db->convertDate($db->waktu_entry) }}
+                                            </td>
+                                        </tr>
+                                        @endforeach
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

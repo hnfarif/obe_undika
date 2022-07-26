@@ -17,8 +17,8 @@ class CreateBeritaAcaraTable extends Migration
             $table->string('kode_bap', 15);
             $table->string('kode_mk', 10);
             $table->integer('pertemuan');
-            $table->string('tujuan', 1000);
-            $table->string('pokok_bahasan',1000);
+            $table->string('tujuan', 1000)->nullable();
+            $table->string('pokok_bahasan',1000)->nullable();
             $table->date('waktu_entry');
             $table->string('prodi', 5);
 

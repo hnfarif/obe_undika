@@ -45,10 +45,16 @@
             if ($(this).val() == 'monev') {
                 $('.monev').removeClass('d-none');
                 $('.insNilai').addClass('d-none');
+                $('.bap').addClass('d-none');
             } else if ($(this).val() == 'insNilai') {
                 $('.insNilai').removeClass('d-none');
                 $('.monev').addClass('d-none');
+                $('.bap').addClass('d-none');
 
+            } else if ($(this).val() == 'bap') {
+                $('.bap').removeClass('d-none');
+                $('.monev').addClass('d-none');
+                $('.insNilai').addClass('d-none');
             }
         })
 
