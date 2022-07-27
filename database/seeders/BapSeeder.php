@@ -19,10 +19,10 @@ class BapSeeder extends Seeder
         $jdw = JadwalKuliah::all();
 
         foreach ($jdw as $key => $j) {
-            if ($j->kary_nik == '910049' && $j->klkl_id == '4721') {
+            if ($j->kary_nik == '970210' && $j->klkl_id == '4721') {
                 for ($i=1; $i <= 14; $i++) {
                     $bap = new Bap();
-                    $bap->kode_bap = $key + 1 . $i;
+                    $bap->kode_bap = $j->kary_nik.$j->klkl_id.$i;
                     $bap->kode_mk = $j->klkl_id;
                     $bap->pertemuan = $i;
                     $bap->waktu_entry = Carbon::now();

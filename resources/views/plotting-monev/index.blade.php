@@ -43,48 +43,38 @@
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Daftar monev</h4>
+                                <h4>Daftar Plotting</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped" id="tableMonev">
                                         <thead>
                                             <tr class="text-center">
-                                                <th>
-                                                    Prodi
-                                                </th>
-                                                <th>Kode MK</th>
-                                                <th>Mata Kuliah</th>
-                                                <th>Kelas</th>
                                                 <th>NIK</th>
                                                 <th>Nama Dosen</th>
-                                                <th>Ruang</th>
+                                                <th>Semester</th>
+                                                <th>Jumlah MK terplotting</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                            @foreach ($pltMnv as $m)
+                                            @foreach ($pltMnv->unique('nik_pemonev') as $m)
                                             <tr>
                                                 <td>
-                                                    {{ $m->prodi }}
-                                                </td>
-                                                <td>{{ $m->klkl_id }}</td>
-                                                <td>{{ $m->getNameMataKuliah($m->klkl_id, $m->prodi) }}</td>
-                                                <td>
-                                                    {{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar)['kelas'] }}
+                                                    {{ $m->nik_pemonev }}
                                                 </td>
                                                 <td>
-                                                    {{ $m->nik_pengajar }}
+                                                    {{ $m->getNameKary($m->nik_pemonev) }}
                                                 </td>
                                                 <td>
-                                                    {{ $m->getNameKary($m->nik_pengajar) }}
+                                                    {{ $m->semester }}
                                                 </td>
                                                 <td>
-                                                    {{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar)['ruang'] }}
+                                                    {{ $m->cnPlot($m->nik_pemonev, $m->semester) }}
                                                 </td>
-                                                <td><a href="{{ route('monev.instrumen.index', ['id' => $m->id]) }}"
-                                                        class="btn btn-success btn-sm text-sm">Buat Instrumen Monev</a>
+                                                <td><a href="{{ route('monev.detailPlot', ['nik' => $m->nik_pemonev, 'smt' => $m->semester]) }}"
+                                                        class="btn btn-primary btn-sm text-sm">Detail</a>
                                                 </td>
                                             </tr>
                                             @endforeach

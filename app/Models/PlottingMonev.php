@@ -42,4 +42,11 @@ class PlottingMonev extends Model
     {
         return $this->belongsTo(JadwalKuliah::class, 'klkl_id', 'klkl_id');
     }
+
+    public function cnPlot($nik, $smt)
+    {
+        $cn = PlottingMonev::where('semester', $smt)->where('nik_pemonev', $nik)->count();
+
+        return $cn;
+    }
 }

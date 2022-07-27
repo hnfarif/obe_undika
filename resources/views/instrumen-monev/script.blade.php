@@ -15,19 +15,6 @@
 
         });
 
-        $('#tableKri').DataTable({
-            autoWidth: false,
-        });
-        $('#tableInsMonev').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            scrollCollapse: true,
-            scroller: true,
-            fixedColumns: {
-                left: 3
-            }
-        });
 
         $('#tableIns').DataTable({
             paging: false,
@@ -389,6 +376,38 @@
                 $('#btnSaveKri2').attr('disabled', 'disabled');
             }
 
+        })
+
+        $('.rangKri-1').each(function (i, v) {
+            var eval = $('.eval-kri-1').text();
+
+            $(this).text(eval);
+        })
+
+        $('.rangKri-2').each(function (i, v) {
+            var eval = $('.nilaiSesuai').text();
+
+            $(this).text(eval);
+        })
+
+        $('.rangKri-3').each(function (i, v) {
+            var eval = $('.eval-clo').text();
+
+            $(this).text(eval);
+        })
+
+        $('.rangFinal').each(function (i, v) {
+            var bbt1 = parseFloat($('.bbt-kri-1').text());
+            var bbt2 = parseFloat($('.bbt-kri-2').text());
+            var bbt3 = parseFloat($('.bbt-kri-3').text());
+
+            var nil1 = parseFloat($('.rangKri-1').text());
+            var nil2 = parseFloat($('.rangKri-2').text());
+            var nil3 = parseFloat($('.rangKri-3').text());
+
+            var res = ((bbt1 * nil1) + (bbt2 * nil2) + (bbt3 * nil3)) / 100;
+
+            $(this).text(res.toFixed(2));
         })
     })
 

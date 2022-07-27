@@ -135,6 +135,10 @@ Route::prefix('monev')->name('monev.')->group(function(){
 
     Route::delete('/kriteria/delete/{id}', [PlottingMonevController::class, 'deleteCriteria'])->name('deleteCriteria');
 
+    Route::get('/plot/detail', [PlottingMonevController::class, 'detailPlot'])->name('detailPlot');
+
+    Route::get('/monev/list', [InstrumenMonevController::class, 'listMonev'])->name('listMonev');
+
     Route::resource('plotting', PlottingMonevController::class);
     Route::resource('instrumen', InstrumenMonevController::class);
 });

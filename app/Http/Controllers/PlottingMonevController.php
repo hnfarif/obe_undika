@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InstrumenMonev;
 use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
@@ -24,7 +25,9 @@ class PlottingMonevController extends Controller
     public function index()
     {
         $nik = auth()->user()->nik;
-        $pltMnv = PlottingMonev::where('nik_pemonev', $nik)->get();
+        $smt = Semester::pluck('smt_aktif')->toArray();
+        $smtUn = array_unique($smt);
+        $pltMnv = PlottingMonev::whereIn('semester', $smtUn)->get();
         $kri = KriteriaMonev::all();
         return view('plotting-monev.index', compact('pltMnv', 'kri'));
     }
@@ -216,4 +219,14 @@ class PlottingMonevController extends Controller
 
         return redirect()->route('monev.plotting.index');
     }
+
+    public function detailPlot(Request $request)
+    {
+        $pltMnv = PlottingMonev::where('nik_pemonev', $request->get('nik'))->where('semester', $request->get('smt'))->get();
+        $kary = KaryawanDosen::where('nik',$request->get('nik') )->first();
+        $arrPlot = $pltMnv->pluck('id')->toArray();
+        $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();
+        return view('plotting-monev.detail', compact('pltMnv', 'insMon', 'kary'));
+    }
+
 }

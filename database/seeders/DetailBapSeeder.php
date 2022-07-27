@@ -29,7 +29,7 @@ class DetailBapSeeder extends Seeder
             $jdw = JadwalKuliah::where('klkl_id', $value->kode_mk)->get();
 
             foreach ($jdw as $kjdw => $valjdw) {
-                if ($valjdw->klkl_id == '4721' && $valjdw->kary_nik == '910049') {
+                if (substr($value->kode_bap, 0, 10) == '9702104721' && $valjdw->kary_nik == '970210' && $valjdw->klkl_id == '4721') {
                     $smt = Semester::where('fak_id', $valjdw->prodi)->first();
                     $rps = Rps::where('kurlkl_id', $value->prodi.$value->kode_mk)->where('is_active', 1)->where('semester', $smt->smt_aktif)->first();
                     $agd = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $value->pertemuan)->first();
@@ -49,7 +49,9 @@ class DetailBapSeeder extends Seeder
                         'prodi' => $value->prodi,
                     ]);
                 }
+
             }
+
 
         }
     }

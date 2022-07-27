@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('plottingmonev', 'active')
+@section('instrumen-monev', 'active')
 @section('', 'active')
 @section('content')
 
@@ -38,9 +38,37 @@
                 </div>
 
                 <div class="row monev">
+
                     @foreach ($kri->sortBy('id') as $k)
                     @if($loop->iteration == 1)
                     <div class="col-12 col-md-6 col-lg-12">
+                        <div class="card card-statistic-2 mt-3">
+                            <div class="card-stats mb-4">
+                                <div class="card-stats-title"> <b>Rangkuman</b>
+                                    <hr>
+                                </div>
+                                <div class="card-stats-items">
+
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count rangKri-1"></div>
+                                        <div class="card-stats-item-label">Kriteria 1</div>
+                                    </div>
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count rangKri-2"></div>
+                                        <div class="card-stats-item-label">Kriteria 2</div>
+                                    </div>
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count rangKri-3"></div>
+                                        <div class="card-stats-item-label">Kriteria 3</div>
+                                    </div>
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count rangFinal"></div>
+                                        <div class="card-stats-item-label text-bold">Nilai Final</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="d-flex align-items-center my-0">
                             <h2 class="section-title titleClo">Kriteria {{ $loop->iteration }}</h2>
                         </div>
@@ -87,7 +115,7 @@
                                             <td class="align-middle text-center border" >
                                                 RPS
                                             </td>
-                                            <td rowspan="2" class="text-center align-middle border">
+                                            <td rowspan="2" class="text-center align-middle border bbt-kri-1">
                                                 {{ $k->bobot }}
                                             </td>
                                             @foreach ($dtlAgd->unique('clo_id') as $cl)
@@ -168,7 +196,7 @@
 
                                                 {{ $k->kri_penilaian }}
                                             </td>
-                                            <td>
+                                            <td class="bbt-kri-2">
                                                 {{ $k->bobot }}
                                             </td>
                                             @foreach ($agd->sortBy('pekan') as $a)
@@ -228,7 +256,7 @@
                                             <td>
                                                 JML
                                             </td>
-                                            <td rowspan="4">
+                                            <td rowspan="4" class="bbt-kri-3">
                                                 {{ $k->bobot }}
                                             </td>
 

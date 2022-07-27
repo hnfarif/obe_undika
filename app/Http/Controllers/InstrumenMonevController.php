@@ -10,6 +10,7 @@ use App\Models\DetailInstrumenMonev;
 use App\Models\InstrumenMonev;
 use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
+use App\Models\KaryawanDosen;
 use App\Models\KriteriaMonev;
 use App\Models\Krs;
 use App\Models\MingguKuliah;
@@ -79,7 +80,7 @@ class InstrumenMonevController extends Controller
             $jmlPre = $krs->where('sts_pre', '1')->count();
             $bapCol = Bap::where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->get();
             $bap = Bap::where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->pluck('kode_bap')->toArray();
-            $dtlBap = DetailBap::whereIn('kode_bap', $bap)->where('kelas', $jdw->kelas)->where('semester', $smt->smt_aktif)->where('nik', $jdw->kary_nik)->get();
+            $dtlBap = DetailBap::whereIn('kode_bap', $bap)->where('kelas', $jdw->kelas)->where('semester', $smt->smt_aktif)->where('nik', $plot->nik_pengajar)->get();
 
             return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bapCol', 'rps'));
         }else{
@@ -162,5 +163,15 @@ class InstrumenMonevController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function listMonev(){
+        $nik = auth()->user()->nik;
+        $kar = KaryawanDosen::where('nik', $nik)->first();
+        $smt = Semester::where('fak_id', $kar->fakul_id)->first();
+        $pltMnv = PlottingMonev::where('nik_pemonev', $nik)->where('semester', $smt->smt_aktif)->get();
+        $arrPlot = $pltMnv->pluck('id')->toArray();
+        $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();
+        return view('instrumen-monev.list-monev', compact('pltMnv','insMon'));
     }
 }
