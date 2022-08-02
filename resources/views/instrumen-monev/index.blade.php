@@ -33,6 +33,10 @@
                                 <input type="radio" name="optMon" value="bap" class="selectgroup-input">
                                 <span class="selectgroup-button">BAP</span>
                             </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optMon" value="rps" class="selectgroup-input">
+                                <span class="selectgroup-button">RPS</span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -164,9 +168,7 @@
                         <div class="d-flex align-items-center my-0">
                             <h2 class="section-title titleClo">Kriteria {{ $loop->iteration }}</h2>
 
-                            <a class="ml-auto mr-1 btn btn-danger" target="_blank" href="{{ asset('storage/'.$rps->file_rps) }}"> <i class="fas fa-file-pdf"></i> Lihat File RPS </a>
-
-                            <button class="ml-2 btn btn-primary" id="btnSaveKri2" disabled> <i class="fas fa-save"></i> Simpan Nilai </button>
+                            <button class="ml-2 btn btn-primary ml-auto" id="btnSaveKri2" disabled> <i class="fas fa-save"></i> Simpan Nilai </button>
                         </div>
                         <div class="card">
                             <div class="card-body">
@@ -179,7 +181,7 @@
                                             </th>
                                             <th>Bobot</th>
                                             @foreach ($agd->sortBy('pekan') as $a)
-                                            @if (!($a->pekan == 'UTS' || $a->pekan == 'UAS'))
+                                            @if (!($a->pekan == '8' || $a->pekan == '16'))
 
                                             <th>{{ 'M'.$a->pekan }}</th>
                                             @endif
@@ -200,7 +202,7 @@
                                                 {{ $k->bobot }}
                                             </td>
                                             @foreach ($agd->sortBy('pekan') as $a)
-                                            @if (!($a->pekan == 'UTS' || $a->pekan == 'UAS'))
+                                            @if (!($a->pekan == '8' || $a->pekan == '16'))
                                             <td style="min-width: 50px;">
                                                 <input type="hidden" id="agd" value="{{ $a->id }}">
                                                 <input type="hidden" id="kri" value="{{ $k->id }}">
@@ -529,6 +531,11 @@
 
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row d-none rps">
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <iframe src="{{ asset('storage/'.$rps->file_rps) }}" frameborder="0" width="100%" height="800px"></iframe>
                     </div>
                 </div>
             </div>

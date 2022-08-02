@@ -16,7 +16,7 @@ class MingguKuliahSeeder extends Seeder
     public function run()
     {
 
-        for ($i=0; $i < 14; $i++) {
+        for ($i=0; $i < 16; $i++) {
             $miKul = new MingguKuliah();
             $miKul->jenis_smt = '1';
             $miKul->smt = '202';

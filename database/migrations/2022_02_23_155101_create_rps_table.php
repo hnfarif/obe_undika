@@ -24,7 +24,6 @@ class CreateRpsTable extends Migration
             $table->string('email_penyusun',50)->nullable();
             $table->string('semester',3);
             $table->string('file_rps')->nullable();
-            $table->boolean('is_active')->nullable();
             $table->boolean('is_done')->default(0);
 
             $table->foreign('kurlkl_id')->references('id')->on('kurlkl_mf')->onDelete('cascade');

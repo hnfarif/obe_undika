@@ -67,10 +67,11 @@ Route::prefix('rps')->middleware('ensureUserRole:bagian,dosen,dosenBagian')->gro
     Route::get('/', [RpsController::class,'index'])->name('rps.index');
     Route::get('/edit', [RpsController::class,'edit'])->name('rps.edit');
     Route::put('/update/{rps?}', [RpsController::class,'update'])->name('rps.update');
-    Route::put('/file/{rps}', [RpsController::class,'saveFileRps'])->name('rps.file.store');
+    Route::put('/file/store', [RpsController::class,'saveFileRps'])->name('rps.file.store');
+    Route::put('/trfAgd', [RpsController::class,'transferAgenda'])->name('rps.transferAgenda');
 
-    Route::get('/plottingmk', [RpsController::class, 'create'])->name('rps.plottingmk');
-    Route::post('/plottingmk/store', [RpsController::class, 'store'])->name('rps.plottingmk.store');
+    Route::get('/plottingrps', [RpsController::class, 'create'])->name('rps.plottingrps');
+    Route::post('/plottingrps/store', [RpsController::class, 'store'])->name('rps.plottingrps.store');
 
     Route::get('/clo/edit', [CloController::class, 'edit'])->name('clo.edit');
     Route::get('/clo/{rps}', [CloController::class, 'index'] )->name('clo.index');
@@ -137,7 +138,7 @@ Route::prefix('monev')->name('monev.')->group(function(){
 
     Route::get('/plot/detail', [PlottingMonevController::class, 'detailPlot'])->name('detailPlot');
 
-    Route::get('/monev/list', [InstrumenMonevController::class, 'listMonev'])->name('listMonev');
+    Route::get('/list', [InstrumenMonevController::class, 'listMonev'])->name('listMonev');
 
     Route::resource('plotting', PlottingMonevController::class);
     Route::resource('instrumen', InstrumenMonevController::class);

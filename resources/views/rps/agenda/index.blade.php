@@ -26,6 +26,15 @@
                             class="btn btn-primary ml-3  align-self-center expanded"><i class="fas fa-plus"></i> Entri
                             Agenda
                             Pembelajaran</a>
+
+                        @if ($rps->is_done == '1')
+                        <button type="button" class="btn btn-info ml-3" disabled><i class="fas fa-check"></i>
+                            Agenda Pembelajaran sudah selesai</button>
+                        @else
+                        <button type="button" class="btn btn-info ml-3 transAgd"><i class="fas fa-paper-plane"></i>
+                            Transfer
+                            Penilaian CLO</button>
+                        @endif
                     </div>
                 </div>
 
@@ -119,6 +128,11 @@
                                         <tr>
                                             <td class="text-center">
                                                 {{ $i->agendaBelajar->pekan }}
+                                                @if ($i->agendaBelajar->pekan == 8)
+                                                (Ujian Tengah Semester)
+                                                @elseif ($i->agendaBelajar->pekan == 16)
+                                                (Ujian Akhir Semester)
+                                                @endif
                                             </td>
                                             <td class="text-center">
                                                 {{ $i->clo->kode_clo}}

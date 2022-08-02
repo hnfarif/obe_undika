@@ -39,12 +39,17 @@ class PlottingMonevController extends Controller
      */
     public function create()
     {
-        // session()->forget('listMonev-'.auth()->user()->nik);
-        $rpsKl = Rps::where('is_active', '1')->pluck('kurlkl_id')->toArray();
-        $rps = Rps::where('is_active', '1')->pluck('semester')->toArray();
-        $plot = PlottingMonev::whereIn('semester', $rps)->get();
-        // dd($plot);
+
+        $rpsKl = [];
+        $rps = Rps::all();
+        foreach ($rps as $r) {
+            $smt = Semester::where('fak_id', substr($r->kurlkl_id, 0, 5))->first();
+            if($r->semester == $smt->smt_aktif){
+                $rpsKl[] = $r->kurlkl_id;
+            }
+        }
         $arrJdwkul = [];
+        $arrKurlkl = [];
 
         foreach ($rpsKl as $i) {
             $arrKurlkl[] = substr($i,5);

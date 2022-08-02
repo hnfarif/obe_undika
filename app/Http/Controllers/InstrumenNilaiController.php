@@ -40,7 +40,7 @@ class InstrumenNilaiController extends Controller
         $nik_kary = auth()->user()->nik;
         $kary = KaryawanDosen::where('nik',$nik_kary)->first();
         $smt = Semester::where('fak_id', $kary->fakul_id)->first();
-        $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")->where('is_active', '1')
+        $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
         ->where('semester', $smt->smt_aktif)
         ->pluck('kurlkl_id')->toArray();
 
@@ -340,7 +340,7 @@ class InstrumenNilaiController extends Controller
         $kary = KaryawanDosen::where('nik',$nik_kary)->first();
         $smt = Semester::where('fak_id', $kary->fakul_id)->first();
 
-        $rps = Rps::where('kurlkl_id', $request->kode_mk)->where('is_active', '1')->where('semester', $smt->smt_aktif)->get();
+        $rps = Rps::where('kurlkl_id', $request->kode_mk)->where('semester', $smt->smt_aktif)->get();
 
         if ($rps->count() > 1 ) {
             return response()->json([
@@ -352,6 +352,11 @@ class InstrumenNilaiController extends Controller
             ]);
         }else{
             $rps = $rps->first();
+            if ($rps->is_done == '0') {
+                return response()->json([
+                    'error' => 'Data RPS belum selesai, silahkan hubungi penyusun RPS',
+                ]);
+            }
             $instru = InstrumenNilai::where('rps_id', $rps->id)->where('klkl_id', substr($request->kode_mk, 5))
             ->where('nik', $nik_kary)
             ->first();

@@ -22,4 +22,10 @@ class MataKuliah extends Model
     {
         return $this->hasOne(Rps::class);
     }
+
+    public function getProdiName($id)
+    {
+        $n = Prodi::find($id);
+        return $n->nama;
+    }
 }

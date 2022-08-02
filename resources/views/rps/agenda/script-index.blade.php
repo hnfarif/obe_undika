@@ -984,7 +984,46 @@
 
         });
 
+        $('.transAgd').on('click', function () {
+            Swal.fire({
+                title: 'Perhatian',
+                text: "Pastikan Agenda Pembelajaran sudah sesuai, karena data akan digunakan untuk Penilaian CLO!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Simpan!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('rps.transferAgenda') }}",
+                        type: "PUT",
+                        dataType: "JSON",
+                        data: {
+                            '_token': "{{ csrf_token() }}",
+                            'rps_id': "{{ $rps->id }}",
+                        },
+                        success: function (data) {
+                            if (data.status == 'success') {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Agenda berhasil ditransfer!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1500);
+                            }
 
+                        }
+
+                    })
+
+                }
+            })
+        })
     });
 
 </script>

@@ -20,10 +20,9 @@
                 <div class="row">
                     <div class="col-12 col-md-8 col-lg-12">
                         <div class="my-3">
-                            <a href="{{ route('rps.plottingmk') }}" type="button" class="btn btn-primary"><i
+                            <a href="{{ route('rps.plottingrps') }}" type="button" class="btn btn-primary"><i
                                     class="fas fa-plus"></i> Entri
-                                Plotting
-                                Mata Kuliah</a>
+                                Plotting RPS</a>
                         </div>
 
                         <div class="card">
@@ -81,10 +80,9 @@
                                             <th>Penyusun</th>
                                             <th>Semester</th>
                                             <th>SKS</th>
-                                            <th>Aktif</th>
                                             <th>Status</th>
                                             <th>
-                                                <div style="min-width: 165px;">
+                                                <div style="min-width: 260px;">
                                                     Action
                                                 </div>
                                             </th>
@@ -116,14 +114,6 @@
                                                 {{ $i->matakuliah->sks }}
                                             </td>
                                             <td>
-                                                @if ($i->is_active)
-                                                {{ 'Ya' }}
-                                                @else
-                                                {{ 'Tidak' }}
-                                                @endif
-
-                                            </td>
-                                            <td>
                                                 @if ($i->is_done)
                                                 <div class="badge badge-success">Done</div>
                                                 @else
@@ -132,18 +122,20 @@
 
                                             </td>
                                             <td>
-                                                <div class="d-flex">
-                                                    @if ($i->is_done)
+                                                <div class="d-inline-block">
+                                                    @if ($i->file_rps)
                                                     <a href="{{ asset('storage/'.$i->file_rps) }}" target="_blank"
-                                                        class="btn btn-primary mr-2 flex-grow">Lihat
+                                                        class="btn btn-primary mr-1 ">Lihat
                                                         File Rps</a>
                                                     @else
-                                                    <a href="{{ route('clo.index', $i->id) }}"
-                                                        class="btn btn-light mr-2 flex-grow">Buat
-                                                        Rps</a>
+                                                    <button type="button" class="btn btn-warning mr-1 saveRps"
+                                                        data-id="{{ $i->id }}"><i class="fas fa-file-upload"></i> Upload
+                                                        RPS </button>
                                                     @endif
-
-                                                    <button class="btn btn-info editRps flex-grow" data-toggle="modal"
+                                                    <a href="{{ route('clo.index', $i->id) }}"
+                                                        class="btn btn-light mr-1 ">Buat
+                                                        Rps</a>
+                                                    <button class="btn btn-info editRps " data-toggle="modal"
                                                         data-target="#editRps" data-id="{{ $i->id }}">Ubah</button>
                                                 </div>
                                             </td>
@@ -246,21 +238,7 @@
                         </div>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="">Status Aktif</label>
-                        <select class="form-control select2 @error('ketua_rumpun') is-invalid @enderror"
-                            name="sts_aktif" id="sts_aktif">
-                            <option value="1">Ya</option>
-                            <option value="0">Tidak</option>
-                        </select>
-                        @error('sts_aktif')
-                        <div class="alert alert-danger alert-dismissible show fade ">{{ $message }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        @enderror
-                    </div>
+
             </div>
             <div class="modal-footer bg-whitesmoke br">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -271,6 +249,39 @@
     </div>
 </div>
 
+<div class="modal fade" role="dialog" id="saveRps">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Simpan RPS
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('rps.file.store') }}" method="post" enctype="multipart/form-data">
+                @method('PUT')
+                @csrf
+                <input type="hidden" name="mrps_id" id="mrps_id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Masukkan File RPS </label>
+                        <div class="custom-file">
+                            <input class="form-control @error('rps') is-invalid
+                            @enderror" type="file" name="rps" id="formFile" required>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnSaveRps" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 @push('script')
 
@@ -326,22 +337,23 @@
 
         })
 
-
-
-        // $('.smt:checked').each(function () {
-        // });
-        // if (!$(this).checked) {
-
-        // } else {
-        //     chkSmt.push($(this).val());
-        //     localStorage.setItem('checkedSmt', JSON.stringify(chkSmt));
-        // }
-        // $(this).change(function () {
-        // if ($(this).attr('checked', 'checked')) {
-        // } else {
-        //
-        // }
-        // })
+        $('.saveRps').on('click', function () {
+            var id = $(this).attr('data-id');
+            Swal.fire({
+                title: 'Perhatian',
+                text: "Pastikan file yang akan diupload sudah benar, file tidak dapat diubah lagi",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Simpan!'
+            }).then((result) => {
+                if (result.value) {
+                    $('#saveRps').modal('show');
+                    $('#mrps_id').val(id);
+                }
+            })
+        })
     });
 
 </script>

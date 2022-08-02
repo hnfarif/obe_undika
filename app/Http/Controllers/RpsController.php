@@ -9,6 +9,7 @@ use App\Models\KaryawanDosen;
 use App\Models\MataKuliah;
 use App\Models\MateriKuliah;
 use App\Models\Rps;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -38,9 +39,19 @@ class RpsController extends Controller
     public function create()
     {
         $mk = MataKuliah::where('status', 1)->get();
+        $filMk = [];
+
+        foreach ($mk as $i) {
+            $smt = Semester::where('fak_id', $i->fakul_id)->first();
+            $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_aktif)->first();
+            if(!$findRps){
+                $filMk[] = $i;
+            }
+        }
+        $mk = $filMk;
         $dosens = KaryawanDosen::all();
 
-        return view('rps.plottingmk', compact('mk','dosens'));
+        return view('rps.plottingrps', compact('mk','dosens'));
     }
 
     /**
@@ -64,7 +75,7 @@ class RpsController extends Controller
 
 
             $mk = MataKuliah::where('id',$i)->first();
-            $findRps = Rps::where('kurlkl_id', $i)->where('semester',$request->semester)->where('is_active', '1')->first();
+            $findRps = Rps::where('kurlkl_id', $i)->where('semester',$request->semester)->first();
 
             if ($findRps) {
                 continue;
@@ -75,7 +86,6 @@ class RpsController extends Controller
                 $rps->nama_mk = $mk->nama;
                 $rps->rumpun_mk = $request->rumpun_mk;
                 $rps->semester = $request->semester;
-                $rps->is_active = 1;
                 $rps->save();
 
             }
@@ -129,7 +139,6 @@ class RpsController extends Controller
                 'rumpun_mk' => 'required',
                 'ketua_rumpun' => 'required',
                 'semester' => 'required',
-                'sts_aktif' => 'required',
             ]);
 
             $updateRps = Rps::where('id', $request->rps_id)->update(
@@ -137,7 +146,7 @@ class RpsController extends Controller
                     'rumpun_mk' => $request->rumpun_mk,
                     'nik' => $request->ketua_rumpun,
                     'semester' => $request->semester,
-                    'is_active' => $request->sts_aktif,
+
                 ]
             );
 
@@ -216,7 +225,7 @@ class RpsController extends Controller
         return view('rps.rangkuman', compact('dataRps','rps','kultot','med','pus','pbm'));
     }
 
-    public function saveFileRps(Request $request, $rps)
+    public function saveFileRps(Request $request)
     {
         $validatedData =  Validator::make($request->all(), [
             'rps' => 'required|mimes:pdf|max:51200',
@@ -224,9 +233,8 @@ class RpsController extends Controller
 
         if ($validatedData->passes()) {
 
-            $rps = Rps::findOrFail($rps)->update([
+            $rps = Rps::findOrFail($request->get('mrps_id'))->update([
                 'file_rps' => $request->file('rps')->store('rps-file'),
-                'is_done' => '1',
             ]);
 
             if ($rps) {
@@ -241,5 +249,15 @@ class RpsController extends Controller
         }
 
         return redirect()->back()->withErrors($validatedData->errors());
+    }
+
+    public function transferAgenda(Request $request)
+    {
+        $rps = Rps::findOrFail($request->get('rps_id'));
+        $rps->update([
+            'is_done' => '1',
+        ]);
+
+        return json_encode(['status' => 'success']);
     }
 }

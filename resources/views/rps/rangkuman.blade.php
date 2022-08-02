@@ -24,15 +24,7 @@
                 <div class="d-flex my-0">
                     <h2 class="section-title">Waktu Belajar Mahasiswa</h2>
 
-                    <div class="mt-3 ml-auto">
-                        @if ($rps->is_done)
-                        <button type="button" disabled class="btn btn-success ml-3 align-self-center saveRps"><i
-                                class="fas fa-check"></i> File RPS sudah diupload </button>
-                        @else
-                        <button type="button" class="btn btn-primary ml-3 align-self-center saveRps"><i
-                                class="fas fa-file-upload"></i> Simpan RPS </button>
-                        @endif
-                    </div>
+
 
                 </div>
                 {{-- <p class="section-lead">Masukkan, ubah data PEO </p> --}}
@@ -375,57 +367,10 @@
     </div>
     @include('layouts.footer')
 </div>
-<div class="modal fade" role="dialog" id="saveRps">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    Simpan RPS
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('rps.file.store', $rps->id) }}" method="post" enctype="multipart/form-data">
-                @method('PUT')
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Masukkan File RPS </label>
-                        <div class="custom-file">
-                            <input class="form-control @error('rps') is-invalid
-                            @enderror" type="file" name="rps" id="formFile" required>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" id="btnSaveRps" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @endsection
 @push('script')
 <script>
     $(document).ready(function () {
-        $('.saveRps').on('click', function () {
-            Swal.fire({
-                title: 'Apakah anda yakin ingin menyimpan RPS ini?',
-                text: "jika anda menyimpan RPS ini, maka tidak bisa diubah lagi",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Simpan!'
-            }).then((result) => {
-                if (result.value) {
-                    $('#saveRps').modal('show');
-                }
-            })
-        })
 
     })
 

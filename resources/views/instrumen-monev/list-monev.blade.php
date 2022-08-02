@@ -7,6 +7,14 @@
     <div class="main-content">
         <section class="section">
             <div class="section-body">
+                @if (session()->has('message'))
+                <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
+                    {{ session()->get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">

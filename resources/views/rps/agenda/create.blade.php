@@ -42,9 +42,12 @@
                         <label>Pilih Minggu</label>
                         <select class="form-control @error('week') is-invalid @enderror select2" id="optweek" required>
                             <option selected disabled> Pilih Minggu</option>
-                            <option value="UTS"> Ujian Tengah Semester</option>
-                            <option value="UAS"> Ujian Akhir Semester</option>
-                            @for ($i = 1; $i <= 14; $i++) <option value="{{ $i }}">{{ 'Minggu Ke '.$i }}</option>
+                            @for ($i = 1; $i <= 16; $i++) <option value="{{ $i }}">{{ 'Minggu Ke '.$i }}
+                                @if ($i == 8)
+                                (Ujian Tengah Semester)
+                                @elseif($i == 16)
+                                (Ujian Akhir Semester)
+                                @endif</option>
                                 @endfor
                         </select>
                         @error('week')
