@@ -5,6 +5,9 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\CloController;
 use App\Http\Controllers\InstrumenMonevController;
 use App\Http\Controllers\InstrumenNilaiController;
+use App\Http\Controllers\LaporanAngketController;
+use App\Http\Controllers\LaporanBrilianController;
+use App\Http\Controllers\LaporanMonevController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PeoController;
 use App\Http\Controllers\PeoPloController;
@@ -145,43 +148,12 @@ Route::prefix('monev')->name('monev.')->group(function(){
 });
 
 
+Route::prefix('laporan')->name('laporan.')->group(function(){
 
-Route::get('/data-nilai-mhs', function(Request $request){
-
-    $data = [
-        [
-            'id' => 1,
-        'kode_clo' => '16410100038',
-        'pendapat' => 'Satya Agatha Fargaf',
-        'mandiri' => '3',
-        'kelompok' => '3',
-        'presentasi' => '3',
-        'uts' => '3',
-        'uas' => '3',
-        'total_bobot' => '3',
-        'target_lls' => '100',
-        ],
-        [
-            'id' => 2,
-        'kode_clo' => '16410100121',
-        'pendapat' => 'Nadim',
-        'mandiri' => '3',
-        'kelompok' => '3',
-        'presentasi' => '3',
-        'uts' => '3',
-        'uas' => '3',
-        'total_bobot' => '3',
-        'target_lls' => '100',
-        ]
-    ];
-
-    $output = [
-        "draw" => $request->get('draw'),
-        "recordsTotal" => count($data),
-        "recordsFiltered" => count($data),
-        "data" => $data
-    ];
-    return response()->json($output);
-})->name('data-nilai-mhs');
+    Route::get('/monev/data', [LaporanMonevController::class, 'data'])->name('data');
+    Route::resource('monev', LaporanMonevController::class);
+    Route::resource('brilian', LaporanBrilianController::class);
+    Route::resource('angket', LaporanAngketController::class);
+});
 
 Route::get('/testapi', [ApiController::class, 'apiwithoutKey']);

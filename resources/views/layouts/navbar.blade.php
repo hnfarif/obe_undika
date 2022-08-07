@@ -188,7 +188,10 @@
                         class="fas fa-vector-square"></i><span>Plotting
                         Monev</span></a>
             </li>
-
+            <li class="nav-item @yield('laporan')">
+                <a href="{{ route('laporan.monev.index') }}" class="nav-link"><i
+                        class="fas fa-file-invoice"></i><span>Laporan</span></a>
+            </li>
 
         </ul>
     </div>

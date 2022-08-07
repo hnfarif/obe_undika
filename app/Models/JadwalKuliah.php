@@ -16,6 +16,16 @@ class JadwalKuliah extends Model
     public $incrementing = false;
     protected $primaryKey = null;
 
+    public function matakuliahs()
+    {
+        return $this->belongsTo(MataKuliah::class, 'id', 'klkl_id');
+    }
+
+    public function karyawans()
+    {
+        return $this->belongsTo(KaryawanDosen::class, 'kary_nik', 'nik');
+    }
+
     public function getNameMataKuliah($mk, $prodi)
     {
         $maku = MataKuliah::where('id', $prodi.$mk)->first();
