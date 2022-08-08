@@ -55,17 +55,40 @@
                                                 <td>{{ $j->kelas }}</td>
                                                 <td>{{ $j->karyawans->nama }}</td>
                                                 @foreach ($kri as $k)
+
+                                                @if ($k->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) == 'insMon')
+
                                                 @if ($loop->iteration == '1')
+                                                <td class="text-warning text-center" colspan="2">
+                                                    {{ 'Instrumen Monev belum dibuat' }}
+                                                </td>
+                                                @endif
+                                                @elseif ($k->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) == 'plot')
+                                                @if ($loop->iteration == '1')
+                                                <td class="text-danger text-center" colspan="3">
+                                                    {{ 'Plotting belum dibuat' }}
+                                                </td>
+                                                @endif
+                                                @else
+                                                @if($loop->iteration == '1')
                                                 <td>
                                                     {{ $k->getNilaiKri1($j->kary_nik,$j->klkl_id, $j->prodi, $k->id) }}
                                                 </td>
-                                                @else
+                                                @elseif($loop->iteration == '2')
+                                                <td>
+                                                    {{ $k->getNilaiKri2($j->kary_nik,$j->klkl_id, $j->prodi, $k->id) }}
+                                                </td>
+                                                @elseif($loop->iteration == '3')
+                                                <td>
+                                                    {{ $k->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->prodi) }}
+                                                </td>
+                                                @endif
+                                                @endif
+                                                @endforeach
                                                 <td>
                                                     -
                                                 </td>
-                                                @endif
 
-                                                @endforeach
                                             </tr>
                                             @endforeach
                                         </tbody>
