@@ -97,7 +97,7 @@ class InstrumenNilaiController extends Controller
 
         $dtlAgd = DetailAgenda::whereIn('agd_id', $agd)->with('penilaian','clo','detailInstrumenNilai')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
 
-        $krs = Krs::where('jkul_klkl_id', $instru->klkl_id)->where('jkul_kelas', $jdw->kelas)->with('mahasiswa')->get();
+        $krs = Krs::where('jkul_klkl_id', $instru->klkl_id)->where('jkul_kelas', $jdw->kelas)->where('kary_nik', $jdw->kary_nik)->with('mahasiswa')->get();
 
         $dtlInstru = DetailInstrumenNilai::where('ins_nilai_id', $instru->id)->get();
 

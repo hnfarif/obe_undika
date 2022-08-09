@@ -17,6 +17,7 @@ class CreateKrsTfTable extends Migration
 
             $table->string('jkul_kelas', 2);
             $table->string('jkul_klkl_id', 10);
+            $table->string('kary_nik', 6);
             $table->string('mhs_nim', 11);
             $table->string('sts_pre', 1);
 

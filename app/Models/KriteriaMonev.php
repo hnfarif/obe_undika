@@ -55,54 +55,55 @@ class KriteriaMonev extends Model
         }
 
     }
-    public function getNilaiKri3($nik, $mk, $prodi)
+    public function getNilaiKri3($nik, $mk, $prodi, $kls)
     {
-        // $data = [];
-        // $smt = Semester::where('fak_id', $prodi)->first();
-        // $insNilai = InstrumenNilai::where('klkl_id', $mk)->where('semester', $smt->smt_aktif)->where('nik', $nik)->first();
-        // $dtlNilai = DetailInstrumenNilai::where('ins_nilai_id', $insNilai->id)->get();
-        // $unique = $dtlNilai->distinct('dtl_agd_id')->pluck('dtl_agd_id')->toArray();
-
-        // $dtlAgd = DetailAgenda::whereIn('id', $unique)->get();
-        // $uniClo = $dtlAgd->distinct('clo_id');
-
-        // foreach ($uniClo as $u) {
-        //     $da = $dtlAgd->where('clo_id', $u->id)->pluck('id')->toArray();
-        //     $arrNilai = $dtlNilai->whereIn('dtl_agd_id', $da)->get();
-        //     $sumBobot = $dtlAgd->where('clo_id', $u->id)->sum('bobot');
-        //     foreach ($arrNilai as $n) {
-        //         $bobot = $dtlAgd->where('id', $n->dtl_agd_id)->first()->bobot;
-        //         $res =+ $n->nilai * ($bobot / 100);
-        //     }
-        //     $nKonv = number_format($res / $sumBobot, 2);
-        //     if (round($nKonv) >= $insNilai->nilai_min_mk) {
-        //         $sts = 'L';
-        //     }
-
-
-        // }
-        return '-';
-
-    }
-    public function cekKriteria($nik, $mk, $prodi)
-    {
+        $nilaiBbt = [];
+        $nilaiperClo = [];
         $smt = Semester::where('fak_id', $prodi)->first();
-        $plot = PlottingMonev::where('nik_pengajar', $nik)
-            ->where('klkl_id', $mk)
-            ->where('prodi', $prodi)
-            ->where('semester', $smt->smt_aktif)
-            ->first();
-        if ($plot) {
-            $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
-            if ($insMon) {
-                return 'ada';
-            }else{
-                return 'insMon';
-            }
+        $insNilai = InstrumenNilai::where('klkl_id', $mk)->where('semester', $smt->smt_aktif)->where('nik', $nik)->first();
+        $countClo = Clo::where('rps_id', $insNilai->rps_id)->count();
+        $dtlNilai = DetailInstrumenNilai::where('ins_nilai_id', $insNilai->id)->get();
+        $countMhs = Krs::where('jkul_klkl_id', $mk)->where('kary_nik', $nik)->where('jkul_kelas', $kls)->count();
+        $countPresensi = Krs::where('jkul_klkl_id', $mk)->where('kary_nik', $nik)->where('jkul_kelas', $kls)->where('sts_pre', '1')->count();
+        $sumLulus = 0;
 
-        }else{
-            return 'plot';
+        foreach ($dtlNilai as $dn) {
+            $bbt = DetailAgenda::where('id', $dn->dtl_agd_id)->first();
+            $nbbt = $dn->nilai * ($bbt->bobot / 100);
+            $nilaiBbt[$dn->mhs_nim][$bbt->clo_id][$dn->dtl_agd_id] = $nbbt;
         }
+
+        foreach ($nilaiBbt as $mhs => $clos) {
+            foreach ($clos as $clo => $nilaiClo) {
+                $sumBobot = DetailAgenda::where('clo_id', $clo)->sum('bobot');
+                $nilaiMin = Clo::where('id', $clo)->first();
+                if($sumBobot == 0){
+                    $sumBobot = 1;
+                }
+                $nilaiKonv = (array_sum($nilaiClo) / $sumBobot)*100;
+
+                if (round($nilaiKonv) >= $nilaiMin->nilai_min) {
+
+                    $nilaiperClo[$mhs][$clo] = 'L';
+                }else{
+                    $nilaiperClo[$mhs][$clo] = 'TL';
+                }
+            }
+        }
+
+        foreach ($nilaiperClo as $clo) {
+            if (count($clo) == $countClo) {
+                if(count(array_filter($clo, function ($value) { return $value === 'L'; })) == $countClo){
+                    $sumLulus++;
+                }
+            }
+        }
+        $ilc = $sumLulus / ($countMhs - $countPresensi);
+        $eval = number_format($ilc * 4, 2);
+
+        return $eval;
+
     }
+
 
 }

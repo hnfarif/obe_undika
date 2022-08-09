@@ -70,14 +70,8 @@
     <script src="{{ asset('assets/js/page/summernote-bs4.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/draggable/1.0.0-beta.12/draggable.min.js"
-        integrity="sha512-VTqyB/kLQGaTnF5kYAgeEFo8fwqdlAGNUQeoQi4EOmmBYTEQ/XrYC7lnzCvBBp1PR+1ODEQiT075oeUdPeFHwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"
         integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
-    {{-- <script src="{{ asset('assets/js/page/sweetalert.min.js') }}"></script>
-    <script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script> --}}
-    {{-- <script src="{{ asset('assets/js/page/forms-advanced-forms.js') }}"></script> --}}
 
 
     <script>

@@ -24,7 +24,7 @@ class PlottingMonevController extends Controller
      */
     public function index()
     {
-        $nik = auth()->user()->nik;
+        // $nik = auth()->user()->nik;
         $smt = Semester::pluck('smt_aktif')->toArray();
         $smtUn = array_unique($smt);
         $pltMnv = PlottingMonev::whereIn('semester', $smtUn)->get();

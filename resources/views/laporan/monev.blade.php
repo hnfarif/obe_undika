@@ -25,7 +25,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped" id="lapMonev">
+                                    <table class="table table-striped" id="lapMonev" width="100%">
                                         <thead>
                                             <tr>
                                                 <th class="text-center" rowspan="2">
@@ -56,38 +56,54 @@
                                                 <td>{{ $j->karyawans->nama }}</td>
                                                 @foreach ($kri as $k)
 
-                                                @if ($k->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) == 'insMon')
+                                                @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) == 'insMon')
 
                                                 @if ($loop->iteration == '1')
-                                                <td class="text-warning text-center" colspan="2">
-                                                    {{ 'Instrumen Monev belum dibuat' }}
+                                                <td class="text-warning text-center" colspan="4">
+                                                    <b>Instrumen Monev belum dibuat</b>
+                                                </td>
+                                                @else
+                                                <td class="d-none">
+
                                                 </td>
                                                 @endif
-                                                @elseif ($k->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) == 'plot')
+                                                @elseif ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) == 'plot')
                                                 @if ($loop->iteration == '1')
-                                                <td class="text-danger text-center" colspan="3">
-                                                    {{ 'Plotting belum dibuat' }}
+                                                <td class="text-danger text-center" colspan="4">
+                                                    <b>Plotting belum dibuat</b>
+                                                </td>
+                                                @else
+                                                <td class="d-none">
+
                                                 </td>
                                                 @endif
                                                 @else
                                                 @if($loop->iteration == '1')
-                                                <td>
+                                                <td data-bbt="{{ $k->bobot }}">
                                                     {{ $k->getNilaiKri1($j->kary_nik,$j->klkl_id, $j->prodi, $k->id) }}
                                                 </td>
                                                 @elseif($loop->iteration == '2')
-                                                <td>
+                                                <td data-bbt="{{ $k->bobot }}">
                                                     {{ $k->getNilaiKri2($j->kary_nik,$j->klkl_id, $j->prodi, $k->id) }}
                                                 </td>
                                                 @elseif($loop->iteration == '3')
-                                                <td>
-                                                    {{ $k->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->prodi) }}
+                                                <td data-bbt="{{ $k->bobot }}">
+                                                    {{ $k->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) }}
                                                 </td>
                                                 @endif
                                                 @endif
                                                 @endforeach
-                                                <td>
-                                                    -
+                                                @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) == 'insMon' ||
+                                                $j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) == 'plot')
+                                                <td class="d-none">
+
                                                 </td>
+                                                @else
+                                                <td id="naMonev">
+
+                                                </td>
+                                                @endif
+
 
                                             </tr>
                                             @endforeach
@@ -110,7 +126,26 @@
 @push('script')
 <script>
     $(document).ready(function () {
-        $('#lapMonev').DataTable();
+        const tabelMonev = $('#lapMonev').DataTable({
+            responsive: true,
+            autoWidth: false,
+        });
+
+        tabelMonev.rows().every(function () {
+            const node = this.node();
+            var kri3 = parseFloat($(node).find('td:last').prev().text());
+            var kri2 = parseFloat($(node).find('td:last').prev().prev().text());
+            var kri1 = parseFloat($(node).find('td:last').prev().prev().prev().text());
+
+            var bbt3 = parseFloat($(node).find('td:last').prev().data('bbt') / 100);
+            var bbt2 = parseFloat($(node).find('td:last').prev().prev().data('bbt') / 100);
+            var bbt1 = parseFloat($(node).find('td:last').prev().prev().prev().data('bbt') / 100);
+
+            var na = (kri3 * bbt3) + (kri2 * bbt2) + (kri1 * bbt1);
+            $(node).find('td:last').text(na.toFixed(2));
+
+        });
+
     });
 
 </script>

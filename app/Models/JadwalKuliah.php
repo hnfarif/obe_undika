@@ -57,4 +57,25 @@ class JadwalKuliah extends Model
     {
         return $this->hasMany(PlottingMonev::class, 'klkl_id', 'klkl_id');
     }
+
+    public function cekKriteria($nik, $mk, $prodi)
+    {
+        $smt = Semester::where('fak_id', $prodi)->first();
+        $plot = PlottingMonev::where('nik_pengajar', $nik)
+            ->where('klkl_id', $mk)
+            ->where('prodi', $prodi)
+            ->where('semester', $smt->smt_aktif)
+            ->first();
+        if ($plot) {
+            $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
+            if ($insMon) {
+                return 'ada';
+            }else{
+                return 'insMon';
+            }
+
+        }else{
+            return 'plot';
+        }
+    }
 }
