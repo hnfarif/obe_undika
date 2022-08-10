@@ -17,11 +17,30 @@
                     </button>
                 </div>
                 @endif
-                <div class="row">
+                <div class="d-flex align-items-center my-0">
+                    <div class="ml-auto">
+                        <div class="selectgroup w-100">
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optlaporan" value="monev" class="selectgroup-input"
+                                    checked="">
+                                <span class="selectgroup-button">Daftar Monev</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optlaporan" value="rangkuman" class="selectgroup-input">
+                                <span class="selectgroup-button">Rangkuman</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row monev">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Monev</h4>
+                                <h4>Daftar Monev</h4>
+                                <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#filterMonev">
+                                    <i class="fas fa-filter"></i> Filter
+                                </button>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -87,7 +106,7 @@
                                                     {{ $k->getNilaiKri2($j->kary_nik,$j->klkl_id, $j->prodi, $k->id) }}
                                                 </td>
                                                 @elseif($loop->iteration == '3')
-                                                <td data-bbt="{{ $k->bobot }}">
+                                                <td data-bbt="{{ $k->bobot }}" data-prodi="{{ $j->prodi }}">
                                                     {{ $k->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) }}
                                                 </td>
                                                 @endif
@@ -115,6 +134,54 @@
                     </div>
                 </div>
 
+                <div class="row rangkuman">
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Rata-Rata monitoring evaluasi OBE</h4>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Fakultas</th>
+                                                <th>Nama Prodi</th>
+                                                <th>Rata-Rata</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($fakul as $f)
+                                            <tr>
+
+                                                <td>{{ $f->nama }}</td>
+                                                <td>
+                                                    @foreach ($f->prodis as $p )
+                                                    <div class="my-3">
+
+                                                        {{ $p->nama.' ('.$p->id.')' }}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($f->prodis as $p )
+                                                    <div class="avgMonev my-3" data-prodi="{{ $p->id }}">
+
+                                                        50
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
 
@@ -122,32 +189,8 @@
     </div>
     @include('layouts.footer')
 </div>
+@include('laporan.modal-monev')
 @endsection
 @push('script')
-<script>
-    $(document).ready(function () {
-        const tabelMonev = $('#lapMonev').DataTable({
-            responsive: true,
-            autoWidth: false,
-        });
-
-        tabelMonev.rows().every(function () {
-            const node = this.node();
-            var kri3 = parseFloat($(node).find('td:last').prev().text());
-            var kri2 = parseFloat($(node).find('td:last').prev().prev().text());
-            var kri1 = parseFloat($(node).find('td:last').prev().prev().prev().text());
-
-            var bbt3 = parseFloat($(node).find('td:last').prev().data('bbt') / 100);
-            var bbt2 = parseFloat($(node).find('td:last').prev().prev().data('bbt') / 100);
-            var bbt1 = parseFloat($(node).find('td:last').prev().prev().prev().data('bbt') / 100);
-
-            var na = (kri3 * bbt3) + (kri2 * bbt2) + (kri1 * bbt1);
-            $(node).find('td:last').text(na.toFixed(2));
-
-        });
-
-    });
-
-</script>
-
+@include('laporan.script')
 @endpush

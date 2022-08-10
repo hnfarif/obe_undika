@@ -78,4 +78,29 @@ class JadwalKuliah extends Model
             return 'plot';
         }
     }
+
+    public function scopeFakultas($query)
+    {
+        if (request()->fakultas) {
+            $prodi = Prodi::whereIn('id_fakultas', request()->fakultas)->pluck('id')->toArray();
+            return $query->whereIn('prodi', $prodi);
+        }
+
+    }
+
+    public function scopeProdi($query)
+    {
+        if (request()->prodi) {
+            // $arr = request()->prodi->toArray();
+            return $query->whereIn('prodi', request('prodi'));
+        }
+
+    }
+
+    public function scopeDosen($query)
+    {
+        if (request()->dosen) {
+            return $query->whereIn('kary_nik', request('dosen'));
+        }
+    }
 }
