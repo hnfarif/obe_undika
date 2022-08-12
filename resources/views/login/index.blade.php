@@ -17,29 +17,31 @@
                     </div>
                     @endif
                     <div class="card-body">
-                        <form method="POST" action="#" class="needs-validation" novalidate="">
+                        <form method="POST" action="{{ route('authenticate') }}" class="needs-validation" novalidate="">
+                            @csrf
                             <div class="form-group">
-                                <label for="email">Email</label>
-                                <input id="email" type="email" class="form-control" name="email" tabindex="1" required
-                                    autofocus>
+                                <label for="nik">NIK</label>
+                                <input id="nik" type="number" value="{{ old('nik') }}" class="form-control @error('nik')
+                                    is-invalid
+                                @enderror" name="nik" tabindex="1" required autofocus>
+                                @error('nik')
+                                <div class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
                                 <div class="invalid-feedback">
-                                    Please fill in your email
+                                    Please fill in your nik
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="d-block">
-                                    <label for="password" class="control-label">Password</label>
-                                    <div class="float-right">
-                                        <a href="auth-forgot-password.html" class="text-small">
-                                            Forgot Password?
-                                        </a>
-                                    </div>
+                                    <label for="pin" class="control-label">PIN</label>
                                 </div>
-                                <input id="password" type="password" class="form-control" name="password" tabindex="2"
+                                <input id="pin" type="password" class="form-control" name="password" tabindex="2"
                                     required>
                                 <div class="invalid-feedback">
-                                    please fill in your password
+                                    please fill in your pin
                                 </div>
                             </div>
 

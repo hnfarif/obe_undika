@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
-
 class UserController extends Controller
 {
 
@@ -68,7 +67,7 @@ class UserController extends Controller
                     $chkDosBag = Prodi::where('id', $chkStaf->bagian)->first();
 
                     if($chkBagian){
-                        if ($chkBagian->nama == 'P3AI' || $chkBagian->nama == 'GPM') {
+                        if ($chkBagian->nama == 'P3AI') {
 
                             $user = User::create([
                                 'nik' => $chkStaf->nik,
@@ -100,5 +99,75 @@ class UserController extends Controller
     {
         Auth::logout();
         return redirect()->route('login');
+    }
+
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->validate([
+            'nik' => 'required',
+            'password' => 'required',
+        ]);
+
+        $chkNik = User::where('nik', $request->nik)->first();
+
+        if ($chkNik) {
+            if (!$chkNik->password) {
+                $update = User::where('nik', $request->nik)->update([
+                    'password' => bcrypt('123456'),
+                ]);
+            }
+
+        }else{
+            $chkKaprodi = Prodi::where('mngr_id', $request->nik)->first();
+            $chkStaf = KaryawanDosen::where('nik', $request->nik)->first();
+
+            if($chkKaprodi){
+                $user = User::create([
+                    'nik' => $chkStaf->nik,
+                    'role' => 'kaprodi',
+                    'password' => bcrypt('123456'),
+                ]);
+            }else if($chkStaf->fakul_id){
+                $user = User::create([
+                    'nik' => $chkStaf->nik,
+                    'role' => 'dosen',
+                    'password' => bcrypt('123456'),
+                ]);
+
+            }else if($chkStaf->bagian){
+                $chkBagian = Bagian::where('kode', $chkStaf->bagian)->first();
+                $chkDosBag = Prodi::where('id', $chkStaf->bagian)->first();
+
+                if($chkBagian){
+                    if ($chkBagian->nick == 'P3AI') {
+
+                        $user = User::create([
+                            'nik' => $chkStaf->nik,
+                            'role' => 'bagian',
+                            'password' => bcrypt('123456'),
+                        ]);
+
+                    }
+                }else if($chkDosBag){
+                    $user = User::create([
+                        'nik' => $chkStaf->nik,
+                        'role' => 'dosenBagian',
+                        'password' => bcrypt('123456'),
+                    ]);
+
+                }
+
+            }
+        }
+
+        if(Auth::attempt($credentials)){
+            $request->session()->regenerate();
+            return redirect()->intended(route('welcome'));
+        }
+
+        Session::flash('message', 'Maaf, NIK atau PIN salah');
+        Session::flash('alert-class', 'alert-danger');
+        return back();
+
     }
 }

@@ -33,11 +33,12 @@ use Illuminate\Http\Request;
 // Route::get('/peoplo', function () {
 //     return view('kelolapeoplo.index');
 // });
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('welcome');
 })->name('welcome')->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
 
 Route::get('/login', [UserController::class, 'login'])->middleware('guest')->name('login');
+Route::post('/login', [UserController::class, 'authenticate'])->name('authenticate');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 //socialize routes
