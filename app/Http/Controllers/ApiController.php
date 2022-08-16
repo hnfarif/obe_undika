@@ -15,13 +15,13 @@ class ApiController extends Controller
 
 
         $response = Http::get($url, [
-            'semester' => '211',
+            'semester' => '212',
             'json' => true,
         ]);
 
 
         $responseBody = json_decode($response->getBody());
 
-        dd($responseBody);
+        dd($responseBody->data);
     }
 }

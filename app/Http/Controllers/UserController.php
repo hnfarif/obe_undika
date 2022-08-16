@@ -127,37 +127,40 @@ class UserController extends Controller
                     'role' => 'kaprodi',
                     'password' => bcrypt('123456'),
                 ]);
-            }else if($chkStaf->fakul_id){
-                $user = User::create([
-                    'nik' => $chkStaf->nik,
-                    'role' => 'dosen',
-                    'password' => bcrypt('123456'),
-                ]);
+            }else if($chkStaf){
+                if($chkStaf->fakul_id){
+                    $user = User::create([
+                        'nik' => $chkStaf->nik,
+                        'role' => 'dosen',
+                        'password' => bcrypt('123456'),
+                    ]);
 
-            }else if($chkStaf->bagian){
-                $chkBagian = Bagian::where('kode', $chkStaf->bagian)->first();
-                $chkDosBag = Prodi::where('id', $chkStaf->bagian)->first();
+                }else if($chkStaf->bagian){
+                    $chkBagian = Bagian::where('kode', $chkStaf->bagian)->first();
+                    $chkDosBag = Prodi::where('id', $chkStaf->bagian)->first();
 
-                if($chkBagian){
-                    if ($chkBagian->nick == 'P3AI') {
+                    if($chkBagian){
+                        if ($chkBagian->nick == 'P3AI') {
 
+                            $user = User::create([
+                                'nik' => $chkStaf->nik,
+                                'role' => 'bagian',
+                                'password' => bcrypt('123456'),
+                            ]);
+
+                        }
+                    }else if($chkDosBag){
                         $user = User::create([
                             'nik' => $chkStaf->nik,
-                            'role' => 'bagian',
+                            'role' => 'dosenBagian',
                             'password' => bcrypt('123456'),
                         ]);
 
                     }
-                }else if($chkDosBag){
-                    $user = User::create([
-                        'nik' => $chkStaf->nik,
-                        'role' => 'dosenBagian',
-                        'password' => bcrypt('123456'),
-                    ]);
 
                 }
-
             }
+
         }
 
         if(Auth::attempt($credentials)){

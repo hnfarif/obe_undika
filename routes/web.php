@@ -33,6 +33,10 @@ use Illuminate\Http\Request;
 // Route::get('/peoplo', function () {
 //     return view('kelolapeoplo.index');
 // });
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome')->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
+
 Route::get('/home', function () {
     return view('welcome');
 })->name('welcome')->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');

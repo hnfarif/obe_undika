@@ -8,6 +8,6 @@ class LaporanAngketController extends Controller
 {
     public function index()
     {
-        return view('laporan.angket');
+        return view('laporan.angket.index');
     }
 }

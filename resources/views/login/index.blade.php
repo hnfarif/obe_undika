@@ -24,14 +24,7 @@
                                 <input id="nik" type="number" value="{{ old('nik') }}" class="form-control @error('nik')
                                     is-invalid
                                 @enderror" name="nik" tabindex="1" required autofocus>
-                                @error('nik')
-                                <div class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                                <div class="invalid-feedback">
-                                    Please fill in your nik
-                                </div>
+
                             </div>
 
                             <div class="form-group">
@@ -40,9 +33,6 @@
                                 </div>
                                 <input id="pin" type="password" class="form-control" name="password" tabindex="2"
                                     required>
-                                <div class="invalid-feedback">
-                                    please fill in your pin
-                                </div>
                             </div>
 
                             <div class="form-group">

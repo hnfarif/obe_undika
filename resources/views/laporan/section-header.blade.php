@@ -10,7 +10,7 @@
             class="btn btn-primary @yield('brilian')">Brilian</a>
 
 
-        <a href="{{ route('laporan.angket.index') }}" type="button" class="btn btn-primary @yield('agenda')">Angket</a>
+        <a href="{{ route('laporan.angket.index') }}" type="button" class="btn btn-primary @yield('angket')">Angket</a>
 
 
     </div>

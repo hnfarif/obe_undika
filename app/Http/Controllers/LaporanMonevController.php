@@ -24,7 +24,7 @@ class LaporanMonevController extends Controller
         $fakul = Fakultas::with('prodis')->get();
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         $jdw = JadwalKuliah::with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get();
-        return view('laporan.monev', compact('kri', 'jdw', 'fak', 'prodi', 'kary', 'fakul'));
+        return view('laporan.monev.index', compact('kri', 'jdw', 'fak', 'prodi', 'kary', 'fakul'));
     }
 
 }

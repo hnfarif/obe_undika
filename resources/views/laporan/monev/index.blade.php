@@ -134,7 +134,7 @@
                     </div>
                 </div>
 
-                <div class="row rangkuman">
+                <div class="row rangkuman d-none">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -183,14 +183,12 @@
                 </div>
 
             </div>
-
-
         </section>
     </div>
     @include('layouts.footer')
 </div>
-@include('laporan.modal-monev')
+@include('laporan.monev.modal-monev')
 @endsection
 @push('script')
-@include('laporan.script')
+@include('laporan.monev.script')
 @endpush
