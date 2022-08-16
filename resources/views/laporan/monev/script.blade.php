@@ -5,20 +5,8 @@
             autoWidth: false,
         });
 
-        var tabelFilDosen = $('#tabelFilDosen').DataTable({
-            "drawCallback": function () {
-                $(this.api().table().header()).hide();
 
-            },
-            responsive: true,
-            autoWidth: false,
-            'pageLength': 5,
-            'searching': true,
-            'paging': true,
-            'info': false,
-            'lengthChange': false,
 
-        });
 
 
         tabelMonev.rows().every(function () {
@@ -35,17 +23,6 @@
             $(node).find('td:last').text(na.toFixed(2));
 
         });
-
-        tabelFilDosen.rows().every(function () {
-            const node = this.node();
-            var data = @json(request('dosen'));
-            var val = $(node).find('td:first').find('input').val();
-
-            if (data && data.includes(val)) {
-                $(node).find('td:first').find('input').prop('checked', true);
-            }
-
-        })
 
         $('input[type=radio][name=optlaporan]').change(function () {
             if ($(this).val() == 'monev') {

@@ -15,7 +15,7 @@ class ApiController extends Controller
 
 
         $response = Http::get($url, [
-            'semester' => '212',
+            'semester' => '202',
             'json' => true,
         ]);
 

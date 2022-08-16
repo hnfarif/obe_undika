@@ -15,6 +15,14 @@ class CreateBrilianDetailTable extends Migration
     {
         Schema::create('brilian_detail', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('brilian_week_id');
+            $table->string('nik');
+            $table->string('kode_mk');
+            $table->string('kelas');
+            $table->string('prodi');
+            $table->integer('nilai');
+
+            $table->foreign('brilian_week_id')->references('id')->on('brilian_week')->onDelete('cascade');
             $table->timestamps();
         });
     }

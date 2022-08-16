@@ -37,7 +37,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome')->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
 
-Route::get('/home', function () {
+Route::get('/beranda', function () {
     return view('welcome');
 })->name('welcome')->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
 

@@ -15,6 +15,9 @@ class CreateBrilianWeekTable extends Migration
     {
         Schema::create('brilian_week', function (Blueprint $table) {
             $table->id();
+            $table->string('minggu_ke', 2);
+            $table->char('semester', 3);
+
             $table->timestamps();
         });
     }

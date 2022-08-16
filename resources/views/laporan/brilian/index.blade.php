@@ -23,7 +23,25 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4>Daftar Penggunaan Brilian</h4>
-                                <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#filterMonev">
+                                <form action="{{ route('laporan.brilian.store') }}" method="POST" class="ml-auto mr-3">
+                                    @csrf
+
+                                    <input type="hidden" value="{{ $week->count() + 1 }}" name="minggu">
+                                    <input type="hidden" value="{{ $smt }}" name="semester">
+
+                                    @foreach ($data as $item)
+                                    <input type="hidden" name="data[nik][]" value="{{ $item->nik }}">
+                                    <input type="hidden" name="data[kode_mk][]" value="{{ $item->kode_mk }}">
+                                    <input type="hidden" name="data[kelas][]" value="{{ $item->kelas }}">
+                                    <input type="hidden" name="data[prodi][]" value="{{ $item->prodi }}">
+                                    <input type="hidden" name="data[skor][]" value="{{ $item->skor_total }}">
+                                    @endforeach
+
+                                    <button class="btn btn-success" type="submit">
+                                        <i class="fas fa-plus"></i> Tambah nilai minggu {{ $week->count() + 1 }}
+                                    </button>
+                                </form>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#filterBrilian">
                                     <i class="fas fa-filter"></i> Filter
                                 </button>
                             </div>
@@ -43,6 +61,13 @@
                                                 <th colspan="2">{{ 'Kriteria '.$loop->iteration }}</th>
                                                 @endforeach
                                                 <th rowspan="2">Skor Total</th>
+
+                                                @foreach ($week as $w)
+
+                                                <th rowspan="2">{{ 'Nilai Minggu ke '.$w->minggu_ke }}</th>
+                                                @endforeach
+
+                                                <th rowspan="2">Badges</th>
                                             </tr>
                                             <tr>
                                                 @foreach ($indikator as $i)
@@ -74,7 +99,15 @@
                                                 <td>
                                                     {{ $d->skor_total }}
                                                 </td>
+                                                @foreach ($week as $w)
 
+                                                <td>
+                                                    {{ number_format($dtlBri->where('brilian_week_id', $w->id)->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()->nilai, 1) }}
+                                                </td>
+                                                @endforeach
+                                                <td class="badges">
+
+                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -91,7 +124,7 @@
     </div>
     @include('layouts.footer')
 </div>
-{{-- @include('laporan.angket.modal-monev') --}}
+@include('laporan.brilian.modal-brilian')
 @endsection
 @push('script')
 @include('laporan.brilian.script')

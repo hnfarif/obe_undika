@@ -1,4 +1,4 @@
-<div class="modal fade" role="dialog" data-backdrop="static" id="filterMonev">
+<div class="modal fade" role="dialog" data-backdrop="static" id="filterBrilian">
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('laporan.monev.index') }}" id="formFilterMonev">
+                <form action="{{ route('laporan.brilian.index') }}">
                     <div class="row">
                         <div class="col-4">
                             <h6>Fakultas</h6>
@@ -34,6 +34,7 @@
                                     for="prodi-{{ $loop->iteration }}">{{ $p->nama.' ('.$p->id.')' }}</label>
                             </div>
                             @endforeach
+
                         </div>
                         <div class="col-8">
                             <h6>Dosen</h6>
@@ -46,6 +47,18 @@
                                     >{{ $k->nama }}</option>
                                 @endforeach
                             </select>
+                            <div class="mb-3"></div>
+                            <h6>Badges</h6>
+                            @foreach ($badges as $b)
+                            <div class="custom-control custom-checkbox checkbox-xl">
+                                <input type="checkbox" name="badges[]" value="{{ $b['min'].'-'.$b['max'] }}"
+                                    class="custom-control-input" @if(is_array(request('badges')) &&
+                                    in_array($b['min'].'-'.$b['max'], request('badges'))) checked @endif
+                                    id="badges-{{ $loop->iteration }}">
+                                <label class="custom-control-label"
+                                    for="badges-{{ $loop->iteration }}">{{ $b['nama']}}</label>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
 
