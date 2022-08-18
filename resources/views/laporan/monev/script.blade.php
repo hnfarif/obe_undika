@@ -6,9 +6,6 @@
         });
 
 
-
-
-
         tabelMonev.rows().every(function () {
             const node = this.node();
             var kri3 = parseFloat($(node).find('td:last').prev().text());

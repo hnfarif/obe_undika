@@ -20,7 +20,7 @@ class CreateBrilianDetailTable extends Migration
             $table->string('kode_mk');
             $table->string('kelas');
             $table->string('prodi');
-            $table->integer('nilai');
+            $table->decimal('nilai',6,2);
 
             $table->foreign('brilian_week_id')->references('id')->on('brilian_week')->onDelete('cascade');
             $table->timestamps();

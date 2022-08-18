@@ -17,8 +17,22 @@
                     </button>
                 </div>
                 @endif
-
-                <div class="row monev">
+                <div class="d-flex align-items-center my-0">
+                    <div class="ml-auto">
+                        <div class="selectgroup w-100">
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optlaporan" value="brilian" class="selectgroup-input"
+                                    checked="">
+                                <span class="selectgroup-button">Daftar Penggunaan Brilian</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optlaporan" value="rangkuman" class="selectgroup-input">
+                                <span class="selectgroup-button">Rangkuman</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row brilian">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -105,7 +119,7 @@
                                                     {{ number_format($dtlBri->where('brilian_week_id', $w->id)->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()->nilai, 1) }}
                                                 </td>
                                                 @endforeach
-                                                <td class="badges">
+                                                <td class="badges" data-prodi="{{ $d->prodi }}">
 
                                                 </td>
                                             </tr>
@@ -118,7 +132,100 @@
                     </div>
                 </div>
 
+                <div class="row rangkuman d-none mt-3">
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Badges</th>
+                                                <th>Jumlah</th>
+                                                <th>%</th>
+                                                <th>Nilai</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($badges as $b)
 
+                                            <tr>
+                                                <td>{{ $b['nama'] }}</td>
+                                                <td class="jmlBadges"></td>
+                                                <td class="proBadges"></td>
+                                                <td class="nilaiBadges"></td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Rata-Rata Penggunaan Brilian</h4>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Fakultas</th>
+                                                <th>Kategori</th>
+                                                <th>Jumlah Kelas</th>
+                                                <th>%</th>
+                                                <th>Nilai</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($fak as $f)
+                                            <tr>
+
+                                                <td>{{ $f->nama }}</td>
+                                                <td>
+                                                    @foreach ($badges as $b)
+                                                    <div class="my-3">
+
+                                                        {{ $b['nama'] }}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($badges as $b)
+                                                    <div class="my-3">
+
+                                                        50
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($badges as $b)
+                                                    <div class="my-3">
+
+                                                        50
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($badges as $b)
+                                                    <div class="my-3">
+
+                                                        50
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>

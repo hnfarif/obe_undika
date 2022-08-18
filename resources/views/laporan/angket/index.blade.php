@@ -17,36 +17,56 @@
                     </button>
                 </div>
                 @endif
-
-                <div class="row monev">
+                <div class="d-flex align-items-center my-0">
+                    <div class="ml-auto">
+                        <div class="selectgroup w-100">
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optlaporan" value="angket" class="selectgroup-input"
+                                    checked="">
+                                <span class="selectgroup-button">Daftar Angket</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optlaporan" value="rangkuman" class="selectgroup-input">
+                                <span class="selectgroup-button">Rangkuman</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row angket">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Daftar Monev</h4>
-                                <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#filterMonev">
+                                <h4>Daftar Angket</h4>
+                                <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#filterAngket">
                                     <i class="fas fa-filter"></i> Filter
                                 </button>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped" id="lapMonev" width="100%">
+                                    <table class="table table-striped" id="lapAngket" width="100%">
                                         <thead>
-                                            <tr>
-                                                <th class="text-center" rowspan="2">
-                                                    No
-                                                </th>
-                                                <th rowspan="2">Nama MK</th>
-                                                <th rowspan="2">Kelas</th>
-                                                <th rowspan="2">Nama Dosen</th>
-
-                                                <th rowspan="2">Nilai Akhir</th>
+                                            <tr class="text-center">
+                                                <th>NIK</th>
+                                                <th>Nama Dosen</th>
+                                                <th>Kode MK</th>
+                                                <th>Nama MK</th>
+                                                <th>Kelas</th>
+                                                <th>Rata-rata</th>
                                             </tr>
-                                            <tr>
 
-                                            </tr>
                                         </thead>
                                         <tbody>
-
+                                            @foreach ($filterAngket as $fa)
+                                            <tr>
+                                                <td>{{ $fa->nik }}</td>
+                                                <td>{{ $fa->karyawan->nama ?? 'Nama Belum ada di database' }}</td>
+                                                <td>{{ $fa->kode_mk }}</td>
+                                                <td>{{ $fa->getMatakuliahName($fa->prodi,$fa->kode_mk) }}
+                                                </td>
+                                                <td>{{ $fa->kelas }}</td>
+                                                <td data-prodi="{{ $fa->prodi }}">{{ number_format($fa->nilai,2) }}</td>
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -55,14 +75,60 @@
                     </div>
                 </div>
 
+                <div class="row rangkuman d-none">
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Rata-Rata Angket Dosen</h4>
 
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Fakultas</th>
+                                                <th>Nama Prodi</th>
+                                                <th>Rata-Rata</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($fak as $f)
+                                            <tr>
+
+                                                <td>{{ $f->nama }}</td>
+                                                <td>
+                                                    @foreach ($f->prodis as $p )
+                                                    <div class="my-3">
+
+                                                        {{ $p->nama.' ('.$p->id.')' }}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($f->prodis as $p )
+                                                    <div class="avgAngket my-3" data-prodi="{{ $p->id }}">
+
+                                                        50
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
     @include('layouts.footer')
 </div>
-{{-- @include('laporan.angket.modal-monev') --}}
+@include('laporan.angket.modal-angket')
 @endsection
 @push('script')
-{{-- @include('laporan.angket.script') --}}
+@include('laporan.angket.script')
 @endpush

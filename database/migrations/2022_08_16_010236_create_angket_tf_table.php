@@ -19,8 +19,9 @@ class CreateAngketTfTable extends Migration
             $table->string('kelas', 6);
             $table->char('smt', 3);
             $table->char('smt_mk', 3);
-            $table->bigInteger('kd_angket');
-            $table->integer('nilai');
+            $table->bigInteger('kd_angket')->nullable();
+            $table->decimal('nilai', 6, 2)->nullable();
+            $table->string('prodi', 5);
 
             $table->timestamps();
         });

@@ -11,5 +11,6 @@ class Semester extends Model
 
     protected $table = 'semester_mf';
     protected $guarded = ['fak_id'];
-    // protected $primaryKey = 'fak_id';
+    protected $primaryKey = false;
+    public $incrementing = false;
 }
