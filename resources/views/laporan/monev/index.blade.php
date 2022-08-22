@@ -38,7 +38,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4>Daftar Monev</h4>
-                                <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#filterMonev">
+                                <a href="{{ route('laporan.exportExcel') }}" class="btn btn-success ml-auto mr-3"> <i
+                                        class="fas fa-file-excel"></i> Export Excel </a>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#filterMonev">
                                     <i class="fas fa-filter"></i> Filter
                                 </button>
                             </div>

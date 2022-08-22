@@ -156,6 +156,7 @@ Route::prefix('monev')->name('monev.')->group(function(){
 Route::prefix('laporan')->name('laporan.')->group(function(){
 
     Route::get('/monev/data', [LaporanMonevController::class, 'data'])->name('data');
+    Route::get('/monev/export-excel', [LaporanMonevController::class, 'exportExcel'])->name('exportExcel');
     Route::resource('monev', LaporanMonevController::class);
     Route::resource('brilian', LaporanBrilianController::class);
     Route::resource('angket', LaporanAngketController::class);
