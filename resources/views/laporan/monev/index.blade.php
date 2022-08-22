@@ -40,6 +40,8 @@
                                 <h4>Daftar Monev</h4>
                                 <a href="{{ route('laporan.exportExcel') }}" class="btn btn-success ml-auto mr-3"> <i
                                         class="fas fa-file-excel"></i> Export Excel </a>
+                                <a target="_blank" href="{{ route('laporan.exportPdf') }}" class="btn btn-danger mr-3">
+                                    <i class="fas fa-file-pdf"></i> Export PDF </a>
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#filterMonev">
                                     <i class="fas fa-filter"></i> Filter
                                 </button>

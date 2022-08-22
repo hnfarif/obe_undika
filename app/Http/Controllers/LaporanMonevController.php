@@ -10,6 +10,7 @@ use App\Models\KriteriaMonev;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
 use Excel;
+use PDF;
 
 class LaporanMonevController extends Controller
 {
@@ -33,6 +34,17 @@ class LaporanMonevController extends Controller
     {
         $nama_file = 'monev_kriteria_3_'.date('Y-m-d_H-i-s').'.xlsx';
         return Excel::download(new MonevExport, $nama_file);
+    }
+
+    public function exportPdf()
+    {
+        $pdf = PDF::loadView('laporan.monev.export-pdf', ['fakul' => Fakultas::with('prodis')->get(),
+        'kri' => KriteriaMonev::orderBy('id', 'asc')->get(),
+        'jdw' => JadwalKuliah::with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get()
+        ]);
+
+
+        return $pdf->stream('laporan_monev_'.date('Y-m-d_H-i-s').'.pdf');
     }
 
 }
