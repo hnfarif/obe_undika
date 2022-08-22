@@ -89,6 +89,18 @@
             var nilai = jmlNa / jmlBadges;
             $(this).text(nilai.toFixed(2));
         })
+
+        // $('.jmlKelas').each(function () {
+        //     var sum = 0;
+        //     var badges = $(this).data('badges');
+        //     $('.badges').each(function () {
+        //         var bdg = $(this).text();
+        //         if (bdg == badges && ) {
+        //             sum++;
+        //         }
+        //     })
+        //     $(this).text(sum);
+        // })
     });
 
 </script>

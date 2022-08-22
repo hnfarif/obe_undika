@@ -116,7 +116,7 @@
                                                 @foreach ($week as $w)
 
                                                 <td>
-                                                    {{ number_format($dtlBri->where('brilian_week_id', $w->id)->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()->nilai, 1) }}
+                                                    {{ number_format($dtlBri->where('brilian_week_id', $w->id)->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()->nilai, 1) ?? '' }}
                                                 </td>
                                                 @endforeach
                                                 <td class="badges" data-prodi="{{ $d->prodi }}">
@@ -195,9 +195,8 @@
                                                 </td>
                                                 <td>
                                                     @foreach ($badges as $b)
-                                                    <div class="my-3">
+                                                    <div class="jmlKelas my-3">
 
-                                                        50
                                                     </div>
                                                     @endforeach
                                                 </td>
