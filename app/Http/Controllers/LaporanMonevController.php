@@ -38,10 +38,18 @@ class LaporanMonevController extends Controller
 
     public function exportPdf()
     {
+        if (request()->has('prodi')) {
+            $filProdi = Prodi::whereIn('id', request('prodi'))->get();
+        } else {
+            $filProdi = null;
+        }
+
         $pdf = PDF::loadView('laporan.monev.export-pdf', ['fakul' => Fakultas::with('prodis')->get(),
         'kri' => KriteriaMonev::orderBy('id', 'asc')->get(),
-        'jdw' => JadwalKuliah::with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get()
+        'jdw' => JadwalKuliah::with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get(),
+        'prodi' => $filProdi
         ]);
+
 
 
         return $pdf->stream('laporan_monev_'.date('Y-m-d_H-i-s').'.pdf');

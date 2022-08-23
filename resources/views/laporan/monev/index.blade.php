@@ -40,7 +40,9 @@
                                 <h4>Daftar Monev</h4>
                                 <a href="{{ route('laporan.exportExcel') }}" class="btn btn-success ml-auto mr-3"> <i
                                         class="fas fa-file-excel"></i> Export Excel </a>
-                                <a target="_blank" href="{{ route('laporan.exportPdf') }}" class="btn btn-danger mr-3">
+                                <a target="_blank"
+                                    href="{{ route('laporan.exportPdf', ['fakultas' => request('fakultas'), 'prodi' => request('prodi'), 'dosen' => request('dosen') ]) }}"
+                                    class="btn btn-danger mr-3">
                                     <i class="fas fa-file-pdf"></i> Export PDF </a>
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#filterMonev">
                                     <i class="fas fa-filter"></i> Filter
@@ -103,15 +105,15 @@
                                                 @else
                                                 @if($loop->iteration == '1')
                                                 <td data-bbt="{{ $k->bobot }}">
-                                                    {{ $k->getNilaiKri1($j->kary_nik,$j->klkl_id, $j->prodi, $k->id) }}
+                                                    {{ $j->getNilaiKri1($j->kary_nik,$j->klkl_id, $j->prodi, $k->id) }}
                                                 </td>
                                                 @elseif($loop->iteration == '2')
                                                 <td data-bbt="{{ $k->bobot }}">
-                                                    {{ $k->getNilaiKri2($j->kary_nik,$j->klkl_id, $j->prodi, $k->id) }}
+                                                    {{ $j->getNilaiKri2($j->kary_nik,$j->klkl_id, $j->prodi, $k->id) }}
                                                 </td>
                                                 @elseif($loop->iteration == '3')
                                                 <td data-bbt="{{ $k->bobot }}" data-prodi="{{ $j->prodi }}">
-                                                    {{ $k->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) }}
+                                                    {{ $j->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) }}
                                                 </td>
                                                 @endif
                                                 @endif
@@ -123,7 +125,7 @@
                                                 </td>
                                                 @else
                                                 <td id="naMonev">
-
+                                                    {{ $j->getNilaiAkhir($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) }}
                                                 </td>
                                                 @endif
 
@@ -171,8 +173,7 @@
                                                 <td>
                                                     @foreach ($f->prodis as $p )
                                                     <div class="avgMonev my-3" data-prodi="{{ $p->id }}">
-
-                                                        50
+                                                        {{ $p->getAvgMonev($p->id) }}
                                                     </div>
                                                     @endforeach
                                                 </td>

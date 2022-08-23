@@ -33,5 +33,23 @@ class Prodi extends Model
         return $this->hasMany(Peo::class);
     }
 
+    public function getAvgMonev($prodi)
+    {
+
+        $jdw = JadwalKuliah::with('matakuliahs', 'karyawans')->where('prodi', $prodi)->get();
+        $count = 0;
+        $sum = 0;
+        foreach ($jdw as $j) {
+            if ($j->cekKriteria($j->kary_nik, $j->klkl_id, $j->prodi) == 'ada') {
+                $count++;
+                $sum += $j->getNilaiAkhir($j->kary_nik, $j->klkl_id, $j->prodi, $j->kelas);
+            }
+        }
+
+        $njdw = new JadwalKuliah();
+        $avg = $njdw->divnum($sum, $count);
+        return number_format($avg, 2);
+
+    }
 
 }
