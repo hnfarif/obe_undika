@@ -41,7 +41,7 @@
                                 <a href="{{ route('laporan.exportExcel') }}" class="btn btn-success ml-auto mr-3"> <i
                                         class="fas fa-file-excel"></i> Export Excel </a>
                                 <a target="_blank"
-                                    href="{{ route('laporan.exportPdf', ['fakultas' => request('fakultas'), 'prodi' => request('prodi'), 'dosen' => request('dosen') ]) }}"
+                                    href="{{ route('laporan.monev.exportPdf', ['fakultas' => request('fakultas'), 'prodi' => request('prodi'), 'dosen' => request('dosen') ]) }}"
                                     class="btn btn-danger mr-3">
                                     <i class="fas fa-file-pdf"></i> Export PDF </a>
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#filterMonev">
@@ -151,10 +151,11 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped" width="100%">
                                         <thead>
-                                            <tr>
+                                            <tr class="text-center">
                                                 <th>Fakultas</th>
                                                 <th>Nama Prodi</th>
-                                                <th>Rata-Rata</th>
+                                                <th>Rata-Rata Prodi</th>
+                                                <th>Rata-Rata Fakultas</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -172,10 +173,13 @@
                                                 </td>
                                                 <td>
                                                     @foreach ($f->prodis as $p )
-                                                    <div class="avgMonev my-3" data-prodi="{{ $p->id }}">
+                                                    <div class="avgMonev text-center my-3" data-prodi="{{ $p->id }}">
                                                         {{ $p->getAvgMonev($p->id) }}
                                                     </div>
                                                     @endforeach
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $f->getAvgMonevFakul($f->id) }}
                                                 </td>
                                             </tr>
                                             @endforeach

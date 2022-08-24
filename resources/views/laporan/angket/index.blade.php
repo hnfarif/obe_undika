@@ -37,7 +37,12 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4>Daftar Angket</h4>
-                                <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#filterAngket">
+
+                                <a target="_blank"
+                                    href="{{ route('laporan.angket.exportPdf', ['fakultas' => request('fakultas'), 'prodi' => request('prodi'), 'dosen' => request('dosen') ]) }}"
+                                    class="btn btn-danger ml-auto mr-3">
+                                    <i class="fas fa-file-pdf"></i> Export PDF </a>
+                                <button class="btn btn-primary " data-toggle="modal" data-target="#filterAngket">
                                     <i class="fas fa-filter"></i> Filter
                                 </button>
                             </div>
@@ -86,10 +91,11 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped" width="100%">
                                         <thead>
-                                            <tr>
+                                            <tr class="text-center">
                                                 <th>Fakultas</th>
                                                 <th>Nama Prodi</th>
-                                                <th>Rata-Rata</th>
+                                                <th>Rata-Rata Prodi</th>
+                                                <th>Rata-Rata Fakultas</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -107,11 +113,14 @@
                                                 </td>
                                                 <td>
                                                     @foreach ($f->prodis as $p )
-                                                    <div class="avgAngket my-3" data-prodi="{{ $p->id }}">
+                                                    <div class="text-center my-3" data-prodi="{{ $p->id }}">
 
-                                                        50
+                                                        {{ $p->getAvgAngket($p->id) }}
                                                     </div>
                                                     @endforeach
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $f->getAvgAngketFakul($f->id) }}
                                                 </td>
                                             </tr>
                                             @endforeach

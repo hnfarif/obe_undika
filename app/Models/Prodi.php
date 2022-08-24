@@ -52,4 +52,20 @@ class Prodi extends Model
 
     }
 
+    public function getAvgAngket($prodi)
+    {
+
+        $angket = AngketTrans::where('prodi', $prodi)->get();
+        $count = $angket->count();
+        $sum = 0;
+        foreach ($angket as $a) {
+            $sum += $a->nilai;
+        }
+
+        $njdw = new JadwalKuliah();
+        $avg = $njdw->divnum($sum, $count);
+        return number_format($avg, 2);
+
+    }
+
 }

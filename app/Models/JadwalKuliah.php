@@ -15,20 +15,25 @@ class JadwalKuliah extends Model
     protected $guarded = ["kary_nik"];
     public $incrementing = false;
     protected $primaryKey = null;
+    // protected $appends = ['nameMatakuliah'];
 
     public function matakuliahs()
     {
         return $this->belongsTo(MataKuliah::class, 'id', 'klkl_id');
     }
 
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class, 'fak_id', 'prodi');
+    }
     public function karyawans()
     {
         return $this->belongsTo(KaryawanDosen::class, 'kary_nik', 'nik');
     }
 
-    public function getNameMataKuliah($mk, $prodi)
+    public function getNameMataKuliah()
     {
-        $maku = MataKuliah::where('id', $prodi.$mk)->first();
+        $maku = MataKuliah::where('id', $this->prodi.$this->klkl_id)->first();
 
         return $maku->nama;
     }

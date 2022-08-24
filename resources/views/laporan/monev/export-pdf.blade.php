@@ -54,7 +54,8 @@
                 <tr>
                     <th>Fakultas</th>
                     <th>Nama Prodi</th>
-                    <th>Rata-Rata</th>
+                    <th>Rata-Rata Prodi</th>
+                    <th>Rata-Rata Fakultas</th>
                 </tr>
             </thead>
             <tbody>
@@ -76,6 +77,9 @@
                             {{ $p->getAvgMonev($p->id) }}
                         </div>
                         @endforeach
+                    </td>
+                    <td>
+                        {{ $f->getAvgMonevFakul($f->id) }}
                     </td>
                 </tr>
                 @endforeach
