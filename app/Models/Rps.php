@@ -37,6 +37,48 @@ class Rps extends Model
         return $this->belongsTo(KaryawanDosen::class, 'nik', 'nik');
     }
 
+    public function scopeFakultas($query)
+    {
+        if (request()->fakultas) {
+            $prodi = Prodi::whereIn('id_fakultas', request()->fakultas)->pluck('id')->toArray();
+            return $query->where(function ($q) use ($prodi) {
+                foreach ($prodi as $key => $value) {
+                    $q->orWhere('kurlkl_id', 'LIKE', $value . '%');
+                }
+            });
+        }
+
+    }
+
+    public function scopeProdi($query)
+    {
+        if (request()->prodi) {
+            // $arr = request()->prodi->toArray();
+            $filProdi = request()->prodi;
+
+            return $query->where(function ($q) use ($filProdi) {
+                foreach ($filProdi as $key => $value) {
+                    $q->orWhere('kurlkl_id', 'LIKE', $value . '%');
+                }
+            });
+        }
+
+    }
+
+    public function scopeName($query)
+    {
+        if (request()->search) {
+            return $query->where('nama_mk', 'LIKE', '%' . request('search') . '%');
+        }
+    }
+
+    public function scopeStatus($query)
+    {
+        if (request()->status) {
+            return $query->where('is_done', request('status'));
+        }
+    }
+
     public function getAllTotal($pens, $clos)
     {
         $total = 0;

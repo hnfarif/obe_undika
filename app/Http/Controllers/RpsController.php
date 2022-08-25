@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\AgendaBelajar;
 use App\Models\DetailAgenda;
+use App\Models\Fakultas;
 use App\Models\InstrumenNilai;
 use App\Models\KaryawanDosen;
 use App\Models\MataKuliah;
 use App\Models\MateriKuliah;
+use App\Models\Prodi;
 use App\Models\Rps;
 use App\Models\Semester;
 use Illuminate\Http\Request;
@@ -25,10 +27,13 @@ class RpsController extends Controller
      */
     public function index()
     {
-        // dd(Auth::user());
-        $rps = Rps::with('matakuliah','karyawan')->get();
+        // Data Filters
+        $fak = Fakultas::all();
+        $prodi = Prodi::all();
+
+        $rps = Rps::with('matakuliah','karyawan')->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         $dosens = KaryawanDosen::all();
-        return view('rps.index', ['rps' => $rps, 'dosens' => $dosens]);
+        return view('rps.index', compact('rps','fak','prodi','dosens'));
     }
 
     /**
