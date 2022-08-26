@@ -233,4 +233,16 @@ class JadwalKuliah extends Model
             return $query->whereIn('kary_nik', request('dosen'));
         }
     }
+
+    public function scopeName($query)
+    {
+        if (request()->search) {
+            $mk = MataKuliah::selectRaw("SUBSTR(id, 6, 5) as id")->whereRaw('LOWER(nama) LIKE ?', '%' . strtolower(request('search')) . '%')->pluck('id')->toArray();
+            return $query->where(function ($q) use ($mk) {
+                foreach ($mk as $key => $value) {
+                    $q->orWhere('klkl_id', 'LIKE', '%'.$value. '%');
+                }
+            });
+        }
+    }
 }

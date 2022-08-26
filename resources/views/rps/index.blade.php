@@ -18,14 +18,14 @@
                 @endif
                 <div class="my-3 d-flex">
                     <a href="{{ route('rps.plottingrps') }}" type="button" class="btn btn-primary"><i
-                            class="fas fa-plus"></i> Entri
-                        Plotting RPS</a>
+                            class="fas fa-plus"></i> Entri Plotting RPS</a>
                     <button class="btn btn-light ml-auto" data-toggle="modal" data-target="#filRps">
                         <i class="fas fa-filter"></i> Filter
                     </button>
                     <form class="card-header-form ml-3" action="{{ route('rps.index') }}">
                         <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Cari nama matakuliah">
+                            <input type="text" name="search" class="form-control" placeholder="Cari nama matakuliah"
+                                value="{{ request('search') }}">
                             <div class="input-group-btn d-flex">
                                 <button class="btn btn-primary btn-icon"><i class="fas fa-search"></i></button>
                             </div>

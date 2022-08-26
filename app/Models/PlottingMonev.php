@@ -19,6 +19,10 @@ class PlottingMonev extends Model
         return $maku->nama;
     }
 
+    public function programstudi()
+    {
+        return $this->belongsTo(Prodi::class, 'prodi', 'id');
+    }
     public function getKelasRuang($mk, $nik)
     {
         $maku = JadwalKuliah::where('klkl_id', $mk)->where('kary_nik', $nik)->first();

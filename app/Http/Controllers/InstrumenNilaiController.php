@@ -7,6 +7,7 @@ use App\Models\Clo;
 use App\Models\DetailAgenda;
 use App\Models\DetailInstrumenMonev;
 use App\Models\DetailInstrumenNilai;
+use App\Models\Fakultas;
 use App\Models\InstrumenMonev;
 use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
@@ -18,6 +19,7 @@ use App\Models\MataKuliah;
 use App\Models\MingguKuliah;
 use App\Models\Penilaian;
 use App\Models\PlottingMonev;
+use App\Models\Prodi;
 use App\Models\RangkumanClo;
 use App\Models\Rps;
 use App\Models\Semester;
@@ -49,11 +51,16 @@ class InstrumenNilaiController extends Controller
             $arrKlkl[] = substr($i, 5);
         }
 
-        $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->get();
+        $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
 
         $instru = InstrumenNilai::all();
 
-        return view('instrumen-nilai.index', compact('jdwkul', 'instru'));
+        //Data Filter
+        $fak = Fakultas::all();
+        $prodi = Prodi::all();
+        $kary = KaryawanDosen::all();
+
+        return view('instrumen-nilai.index', compact('jdwkul', 'instru', 'fak', 'prodi', 'kary'));
     }
 
     /**
@@ -63,7 +70,7 @@ class InstrumenNilaiController extends Controller
      */
     public function create(Request $request)
     {
-        $now = Carbon::now();
+        $now = Carbon::now()->format('d-m-Y');
         // dd($now->endOfWeek()->format('d-m-Y'));
         $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
@@ -74,8 +81,8 @@ class InstrumenNilaiController extends Controller
 
         $week = '';
         foreach ($kul as $k) {
-            $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
-            $weekEndDate = Carbon::parse($k->tgl_akhir)->format('Y-m-d');
+            $weekStartDate = Carbon::parse($k->tgl_awal)->format('d-m-Y');
+            $weekEndDate = Carbon::parse($k->tgl_akhir)->format('d-m-Y');
 
             if ($now >= $weekStartDate && $now <= $weekEndDate) {
                 $week = $k->minggu_ke;
@@ -88,8 +95,8 @@ class InstrumenNilaiController extends Controller
 
         $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
 
-        // dd($getPekan->tgl_nilai);
-        $startFill = Carbon::parse($getPekan->tgl_nilai)->format('Y-m-d');
+        // dd($week);
+        $startFill = Carbon::parse($getPekan->tgl_nilai)->format('d-m-Y');
         $endFill = Carbon::parse($startFill)->addDays(14)->format('d-m-Y');
         // dd($endFill);
         $agd = AgendaBelajar::where('rps_id', $instru->rps_id)->pluck('id')->toArray();

@@ -68,7 +68,8 @@ class Rps extends Model
     public function scopeName($query)
     {
         if (request()->search) {
-            return $query->where('nama_mk', 'LIKE', '%' . request('search') . '%');
+
+            return $query->whereRaw('LOWER(nama_mk) LIKE ?', '%' . strtolower(request('search')) . '%');
         }
     }
 
