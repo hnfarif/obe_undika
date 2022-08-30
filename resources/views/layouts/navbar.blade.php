@@ -13,8 +13,7 @@
                 <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->karyawan["nama"] ?? '' }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-title">Logged in 5 min ago</div>
-                <a href="#" type="button" class="dropdown-item has-icon" id="swalRole">
+                <a type="button" class="dropdown-item has-icon" data-toggle="modal" data-target="#modalRole">
                     <i class="fas fa-user-tag"></i> Change Role
                 </a>
 
@@ -34,8 +33,9 @@
 <nav class="navbar navbar-secondary navbar-expand-lg">
     <div class="container">
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#" data-toggle="dropdown" class="nav-link"><i class="fas fa-fire"></i><span>Beranda</span></a>
+            <li class="nav-item @yield('beranda')">
+                <a href="{{ route('beranda.index') }}" class="nav-link"><i
+                        class="fas fa-home"></i><span>Beranda</span></a>
             </li>
 
 
@@ -74,32 +74,5 @@
 </nav>
 
 @push('script')
-<script>
-    $(document).ready(function () {
-        $('#swalRole').click(function () {
-            Swal.fire({
-                title: 'Pilih Role Anda',
-                input: 'select',
-                inputOptions: {
-                    P3AI: 'P3AI',
-                    Dosen: 'Dosen',
-                    Kaprodi: 'Kaprodi',
-                },
-                inputPlaceholder: 'Pilih Role',
-                showCancelButton: true,
 
-            }).then((result) => {
-                if (result.value) {
-                    Swal.fire(
-                        'Akun berganti Role ' + result.value,
-                        '',
-                        'success'
-                    )
-                }
-            })
-
-        })
-    })
-
-</script>
 @endpush

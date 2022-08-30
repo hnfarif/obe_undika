@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\CloController;
 use App\Http\Controllers\InstrumenMonevController;
 use App\Http\Controllers\InstrumenNilaiController;
@@ -34,12 +35,13 @@ use Illuminate\Http\Request;
 //     return view('kelolapeoplo.index');
 // });
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome')->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
+    return redirect()->route('beranda');
+})->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
 
-Route::get('/beranda', function () {
-    return view('welcome');
-})->name('welcome')->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
+Route::prefix('beranda')->name('beranda.')->group(function (){
+    Route::resource('/', BerandaController::class)->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
+});
+// Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda')
 
 Route::get('/login', [UserController::class, 'login'])->middleware('guest')->name('login');
 Route::post('/login', [UserController::class, 'authenticate'])->name('authenticate');
