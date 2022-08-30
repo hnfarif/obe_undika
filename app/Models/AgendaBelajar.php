@@ -31,9 +31,9 @@ class AgendaBelajar extends Model
 
     public function cekDate($startFill, $now)
     {
-        $startFill = Carbon::parse($startFill);
-        $now = Carbon::parse($now);
-        if ($now>= $startFill) {
+        $start = Carbon::parse($startFill);
+        $n = Carbon::parse($now);
+        if ($n->gt($start)) {
             return true;
         } else {
             return false;

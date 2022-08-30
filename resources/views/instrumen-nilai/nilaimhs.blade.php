@@ -33,7 +33,7 @@
                                 {{ $pen->penilaian->btk_penilaian.', ' ?? '' }}
                                 @endif
                         @endforeach
-                        , sebelum tanggal {{ $endFill }}.
+                        , sebelum tanggal {{ date_format($endFill, 'd-m-Y') }}.
                     </div>
 
                 </div>
@@ -213,10 +213,9 @@
                                             $pen)
 
                                             <th class="
-                                            @if ($startFill <= $now)
-                                                @if ($pen->agd_id == $getPekan->id)
-                                                bg-info text-white
-                                                @endif
+                                            @if ($pen->agd_id == $getPekan->id)
+                                            bg-info text-white
+
                                             @endif
                                             ">
                                                 {{ $pen->penilaian->btk_penilaian}}
@@ -229,11 +228,9 @@
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                             $pen)
 
-                                            <th class=" @if ($startFill <= $now)
-                                            @if ($pen->agd_id == $getPekan->id)
-                                            bg-info text-white
-                                            @endif
-                                        @endif">{{ $pen->penilaian->jenis}}</th>
+                                            <th class=" @if ($pen->agd_id == $getPekan->id)
+                                                bg-info text-white
+                                                @endif ">{{ $pen->penilaian->jenis}}</th>
                                             @endforeach
                                             @endforeach
 
@@ -243,10 +240,8 @@
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                             $pen)
 
-                                            <th class="bbtPen  @if ($startFill <= $now)
-                                                @if ($pen->agd_id == $getPekan->id)
+                                            <th class="bbtPen  @if ($pen->agd_id == $getPekan->id)
                                                 bg-info text-white
-                                                @endif
                                             @endif" data-jns="{{ $pen->penilaian->jenis }}">{{ $pen->bobot.'%'}}</th>
                                             @endforeach
                                             @endforeach
@@ -279,7 +274,7 @@
                                                     min="0"
                                                     class="form-control text-center nilai" data-cl="{{ $cl->clo_id }}"
                                                     data-jns ="{{ $pen->penilaian->jenis }}"
-                                                    style="min-width:60px;" @if (!$pen->agendaBelajar->cekDate($pen->agendaBelajar->tgl_nilai, $now))
+                                                    style="min-width:60px;" @if (!$pen->agendaBelajar->cekDate($pen->agendaBelajar->tgl_nilai, $now) )
                                                     readonly
                                                     @endif >
                                             </td>

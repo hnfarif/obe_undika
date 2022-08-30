@@ -53,4 +53,40 @@ class PlottingMonev extends Model
 
         return $cn;
     }
+
+    public function scopeDosen($query)
+    {
+        if (request()->dosen) {
+            return $query->whereIn('nik_pemonev', request('dosen'));
+        }
+    }
+
+    public function scopeProdi($query)
+    {
+        if (request()->prodi) {
+            return $query->whereIn('prodi', request('prodi'));
+        }
+
+    }
+
+    public function scopeFakultas($query)
+    {
+        if (request()->fakultas) {
+            $prodi = Prodi::whereIn('id_fakultas', request()->fakultas)->pluck('id')->toArray();
+            return $query->whereIn('prodi', $prodi);
+        }
+
+    }
+
+    public function scopeName($query)
+    {
+        if (request()->search) {
+            $mk = MataKuliah::selectRaw("SUBSTR(id, 6, 5) as id")->whereRaw('LOWER(nama) LIKE ?', '%' . strtolower(request('search')) . '%')->pluck('id')->toArray();
+            return $query->where(function ($q) use ($mk) {
+                foreach ($mk as $key => $value) {
+                    $q->orWhere('klkl_id', 'LIKE', '%'.$value. '%');
+                }
+            });
+        }
+    }
 }

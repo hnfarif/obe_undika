@@ -1,3 +1,4 @@
+<script src="//cdn.datatables.net/plug-ins/1.12.0/sorting/natural.js"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -6,6 +7,66 @@
 
         var sumMhsCapai = 0;
         var sumMhsNoCapai = 0;
+
+        // var tableRps = $('#tableRps').DataTable({
+        //     scrollY: 500,
+        //     scrollX: true,
+        //     scroller: true,
+        //     autoWidth: false,
+        //     columns: [{
+        //             width: "100px"
+        //         },
+        //         {
+        //             width: "100px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //         {
+        //             width: "150px"
+        //         },
+        //     ],
+        //     columnDefs: [{
+        //         type: 'natural',
+        //         targets: 0
+        //     }]
+        // });
+
+        // tableRps.columns.adjust().draw();
+
 
         $('#tableMonevKri2').DataTable({
             'info': false,
@@ -27,6 +88,8 @@
                 left: 2
             }
         });
+
+
 
         $('input[type=radio][name=optMon]').change(function () {
             if ($(this).val() == 'monev') {

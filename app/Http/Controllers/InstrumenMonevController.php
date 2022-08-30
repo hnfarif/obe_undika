@@ -4,17 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\AgendaBelajar;
 use App\Models\Bap;
+use App\Models\Clo;
 use App\Models\DetailAgenda;
 use App\Models\DetailBap;
 use App\Models\DetailInstrumenMonev;
+use App\Models\Fakultas;
 use App\Models\InstrumenMonev;
 use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\KriteriaMonev;
 use App\Models\Krs;
+use App\Models\Llo;
 use App\Models\MingguKuliah;
+use App\Models\Penilaian;
 use App\Models\PlottingMonev;
+use App\Models\Prodi;
 use App\Models\Rps;
 use App\Models\Semester;
 use Carbon\Carbon;
@@ -72,7 +77,19 @@ class InstrumenMonevController extends Controller
             $startFill = Carbon::parse($getPekan->tgl_nilai)->format('Y-m-d');
             $endFill = Carbon::parse($startFill)->addDays(14)->format('d-m-Y');
 
-            // dd($dtlAgd);
+            //data RPS
+            $agenda = DetailAgenda::whereHas('agendaBelajar', function($q) use ($rps){
+                $q->where('rps_id', $rps->id);
+            })->with('penilaian','agendaBelajar', 'clo', 'llo', 'materiKuliahs')
+            ->orderBy('agd_id', 'asc')
+            ->orderBy('clo_id', 'asc')
+            ->paginate(5);
+
+            $clo = Clo::where('rps_id', $rps->id)->orderBy('id')->get();
+            $penilaian = Penilaian::where('rps_id', $rps->id)->get();
+            $llo = Llo::where('rps_id', $rps->id)->orderBy('id','asc')->get();
+
+            // data BAP
             $jdw = JadwalKuliah::where('klkl_id', $cekInsNilai->klkl_id)->where('kary_nik', $cekInsNilai->nik)->where('sts_kul', '1')->first();
             $smt = Semester::where('fak_id', $jdw->prodi)->first();
             $krs = Krs::where('jkul_klkl_id', $cekInsNilai->klkl_id)->where('jkul_kelas', $jdw->kelas)->where('kary_nik', $jdw->kary_nik)->with('mahasiswa')->get();
@@ -82,7 +99,9 @@ class InstrumenMonevController extends Controller
             $bap = Bap::where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->pluck('kode_bap')->toArray();
             $dtlBap = DetailBap::whereIn('kode_bap', $bap)->where('kelas', $jdw->kelas)->where('semester', $smt->smt_aktif)->where('nik', $plot->nik_pengajar)->get();
 
-            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bapCol', 'rps'));
+
+
+            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bapCol', 'rps', 'agenda', 'clo', 'penilaian', 'llo'));
         }else{
             Session::flash('message', 'Buat instrumen monev gagal, karena dosen belum membuat instrumen penilaian CLO!');
             Session::flash('alert-class', 'alert-danger');
@@ -167,11 +186,17 @@ class InstrumenMonevController extends Controller
 
     public function listMonev(){
         $nik = auth()->user()->nik;
+
+        // Data Filters
+        $fak = Fakultas::all();
+        $prodi = Prodi::all();
+        $kary = KaryawanDosen::all();
+
         $kar = KaryawanDosen::where('nik', $nik)->first();
         $smt = Semester::where('fak_id', $kar->fakul_id)->first();
-        $pltMnv = PlottingMonev::with('programstudi')->where('nik_pemonev', $nik)->where('semester', $smt->smt_aktif)->paginate(6);
+        $pltMnv = PlottingMonev::with('programstudi')->where('nik_pemonev', $nik)->where('semester', $smt->smt_aktif)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
         $arrPlot = $pltMnv->pluck('id')->toArray();
         $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();
-        return view('instrumen-monev.list-monev', compact('pltMnv','insMon'));
+        return view('instrumen-monev.list-monev', compact('pltMnv','insMon', 'fak', 'prodi', 'kary'));
     }
 }

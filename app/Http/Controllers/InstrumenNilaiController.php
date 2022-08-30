@@ -70,8 +70,8 @@ class InstrumenNilaiController extends Controller
      */
     public function create(Request $request)
     {
-        $now = Carbon::now()->format('d-m-Y');
-        // dd($now->endOfWeek()->format('d-m-Y'));
+        $now = Carbon::now();
+
         $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
 
@@ -81,10 +81,10 @@ class InstrumenNilaiController extends Controller
 
         $week = '';
         foreach ($kul as $k) {
-            $weekStartDate = Carbon::parse($k->tgl_awal)->format('d-m-Y');
-            $weekEndDate = Carbon::parse($k->tgl_akhir)->format('d-m-Y');
+            $weekStartDate = Carbon::parse($k->tgl_awal);
+            $weekEndDate = Carbon::parse($k->tgl_akhir);
 
-            if ($now >= $weekStartDate && $now <= $weekEndDate) {
+            if ($now->between($weekStartDate, $weekEndDate)) {
                 $week = $k->minggu_ke;
                 break;
             }
@@ -96,8 +96,8 @@ class InstrumenNilaiController extends Controller
         $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
 
         // dd($week);
-        $startFill = Carbon::parse($getPekan->tgl_nilai)->format('d-m-Y');
-        $endFill = Carbon::parse($startFill)->addDays(14)->format('d-m-Y');
+        $startFill = Carbon::parse($getPekan->tgl_nilai);
+        $endFill = Carbon::parse($startFill)->addDays(14);
         // dd($endFill);
         $agd = AgendaBelajar::where('rps_id', $instru->rps_id)->pluck('id')->toArray();
 

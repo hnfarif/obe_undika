@@ -57,21 +57,17 @@ class PlottingMonevController extends Controller
 
         $jdwkul = JadwalKuliah::whereIn('klkl_id', $arrKurlkl)->get();
 
-        // dd($jdwkul);
-
         foreach ($jdwkul as $i) {
            $cek = PlottingMonev::where('klkl_id', $i->klkl_id)->where('nik_pengajar', $i->kary_nik)->first();
               if(!$cek){
                 $arrJdwkul[] = $i;
               }
         }
-        // dd($arrJdwkul);
+
         $jdwkul = $arrJdwkul;
         $kary = KaryawanDosen::where('fakul_id', '<>', null)->get();
 
         $smt = Semester::all();
-
-        // dd($jdwkul);
 
         return view('plotting-monev.create', compact('jdwkul', 'kary', 'smt'));
     }
@@ -227,7 +223,7 @@ class PlottingMonevController extends Controller
 
     public function detailPlot(Request $request)
     {
-        $pltMnv = PlottingMonev::where('nik_pemonev', $request->get('nik'))->where('semester', $request->get('smt'))->get();
+        $pltMnv = PlottingMonev::where('nik_pemonev', $request->get('nik'))->where('semester', $request->get('smt'))->paginate(6);
         $kary = KaryawanDosen::where('nik',$request->get('nik') )->first();
         $arrPlot = $pltMnv->pluck('id')->toArray();
         $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();

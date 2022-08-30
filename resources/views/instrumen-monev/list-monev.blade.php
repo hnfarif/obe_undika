@@ -15,6 +15,22 @@
                     </button>
                 </div>
                 @endif
+
+                <div class="my-3 d-flex">
+                    <button class="btn btn-light ml-auto" data-toggle="modal" data-target="#filMon">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                    <form class="card-header-form ml-3" action="{{ route('monev.listMonev') }}">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Cari nama matakuliah"
+                                value="{{ request('search') }}">
+                            <div class="input-group-btn d-flex">
+                                <button class="btn btn-primary btn-icon"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
                 <div class="row">
                     @foreach ($pltMnv as $m)
                     <div class="col-12 col-md-12 col-lg-4">
@@ -84,6 +100,7 @@
     </div>
     @include('layouts.footer')
 </div>
+@include('instrumen-monev.modal')
 @endsection
 @push('script')
 @include('instrumen-monev.list-monev-script')
