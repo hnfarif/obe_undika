@@ -152,6 +152,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'kode' => '2',
+                'nick' => 'P3AI',
                 'nama' => 'P3AI',
             ],
             [
@@ -166,6 +167,10 @@ class DatabaseSeeder extends Seeder
                 'kode' => '5',
                 'nama' => 'PPTI',
             ],
+            [
+                'kode' => '6',
+                'nama' => 'PIMPINAN',
+            ],
         ];
 
         foreach ($bagian as $i ) {
@@ -173,6 +178,7 @@ class DatabaseSeeder extends Seeder
             Bagian::create([
                 'kode' => $i['kode'],
                 'nama' => $i['nama'],
+                'nick' => $i['nick'] ?? null,
 
             ]);
         }
@@ -336,6 +342,14 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Tri Sagirani, S.Kom., M.MT.',
                 'fakul_id' => '41010',
                 'bagian' => null,
+                'pin' => substr(bcrypt('123456'), 6),
+
+            ],
+            [
+                'nik' => '890026',
+                'nama' => 'Pantjawati Sudarmaningtyas, S.Kom., M.Eng.	',
+                'fakul_id' => '41010',
+                'bagian' => 6,
                 'pin' => substr(bcrypt('123456'), 6),
 
             ],

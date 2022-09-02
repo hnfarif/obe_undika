@@ -40,6 +40,8 @@ class InstrumenMonevController extends Controller
         $plot = PlottingMonev::where('id', $request->get('id'))->first();
         $cekInsNilai = InstrumenNilai::where('klkl_id', $plot->klkl_id)->where('nik', $plot->nik_pengajar)->where('semester', $plot->semester)->first();
         if ($cekInsNilai) {
+
+            // buat instrumen monev baru
             $insNilai = $cekInsNilai->id;
             $cekInsMon = InstrumenMonev::where('plot_monev_id', $request->get('id'))->first();
 
@@ -49,7 +51,9 @@ class InstrumenMonevController extends Controller
                 $insMon->ins_nilai_id = $cekInsNilai->id;
                 $insMon->save();
             }
-            $now = Carbon::now();
+
+            // data untuk penilaian CLO
+            $now = Carbon::now()->format('Y-m-d');
             $kri = KriteriaMonev::all();
             $agd = AgendaBelajar::where('rps_id', $cekInsNilai->rps_id)->get();
             $dtlAgd = DetailAgenda::whereIn('agd_id', $agd->pluck('id')->toArray())->with('penilaian','clo','detailInstrumenNilai','agendaBelajar')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
@@ -74,8 +78,8 @@ class InstrumenMonevController extends Controller
             $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
 
             // dd($getPekan->tgl_nilai);
-            $startFill = Carbon::parse($getPekan->tgl_nilai)->format('Y-m-d');
-            $endFill = Carbon::parse($startFill)->addDays(14)->format('d-m-Y');
+            $startFill = Carbon::parse($getPekan->tgl_nilai);
+            $endFill = Carbon::parse($startFill)->addDays(14);
 
             //data RPS
             $agenda = DetailAgenda::whereHas('agendaBelajar', function($q) use ($rps){
@@ -186,17 +190,30 @@ class InstrumenMonevController extends Controller
 
     public function listMonev(){
         $nik = auth()->user()->nik;
-
+        $role = auth()->user()->role;
         // Data Filters
-        $fak = Fakultas::all();
-        $prodi = Prodi::all();
-        $kary = KaryawanDosen::all();
 
-        $kar = KaryawanDosen::where('nik', $nik)->first();
-        $smt = Semester::where('fak_id', $kar->fakul_id)->first();
-        $pltMnv = PlottingMonev::with('programstudi')->where('nik_pemonev', $nik)->where('semester', $smt->smt_aktif)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
-        $arrPlot = $pltMnv->pluck('id')->toArray();
-        $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();
+        if ($role == 'p3ai' || $role == 'pimpinan' || $role == 'kaprodi') {
+            $fak = Fakultas::all();
+            $prodi = Prodi::all();
+            $kary = KaryawanDosen::all();
+
+            $kar = KaryawanDosen::where('nik', $nik)->first();
+            $smt = Semester::where('fak_id', $kar->fakul_id)->first();
+            $pltMnv = PlottingMonev::with('programstudi')->where('semester', $smt->smt_aktif)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
+            $arrPlot = $pltMnv->pluck('id')->toArray();
+            $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();
+        }else{
+            $fak = Fakultas::all();
+            $prodi = Prodi::all();
+            $kary = KaryawanDosen::all();
+
+            $kar = KaryawanDosen::where('nik', $nik)->first();
+            $smt = Semester::where('fak_id', $kar->fakul_id)->first();
+            $pltMnv = PlottingMonev::with('programstudi')->where('nik_pemonev', $nik)->where('semester', $smt->smt_aktif)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
+            $arrPlot = $pltMnv->pluck('id')->toArray();
+            $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();
+        }
         return view('instrumen-monev.list-monev', compact('pltMnv','insMon', 'fak', 'prodi', 'kary'));
     }
 }

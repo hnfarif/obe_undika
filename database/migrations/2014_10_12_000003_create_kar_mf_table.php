@@ -22,7 +22,7 @@ class CreateKarMfTable extends Migration
             $table->char('status', 1)->nullable();
             $table->unsignedInteger('bagian')->nullable();
             $table->unsignedInteger('absensi')->nullable();
-            $table->string('pin');
+            $table->string('pin')->nullable();
             $table->string('manager_id', 6)->nullable();
             $table->date('mulai_kerja')->nullable();
             $table->date('tgl_keluar')->nullable();

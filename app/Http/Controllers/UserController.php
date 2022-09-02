@@ -43,7 +43,7 @@ class UserController extends Controller
             $chkUser = User::where('nik', $chkEmail->nik)->first();
             if($chkUser){
                 Auth::login($chkUser);
-                return redirect()->route('welcome');
+                return redirect()->route('beranda.index');
             }else{
                 $chkKaprodi = Prodi::where('mngr_id', $chkEmail->nik)->first();
                 $chkStaf = KaryawanDosen::where('nik', $chkEmail->nik)->first();
@@ -54,35 +54,33 @@ class UserController extends Controller
                         'role' => 'kaprodi',
                     ]);
                     Auth::login($user);
-                    return redirect()->route('welcome');
+                    return redirect()->route('beranda.index');
                 }else if($chkStaf->fakul_id){
                     $user = User::create([
                         'nik' => $chkStaf->nik,
                         'role' => 'dosen',
                     ]);
                     Auth::login($user);
-                    return redirect()->route('welcome');
+                    return redirect()->route('beranda.index');
                 }else if($chkStaf->bagian){
                     $chkBagian = Bagian::where('kode', $chkStaf->bagian)->first();
-                    $chkDosBag = Prodi::where('id', $chkStaf->bagian)->first();
 
                     if($chkBagian){
                         if ($chkBagian->nama == 'P3AI') {
 
                             $user = User::create([
                                 'nik' => $chkStaf->nik,
-                                'role' => 'bagian',
+                                'role' => 'p3ai',
                             ]);
                             Auth::login($user);
-                            return redirect()->route('welcome');
+                            return redirect()->route('beranda.index');
+                        }else if($chkBagian->nama == 'PIMPINAN'){
+
+                            $user = User::create([
+                                'nik' => $chkStaf->nik,
+                                'role' => 'pimpinan',
+                            ]);
                         }
-                    }else if($chkDosBag){
-                        $user = User::create([
-                            'nik' => $chkStaf->nik,
-                            'role' => 'dosenBagian',
-                        ]);
-                        Auth::login($user);
-                        return redirect()->route('welcome');
                     }
 
                 }
@@ -137,25 +135,24 @@ class UserController extends Controller
 
                 }else if($chkStaf->bagian){
                     $chkBagian = Bagian::where('kode', $chkStaf->bagian)->first();
-                    $chkDosBag = Prodi::where('id', $chkStaf->bagian)->first();
 
                     if($chkBagian){
                         if ($chkBagian->nick == 'P3AI') {
 
                             $user = User::create([
                                 'nik' => $chkStaf->nik,
-                                'role' => 'bagian',
+                                'role' => 'p3ai',
                                 'password' => bcrypt('123456'),
                             ]);
 
-                        }
-                    }else if($chkDosBag){
-                        $user = User::create([
-                            'nik' => $chkStaf->nik,
-                            'role' => 'dosenBagian',
-                            'password' => bcrypt('123456'),
-                        ]);
+                        }else if($chkBagian->nama == 'PIMPINAN'){
 
+                            $user = User::create([
+                                'nik' => $chkStaf->nik,
+                                'role' => 'pimpinan',
+                                'password' => bcrypt('123456'),
+                            ]);
+                        }
                     }
 
                 }
@@ -165,12 +162,23 @@ class UserController extends Controller
 
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
-            return redirect()->intended(route('welcome'));
+            return redirect()->intended(route('beranda.index'));
         }
 
         Session::flash('message', 'Maaf, NIK atau PIN salah');
         Session::flash('alert-class', 'alert-danger');
         return back();
 
+    }
+
+    public function updateRole()
+    {
+        $chkNik = User::where('nik', Auth::user()->nik)->first();
+        if($chkNik){
+            $update = User::where('nik', Auth::user()->nik)->update([
+                'role' => request('role'),
+            ]);
+        }
+        return redirect()->route('beranda.index');
     }
 }

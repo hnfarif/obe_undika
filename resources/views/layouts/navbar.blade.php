@@ -13,11 +13,6 @@
                 <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->karyawan["nama"] ?? '' }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a type="button" class="dropdown-item has-icon" data-toggle="modal" data-target="#modalRole">
-                    <i class="fas fa-user-tag"></i> Change Role
-                </a>
-
-                <div class="dropdown-divider"></div>
                 <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()"
                     class="dropdown-item has-icon text-danger">
                     <i class="fas fa-sign-out-alt"></i> Logout

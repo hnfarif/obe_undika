@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('penilaian.clo.index') }}">
+                <form action="{{ route('monev.listMonev') }}">
                     <div class="row">
                         <div class="col-4">
                             <h6>Fakultas</h6>

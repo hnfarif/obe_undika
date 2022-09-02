@@ -70,7 +70,7 @@ class InstrumenNilaiController extends Controller
      */
     public function create(Request $request)
     {
-        $now = Carbon::now();
+        $now = Carbon::now()->format('Y-m-d');
 
         $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
@@ -81,10 +81,10 @@ class InstrumenNilaiController extends Controller
 
         $week = '';
         foreach ($kul as $k) {
-            $weekStartDate = Carbon::parse($k->tgl_awal);
-            $weekEndDate = Carbon::parse($k->tgl_akhir);
+            $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
+            $weekEndDate = Carbon::parse($k->tgl_akhir)->format('Y-m-d');
 
-            if ($now->between($weekStartDate, $weekEndDate)) {
+            if ($now >= $weekStartDate && $now <= $weekEndDate) {
                 $week = $k->minggu_ke;
                 break;
             }

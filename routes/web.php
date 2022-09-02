@@ -17,6 +17,7 @@ use App\Http\Controllers\PlottingMonevController;
 use App\Http\Controllers\RpsController;
 use App\Http\Controllers\UserController;
 use App\Models\AgendaBelajar;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 /*
@@ -35,17 +36,18 @@ use Illuminate\Http\Request;
 //     return view('kelolapeoplo.index');
 // });
 Route::get('/', function () {
-    return redirect()->route('beranda');
+    return redirect()->route('beranda.index');
 })->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
 
-Route::prefix('beranda')->name('beranda.')->group(function (){
-    Route::resource('/', BerandaController::class)->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
+Route::prefix('beranda')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen')->name('beranda.')->group(function (){
+    Route::resource('/', BerandaController::class);
 });
-// Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda')
+
 
 Route::get('/login', [UserController::class, 'login'])->middleware('guest')->name('login');
 Route::post('/login', [UserController::class, 'authenticate'])->name('authenticate');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+Route::put('/update/role', [UserController::class, 'updateRole'])->name('updateRole')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen');
 
 //socialize routes
 
@@ -136,26 +138,26 @@ Route::prefix('penilaian')->name('penilaian.')->group(function (){
 
 Route::prefix('monev')->name('monev.')->group(function(){
 
-    Route::get('/kriteria/create', [PlottingMonevController::class, 'createCriteria'])->name('createCriteria');
+    Route::get('/kriteria/create', [PlottingMonevController::class, 'createCriteria'])->name('createCriteria')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
 
-    Route::post('/kriteria/store', [PlottingMonevController::class, 'storeCriteria'])->name('storeCriteria');
+    Route::post('/kriteria/store', [PlottingMonevController::class, 'storeCriteria'])->name('storeCriteria')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
 
-    Route::get('/kriteria/show', [PlottingMonevController::class, 'showCriteria'])->name('showCriteria');
+    Route::get('/kriteria/show', [PlottingMonevController::class, 'showCriteria'])->name('showCriteria')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
 
-    Route::put('/kriteria/update', [PlottingMonevController::class, 'updateCriteria'])->name('updateCriteria');
+    Route::put('/kriteria/update', [PlottingMonevController::class, 'updateCriteria'])->name('updateCriteria')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
 
-    Route::delete('/kriteria/delete/{id}', [PlottingMonevController::class, 'deleteCriteria'])->name('deleteCriteria');
+    Route::delete('/kriteria/delete/{id}', [PlottingMonevController::class, 'deleteCriteria'])->name('deleteCriteria')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
 
-    Route::get('/plot/detail', [PlottingMonevController::class, 'detailPlot'])->name('detailPlot');
+    Route::get('/plot/detail', [PlottingMonevController::class, 'detailPlot'])->name('detailPlot')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
 
-    Route::get('/list', [InstrumenMonevController::class, 'listMonev'])->name('listMonev');
+    Route::get('/list', [InstrumenMonevController::class, 'listMonev'])->name('listMonev')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen');
 
-    Route::resource('plotting', PlottingMonevController::class);
-    Route::resource('instrumen', InstrumenMonevController::class);
+    Route::resource('plotting', PlottingMonevController::class)->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
+    Route::resource('instrumen', InstrumenMonevController::class)->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen');
 });
 
 
-Route::prefix('laporan')->name('laporan.')->group(function(){
+Route::prefix('laporan')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan')->name('laporan.')->group(function(){
 
     Route::get('/monev/data', [LaporanMonevController::class, 'data'])->name('data');
     Route::get('/monev/export-excel', [LaporanMonevController::class, 'exportExcel'])->name('exportExcel');

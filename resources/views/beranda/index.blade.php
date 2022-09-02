@@ -14,7 +14,8 @@
                             <div class="mt-4">
                                 <p class="lead">Role sekarang</p>
                                 <a href="#" class="btn btn-outline-white btn-lg btn-icon icon-left" data-toggle="modal"
-                                    data-target="#modalRole"><i class="far fa-user"></i> {{ auth()->user()->role }} </a>
+                                    data-target="#modalRole"><i class="far fa-user"></i>
+                                    {{ strtoupper(auth()->user()->role) }} </a>
                             </div>
                         </div>
                     </div>
@@ -34,19 +35,26 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Pilih Role</label>
-                    <select class="form-control">
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                        <option>Option 3</option>
-                    </select>
-                </div>
+                <form action="{{ route('updateRole') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" value="{{ auth()->user()->nik }}">
+                    <div class="form-group">
+                        <label>Pilih Role</label>
+                        <select class="form-control" name="role">
+                            <option value="" disabled selected>Pilih role</option>
+                            @foreach ($roles as $i)
+                            <option value="{{ $i }}">{{ strtoupper($i) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
             </div>
             <div class="modal-footer bg-whitesmoke br">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
