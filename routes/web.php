@@ -127,13 +127,15 @@ Route::prefix('rps')->middleware('ensureUserRole:bagian,dosen,dosenBagian')->gro
 
 Route::prefix('penilaian')->name('penilaian.')->group(function (){
 
-    Route::get('/cekrps', [InstrumenNilaiController::class, 'cekRps'])->name('cekrps');
+    Route::get('/cekrps', [InstrumenNilaiController::class, 'cekRps'])->name('cekrps')->middleware('ensureUserRole:dosen,p3ai,kaprodi,pimpinan');
 
-    Route::put('/nilaimin', [InstrumenNilaiController::class, 'uptNilaiMin'])->name('putNilaiMin');
+    Route::put('/nilaimin', [InstrumenNilaiController::class, 'uptNilaiMin'])->name('putNilaiMin')->middleware('ensureUserRole:dosen');
 
-    Route::post('/save-summary', [InstrumenNilaiController::class, 'storeSummary'])->name('storeSummary');
+    Route::post('/save-summary', [InstrumenNilaiController::class, 'storeSummary'])->name('storeSummary')->middleware('ensureUserRole:dosen');
 
-    Route::resource('clo', InstrumenNilaiController::class);
+    Route::get('/clo/detail', [InstrumenNilaiController::class, 'detailInstrumen'])->name('detailInstrumen')->middleware('ensureUserRole:p3ai,kaprodi,pimpinan');
+
+    Route::resource('clo', InstrumenNilaiController::class)->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dosen');
 });
 
 Route::prefix('monev')->name('monev.')->group(function(){
@@ -150,7 +152,7 @@ Route::prefix('monev')->name('monev.')->group(function(){
 
     Route::get('/plot/detail', [PlottingMonevController::class, 'detailPlot'])->name('detailPlot')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
 
-    Route::get('/list', [InstrumenMonevController::class, 'listMonev'])->name('listMonev')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen');
+    Route::get('/list', [InstrumenMonevController::class, 'listMonev'])->name('listMonev')->middleware('ensureUserRole:dosen');
 
     Route::resource('plotting', PlottingMonevController::class)->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
     Route::resource('instrumen', InstrumenMonevController::class)->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen');

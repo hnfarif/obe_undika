@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fakultas;
 use App\Models\InstrumenMonev;
 use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\KriteriaMonev;
 use App\Models\PlottingMonev;
+use App\Models\Prodi;
 use App\Models\Rps;
 use App\Models\Semester;
 use Illuminate\Http\Request;
@@ -24,12 +26,16 @@ class PlottingMonevController extends Controller
      */
     public function index()
     {
-        // $nik = auth()->user()->nik;
+        // data filters
+        $fak = Fakultas::all();
+        $prodi = Prodi::all();
+        $kary = KaryawanDosen::all();
+
         $smt = Semester::pluck('smt_aktif')->toArray();
         $smtUn = array_unique($smt);
-        $pltMnv = PlottingMonev::whereIn('semester', $smtUn)->get();
+        $pltMnv = PlottingMonev::whereIn('semester', $smtUn)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
         $kri = KriteriaMonev::all();
-        return view('plotting-monev.index', compact('pltMnv', 'kri'));
+        return view('plotting-monev.index', compact('pltMnv', 'kri', 'fak', 'prodi', 'kary'));
     }
 
     /**

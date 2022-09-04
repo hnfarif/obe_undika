@@ -34,6 +34,20 @@ class KaryawanDosen extends Model
         return $this->hasMany(Rps::class);
     }
 
+    public function scopeProdi($query)
+    {
+        if (request()->prodi) {
+            return $query->whereIn('fakul_id', request('prodi'));
+        }
+    }
+
+    public function scopeFakultas($query)
+    {
+        if (request()->fakultas) {
+            $prodi = Prodi::whereIn('id_fakultas', request()->fakultas)->pluck('id')->toArray();
+            return $query->whereIn('fakul_id', $prodi);
+        }
+    }
 
 
 

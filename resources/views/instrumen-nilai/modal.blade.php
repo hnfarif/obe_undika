@@ -35,18 +35,7 @@
                             </div>
                             @endforeach
                         </div>
-                        <div class="col-8">
-                            <h6>Dosen</h6>
-                            <select name="dosen[]" id="" class="select2">
-                                <option value="" selected disabled>Pilih Dosen</option>
-                                @foreach ($kary as $k)
-                                <option value="{{ $k->nik }}" @if(is_array(request('dosen')) && in_array($k->nik,
-                                    request('dosen'))) selected
-                                    @endif
-                                    >{{ $k->nama }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+
                     </div>
 
 

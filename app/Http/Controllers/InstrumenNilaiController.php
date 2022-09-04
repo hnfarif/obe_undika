@@ -40,27 +40,41 @@ class InstrumenNilaiController extends Controller
     public function index()
     {
         $nik_kary = auth()->user()->nik;
-        $kary = KaryawanDosen::where('nik',$nik_kary)->first();
-        $smt = Semester::where('fak_id', $kary->fakul_id)->first();
-        $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
-        ->where('semester', $smt->smt_aktif)
-        ->pluck('kurlkl_id')->toArray();
+        $role = auth()->user()->role;
 
-        $arrKlkl = [];
-        foreach ($rps as $i) {
-            $arrKlkl[] = substr($i, 5);
+
+
+        if ($role == 'dosen') {
+            $kary = KaryawanDosen::where('nik',$nik_kary)->first();
+            $smt = Semester::where('fak_id', $kary->fakul_id)->first();
+            $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
+            ->where('semester', $smt->smt_aktif)
+            ->pluck('kurlkl_id')->toArray();
+
+            $arrKlkl = [];
+            foreach ($rps as $i) {
+                $arrKlkl[] = substr($i, 5);
+            }
+
+            $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
+        }else{
+
+            $kary = KaryawanDosen::where('fakul_id', '<>', null)->fakultas()->prodi()->get();
+            $jdwkul = JadwalKuliah::all();
+            $smt = Semester::all();
+
+
+            // dd($kary);
         }
 
-        $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
 
         $instru = InstrumenNilai::all();
 
         //Data Filter
         $fak = Fakultas::all();
         $prodi = Prodi::all();
-        $kary = KaryawanDosen::all();
 
-        return view('instrumen-nilai.index', compact('jdwkul', 'instru', 'fak', 'prodi', 'kary'));
+        return view('instrumen-nilai.index', compact('jdwkul', 'instru', 'fak', 'prodi', 'kary', 'smt'));
     }
 
     /**
@@ -70,11 +84,15 @@ class InstrumenNilaiController extends Controller
      */
     public function create(Request $request)
     {
+        $nik_kary = auth()->user()->nik;
         $now = Carbon::now()->format('Y-m-d');
-
+        $isRead = false;
         $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
 
+        if ($nik_kary != $instru->nik) {
+            $isRead = true;
+        }
         $jdw = JadwalKuliah::where('klkl_id', $instru->klkl_id)->where('kary_nik', $instru->nik)->where('sts_kul', '1')->first();
 
         $kul = MingguKuliah::where('smt', $instru->semester)->get();
@@ -96,7 +114,7 @@ class InstrumenNilaiController extends Controller
         $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
 
         // dd($week);
-        $startFill = Carbon::parse($getPekan->tgl_nilai);
+        $startFill = Carbon::parse($getPekan->tgl_nilai)->format('Y-m-d');
         $endFill = Carbon::parse($startFill)->addDays(14);
         // dd($endFill);
         $agd = AgendaBelajar::where('rps_id', $instru->rps_id)->pluck('id')->toArray();
@@ -116,7 +134,7 @@ class InstrumenNilaiController extends Controller
 
 
 
-        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary', 'week', 'getPekan', 'now', 'startFill', 'endFill'));
+        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary', 'week', 'getPekan', 'now', 'startFill', 'endFill', 'isRead'));
     }
 
     /**
@@ -343,7 +361,7 @@ class InstrumenNilaiController extends Controller
 
     public function cekRps(Request $request)
     {
-        $nik_kary = auth()->user()->nik;
+        $nik_kary = $request->nik;
         $kary = KaryawanDosen::where('nik',$nik_kary)->first();
         $smt = Semester::where('fak_id', $kary->fakul_id)->first();
 
@@ -441,4 +459,24 @@ class InstrumenNilaiController extends Controller
         return response()->json(['success' => 'Data Berhasil Disimpan']);
     }
 
+    public function detailInstrumen()
+    {
+        $kary = KaryawanDosen::where('nik', request('nik'))->first();
+        $smt = Semester::where('fak_id', $kary->fakul_id)->first();
+        $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
+        ->where('semester', $smt->smt_aktif)
+        ->pluck('kurlkl_id')->toArray();
+
+        $arrKlkl = [];
+        foreach ($rps as $i) {
+            $arrKlkl[] = substr($i, 5);
+        }
+
+        $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
+        $instru = InstrumenNilai::all();
+
+
+        return view('instrumen-nilai.detail', compact('jdwkul', 'kary', 'instru'));
+
+    }
 }

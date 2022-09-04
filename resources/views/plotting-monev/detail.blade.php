@@ -16,7 +16,9 @@
                     </button>
                 </div>
                 @endif
-
+                <div class="my-3">
+                    <h5>{{ 'Daftar Monev - '.$kary->nama }}</h5>
+                </div>
                 <div class="row">
                     @foreach ($pltMnv as $m)
                     <div class="col-12 col-md-12 col-lg-4">

@@ -16,13 +16,28 @@
                     </button>
                 </div>
                 @endif
-                <div class="my-3">
+                <div class="my-3 d-flex">
                     <a href="{{ route('monev.plotting.create') }}" type="button" class="btn btn-primary"><i
                             class="fas fa-plus"></i> Entri
                         Plotting Monev</a>
 
-                    <a href="{{ route('monev.createCriteria') }}" type="button" class="btn btn-primary"><i
+                    <a href="{{ route('monev.createCriteria') }}" type="button" class="btn btn-primary  ml-3"><i
                             class="fas fa-plus"></i> Entri Kriteria Penilaian</a>
+
+                    <button class="btn btn-light ml-3" data-toggle="modal" data-target="#filPlot">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+
+                    <form class="card-header-form ml-3 @if (auth()->user()->role == 'dosen') ml-auto @endif"
+                        action="{{ route('monev.plotting.index') }}">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Cari nama matakuliah"
+                                value="{{ request('search') }}">
+                            <div class="input-group-btn d-flex">
+                                <button class="btn btn-primary btn-icon"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="d-flex align-items-center my-0">
                     <div class="ml-auto">
@@ -170,7 +185,7 @@
     </div>
     @include('layouts.footer')
 </div>
-@include('plotting-monev.modal-edit-kri')
+@include('plotting-monev.modal')
 @endsection
 @push('script')
 @include('plotting-monev.script')

@@ -167,8 +167,10 @@
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="d-flex align-items-center my-0">
                             <h2 class="section-title titleClo">Kriteria {{ $loop->iteration }}</h2>
+                            @if ($plot->nik_pemonev == auth()->user()->nik)
 
                             <button class="ml-2 btn btn-primary ml-auto" id="btnSaveKri2" disabled> <i class="fas fa-save"></i> Simpan Nilai </button>
+                            @endif
                         </div>
                         <div class="card">
                             <div class="card-body">
@@ -206,7 +208,11 @@
                                             <td style="min-width: 50px;">
                                                 <input type="hidden" id="agd" value="{{ $a->id }}">
                                                 <input type="hidden" id="kri" value="{{ $k->id }}">
-                                                <input type="number" class="form-control text-center nilai" min="0" max="4" value="{{ $a->detailInstrumenMonev->where('ins_monev_id', $cekInsMon->id)->where('id_kri', $k->id)->where('agd_id', $a->id)->first()->nilai ?? '' }}">
+                                                <input type="number" class="form-control text-center nilai" min="0" max="4" value="{{ $a->detailInstrumenMonev->where('ins_monev_id', $cekInsMon->id)->where('id_kri', $k->id)->where('agd_id', $a->id)->first()->nilai ?? '' }}"
+                                                @if ($plot->nik_pemonev != auth()->user()->nik)
+                                                readonly
+                                                @endif
+                                                >
                                             </td>
                                             @endif
                                             @endforeach
