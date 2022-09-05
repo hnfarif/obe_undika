@@ -31,9 +31,21 @@ class RpsController extends Controller
         $fak = Fakultas::all();
         $prodi = Prodi::all();
 
-        $rps = Rps::with('matakuliah','karyawan')->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
+        $role = auth()->user()->role;
+        $nik = auth()->user()->nik;
         $dosens = KaryawanDosen::all();
-        return view('rps.index', compact('rps','fak','prodi','dosens'));
+
+        if ($role == 'dosen') {
+            $fak_id = $dosens->where('nik', $nik)->first()->fakul_id;
+            $smt = Semester::where('fak_id', $fak_id)->first();
+            $rps = Rps::with('matakuliah','karyawan')->where('penyusun', $nik)->where('semester', $smt->smt_aktif)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
+        }else{
+            $smt = Semester::where('fak_id', '41010')->first();
+            $rps = Rps::with('matakuliah','karyawan')->where('semester', $smt->smt_aktif)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
+        }
+
+
+        return view('rps.index', compact('rps','fak','prodi', 'dosens', 'smt'));
     }
 
     /**
@@ -56,7 +68,7 @@ class RpsController extends Controller
         $mk = $filMk;
         $dosens = KaryawanDosen::all();
 
-        return view('rps.plottingrps', compact('mk','dosens'));
+        return view('rps.create', compact('mk','dosens'));
     }
 
     /**

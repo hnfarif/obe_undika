@@ -49,6 +49,51 @@
                                     id="status-0">
                                 <label class="custom-control-label" for="status-0">To Do</label>
                             </div>
+                            <div class="mb-3"></div>
+                            <h6>Semester</h6>
+                            <div class="custom-control custom-checkbox checkbox-xl">
+                                <input type="checkbox" name="semester[]" value="{{ $smt->smt_lain }}"
+                                    class="custom-control-input" @if(is_array(request('semester')) && in_array(
+                                    $smt->smt_lain,
+                                request('semester'))) checked @endif id="semester-1">
+                                <label class="custom-control-label" for="semester-1">{{ $smt->smt_lain }}</label>
+                            </div>
+                            <div class="mb-3"></div>
+                            <h6>Penyusun</h6>
+                            <div class="form-group m-0">
+                                <div class="custom-switches-stacked ">
+                                    <label class="custom-switch pl-0">
+                                        <input type="radio" name="penyusun" value="1" class="custom-switch-input"
+                                            @if(request('penyusun')=='1' ) checked @endif>
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Ada</span>
+                                    </label>
+                                    <label class="custom-switch pl-0">
+                                        <input type="radio" name="penyusun" value="0" class="custom-switch-input"
+                                            @if(request('penyusun')=='0' ) checked @endif>
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Tidak ada</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3"></div>
+                            <h6>File RPS</h6>
+                            <div class="form-group m-0">
+                                <div class="custom-switches-stacked ">
+                                    <label class="custom-switch pl-0">
+                                        <input type="radio" name="file" value="1" class="custom-switch-input"
+                                            @if(request('file')=='1' ) checked @endif>
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Sudah Upload</span>
+                                    </label>
+                                    <label class="custom-switch pl-0">
+                                        <input type="radio" name="file" value="0" class="custom-switch-input"
+                                            @if(request('file')=='0' ) checked @endif>
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Belum Upload</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

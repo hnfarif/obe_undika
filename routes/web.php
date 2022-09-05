@@ -73,7 +73,7 @@ Route::prefix('kelola')->middleware('ensureUserRole:kaprodi,bagian,dosen,dosenBa
     Route::delete('/map/delete/{peo}/{plo}', [PeoPloController::class, 'destroy'])->name('peoplo.map.delete')->middleware('ensureUserRole:kaprodi,bagian');
 });
 
-Route::prefix('rps')->middleware('ensureUserRole:bagian,dosen,dosenBagian')->group(function (){
+Route::prefix('rps')->middleware('ensureUserRole:p3ai,dosen,pimpinan,kaprodi')->group(function (){
 
 
     Route::get('/', [RpsController::class,'index'])->name('rps.index');
@@ -82,8 +82,8 @@ Route::prefix('rps')->middleware('ensureUserRole:bagian,dosen,dosenBagian')->gro
     Route::put('/file/store', [RpsController::class,'saveFileRps'])->name('rps.file.store');
     Route::put('/trfAgd', [RpsController::class,'transferAgenda'])->name('rps.transferAgenda');
 
-    Route::get('/plottingrps', [RpsController::class, 'create'])->name('rps.plottingrps');
-    Route::post('/plottingrps/store', [RpsController::class, 'store'])->name('rps.plottingrps.store');
+    Route::get('/create', [RpsController::class, 'create'])->name('rps.create');
+    Route::post('/store', [RpsController::class, 'store'])->name('rps.store');
 
     Route::get('/clo/edit', [CloController::class, 'edit'])->name('clo.edit');
     Route::get('/clo/{rps}', [CloController::class, 'index'] )->name('clo.index');

@@ -21,6 +21,7 @@
                 @endif
 
                 <div class="row">
+                    @if (auth()->user()->nik == $rps->penyusun)
                     <div class="col-12 col-md-6 col-lg-12 p-0 mb-2 d-flex">
                         <a href="{{ route('agenda.create', $rps->id) }}" type="button"
                             class="btn btn-primary ml-3  align-self-center expanded"><i class="fas fa-plus"></i> Entri
@@ -36,6 +37,7 @@
                             Penilaian CLO</button>
                         @endif
                     </div>
+                    @endif
                 </div>
 
                 <div class="row">
@@ -250,7 +252,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="d-flex">
-
+                                                    @if (auth()->user()->nik == $rps->penyusun)
                                                     <button id="btnEditAgd" data-toggle="modal"
                                                         data-target="#editAgenda" data-id="{{ $i->id }}"
                                                         class="btn btn-light mr-1 my-auto btnEditAgd"><i
@@ -269,7 +271,7 @@
                                                                 class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
-
+                                                    @endif
                                                 </td>
                                             </tr>
 

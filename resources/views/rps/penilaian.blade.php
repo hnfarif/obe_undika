@@ -22,7 +22,7 @@
                 </div>
                 @endif
                 <div class="row">
-
+                    @if (auth()->user()->nik == $rps->penyusun)
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card">
                             <div class="card-header">
@@ -61,8 +61,8 @@
                         </div>
 
                     </div>
-
-                    <div class="col-12 col-md-6 col-lg-8">
+                    @endif
+                    <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4>Daftar Bentuk Penilaian</h4>
@@ -104,7 +104,7 @@
                                             <td>
 
                                                 <div class="d-flex my-auto">
-
+                                                    @if (auth()->user()->nik == $rps->penyusun)
                                                     <a href="#" class="btn btn-light mr-2 editPenilaian"
                                                         data-id="{{ $i->id }}" data-toggle="modal"
                                                         data-target="#editPenilaian"><i class="fas fa-edit"></i>
@@ -121,6 +121,7 @@
 
                                                         </button>
                                                     </form>
+                                                    @endif
                                                 </div>
 
                                             </td>

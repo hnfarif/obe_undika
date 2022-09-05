@@ -16,7 +16,7 @@
                                 <h4>Form Plotting RPS</h4>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('rps.plottingrps.store') }}" method="POST">
+                                <form action="{{ route('rps.store') }}" method="POST">
                                     @csrf
                                     <div class="form-group">
                                         <label>Nama Rumpun Mata Kuliah</label>

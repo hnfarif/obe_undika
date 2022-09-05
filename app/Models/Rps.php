@@ -80,6 +80,34 @@ class Rps extends Model
         }
     }
 
+    public function scopePenyusun($query)
+    {
+        if (request()->penyusun == '1') {
+            return $query->where('penyusun', '<>', null);
+        }
+
+        if (request()->penyusun == '0') {
+            return $query->where('penyusun', null);
+        }
+    }
+
+    public function scopeFile($query)
+    {
+        if (request()->file == '1') {
+            return $query->where('file_rps', '<>', null);
+        }
+
+        if (request()->file == '0') {
+            return $query->where('file_rps', null);
+        }
+    }
+
+    public function scopeSemester($query)
+    {
+        if (request()->semester) {
+            return $query->whereIn('semester', request('semester'));
+        }
+    }
     public function getAllTotal($pens, $clos)
     {
         $total = 0;

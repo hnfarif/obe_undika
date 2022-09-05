@@ -51,6 +51,7 @@
                                             </div>
 
                                             <div class="d-flex">
+                                                @if (auth()->user()->nik == $rps->penyusun)
                                                 <button type="button" class="btn btn-light mr-2 btnUbah"><i
                                                         class="fas fa-edit"></i>
                                                     Ubah</button>
@@ -60,6 +61,7 @@
                                                 <button type="button" class="btn btn-danger d-none btnBatal"><i
                                                         class="fas fa-times"></i>
                                                     Batal</button>
+                                                @endif
                                             </div>
 
                                         </form>
@@ -73,9 +75,11 @@
 
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-12 p-0 mb-2">
+                        @if (auth()->user()->nik == $rps->penyusun)
                         <a href="{{ route('clo.create', $rps->id) }}" type="button"
                             class="btn btn-primary ml-3 align-self-center expanded"><i class="fas fa-plus"></i> Entri
                             CLO</a>
+                        @endif
                     </div>
                 </div>
 
@@ -141,11 +145,11 @@
                                                             <input name="_method" type="hidden" value="DELETE">
                                                             <input type="hidden" name="valDel" value="plo">
                                                             <input type="hidden" name="rps_id" value="{{ $rps->id }}">
-
+                                                            @if (auth()->user()->nik == $rps->penyusun)
                                                             <button type="button" class="btn btn-danger deletePlo">
                                                                 <i class="fas fa-trash my-auto"></i>
                                                             </button>
-
+                                                            @endif
                                                         </form>
                                                     </div>
                                                 </div>
@@ -154,6 +158,7 @@
                                             </td>
 
                                             <td class="d-flex">
+                                                @if (auth()->user()->nik == $rps->penyusun)
                                                 <a href="#" type="button" class="btn btn-light my-auto mr-2 editClo"
                                                     data-id="{{ $clos->id }}" data-toggle="modal"
                                                     data-target="#editClo"><i class="fas fa-edit"></i>
@@ -163,9 +168,8 @@
                                                 @if ($clos->plos->count() == 0)
 
                                                 <form action="{{ route('clo.delete',[$i->id,$clos->id]) }}"
-                                                    method="POST" class="@if($clos->kode_clo !== $iteration)
-                                                d-none
-                                            @endif">
+                                                    method="POST"
+                                                    class="@if($clos->kode_clo !== $iteration) d-none @endif">
                                                     @method('DELETE')
                                                     @csrf
                                                     <input name="_method" type="hidden" value="DELETE">
@@ -175,6 +179,7 @@
                                                         <i class="fas fa-trash my-auto"></i>
                                                     </button>
                                                 </form>
+                                                @endif
                                                 @endif
 
                                             </td>
