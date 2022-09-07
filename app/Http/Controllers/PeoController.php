@@ -35,18 +35,14 @@ class PeoController extends Controller
 
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
             $peo = Peo::where('fakul_id', $chkrole->fakul_id)->with('plos')->get();
-
-        }else if($user->role == 'dosenBagian'){
-
-            $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
-            $peo = Peo::where('fakul_id', $chkrole->bagian)->with('plos')->get();
-
+            return view('kelolapeoplo.kelolapeo', compact('peo'));
         }else{
-            $peo = Peo::with('plos')->get();
+            $prodi = Prodi::all();
+            return view('kelolapeoplo.kelolapeo', compact('prodi'));
         }
 
 
-        return view('kelolapeoplo.kelolapeo', ["ite_padded" => $ite_padded ?? '', "peo" => $peo, "iteration" => $iteration ?? '']);
+        return view('kelolapeoplo.kelolapeo', compact('ite_padded', 'peo', 'iteration'));
     }
 
     /**
@@ -150,5 +146,10 @@ class PeoController extends Controller
         }
 
         return redirect()->route('peoplo.peo');
+    }
+    public function detail()
+    {
+        $peo = Peo::where('fakul_id', request('id'))->with('plos')->get();
+        return view('kelolapeoplo.role.peo.detail', compact('peo'));
     }
 }
