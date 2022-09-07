@@ -36,14 +36,7 @@ class PloController extends Controller
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
             $plo = Plo::where('fakul_id', $chkrole->fakul_id)->with('peos')->get();
 
-        }else if($user->role == 'dosenBagian'){
-
-            $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
-            $plo = Plo::where('fakul_id', $chkrole->bagian)->with('peos')->get();
-
-
-        }else{
-            $plo = Plo::with('peos')->get();
+            return view('kelolapeoplo.kelolaplo', compact('plo'));
         }
 
 
@@ -150,5 +143,10 @@ class PloController extends Controller
         }
 
         return redirect()->route('peoplo.plo');
+    }
+
+    public function detail(){
+        $plo = Plo::where('fakul_id',  request('id'))->with('peos')->get();
+        return view('kelolapeoplo.role.plo.detail', compact('plo'));
     }
 }

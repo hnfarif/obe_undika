@@ -6,15 +6,16 @@
     @include('layouts.navbar')
     <div class="main-content">
         <section class="section">
-            @include('kelolapeoplo.section-header')
 
-            @if (in_array(auth()->user()->role, ['kaprodi', 'bagian']))
-            @include('kelolapeoplo.RoleMapping.in-role')
-            @else
-            @include('kelolapeoplo.RoleMapping.out-role')
+            @if (auth()->user()->role == 'kaprodi')
+
+            @include('kelolapeoplo.role.mapping.prodi')
+
+            @elseif (auth()->user()->role == 'dosen')
+
+            @include('kelolapeoplo.role.mapping.dosen')
 
             @endif
-
 
 
         </section>

@@ -131,17 +131,28 @@
 <script>
     $(document).ready(function () {
 
-        $('#tableMapCreate').DataTable({
+        var tablemapping = $('#tableMapCreate').DataTable({
             'autoWidth': false,
+
 
         });
         var datamk = [];
 
-        $('.drag').draggable({
-            appendTo: 'body',
-            helper: 'clone',
-            stack: 'div',
+        tablemapping.rows().every(function (rowIdx, tableLoop, rowLoop) {
+
+            var node = this.node();
+
+            var drag = $(node).find('.drag');
+
+            drag.draggable({
+                appendTo: 'body',
+                helper: 'clone',
+                stack: 'div',
+            });
+
+
         });
+
 
         $('#dropzone').droppable({
             activeClass: 'active',
@@ -154,7 +165,8 @@
 
                 );
 
-                $el.append('<input type="hidden" name="plolist[]" value="' + ui.draggable.attr(
+                $el.append('<input type="hidden" name="plolist[]" value="' + ui
+                    .draggable.attr(
                         'data-id') +
                     '">');
                 $el.append($(
@@ -164,7 +176,8 @@
                     if (datamk.length > 0) {
 
                         for (var i = 0; i < datamk.length; i++) {
-                            if (datamk[i].trim() == ui.draggable.attr('data-id')
+                            if (datamk[i].trim() == ui.draggable.attr(
+                                    'data-id')
                                 .trim()) {
                                 datamk.splice(i, 1);
                             }
@@ -211,6 +224,8 @@
                 $(this).removeClass("active");
             }
         });
+
+
     })
 
 </script>

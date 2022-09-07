@@ -6,38 +6,16 @@
     @include('layouts.navbar')
     <div class="main-content">
         <section class="section">
-            @include('kelolapeoplo.section-header')
 
-            <div class="section-body">
-                <div class="d-flex align-items-center my-0">
-                    <h2 class="section-title">Kelola PLO</h2>
+            @if (auth()->user()->role == 'kaprodi')
 
-                </div>
-                @if (session()->has('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Sukses!</strong> {{ session()->get('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @elseif (session()->has('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Gagal!</strong> {{ session()->get('error') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
+            @include('kelolapeoplo.role.plo.prodi')
 
-                <div class="row">
-                    @if (in_array(auth()->user()->role, ['kaprodi', 'bagian']))
-                    @include('kelolapeoplo.RolePlo.in-role')
-                    @else
-                    @include('kelolapeoplo.RolePlo.out-role')
-                    @endif
-                </div>
-            </div>
+            @elseif (auth()->user()->role == 'dosen')
 
+            @include('kelolapeoplo.role.plo.dosen')
+
+            @endif
 
         </section>
     </div>

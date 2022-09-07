@@ -33,13 +33,6 @@ class PeoPloController extends Controller
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
             $peo = Peo::where('fakul_id', $chkrole->fakul_id)->with('plos')->get();
 
-        }else if($user->role == 'dosenBagian'){
-
-            $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
-            $peo = Peo::where('fakul_id', $chkrole->bagian)->with('plos')->get();
-
-        }else{
-            $peo = Peo::with('plos')->get();
         }
 
 
@@ -148,5 +141,10 @@ class PeoPloController extends Controller
             Session::flash('alert-class','alert-danger');
         }
         return redirect()->route('peoplo.map');
+    }
+
+    public function detail(){
+        $peo = Peo::where('fakul_id', request('id'))->with('plos')->get();
+        return view('kelolapeoplo.role.mapping.detail', compact('peo'));
     }
 }

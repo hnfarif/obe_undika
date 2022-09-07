@@ -1,9 +1,9 @@
+@include('kelolapeoplo.section-header')
 <div class="section-body">
     <div class="row">
         <div class="col-12 col-md-6 col-lg-12 p-0 mb-2 d-flex">
             <a href="{{ route('peoplo.map.create') }}" type="button"
-                class="btn btn-primary ml-3  align-self-center expanded"><i class="fas fa-plus"></i> Entri
-                Mapping</a>
+                class="btn btn-primary ml-3  align-self-center expanded"><i class="fas fa-plus"></i> Entri Mapping</a>
         </div>
     </div>
 
