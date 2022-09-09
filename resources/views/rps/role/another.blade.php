@@ -47,7 +47,7 @@
                     <p>{{ $r->rumpun_mk }}</p>
                     <b>Fakultas</b>
                     <p class="">{{ $r->matakuliah->prodi->fakultas->nama }}</p>
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col-12">
                             <div>
                                 <b>Ketua Rumpun</b>
@@ -57,7 +57,7 @@
                                 <b>Penyusun</b>
                                 <div>
                                     @if ($r->penyusun)
-                                    {{ $r->penyusun }}
+                                    {{ $r->dosenPenyusun->nama }}
                                     @else
                                     @if (auth()->user()->role == 'p3ai')
 

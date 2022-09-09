@@ -42,8 +42,7 @@
 
 
             <li class="nav-item @yield('rps')">
-                <a href="{{ route('rps.index') }}" class="nav-link"><i class="fas fa-school"></i><span>Kelola
-                        RPS</span></a>
+                <a href="{{ route('rps.index') }}" class="nav-link"><i class="fas fa-school"></i><span>RPS</span></a>
             </li>
 
             <li class="nav-item @yield('instrumen-nilai')">

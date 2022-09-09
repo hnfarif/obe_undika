@@ -31,7 +31,7 @@
                     <p>{{ $r->rumpun_mk }}</p>
                     <b>Fakultas</b>
                     <p class="">{{ $r->matakuliah->prodi->fakultas->nama }}</p>
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col-12">
                             <div>
                                 <b>Ketua Rumpun</b>
@@ -40,7 +40,7 @@
                             <div>
                                 <b>Penyusun</b>
                                 <div>
-                                    {{ $r->penyusun }}
+                                    {{ $r->dosenPenyusun->nama }}
                                 </div>
                             </div>
                         </div>

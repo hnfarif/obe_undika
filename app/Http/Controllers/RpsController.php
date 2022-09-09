@@ -38,10 +38,10 @@ class RpsController extends Controller
         if ($role == 'dosen') {
             $fak_id = $dosens->where('nik', $nik)->first()->fakul_id;
             $smt = Semester::where('fak_id', $fak_id)->first();
-            $rps = Rps::with('matakuliah','karyawan')->where('penyusun', $nik)->where('semester', $smt->smt_aktif)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
+            $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('penyusun', $nik)->where('semester', $smt->smt_aktif)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else{
             $smt = Semester::where('fak_id', '41010')->first();
-            $rps = Rps::with('matakuliah','karyawan')->where('semester', $smt->smt_aktif)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
+            $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('semester', $smt->smt_aktif)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
 
