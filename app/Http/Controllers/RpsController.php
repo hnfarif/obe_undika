@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DosenPenyusun;
 use App\Models\AgendaBelajar;
 use App\Models\DetailAgenda;
 use App\Models\Fakultas;
@@ -15,6 +16,7 @@ use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,7 +35,7 @@ class RpsController extends Controller
 
         $role = auth()->user()->role;
         $nik = auth()->user()->nik;
-        $dosens = KaryawanDosen::all();
+        $dosens = KaryawanDosen::with('emailStaf')->where('fakul_id', '<>', null)->get();
 
         if ($role == 'dosen') {
             $fak_id = $dosens->where('nik', $nik)->first()->fakul_id;
@@ -276,5 +278,27 @@ class RpsController extends Controller
         ]);
 
         return json_encode(['status' => 'success']);
+    }
+
+    public function updatePenyusun(Request $request)
+    {
+        $rps = Rps::findOrFail($request->get('rps_id'));
+        $dosen = KaryawanDosen::whereNik($request->get('penyusun'))->first();
+        $update = $rps->update([
+            'penyusun' => $request->get('penyusun'),
+            'email_penyusun' => $request->get('emailPenyusun'),
+        ]);
+
+        Mail::to($request->get('emailPenyusun'))->send(new DosenPenyusun($rps,$dosen));
+
+        if ($update) {
+            Session::flash('message', 'Penyusun berhasil diubah!');
+            Session::flash('alert-class', 'alert-success');
+        } else {
+            Session::flash('message', 'Penyusun gagal diubah!');
+            Session::flash('alert-class', 'alert-danger');
+        }
+        return back();
+
     }
 }

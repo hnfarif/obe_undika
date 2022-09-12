@@ -366,12 +366,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        foreach ($kardos as $i) {
-            MailStaf::create([
-                'nik' => $i['nik'],
-                'email' => '18410100253@dinamika.ac.id',
-            ]);
-        }
+
         // \App\Models\User::factory(10)->create();
         \App\Models\MataKuliah::factory(10)->create();
     }

@@ -60,9 +60,9 @@
                                     {{ $r->dosenPenyusun->nama }}
                                     @else
                                     @if (auth()->user()->role == 'p3ai')
-
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#modalPenyusun"><i
-                                            class="fas fa-plus"></i></button>
+                                    <button class="btn btn-primary btn-sm btnPenyusun" data-rps="{{ $r->id }}"
+                                        data-toggle="modal" data-target="#modalPenyusun"><i
+                                            class="fas fa-user-edit"></i> Penyusun</button>
                                     @else
                                     Belum ada penyusun
                                     @endif
@@ -98,22 +98,23 @@
             </div>
             <div class="card-footer">
                 @if ($r->file_rps)
-                <a href="{{ asset('storage/'.$r->file_rps) }}" target="_blank" class="btn btn-primary mr-1 "> <i
+                <a href="{{ asset('storage/'.$r->file_rps) }}" target="_blank" class="btn btn-primary btn-sm mr-1 "> <i
                         class="fas fa-file-pdf"></i> Lihat PDF</a>
                 @else
                 @if ($r->penyusun == auth()->user()->nik)
 
-                <button type="button" class="btn btn-warning mr-1 saveRps" data-id="{{ $r->id }}"><i
+                <button type="button" class="btn btn-warning btn-sm mr-1 saveRps" data-id="{{ $r->id }}"><i
                         class="fas fa-file-upload"></i> Upload
                     RPS </button>
                 @endif
                 @endif
-                <a href="{{ route('clo.index', $r->id) }}" class="btn btn-light mr-1 ">lihat Rps</a>
+                <a href="{{ route('clo.index', $r->id) }}" class="btn btn-light btn-sm mr-1 ">lihat Rps</a>
                 @if (auth()->user()->role == 'p3ai')
 
-                <button class="btn btn-info editRps" data-toggle="modal" data-target="#editRps"
+                <button class="btn btn-info btn-sm mr-1 editRps" data-toggle="modal" data-target="#editRps"
                     data-id="{{ $r->id }}"><i class="fas fa-edit"></i></button>
                 @endif
+
             </div>
         </div>
     </div>

@@ -119,19 +119,27 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Nama Dosen</label>
-                    <select class="form-control select2">
-                        <option>Dosen 1</option>
-                        <option>Dosen 2</option>
-                        <option>Dosen 3</option>
-                    </select>
-                </div>
+                <form action="{{ route('rps.penyusun') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="rps_id" id="rpsId">
+                    <input type="hidden" name="emailPenyusun" id="emailPenyusun">
+                    <div class="form-group">
+                        <label>Nama Dosen</label>
+                        <select class="form-control select2 selpenyusun" name="penyusun" id="selpenyusun">
+                            <option value="" disabled selected>Pilih Dosen Penyusun RPS</option>
+                            @foreach ($dosens as $d)
+                            <option value="{{ $d->nik }}" data-email="{{ $d->emailStaf->email }}">{{ $d->nama }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
             </div>
             <div class="modal-footer bg-whitesmoke br">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
+            </form>
         </div>
     </div>
 </div>

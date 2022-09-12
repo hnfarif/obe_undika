@@ -21,8 +21,6 @@
     </div>
     @include('layouts.footer')
 </div>
-
-
 @include('rps.modal')
 @endsection
 @push('script')
@@ -38,7 +36,7 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function (data) {
-                    console.log(data);
+
                     $(".titleRps").html("Ubah Data RPS " + data.nama_mk);
                     $("#rps").val(data.id);
                     $("#rumpun_mk").val(data.rumpun_mk);
@@ -69,14 +67,15 @@
                 }
             })
         })
+        $('.btnPenyusun').on('click', function () {
+            var id = $(this).data('rps');
+            $('#rpsId').val(id);
 
-        var chkSmt = [];
-        var dataSmt = [];
+        })
 
-
-        $('.dataSmt').each(function () {
-            dataSmt.push($(this).val());
-
+        $('.selpenyusun').on('change', function () {
+            var email = $(this).find(':selected').data('email');
+            $('#emailPenyusun').val(email);
         })
 
         $('.saveRps').on('click', function () {
@@ -96,6 +95,8 @@
                 }
             })
         })
+
+
     });
 
 </script>

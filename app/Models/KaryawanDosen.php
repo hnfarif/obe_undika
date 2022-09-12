@@ -29,6 +29,11 @@ class KaryawanDosen extends Model
         return $this->hasOne(User::class, 'nik', 'nik');
     }
 
+    public function emailStaf()
+    {
+        return $this->hasOne(MailStaf::class, 'nik', 'nik');
+    }
+
     public function rpses()
     {
         return $this->hasMany(Rps::class);

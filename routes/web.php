@@ -55,25 +55,28 @@ Route::get('sign-in-google', [UserController::class, 'google'])->name('user.logi
 Route::get('auth/google/callback', [UserController::class, 'handleProviderCallback'])->name('user.google.callback');
 
 Route::prefix('kelola')->middleware('ensureUserRole:kaprodi,p3ai,dosen,pimpinan')->group(function () {
+
+
+
     Route::get('/peo', [PeoController::class, 'index'])->name('peoplo.peo');
-    Route::get('/peo/detail', [PeoController::class, 'detail'])->name('peo.detail');
-    Route::get('/plo/detail', [PloController::class, 'detail'])->name('plo.detail');
-    Route::get('/mapping/detail', [PeoPloController::class, 'detail'])->name('map.detail');
+    Route::get('/peo/detail', [PeoController::class, 'detail'])->name('peo.detail')->middleware('ensureUserRole:p3ai,pimpinan');
     Route::post('/peo/store', [PeoController::class, 'store'])->name('peoplo.peo.store')->middleware('ensureUserRole:kaprodi');
     Route::get('/peo/edit', [PeoController::class, 'edit'])->name('peoplo.peo.edit')->middleware('ensureUserRole:kaprodi');
     Route::put('/peo/update', [PeoController::class, 'update'])->name('peoplo.peo.update')->middleware('ensureUserRole:kaprodi');
     Route::delete('/peo/delete/{id}', [PeoController::class, 'destroy'])->name('peoplo.peo.delete')->middleware('ensureUserRole:kaprodi');
 
-    Route::get('/plo', [PloController::class, 'index'])->name('peoplo.plo');
-    Route::post('/plo/store', [PloController::class, 'store'])->name('peoplo.plo.store')->middleware('ensureUserRole:kaprodi,bagian');
-    Route::get('/plo/edit', [PloController::class, 'edit'])->name('peoplo.plo.edit')->middleware('ensureUserRole:kaprodi,bagian');
-    Route::put('/plo/update', [PloController::class, 'update'])->name('peoplo.plo.update')->middleware('ensureUserRole:kaprodi,bagian');
-    Route::delete('/plo/delete/{id}', [PloController::class, 'destroy'])->name('peoplo.plo.delete')->middleware('ensureUserRole:kaprodi,bagian');
+    Route::get('/plo', [PloController::class, 'index'])->name('peoplo.plo')->middleware('ensureUserRole:kaprodi,dosen');
+    Route::get('/plo/detail', [PloController::class, 'detail'])->name('plo.detail')->middleware('ensureUserRole:p3ai,pimpinan');
+    Route::post('/plo/store', [PloController::class, 'store'])->name('peoplo.plo.store')->middleware('ensureUserRole:kaprodi');
+    Route::get('/plo/edit', [PloController::class, 'edit'])->name('peoplo.plo.edit')->middleware('ensureUserRole:kaprodi');
+    Route::put('/plo/update', [PloController::class, 'update'])->name('peoplo.plo.update')->middleware('ensureUserRole:kaprodi');
+    Route::delete('/plo/delete/{id}', [PloController::class, 'destroy'])->name('peoplo.plo.delete')->middleware('ensureUserRole:kaprodi');
 
-    Route::get('/mapping', [PeoPloController::class, 'index'])->name('peoplo.map');
-    Route::post('/mapping/store', [PeoPloController::class, 'store'])->name('peoplo.map.store')->middleware('ensureUserRole:kaprodi,bagian');
+    Route::get('/mapping', [PeoPloController::class, 'index'])->name('peoplo.map')->middleware('ensureUserRole:kaprodi,dosen');
+    Route::get('/mapping/detail', [PeoPloController::class, 'detail'])->name('map.detail')->middleware('ensureUserRole:p3ai,pimpinan');
+    Route::post('/mapping/store', [PeoPloController::class, 'store'])->name('peoplo.map.store')->middleware('ensureUserRole:kaprodi');
     Route::get('/mapping/create', [PeoPloController::class, 'create'])->name('peoplo.map.create')->middleware('ensureUserRole:kaprodi');
-    Route::delete('/mapping/delete/{peo}/{plo}', [PeoPloController::class, 'destroy'])->name('peoplo.map.delete')->middleware('ensureUserRole:kaprodi,bagian');
+    Route::delete('/mapping/delete/{peo}/{plo}', [PeoPloController::class, 'destroy'])->name('peoplo.map.delete')->middleware('ensureUserRole:kaprodi');
 });
 
 Route::prefix('rps')->middleware('ensureUserRole:p3ai,dosen,pimpinan,kaprodi')->group(function (){
@@ -81,6 +84,7 @@ Route::prefix('rps')->middleware('ensureUserRole:p3ai,dosen,pimpinan,kaprodi')->
 
     Route::get('/', [RpsController::class,'index'])->name('rps.index');
     Route::get('/edit', [RpsController::class,'edit'])->name('rps.edit');
+    Route::put('/update/penyusun', [RpsController::class,'updatePenyusun'])->name('rps.penyusun');
     Route::put('/update/{rps?}', [RpsController::class,'update'])->name('rps.update');
     Route::put('/file/store', [RpsController::class,'saveFileRps'])->name('rps.file.store');
     Route::put('/trfAgd', [RpsController::class,'transferAgenda'])->name('rps.transferAgenda');
