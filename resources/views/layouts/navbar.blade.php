@@ -57,14 +57,16 @@
                         class="fas fa-vector-square"></i><span>Instrumen Monev</span></a>
             </li>
             @endif
-            @if (auth()->user()->role == 'p3ai' || auth()->user()->role == 'kaprodi' || auth()->user()->role ==
-            'pimpinan')
-
+            @if (auth()->user()->role == 'p3ai')
             <li class="nav-item @yield('plottingmonev')">
                 <a href="{{ route('monev.plotting.index') }}" class="nav-link"><i
                         class="fas fa-vector-square"></i><span>Plotting
                         Monev</span></a>
             </li>
+            @endif
+            @if (auth()->user()->role == 'p3ai' || auth()->user()->role == 'kaprodi' || auth()->user()->role ==
+            'pimpinan')
+
             <li class="nav-item @yield('laporan')">
                 <a href="{{ route('laporan.monev.index') }}" class="nav-link"><i
                         class="fas fa-file-invoice"></i><span>Laporan</span></a>

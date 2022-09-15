@@ -29,6 +29,16 @@
     $(document).ready(function () {
 
         $('#tableMap').DataTable();
+        $('#tableMatriks').DataTable({
+            "scrollX": true,
+            "responsive": true,
+            "autoWidth": false,
+            "info": false,
+            "paging": false,
+            "searching": false,
+            "ordering": false,
+
+        });
 
         $('#tableMap').on('click', '.deletePeoplo', function (e) {
 

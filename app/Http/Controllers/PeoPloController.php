@@ -26,17 +26,23 @@ class PeoPloController extends Controller
 
             $chkrole = Prodi::where('mngr_id', $user->nik)->first();
 
-            $peo = Peo::where('fakul_id', $chkrole->id)->with('plos')->get();
+            $peo = Peo::where('fakul_id', $chkrole->id)->with('plos')->orderBy('id','asc')->get();
+            $plo = Plo::where('fakul_id', $chkrole->id)->with('peos')->orderBy('id','asc')->get();
+            $filPeo = $peo->pluck('id')->toArray();
+            $mapping = PeoPlo::whereIn('peo_id', $filPeo)->get();
 
         }else if($user->role == 'dosen'){
 
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
-            $peo = Peo::where('fakul_id', $chkrole->fakul_id)->with('plos')->get();
+            $peo = Peo::where('fakul_id', $chkrole->fakul_id)->with('plos')->orderBy('id','asc')->get();
+            $plo = Plo::where('fakul_id', $chkrole->fakul_id)->with('peos')->orderBy('id','asc')->get();
+            $filPeo = $peo->pluck('id')->toArray();
+            $mapping = PeoPlo::whereIn('peo_id', $filPeo)->get();
 
         }
 
 
-       return view('kelolapeoplo.mapping.index', ['peo' => $peo]);
+       return view('kelolapeoplo.mapping.index', compact('peo', 'plo', 'mapping'));
     }
 
     /**
@@ -144,7 +150,10 @@ class PeoPloController extends Controller
     }
 
     public function detail(){
-        $peo = Peo::where('fakul_id', request('id'))->with('plos')->get();
-        return view('kelolapeoplo.role.mapping.detail', compact('peo'));
+        $peo = Peo::where('fakul_id', request('id'))->with('plos')->orderBy('id','asc')->get();
+        $plo = Plo::where('fakul_id', request('id'))->with('peos')->orderBy('id','asc')->get();
+        $filPeo = $peo->pluck('id')->toArray();
+        $mapping = PeoPlo::whereIn('peo_id', $filPeo)->get();
+        return view('kelolapeoplo.role.mapping.detail', compact('peo','plo', 'mapping'));
     }
 }

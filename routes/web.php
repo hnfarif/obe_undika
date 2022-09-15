@@ -37,7 +37,7 @@ use Illuminate\Http\Request;
 // });
 Route::get('/', function () {
     return redirect()->route('beranda.index');
-})->middleware('ensureUserRole:kaprodi,bagian,dosenBagian,dosen');
+})->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen');
 
 Route::prefix('beranda')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen')->name('beranda.')->group(function (){
     Route::resource('/', BerandaController::class);

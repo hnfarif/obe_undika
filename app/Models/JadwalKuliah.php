@@ -99,7 +99,10 @@ class JadwalKuliah extends Model
             ->first();
         $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
         $dtlMon = DetailInstrumenMonev::where('ins_monev_id', $insMon->id)->where('id_kri', $kriteria)->sum('nilai');
-        $count = DetailInstrumenMonev::where('ins_monev_id', $insMon->id)->where('id_kri', $kriteria)->count();
+        $insNilai = InstrumenNilai::where('id', $insMon->ins_nilai_id)->first();
+        $agd = AgendaBelajar::where('rps_id', $insNilai->rps_id)->pluck('id')->toArray();
+        $count = DetailAgenda::whereIn('agd_id', $agd)->where('penilaian_id','<>', null)->count();
+
 
         return $count == 0 ? 0 : number_format($dtlMon / $count, 2);
     }

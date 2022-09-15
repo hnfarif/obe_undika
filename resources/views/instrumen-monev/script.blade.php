@@ -160,9 +160,9 @@
             var count = 0;
 
             $('#kri-1').find('tbody').find('tr').find('.nilai-kri-1').each(function (j, v) {
+                count++;
                 if ($(this).text() != 0) {
                     sum += +parseFloat($(this).text());
-                    count++;
                 }
             })
             // console.log(sum);
