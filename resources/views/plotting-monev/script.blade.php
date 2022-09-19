@@ -1,6 +1,7 @@
 <script>
     $(document).ready(function () {
-        $('#tableMonev').DataTable();
+        var plotMonev = $('#tableMonev').DataTable();
+
         $('#tableKri').DataTable({
             autoWidth: false,
         });

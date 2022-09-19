@@ -229,7 +229,7 @@ class PlottingMonevController extends Controller
 
     public function detailPlot(Request $request)
     {
-        $pltMnv = PlottingMonev::where('nik_pemonev', $request->get('nik'))->where('semester', $request->get('smt'))->paginate(6);
+        $pltMnv = PlottingMonev::where('nik_pemonev', $request->get('nik'))->where('semester', $request->get('smt'))->paginate(6)->withQueryString();
         $kary = KaryawanDosen::where('nik',$request->get('nik') )->first();
         $arrPlot = $pltMnv->pluck('id')->toArray();
         $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();

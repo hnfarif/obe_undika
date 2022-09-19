@@ -2,6 +2,7 @@
 @section('plottingmonev', 'active')
 @section('', 'active')
 @section('content')
+
 <div class="main-wrapper container">
     @include('layouts.navbar')
     <div class="main-content">
@@ -24,7 +25,7 @@
                                 <h4>Form Plotting Monev</h4>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('monev.plotting.store') }}" method="POST">
+                                <form action="{{ route('monev.plotting.store') }}" method="POST" id="formPlotting">
                                     @csrf
                                     @method('POST')
                                     <input type="hidden" name="nikAdm" value="{{ auth()->user()->nik }}">
@@ -63,16 +64,19 @@
                                         <table class="table table-striped table-responsive" id="tableMonev"
                                             width="100%">
                                             <thead>
-                                                <th>Prodi</th>
-                                                <th>Kode Mata Kuliah</th>
-                                                <th>Nama Mata Kuliah</th>
-                                                <th>Kelas</th>
-                                                <th>Hari</th>
-                                                <th>NIK</th>
-                                                <th>Nama Dosen</th>
-                                                <th>Mahasiswa</th>
-                                                <th>Ruang</th>
-                                                <th>Pilih</th>
+                                                <tr>
+                                                    <th>Prodi</th>
+                                                    <th>Kode Mata Kuliah</th>
+                                                    <th>Nama Mata Kuliah</th>
+                                                    <th>Kelas</th>
+                                                    <th>Hari</th>
+                                                    <th>NIK</th>
+                                                    <th>Nama Dosen</th>
+                                                    <th>Mahasiswa</th>
+                                                    <th>Ruang</th>
+                                                    <th> <input type="checkbox" class="selectAll" id="selectAll"></th>
+                                                </tr>
+
                                             </thead>
                                             <tbody>
                                                 @foreach ($jdwkul as $i)
@@ -88,9 +92,9 @@
                                                     <td>{{ $i->ruang_id }}</td>
                                                     <td>
                                                         <div class="custom-control custom-checkbox checkbox-xl">
-                                                            <input type="checkbox" name="mk_monev[]"
+                                                            <input type="checkbox"
                                                                 value="{{ $i->kary_nik.'-'.$i->klkl_id.'-'.$i->prodi }}"
-                                                                class="custom-control-input"
+                                                                class="custom-control-input cl"
                                                                 id="listMonev-{{ $loop->iteration }}">
                                                             <label class="custom-control-label"
                                                                 for="listMonev-{{ $loop->iteration }}"></label>
@@ -104,7 +108,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-primary btnSave">Simpan</button>
                                     </div>
 
                                 </form>
