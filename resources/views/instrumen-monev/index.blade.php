@@ -30,12 +30,8 @@
                                 <span class="selectgroup-button">Instrumen Nilai CLO</span>
                             </label>
                             <label class="selectgroup-item">
-                                <input type="radio" name="optMon" value="bap" class="selectgroup-input">
-                                <span class="selectgroup-button">BAP</span>
-                            </label>
-                            <label class="selectgroup-item">
                                 <input type="radio" name="optMon" value="rps" class="selectgroup-input">
-                                <span class="selectgroup-button">RPS</span>
+                                <span class="selectgroup-button">Kesesuaian BAP dan RPS</span>
                             </label>
                         </div>
                     </div>
@@ -492,53 +488,7 @@
 
                     </div>
                 </div>
-                <div class="row d-none bap">
-                    <div class="col-12 col-md-6 col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Berita Acara Perkuliahan</h4>
-                            </div>
-                            <div class="card-body">
 
-                                <table class="table table-striped table-responsive" width="100%" id="bap">
-                                    <thead>
-                                        <tr>
-                                            <th>Pertemuan</th>
-                                            <th>Tujuan</th>
-                                            <th>Pokok Bahasan</th>
-                                            <th>Realisasi</th>
-                                            <th>Catatan</th>
-                                            <th>Tanggal Entry</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($dtlBap->sortBy('kode_bap') as $db)
-                                        <tr>
-                                            <td>{{ $bapCol->where('kode_bap', $db->kode_bap)->first()->pertemuan ?? '' }}</td>
-                                            <td> {{ $bapCol->where('kode_bap', $db->kode_bap)->first()->tujuan ?? '-' }}</td>
-                                            <td>
-                                                {{ $bapCol->where('kode_bap', $db->kode_bap)->first()->pokok_bahasan ?? '-' }}
-                                            </td>
-                                            <td>
-                                                {{ $db->realisasi }}
-                                            </td>
-                                            <td>
-                                                {{ $db->catatan ?? '-' }}
-                                            </td>
-                                            <td>
-                                                {{ $db->convertDate($db->waktu_entry) }}
-                                            </td>
-                                        </tr>
-                                        @endforeach
-
-
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row d-none rps">
                     <div class="col-12 col-md-12 col-lg-12">
                         <div class="card ">
@@ -549,217 +499,107 @@
                                 <table class="table table-striped table-responsive" id="tableRps" width="100%">
                                     <thead>
                                         <tr class="text-center">
-                                            <th rowspan="2" class="align-middle">
+                                            <th  class="align-middle">
                                                 Minggu Ke
                                             </th>
-                                            <th rowspan="2" class="align-middle">Kode CLO</th>
-                                            <th rowspan="2" class="align-middle">
-                                                <div style="min-width: 150px;">
-                                                    Kode LLO
-                                                </div>
+                                            <th class="align-middle">Kode CLO</th>
+                                            <th class="align-middle">
+                                                Kode LLO
                                             </th>
-                                            <th rowspan="2" class="align-middle">
-                                                <div style="min-width: 150px;">
-                                                    Bentuk Penilaian
-                                                </div>
-                                            </th>
-                                            <th rowspan="2" class="align-middle">
-                                                <div style="min-width: 150px;">
-                                                    Pengalaman Belajar
-                                                </div>
-                                            </th>
-                                            <th rowspan="2" class="align-middle">
-                                                <div style="min-width: 150px;">
-                                                    Materi
-                                                </div>
-                                            </th>
-                                            <th rowspan="2" class="align-middle">
-                                                <div style="min-width: 150px;">
-                                                    Metode
-                                                </div>
-                                            </th>
-                                            <th colspan="4" class="align-middle">
-
-                                                <div style="min-width: 150px;">
-                                                    Kuliah (menit/mg)
-                                                </div>
-                                            </th>
-                                            <th rowspan="2" class="align-middle">
-                                                Responsi dan Tutorial
-                                                (menit/mg)
-
-                                            </th>
-                                            <th  rowspan="2" class="align-middle">
-                                                Belajar Mandiri
-                                                (menit/mg)
-
-                                            </th>
-                                            <th  rowspan="2" class="align-middle">
-                                                Praktikum
-                                                (menit/mg)
-
-                                            </th>
-                                            <th  rowspan="2" class="align-middle" style="min-width: 80px;">Tanggal</th>
-
-                                        </tr>
-                                        <tr>
-
-                                            <th>
-                                                *TM
-
-                                            </th>
-                                            <th>
-                                                <div>
-                                                    *SL
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div>
-                                                    *ASL
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div>
-                                                    *ASM
-                                                </div>
-                                            </th>
+                                            <th class="align-middle">Realisasi</th>
+                                            <th class="align-middle">Tanggal Entry</th>
+                                            <th class="align-middle">Kesesuaian</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         @foreach ($agenda as $key => $i)
+
                                         <tr>
                                             <td class="text-center">
-                                                {{ $i->agendaBelajar->pekan }}
-                                                @if ($i->agendaBelajar->pekan == 8)
-                                                (Ujian Tengah Semester)
-                                                @elseif ($i->agendaBelajar->pekan == 16)
-                                                (Ujian Akhir Semester)
+                                                @if ($i->pekan == 8)
+                                                {{ $i->pekan }} (UTS)
+                                                @elseif ($i->pekan == 16)
+                                                {{ $i->pekan }} (UAS)
+                                                @else
+                                                {{ $i->pekan }}
                                                 @endif
                                             </td>
                                             <td class="text-center">
-                                                {{ $i->clo->kode_clo}}
+                                                @foreach ($i->detailAgendas->unique('clo_id') as $key => $d)
+                                                <p>
+
+                                                    {!! $d->clo->kode_clo.'<br>' !!}
+                                                </p>
+                                                @endforeach
                                             </td>
-                                            <td class="">
-                                                @if ($i->llo_id)
+                                            <td>
+                                                @foreach ($i->detailAgendas as $key => $d)
+                                                @if ($d->llo_id)
+                                                @if ($d->praktikum)
 
-
-                                                @if ($i->praktikum)
-
-                                                {!! '<b>'.$i->llo->kode_llo.'</b>
-                                                <br>'.$i->llo->deskripsi_prak.'<br> <b>Ketercapaian
-                                                    '.$i->llo->kode_llo.'</b>
-                                                <br>'.$i->capaian_llo !!}
+                                                {!! '<b>'.$d->llo->kode_llo.' (praktikum) </b>
+                                                <br>'.$d->llo->deskripsi_prak.'<br> <b>Ketercapaian
+                                                    '.$d->llo->kode_llo.'</b>
+                                                <br>'.$d->capaian_llo !!}
 
                                                 @else
-                                                {!! '<b>'.$i->llo->kode_llo.'</b> <br>'.$i->llo->deskripsi.'<br>
-                                                <b>Ketercapaian '.$i->llo->kode_llo.'</b> <br>'.$i->capaian_llo !!}
+
+                                                {!! '<b>'.$d->llo->kode_llo.'</b> <br>'.$d->llo->deskripsi.'<br>
+                                                <b>Ketercapaian '.$d->llo->kode_llo.'</b> <br>'.$d->capaian_llo !!}
                                                 @endif
+                                                @else
+                                                -
+                                                @endif
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @php
+                                                    $kodeBap = $bap->where('pertemuan', $i->pekan)->first()->kode_bap ?? '';
+                                                @endphp
+                                                @if ($kodeBap)
+                                                {{ $dtlBap->where('kode_bap', $kodeBap)->first()->realisasi ?? '' }}
                                                 @else
                                                 -
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($i->penilaian_id)
-                                                {!! '<b>'.$i->penilaian->btk_penilaian.' :
-                                                    '.$i->bobot.'%</b><br>'.$i->deskripsi_penilaian !!}
+                                                @if ($kodeBap)
+                                                {{ $dtlBap->where('kode_bap', $kodeBap)->first()->waktu_entry ?? '' }}
                                                 @else
-                                                <b>-</b>
+                                                -
+                                                @endif
+                                            </td>
+                                            <td class="d-flex">
+                                                @php
+                                                    $nilai = $dtlInsMon->where('agd_id', $i->id)->first()->nilai ?? null;
+                                                @endphp
+                                                @if (!($i->pekan == '8' || $i->pekan == '16'))
+                                                    @if ($nilai)
+                                                        @if($nilai == '1')
+                                                            <span class="badge badge-primary">Sesuai</span>
+                                                        @else
+                                                            <span class="badge badge-danger">Tidak Sesuai</span>
+                                                        @endif
+                                                    @else
+                                                        @if ($week >= $i->pekan)
+                                                            <button class="btn btn-primary mr-2"><i class="fas fa-check"></i> Sesuai</button>
+                                                            <button class="btn btn-danger"><i class="fas fa-times"></i> Tidak</button>
+                                                            @else
+                                                            <span class="badge badge-info">Belum waktunya penyesuaian</span>
+                                                        @endif
+                                                    @endif
                                                 @endif
 
-                                            </td>
-                                            <td>
-                                                @foreach ($i->materiKuliahs as $mk)
-                                                @if ($mk->status == "pbm")
 
-                                                {!! '- '.$mk->deskripsi_pbm.'<br>' !!}
-                                                @endif
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                <b>Kajian : </b><br>
-                                                @foreach ($i->materiKuliahs as $mk)
-                                                @if ($mk->status == "kajian")
-
-                                                {!! '- '.$mk->kajian.'<br>' !!}
-                                                @endif
-                                                @endforeach
-                                                <br>
-
-                                                <b>Materi : </b><br>
-                                                @foreach ($i->materiKuliahs as $mk)
-                                                @if ($mk->status == "materi")
-
-                                                {!! '- '.$mk->materi.'<br>' !!}
-                                                @endif
-                                                @endforeach
-                                                <br>
-
-                                                <b>Pustaka : </b><br>
-                                                @foreach ($i->materiKuliahs as $mk)
-                                                @if ($mk->status == "pustaka")
-                                                {!! '- '.$mk->jdl_ptk.', bab '.$mk->bab_ptk.', hal '.$mk->hal_ptk.'<br>'
-                                                !!}
-                                                @endif
-                                                @endforeach
-                                                <br>
-
-                                                <b>Media Pembelajaran : </b><br>
-                                                @foreach ($i->materiKuliahs as $mk)
-                                                @if ($mk->status == "media")
-
-                                                {!! '- '.$mk->media_bljr.'<br>' !!}
-                                                @endif
-                                                @endforeach
-                                                <br>
-                                            </td>
-                                            <td>
-                                                @foreach ($i->materiKuliahs as $mk)
-                                                @if ($mk->status == "metode")
-
-                                                {!! '- '.$mk->mtd_bljr.'<br>' !!}
-                                                @endif
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                {{ $i->tm }}
-                                            </td>
-                                            <td>
-                                                {{ $i->sl }}
-                                            </td>
-                                            <td>
-                                                {{ $i->asl }}
-                                            </td>
-                                            <td>
-                                                {{ $i->asm }}
-                                            </td>
-                                            <td>
-                                                {{ $i->res_tutor }}
-                                            </td>
-                                            <td>
-                                                {{ $i->bljr_mandiri }}
-                                            </td>
-                                            <td>
-                                                {{ $i->praktikum }}
-                                            </td>
-                                            <td>
-                                                @if ($i->penilaian_id)
-
-                                                {{ $i->agendaBelajar->getTglNilaiAttribute($i->agendaBelajar->tgl_nilai) }}
-                                                @endif
                                             </td>
                                         </tr>
-
                                         @endforeach
                                     </tbody>
 
                                 </table>
                             </div>
-                            @if ($agenda->hasPages())
-                            <div class="pagination-wrapper d-flex justify-content-end">
-                                {{ $agenda->links() }}
-                            </div>
-                            @endif
+
                         </div>
                     </div>
                 </div>

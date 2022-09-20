@@ -8,64 +8,15 @@
         var sumMhsCapai = 0;
         var sumMhsNoCapai = 0;
 
-        // var tableRps = $('#tableRps').DataTable({
-        //     scrollY: 500,
-        //     scrollX: true,
-        //     scroller: true,
-        //     autoWidth: false,
-        //     columns: [{
-        //             width: "100px"
-        //         },
-        //         {
-        //             width: "100px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //         {
-        //             width: "150px"
-        //         },
-        //     ],
-        //     columnDefs: [{
-        //         type: 'natural',
-        //         targets: 0
-        //     }]
-        // });
+        var tableRps = $('#tableRps').DataTable({
+            'responsive': true,
+            'autoWidth': false,
+            columnDefs: [{
+                type: 'natural',
+                targets: 0
+            }]
+        });
 
-        // tableRps.columns.adjust().draw();
 
 
         $('#tableMonevKri2').DataTable({

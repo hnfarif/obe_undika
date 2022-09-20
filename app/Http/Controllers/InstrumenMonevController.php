@@ -82,12 +82,8 @@ class InstrumenMonevController extends Controller
             $endFill = Carbon::parse($startFill)->addDays(14);
 
             //data RPS
-            $agenda = DetailAgenda::whereHas('agendaBelajar', function($q) use ($rps){
-                $q->where('rps_id', $rps->id);
-            })->with('penilaian','agendaBelajar', 'clo', 'llo', 'materiKuliahs')
-            ->orderBy('agd_id', 'asc')
-            ->orderBy('clo_id', 'asc')
-            ->paginate(5);
+            $agenda = AgendaBelajar::where('rps_id', $cekInsNilai->rps_id)->with('detailAgendas')
+            ->orderBy('pekan', 'asc')->get();
 
             $clo = Clo::where('rps_id', $rps->id)->orderBy('id')->get();
             $penilaian = Penilaian::where('rps_id', $rps->id)->get();
@@ -99,13 +95,28 @@ class InstrumenMonevController extends Controller
             $krs = Krs::where('jkul_klkl_id', $cekInsNilai->klkl_id)->where('jkul_kelas', $jdw->kelas)->where('kary_nik', $jdw->kary_nik)->with('mahasiswa')->get();
             $jmlMhs = $krs->count();
             $jmlPre = $krs->where('sts_pre', '1')->count();
-            $bapCol = Bap::where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->get();
-            $bap = Bap::where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->pluck('kode_bap')->toArray();
-            $dtlBap = DetailBap::whereIn('kode_bap', $bap)->where('kelas', $jdw->kelas)->where('semester', $smt->smt_aktif)->where('nik', $plot->nik_pengajar)->get();
+            $dtlBap = DetailBap::where('nik', $cekInsNilai->nik)->get();
+            $plDtlBap = $dtlBap->pluck('kode_bap')->toArray();
+            $bap = Bap::whereIn('kode_bap', $plDtlBap)->where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->get();
 
 
+            // mencari pertemuan sesuai tanggal
+            $kul = MingguKuliah::where('smt', $plot->semester)->get();
 
-            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bapCol', 'rps', 'agenda', 'clo', 'penilaian', 'llo', 'plot'));
+            $week = '';
+            foreach ($kul as $k) {
+                $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
+                $weekEndDate = Carbon::parse($k->tgl_akhir)->format('Y-m-d');
+
+                if ($now >= $weekStartDate && $now <= $weekEndDate) {
+                    $week = $k->minggu_ke;
+                    break;
+                }
+
+            }
+
+
+            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bap', 'rps', 'agenda', 'clo', 'penilaian', 'llo', 'plot', 'week'));
         }else{
             Session::flash('message', 'Buat instrumen monev gagal, karena dosen belum membuat instrumen penilaian CLO!');
             Session::flash('alert-class', 'alert-danger');

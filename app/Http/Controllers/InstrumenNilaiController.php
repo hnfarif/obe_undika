@@ -95,6 +95,7 @@ class InstrumenNilaiController extends Controller
         }
         $jdw = JadwalKuliah::where('klkl_id', $instru->klkl_id)->where('kary_nik', $instru->nik)->where('sts_kul', '1')->first();
 
+        // ada kolom jenis semester harus diperhatikan
         $kul = MingguKuliah::where('smt', $instru->semester)->get();
 
         $week = '';

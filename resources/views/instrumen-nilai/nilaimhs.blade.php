@@ -335,50 +335,6 @@
                 </div>
 
                 <div class="row rangClo d-none">
-                    <div class="col-12 col-lg-6 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <table class="table-sm table-bordered" width="100%">
-                                    <thead>
-                                        <tr class="align-middle text-center">
-                                            <th>Total CLO Tercapai</th>
-                                            <th class="ttlCapai"></th>
-                                            <th class="preCapai"></th>
-
-                                        </tr>
-                                        <tr class="align-middle text-center">
-                                            <th>Total CLO Tidak Tercapai</th>
-                                            <th class=" ttlNoCapai"></th>
-                                            <th class="preNoCapai"></th>
-                                        </tr>
-                                    </thead>
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <table class="table-sm table-bordered" width="100%">
-                                    <thead>
-                                        <tr class="align-middle text-center">
-                                            <th>Total MHS Mencapai CLO</th>
-                                            <th style="min-width: 100px;" class="ttlMhsCapai"></th>
-                                            <th class="preMhsCapai"></th>
-
-                                        </tr>
-                                        <tr class="align-middle text-center">
-                                            <th style="min-width: 250px;">Total MHS Tidak Mencapai CLO</th>
-                                            <th class=" ttlMhsNoCapai"></th>
-                                            <th class="preMhsNoCapai"></th>
-                                        </tr>
-                                    </thead>
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-12 col-md-12 col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -443,7 +399,16 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="col-12 col-lg-6 col-md-12 mb-5 mr-auto">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Grafik Ketercapaian CLO</h4>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="cloChart" width="20" height="20"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row konvAak d-none">
