@@ -61,6 +61,67 @@ class LaporanBrilianController extends Controller
 
         $decode = json_decode($response->getBody());
         $data = $decode->data;
+
+        foreach ($data as $key => $value) {
+
+            if ($value->skor_total >= 0 && $value->skor_total <= 2.49) {
+                $data[$key]->badge = 'Bronze';
+            } elseif ($value->skor_total >= 2.5 && $value->skor_total <= 2.99) {
+                $data[$key]->badge = 'Silver';
+            } elseif ($value->skor_total >= 3 && $value->skor_total <= 3.49) {
+                $data[$key]->badge = 'Gold';
+            } elseif ($value->skor_total >= 3.5 && $value->skor_total <= 4) {
+                $data[$key]->badge = 'Diamond';
+            }
+
+        }
+
+        //count when when badge include each data badge
+        $cnBronze = collect($data)->where('badge', 'Bronze')->count();
+        $cnSilver = collect($data)->where('badge', 'Silver')->count();
+        $cnGold = collect($data)->where('badge', 'Gold')->count();
+        $cnDiamond = collect($data)->where('badge', 'Diamond')->count();
+
+        // percentage of each badge
+        $prBronze = round($cnBronze / count($data) * 100);
+        $prSilver = round($cnSilver / count($data) * 100);
+        $prGold = round($cnGold / count($data) * 100);
+        $prDiamond = round($cnDiamond / count($data) * 100);
+
+        // divided the skor total by count each badge
+        $avgBronze = round(collect($data)->where('badge', 'Bronze')->avg('skor_total'), 2);
+        $avgSilver = round(collect($data)->where('badge', 'Silver')->avg('skor_total'), 2);
+        $avgGold = round(collect($data)->where('badge', 'Gold')->avg('skor_total'), 2);
+        $avgDiamond = round(collect($data)->where('badge', 'Diamond')->avg('skor_total'), 2);
+
+        $rangBadge = [
+            [
+                'nama' => 'Bronze',
+                'jumlah' => $cnBronze,
+                'persen' => $prBronze,
+                'avg' => $avgBronze,
+            ],
+            [
+                'nama' => 'Silver',
+                'jumlah' => $cnSilver,
+                'persen' => $prSilver,
+                'avg' => $avgSilver,
+            ],
+            [
+                'nama' => 'Gold',
+                'jumlah' => $cnGold,
+                'persen' => $prGold,
+                'avg' => $avgGold,
+            ],
+            [
+                'nama' => 'Diamond',
+                'jumlah' => $cnDiamond,
+                'persen' => $prDiamond,
+                'avg' => $avgDiamond,
+            ],
+        ];
+
+        // dd($data);
         if (isset($filter['fakultas'])) {
             $filProdi = Prodi::whereIn('id_fakultas', $filter['fakultas'])->pluck('id')->toArray();
             $data = array_filter($data, function ($item) use ($filProdi) {
@@ -111,7 +172,7 @@ class LaporanBrilianController extends Controller
         $weekId = $week->pluck('id')->toArray();
         $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->get();
 
-        return view('laporan.brilian.index', compact('data','indikator', 'week', 'smt','dtlBri', 'fak', 'prodi', 'kary', 'badges'));
+        return view('laporan.brilian.index', compact('data','indikator', 'week', 'smt','dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges'));
     }
 
     public function store(Request $request)

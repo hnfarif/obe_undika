@@ -392,7 +392,7 @@
             datasets: [{
 
                     backgroundColor: ['#277BC0', '#89CFFD'],
-                    data: [20, sumNoCapai]
+                    data: [sumCapai, sumNoCapai]
                 },
                 {
 

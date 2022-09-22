@@ -31,9 +31,8 @@ class PlottingMonevController extends Controller
         $prodi = Prodi::all();
         $kary = KaryawanDosen::all();
 
-        $smt = Semester::pluck('smt_aktif')->toArray();
-        $smtUn = array_unique($smt);
-        $pltMnv = PlottingMonev::whereIn('semester', $smtUn)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
+        $smt = Semester::where('fak_id', '41010')->first();
+        $pltMnv = PlottingMonev::where('semester', $smt->smt_aktif)->fakultas()->prodi()->dosen()->name()->get();
         $kri = KriteriaMonev::all();
         return view('plotting-monev.index', compact('pltMnv', 'kri', 'fak', 'prodi', 'kary'));
     }

@@ -119,8 +119,8 @@
                                                     {{ number_format($dtlBri->where('brilian_week_id', $w->id)->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()->nilai, 1) ?? '' }}
                                                 </td>
                                                 @endforeach
-                                                <td class="badges" data-prodi="{{ $d->prodi }}">
-
+                                                <td>
+                                                    {{ $d->badge }}
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -147,13 +147,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($badges as $b)
+                                            @foreach ($rangBadge as $b)
 
                                             <tr>
                                                 <td>{{ $b['nama'] }}</td>
-                                                <td class="jmlBadges"></td>
-                                                <td class="proBadges"></td>
-                                                <td class="nilaiBadges"></td>
+                                                <td>{{ $b['jumlah'] }}</td>
+                                                <td>{{ $b['persen'] }}</td>
+                                                <td>{{ $b['avg'] }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
