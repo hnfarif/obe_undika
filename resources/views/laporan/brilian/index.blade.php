@@ -116,7 +116,7 @@
                                                 @foreach ($week as $w)
 
                                                 <td>
-                                                    {{ number_format($dtlBri->where('brilian_week_id', $w->id)->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()->nilai, 1) ?? '' }}
+                                                    {{ number_format($dtlBri->where('brilian_week_id', $w->id)->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()->nilai, 2) ?? '' }}
                                                 </td>
                                                 @endforeach
                                                 <td>
@@ -181,38 +181,39 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($fak as $f)
+                                            @foreach ($rataFak as $f)
                                             <tr>
 
-                                                <td>{{ $f->nama }}</td>
+                                                <td>{{ $f['nama'] }}</td>
                                                 <td>
-                                                    @foreach ($badges as $b)
+                                                    @foreach ($f['kategori'] as $k)
                                                     <div class="my-3">
 
-                                                        {{ $b['nama'] }}
+                                                        {{ $k['nama'] }}
                                                     </div>
                                                     @endforeach
                                                 </td>
                                                 <td>
-                                                    @foreach ($badges as $b)
-                                                    <div class="jmlKelas my-3">
+                                                    @foreach ($f['kategori'] as $k)
+                                                    <div class="my-3">
 
+                                                        {{ $k['jumlah'] }}
                                                     </div>
                                                     @endforeach
                                                 </td>
                                                 <td>
-                                                    @foreach ($badges as $b)
+                                                    @foreach ($f['kategori'] as $k)
                                                     <div class="my-3">
 
-                                                        50
+                                                        {{ $k['persen'] }}
                                                     </div>
                                                     @endforeach
                                                 </td>
                                                 <td>
-                                                    @foreach ($badges as $b)
+                                                    @foreach ($f['kategori'] as $k)
                                                     <div class="my-3">
 
-                                                        50
+                                                        {{ $k['nilai'] }}
                                                     </div>
                                                     @endforeach
                                                 </td>
