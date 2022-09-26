@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use PDF;
+use iio\libmergepdf\Merger;
+
 class LaporanBrilianController extends Controller
 {
     public function index()
@@ -381,16 +383,28 @@ class LaporanBrilianController extends Controller
             $filProdi = null;
         }
 
+        $m = new Merger();
+
         $pdf = PDF::loadView('laporan.brilian.export-pdf', ['rangBadge' => request('rangBadge'),
         'rataFak' => request('rataFak'),
         'rataProdi' => request('rataProdi'),
-        'prodi' => $filProdi,
-        'data' => request('data'),
+
+        ]);
+
+        $m->addRaw($pdf->output());
+
+        $pdf2 = PDF::loadView('laporan.brilian.export-pdf-2', ['data' => request('data'),
         'indikator' => request('indikator'),
         'week' => request('pekan'),
         'dtlBri' => request('dtlBri'),
-        ]);
+        'prodi' => $filProdi,
+        ])->setPaper('a4', 'landscape');
 
-        return $pdf->stream('laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf');
+        $m->addRaw($pdf2->output());
+
+        $pdfMerge = file_put_contents('laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf', $m->merge());
+
+        // return $pdf->stream('laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf');
+        return response()->download('laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf');
     }
 }
