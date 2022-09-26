@@ -51,56 +51,7 @@
 
         });
 
-        // $('.jmlBadges').each(function () {
-        //     var sum = 0;
-        //     var badges = $(this).prev().text();
-        //     $('.badges').each(function () {
-        //         var bdg = $(this).text();
-        //         if (bdg == badges) {
-        //             sum++;
-        //         }
-        //     })
-        //     $(this).text(sum);
-        // })
 
-        // $('.proBadges').each(function () {
-        //     var sum = 0;
-        //     var pro = 0;
-        //     var jml = parseFloat($(this).prev().text());
-        //     $('.badges').each(function () {
-        //         sum++;
-        //     })
-
-        //     pro = jml / sum * 100;
-        //     $(this).text(pro.toFixed(2));
-        // })
-
-        // $('.nilaiBadges').each(function () {
-        //     var jmlNa = 0;
-        //     var jmlBadges = parseFloat($(this).prev().prev().text());
-        //     var badges = $(this).prev().prev().prev().text();
-        //     $('.badges').each(function () {
-        //         var bdg = $(this).text();
-        //         if (bdg == badges) {
-        //             jmlNa += parseFloat($(this).prev().text());
-
-        //         }
-        //     })
-        //     var nilai = jmlNa / jmlBadges;
-        //     $(this).text(nilai.toFixed(2));
-        // })
-
-        // $('.jmlKelas').each(function () {
-        //     var sum = 0;
-        //     var badges = $(this).data('badges');
-        //     $('.badges').each(function () {
-        //         var bdg = $(this).text();
-        //         if (bdg == badges && ) {
-        //             sum++;
-        //         }
-        //     })
-        //     $(this).text(sum);
-        // })
     });
 
 </script>

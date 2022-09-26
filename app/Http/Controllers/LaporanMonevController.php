@@ -44,7 +44,7 @@ class LaporanMonevController extends Controller
             $filProdi = null;
         }
 
-        $pdf = PDF::loadView('laporan.monev.export-pdf', ['fakul' => Fakultas::with('prodis')->get(),
+        $pdf = PDF::loadView('laporan.brilian.export-pdf', ['fakul' => Fakultas::with('prodis')->get(),
         'kri' => KriteriaMonev::orderBy('id', 'asc')->get(),
         'jdw' => JadwalKuliah::with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get(),
         'prodi' => $filProdi

@@ -11,7 +11,7 @@ use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-
+use PDF;
 class LaporanBrilianController extends Controller
 {
     public function index()
@@ -169,6 +169,7 @@ class LaporanBrilianController extends Controller
         // rata-rata penggunaan brilian per fakultas
 
         $rataFak = [];
+        $rataProdi = [];
         // get fakultas dari prodi
         foreach ($fak as $f) {
             $prodis = $prodi->where('id_fakultas', $f->id)->pluck('id')->toArray();
@@ -200,6 +201,7 @@ class LaporanBrilianController extends Controller
                         'nilai' => 0,
                     ],
                 ],
+                'nilai_akhir' => 0,
 
             ];
 
@@ -237,10 +239,10 @@ class LaporanBrilianController extends Controller
 
             $countAllJumlah = $rataFak[$f->id]['kategori'][0]['jumlah'] + $rataFak[$f->id]['kategori'][1]['jumlah'] + $rataFak[$f->id]['kategori'][2]['jumlah'] + $rataFak[$f->id]['kategori'][3]['jumlah'];
             //percentage of each fakultas
-            $rataFak[$f->id]['kategori'][0]['persen'] = round($rataFak[$f->id]['kategori'][0]['jumlah'] / $countAllJumlah, 3) * 100;
-            $rataFak[$f->id]['kategori'][1]['persen'] = round($rataFak[$f->id]['kategori'][1]['jumlah'] / $countAllJumlah, 3) * 100;
-            $rataFak[$f->id]['kategori'][2]['persen'] = round($rataFak[$f->id]['kategori'][2]['jumlah'] / $countAllJumlah , 3) * 100;
-            $rataFak[$f->id]['kategori'][3]['persen'] = round($rataFak[$f->id]['kategori'][3]['jumlah'] / $countAllJumlah , 3) * 100;
+            $rataFak[$f->id]['kategori'][0]['persen'] = $countAllJumlah == 0 ? 0 : round($rataFak[$f->id]['kategori'][0]['jumlah'] / $countAllJumlah, 3) * 100;
+            $rataFak[$f->id]['kategori'][1]['persen'] = $countAllJumlah == 0 ? 0 : round($rataFak[$f->id]['kategori'][1]['jumlah'] / $countAllJumlah, 3) * 100;
+            $rataFak[$f->id]['kategori'][2]['persen'] = $countAllJumlah == 0 ? 0 : round($rataFak[$f->id]['kategori'][2]['jumlah'] / $countAllJumlah , 3) * 100;
+            $rataFak[$f->id]['kategori'][3]['persen'] = $countAllJumlah == 0 ? 0 : round($rataFak[$f->id]['kategori'][3]['jumlah'] / $countAllJumlah , 3) * 100;
 
             //average skor_total of each fakultas
             $rataFak[$f->id]['kategori'][0]['nilai'] = $rataFak[$f->id]['kategori'][0]['jumlah'] == 0 ? 0 : round($rataFak[$f->id]['kategori'][0]['nilai'] / $rataFak[$f->id]['kategori'][0]['jumlah'], 2);
@@ -251,19 +253,97 @@ class LaporanBrilianController extends Controller
 
             $rataFak[$f->id]['kategori'][3]['nilai'] = $rataFak[$f->id]['kategori'][3]['jumlah'] == 0 ? 0 : round($rataFak[$f->id]['kategori'][3]['nilai'] / $rataFak[$f->id]['kategori'][3]['jumlah'], 2);
 
+            // final result of each fakultas
+            $rataFak[$f->id]['nilai_akhir'] = $countAllJumlah == 0 ? 0 : round((($rataFak[$f->id]['kategori'][0]['nilai'] * $rataFak[$f->id]['kategori'][0]['jumlah']) + ($rataFak[$f->id]['kategori'][1]['nilai'] * $rataFak[$f->id]['kategori'][1]['jumlah'] ) + ($rataFak[$f->id]['kategori'][2]['nilai'] * $rataFak[$f->id]['kategori'][2]['jumlah'] ) + ($rataFak[$f->id]['kategori'][3]['nilai'] * $rataFak[$f->id]['kategori'][3]['jumlah'] )) / $countAllJumlah, 2);
+
 
 
 
         }
 
+        foreach($prodi as $p){
+            $rataProdi[$p->id] = [
+                'nama' => $p->nama,
+                'kategori' => [
+                    [
+                        'nama' => 'Bronze',
+                        'jumlah' => 0,
+                        'nilai' => 0,
+                        'persen' => 0
+                    ],
+                    [
+                        'nama' => 'Silver',
+                        'jumlah' => 0,
+                        'nilai' => 0,
+                        'persen' => 0
+                    ],
+                    [
+                        'nama' => 'Gold',
+                        'jumlah' => 0,
+                        'nilai' => 0,
+                        'persen' => 0
+                    ],
+                    [
+                        'nama' => 'Diamond',
+                        'jumlah' => 0,
+                        'nilai' => 0,
+                        'persen' => 0
+                    ]
+                ],
+                'nilai_akhir' => 0
+            ];
+
+            foreach($data as $value){
+                if(stripos($value->prodi, $p->id) !== false){
+                    $rataProdi[$p->id]['kategori'][0]['jumlah'] += $value->badge == 'Bronze' ? 1 : 0;
+                    $rataProdi[$p->id]['kategori'][1]['jumlah'] += $value->badge == 'Silver' ? 1 : 0;
+                    $rataProdi[$p->id]['kategori'][2]['jumlah'] += $value->badge == 'Gold' ? 1 : 0;
+                    $rataProdi[$p->id]['kategori'][3]['jumlah'] += $value->badge == 'Diamond' ? 1 : 0;
+
+                    $rataProdi[$p->id]['kategori'][0]['nilai'] += $rataProdi[$p->id]['kategori'][0]['jumlah'] == 0 ? 0 : ($value->badge == 'Bronze' ? $value->skor_total : 0);
+
+                    $rataProdi[$p->id]['kategori'][1]['nilai'] += $rataProdi[$p->id]['kategori'][1]['jumlah'] == 0 ? 0 : ($value->badge == 'Silver' ? $value->skor_total : 0);
+
+                    $rataProdi[$p->id]['kategori'][2]['nilai'] += $rataProdi[$p->id]['kategori'][2]['jumlah'] == 0 ? 0 : ($value->badge == 'Gold' ? $value->skor_total : 0);
+
+                    $rataProdi[$p->id]['kategori'][3]['nilai'] += $rataProdi[$p->id]['kategori'][3]['jumlah'] == 0 ? 0 : ($value->badge == 'Diamond' ? $value->skor_total : 0);
+
+                }
+            }
+
+            $countAllJumlah = $rataProdi[$p->id]['kategori'][0]['jumlah'] + $rataProdi[$p->id]['kategori'][1]['jumlah'] + $rataProdi[$p->id]['kategori'][2]['jumlah'] + $rataProdi[$p->id]['kategori'][3]['jumlah'];
+
+            //percentage of each prodi
+            $rataProdi[$p->id]['kategori'][0]['persen'] = $countAllJumlah == 0 ? 0 : round($rataProdi[$p->id]['kategori'][0]['jumlah'] / $countAllJumlah * 100, 2);
+
+            $rataProdi[$p->id]['kategori'][1]['persen'] = $countAllJumlah == 0 ? 0 : round($rataProdi[$p->id]['kategori'][1]['jumlah'] / $countAllJumlah * 100, 2);
+
+            $rataProdi[$p->id]['kategori'][2]['persen'] = $countAllJumlah == 0 ? 0 : round($rataProdi[$p->id]['kategori'][2]['jumlah'] / $countAllJumlah * 100, 2);
+
+            $rataProdi[$p->id]['kategori'][3]['persen'] = $countAllJumlah == 0 ? 0 : round($rataProdi[$p->id]['kategori'][3]['jumlah'] / $countAllJumlah * 100, 2);
+
+            //average of each prodi
+            $rataProdi[$p->id]['kategori'][0]['nilai'] = $rataProdi[$p->id]['kategori'][0]['jumlah'] == 0 ? 0 : round($rataProdi[$p->id]['kategori'][0]['nilai'] / $rataProdi[$p->id]['kategori'][0]['jumlah'], 2);
+
+            $rataProdi[$p->id]['kategori'][1]['nilai'] = $rataProdi[$p->id]['kategori'][1]['jumlah'] == 0 ? 0 : round($rataProdi[$p->id]['kategori'][1]['nilai'] / $rataProdi[$p->id]['kategori'][1]['jumlah'], 2);
+
+            $rataProdi[$p->id]['kategori'][2]['nilai'] = $rataProdi[$p->id]['kategori'][2]['jumlah'] == 0 ? 0 : round($rataProdi[$p->id]['kategori'][2]['nilai'] / $rataProdi[$p->id]['kategori'][2]['jumlah'], 2);
+
+            $rataProdi[$p->id]['kategori'][3]['nilai'] = $rataProdi[$p->id]['kategori'][3]['jumlah'] == 0 ? 0 : round($rataProdi[$p->id]['kategori'][3]['nilai'] / $rataProdi[$p->id]['kategori'][3]['jumlah'], 2);
+
+            //final result of each prodi
+            $rataProdi[$p->id]['nilai_akhir'] = $countAllJumlah == 0 ? 0 : round((($rataProdi[$p->id]['kategori'][0]['nilai'] * $rataProdi[$p->id]['kategori'][0]['jumlah']) + ($rataProdi[$p->id]['kategori'][1]['nilai'] * $rataProdi[$p->id]['kategori'][1]['jumlah']) + ($rataProdi[$p->id]['kategori'][2]['nilai'] * $rataProdi[$p->id]['kategori'][2]['jumlah']) + ($rataProdi[$p->id]['kategori'][3]['nilai'] * $rataProdi[$p->id]['kategori'][3]['jumlah'])) /  $countAllJumlah, 2);
+
+
+        }
 
         $indikator = $decode->indikator_penilaian;
 
-        $week = BrilianWeek::where('semester', $smt)->get();
-        $weekId = $week->pluck('id')->toArray();
+        $pekan = BrilianWeek::where('semester', $smt)->get();
+        $weekId = $pekan->pluck('id')->toArray();
         $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->get();
 
-        return view('laporan.brilian.index', compact('data','indikator', 'week', 'smt','dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak'));
+        return view('laporan.brilian.index', compact('data','indikator', 'smt','dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
     }
 
     public function store(Request $request)
@@ -291,5 +371,26 @@ class LaporanBrilianController extends Controller
 
         return back();
 
+    }
+
+    public function exportPdf()
+    {
+        if (request()->has('prodi')) {
+            $filProdi = Prodi::whereIn('id', request('prodi'))->get();
+        } else {
+            $filProdi = null;
+        }
+
+        $pdf = PDF::loadView('laporan.brilian.export-pdf', ['rangBadge' => request('rangBadge'),
+        'rataFak' => request('rataFak'),
+        'rataProdi' => request('rataProdi'),
+        'prodi' => $filProdi,
+        'data' => request('data'),
+        'indikator' => request('indikator'),
+        'week' => request('pekan'),
+        'dtlBri' => request('dtlBri'),
+        ]);
+
+        return $pdf->stream('laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf');
     }
 }

@@ -32,15 +32,20 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row brilian">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4>Daftar Penggunaan Brilian</h4>
-                                <form action="{{ route('laporan.brilian.store') }}" method="POST" class="ml-auto mr-3">
+                                <a target="_blank"
+                                    href="{{ route('laporan.brilian.exportPdf', ['pekan' => json_decode($pekan), 'rangBadge' => $rangBadge, 'rataFak' => $rataFak, 'rataProdi' => $rataProdi, 'indikator' => $indikator, 'data' => $data, 'prodi' => request('prodi'), 'dtlBri' => json_decode($dtlBri)]) }}"
+                                    class="btn btn-danger ml-auto  mr-3">
+                                    <i class="fas fa-file-pdf"></i> Export PDF </a>
+                                <form action="{{ route('laporan.brilian.store') }}" method="POST" class="mr-3">
                                     @csrf
 
-                                    <input type="hidden" value="{{ $week->count() + 1 }}" name="minggu">
+                                    <input type="hidden" value="{{ $pekan->count() + 1 }}" name="minggu">
                                     <input type="hidden" value="{{ $smt }}" name="semester">
 
                                     @foreach ($data as $item)
@@ -52,7 +57,7 @@
                                     @endforeach
 
                                     <button class="btn btn-success" type="submit">
-                                        <i class="fas fa-plus"></i> Tambah nilai minggu {{ $week->count() + 1 }}
+                                        <i class="fas fa-plus"></i> Tambah nilai minggu {{ $pekan->count() + 1 }}
                                     </button>
                                 </form>
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#filterBrilian">
@@ -76,7 +81,7 @@
                                                 @endforeach
                                                 <th rowspan="2">Skor Total</th>
 
-                                                @foreach ($week as $w)
+                                                @foreach ($pekan as $w)
 
                                                 <th rowspan="2">{{ 'Nilai Minggu ke '.$w->minggu_ke }}</th>
                                                 @endforeach
@@ -113,7 +118,7 @@
                                                 <td>
                                                     {{ $d->skor_total }}
                                                 </td>
-                                                @foreach ($week as $w)
+                                                @foreach ($pekan as $w)
 
                                                 <td>
                                                     {{ number_format($dtlBri->where('brilian_week_id', $w->id)->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()->nilai, 2) ?? '' }}
@@ -162,11 +167,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="section-title mt-0">Rata-Rata Penggunaan Brilian</div>
                     <div class="col-12 col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Rata-Rata Penggunaan Brilian</h4>
-
+                                <h4>Fakultas</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -178,6 +183,7 @@
                                                 <th>Jumlah Kelas</th>
                                                 <th>%</th>
                                                 <th>Nilai</th>
+                                                <th>Nilai Akhir Fakultas</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -216,6 +222,76 @@
                                                         {{ $k['nilai'] }}
                                                     </div>
                                                     @endforeach
+                                                </td>
+                                                <td>
+                                                    {{ $f['nilai_akhir'] }}
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Program Studi</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Program Studi</th>
+                                                <th>Kategori</th>
+                                                <th>Jumlah Kelas</th>
+                                                <th>%</th>
+                                                <th>Nilai</th>
+                                                <th>Nilai Akhir Prodi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($rataProdi as $f)
+                                            <tr>
+
+                                                <td>{{ $f['nama'] }}</td>
+                                                <td>
+                                                    @foreach ($f['kategori'] as $k)
+                                                    <div class="my-3">
+
+                                                        {{ $k['nama'] }}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($f['kategori'] as $k)
+                                                    <div class="my-3">
+
+                                                        {{ $k['jumlah'] }}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($f['kategori'] as $k)
+                                                    <div class="my-3">
+
+                                                        {{ $k['persen'] }}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($f['kategori'] as $k)
+                                                    <div class="my-3">
+
+                                                        {{ $k['nilai'] }}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    {{ $f['nilai_akhir'] }}
                                                 </td>
                                             </tr>
                                             @endforeach
