@@ -20,8 +20,8 @@ class CreateMateriKuliahTable extends Migration
             $table->string('kajian')->nullable();
             $table->string('materi')->nullable();
             $table->string('jdl_ptk')->nullable();
-            $table->string('bab_ptk',4)->nullable();
-            $table->string('hal_ptk',4)->nullable();
+            $table->string('bab_ptk')->nullable();
+            $table->string('hal_ptk')->nullable();
             $table->string('media_bljr')->nullable();
             $table->string('mtd_bljr')->nullable();
             $table->string('deskripsi_pbm')->nullable();

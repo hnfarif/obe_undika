@@ -16,7 +16,7 @@ class CreateInstrumenMonevTable extends Migration
         Schema::create('instrumen_monev', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('plot_monev_id')->unsigned();
-            $table->bigInteger('ins_nilai_id')->unsigned();
+            $table->bigInteger('ins_nilai_id')->unsigned()->nullable();
 
 
 

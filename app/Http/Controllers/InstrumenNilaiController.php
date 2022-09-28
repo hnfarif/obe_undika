@@ -28,6 +28,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class InstrumenNilaiController extends Controller
@@ -109,10 +110,17 @@ class InstrumenNilaiController extends Controller
             }
 
         }
+
         // dd($week);
         $rps = Rps::where('id', $instru->rps_id)->first();
 
         $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
+
+        if (!$getPekan) {
+            Session::flash('message', 'Minggu Kuliah Belum Ditentukan');
+            Session::flash('alert-class', 'alert-danger');
+            return redirect()->route('penilaian.clo.index');
+        }
 
         // dd($week);
         $startFill = Carbon::parse($getPekan->tgl_nilai)->format('Y-m-d');
@@ -162,27 +170,6 @@ class InstrumenNilaiController extends Controller
 
 
         foreach ($request->get('dataNilai') as $n) {
-
-            // untuk menyimpan data ke dalam tabel detail instrumen nilai
-            $findDtlIns = DetailInstrumenNilai::where('mhs_nim', $n['nim'])->where('dtl_agd_id', $n['dtl_id'])
-            ->where('ins_nilai_id', $request->get('idIns'))->first();
-
-            if ($findDtlIns) {
-
-                $dtlIns = DetailInstrumenNilai::where('id', $findDtlIns->id)->update([
-                    'nilai' => $n['nilai'],
-                ]);
-
-            } else {
-                $dtlIns = new DetailInstrumenNilai();
-                $dtlIns->ins_nilai_id = $request->get('idIns');
-                $dtlIns->dtl_agd_id = $n['dtl_id'];
-                $dtlIns->mhs_nim = $n['nim'];
-                $dtlIns->nilai = $n['nilai'];
-                $dtlIns->save();
-
-            }
-
             // untuk memasukkan nilai ke detail instrumen monev
             $insMonev = InstrumenMonev::where('ins_nilai_id', $request->get('idIns'))->first();
             if ($insMonev) {
@@ -243,12 +230,20 @@ class InstrumenNilaiController extends Controller
 
             }else{
                 $insNilai = InstrumenNilai::where('id', $request->get('idIns'))->first();
-                $plot = PlottingMonev::where('klkl_id', $insNilai->klkl_id)->where('nik_pengajar', $insNilai->nik)->where('semester', $insNilai->semester)->first();
+                $plot = PlottingMonev::where('klkl_id', $insNilai->klkl_id)->where('nik_pengajar', $insNilai->nik)->where('semester', $insNilai->semester)->where('kelas', $insNilai->kelas)->first();
 
-                $insMonev = InstrumenMonev::create([
-                    'ins_nilai_id' => $request->get('idIns'),
-                    'plot_monev_id' => $plot->id,
-                ]);
+                if($plot){
+
+                    $insMonev = InstrumenMonev::create([
+                        'ins_nilai_id' => $request->get('idIns'),
+                        'plot_monev_id' => $plot->id,
+                    ]);
+                }else{
+                    Session::flash('message', 'Gagal memasukkan nilai, Instrumen ini belum di plotting, Silahkan hubungi Admin!');
+                    Session::flash('alert-class', 'alert-danger');
+
+                    return redirect()->back();
+                }
 
                 $dtlMonev = DetailInstrumenMonev::where('ins_monev_id', $insMonev->id)->where('dtl_agd_id', $n['dtl_id'])->first();
 
@@ -262,7 +257,7 @@ class InstrumenNilaiController extends Controller
                     $sixWeek = Carbon::parse($agd->tgl_nilai)->addDays(42)->format('d-m-Y');
                     $eightWeek = Carbon::parse($agd->tgl_nilai)->addDays(56)->format('d-m-Y');
                     // dd($startDate);
-                    if ($now->between($startDate, $twoWeek)) {
+                    if ($now >= $startDate && $now <= $twoWeek) {
                         DetailInstrumenMonev::create([
                             'ins_monev_id' => $insMonev->id,
                             'dtl_agd_id' => $n['dtl_id'],
@@ -271,7 +266,7 @@ class InstrumenNilaiController extends Controller
 
                         ]);
 
-                    }else if($now->between($twoWeek, $fourWeek)){
+                    }else if($now >= $twoWeek && $now <= $fourWeek){
                         DetailInstrumenMonev::create([
                             'ins_monev_id' => $insMonev->id,
                             'dtl_agd_id' => $n['dtl_id'],
@@ -279,7 +274,7 @@ class InstrumenNilaiController extends Controller
                             'nilai' => 3,
 
                         ]);
-                    }else if($now->between($fourWeek, $sixWeek)){
+                    }else if($now >= $fourWeek && $now <= $sixWeek){
                         DetailInstrumenMonev::create([
                             'ins_monev_id' => $insMonev->id,
                             'dtl_agd_id' => $n['dtl_id'],
@@ -287,7 +282,7 @@ class InstrumenNilaiController extends Controller
                             'nilai' => 2,
 
                         ]);
-                    }else if($now->between($sixWeek, $eightWeek)){
+                    }else if($now >= $sixWeek && $now <= $eightWeek){
                         DetailInstrumenMonev::create([
                             'ins_monev_id' => $insMonev->id,
                             'dtl_agd_id' => $n['dtl_id'],
@@ -306,6 +301,27 @@ class InstrumenNilaiController extends Controller
                     }
                 }
             }
+
+            // untuk menyimpan data ke dalam tabel detail instrumen nilai
+            $findDtlIns = DetailInstrumenNilai::where('mhs_nim', $n['nim'])->where('dtl_agd_id', $n['dtl_id'])
+            ->where('ins_nilai_id', $request->get('idIns'))->first();
+
+            if ($findDtlIns) {
+
+                $dtlIns = DetailInstrumenNilai::where('id', $findDtlIns->id)->update([
+                    'nilai' => $n['nilai'],
+                ]);
+
+            } else {
+                $dtlIns = new DetailInstrumenNilai();
+                $dtlIns->ins_nilai_id = $request->get('idIns');
+                $dtlIns->dtl_agd_id = $n['dtl_id'];
+                $dtlIns->mhs_nim = $n['nim'];
+                $dtlIns->nilai = $n['nilai'];
+                $dtlIns->save();
+
+            }
+
 
         }
 
@@ -398,6 +414,7 @@ class InstrumenNilaiController extends Controller
                     'klkl_id' => substr($request->kode_mk, 5),
                     'semester' => $smt->smt_aktif,
                     'nik' => $nik_kary,
+                    'kelas' => $request->kelas,
                 ]);
 
                 return response()->json([

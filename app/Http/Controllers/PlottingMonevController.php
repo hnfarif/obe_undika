@@ -99,6 +99,7 @@ class PlottingMonevController extends Controller
                 'nik_pengajar' => $expData[0],
                 'klkl_id' => $expData[1],
                 'prodi' => $expData[2],
+                'kelas' => $expData[3],
                 'semester' => $smt->smt_aktif,
 
             ]);

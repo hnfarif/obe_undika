@@ -1,3 +1,11 @@
+@if (session()->has('message'))
+<div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
+    {{ session()->get('message') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
 <div class="my-3 d-flex">
     <form class="card-header-form ml-auto" action="{{ route('penilaian.clo.index') }}">
         <div class="input-group">
@@ -47,10 +55,14 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button data-mk="{{ $jdw->prodi.$jdw->klkl_id }}" data-nik={{ $jdw->kary_nik }} class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) btn-primary @else btn-warning @endif btn-sm
-                                        btnUbahNilai">@if ($instru->where('klkl_id',
-                    $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) Lihat Instrumen
-                    @else Buat Instrumen @endif
+                <button data-mk="{{ $jdw->prodi.$jdw->klkl_id }}" data-nik="{{ $jdw->kary_nik }}"
+                    data-kelas="{{ $jdw->kelas }}" class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first())
+                    btn-primary @else btn-warning @endif btn-sm btnUbahNilai">
+
+                    @if($instru->where('klkl_id', $jdw->klkl_id)->where('nik', $jdw->kary_nik)->first()) Lihat Instrumen
+                    @else
+                    Buat Instrumen
+                    @endif
                 </button>
             </div>
         </div>

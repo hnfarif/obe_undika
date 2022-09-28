@@ -143,14 +143,19 @@ class InstrumenMonevController extends Controller
      */
     public function store(Request $request)
     {
-        foreach ($request->get('dataNilai') as $key => $value) {
-            $insMon = new DetailInstrumenMonev;
-            $insMon->ins_monev_id = $request->get('idInsMon');
-            $insMon->agd_id = $value['agd_id'];
-            $insMon->id_kri = $value['kri_id'];
-            $insMon->nilai = $value['nilai'];
-            $insMon->save();
+        $kri = KriteriaMonev::orderBy('id', 'asc')->get();
+        foreach ($kri as $key => $value) {
+            if ($key == 1) {
+                $kri_id = $value->id;
+            }
         }
+        $insMon = new DetailInstrumenMonev;
+        $insMon->ins_monev_id = $request->get('idInsMon');
+        $insMon->agd_id = $request->get('agd_id');
+        $insMon->id_kri = $kri_id;
+        $insMon->nilai = $request->get('nilai');
+        $insMon->save();
+
         return response()->json(['success' => 'Data Berhasil Disimpan']);
     }
 

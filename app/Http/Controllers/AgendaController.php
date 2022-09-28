@@ -113,7 +113,7 @@ class AgendaController extends Controller
                 if (isset($data['pustaka'])) {
 
                     foreach ($data['pustaka'] as $key => $value) {
-                        $pustaka .= '- '.$value['judul'].', '.$value['bab'].', hal.'.$value['halaman'].'<br>';
+                        $pustaka .= '- '.$value['judul'].', bab '.$value['bab'].', hal '.$value['halaman'].'<br>';
                     }
                 }
 
@@ -214,19 +214,14 @@ class AgendaController extends Controller
 
                     }else{
                         if($value['prak']){
-                            if(!$filLlo->deskripsi_prak){
-                                LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->update([
-                                     'deskripsi_prak' => $value['des_llo'],
-                                 ]);
-                            }
+                            LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->update([
+                                 'deskripsi_prak' => $value['des_llo'],
+                             ]);
 
                         }else{
-                            if(!$filLlo->deskripsi){
-
-                                LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->update([
-                                    'deskripsi' => $value['des_llo'],
-                                ]);
-                            }
+                            LLo::where('rps_id', $rps->id)->where('kode_llo', $value['kode_llo'])->update([
+                                'deskripsi' => $value['des_llo'],
+                            ]);
                         }
                     }
 
@@ -458,7 +453,7 @@ class AgendaController extends Controller
     {
         $dtlAgd = DetailAgenda::find($id);
         $ifAgd = DetailAgenda::where('agd_id', $dtlAgd->agd_id)->count();
-        $ifLlo = DetailAgenda::where('id', $dtlAgd->llo_id)->count();
+        $ifLlo = DetailAgenda::where('llo_id', $dtlAgd->llo_id)->count();
         if($ifAgd == 1){
             $agd = AgendaBelajar::find($dtlAgd->agd_id);
             $agd->delete();
@@ -983,11 +978,9 @@ class AgendaController extends Controller
     public function getLlo(Request $request){
         // dd($request->all());
         $listLlo = session('listLlo-'.$request->rps_id);
-        $llo = '';
+        $llo = [];
 
-
-
-        if($request->isDb == "true"){
+        if($request->isDb){
             if (isset($request->isIndex)) {
                 if ($request->isPrak == "1") {
                     $llo = Llo::select('deskripsi_prak')->where("id", $request->kode_llo)->where('rps_id', $request->rps_id)->pluck('deskripsi_prak');
@@ -1002,22 +995,19 @@ class AgendaController extends Controller
                     $llo = Llo::select('deskripsi')->where("kode_llo", $request->kode_llo)->where('rps_id', $request->rps_id)->pluck('deskripsi');
                 }
              }
-        }else{
+
+        }else {
             if ($listLlo) {
                 foreach ($listLlo as $l) {
                     if($l['kode_llo'] == $request->kode_llo && $l['isPrak'] == $request->isPrak){
                         $llo[] = $l['des_llo'];
                         break;
-                    }else{
-                        $llo[] = "";
                     }
                 }
             }
         }
 
-
         return $llo;
-
     }
 
     public function getLloSession(Request $request){

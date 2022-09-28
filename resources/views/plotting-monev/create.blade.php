@@ -93,7 +93,7 @@
                                                     <td>
                                                         <div class="custom-control custom-checkbox checkbox-xl">
                                                             <input type="checkbox"
-                                                                value="{{ $i->kary_nik.'-'.$i->klkl_id.'-'.$i->prodi }}"
+                                                                value="{{ $i->kary_nik.'-'.$i->klkl_id.'-'.$i->prodi.'-'.$i->kelas }}"
                                                                 class="custom-control-input cl"
                                                                 id="listMonev-{{ $loop->iteration }}">
                                                             <label class="custom-control-label"

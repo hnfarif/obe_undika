@@ -16,7 +16,7 @@ class CreateUsersObeTable extends Migration
         Schema::create('users_obe', function (Blueprint $table) {
             $table->id();
             $table->string('nik', 6)->nullable();
-            $table->string('pin')->nullable();
+            $table->string('password')->nullable();
             $table->string('role')->nullable();
             $table->rememberToken();
             $table->timestamps();

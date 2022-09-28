@@ -56,9 +56,11 @@
                                     <input type="hidden" name="data[skor][]" value="{{ $item->skor_total }}">
                                     @endforeach
 
-                                    <button class="btn btn-success" type="submit">
+                                    @if ($pekan->count() + 1 <= 16) <button class="btn btn-success" type="submit">
                                         <i class="fas fa-plus"></i> Tambah nilai minggu {{ $pekan->count() + 1 }}
-                                    </button>
+                                        </button>
+
+                                        @endif
                                 </form>
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#filterBrilian">
                                     <i class="fas fa-filter"></i> Filter

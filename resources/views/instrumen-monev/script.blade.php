@@ -328,14 +328,16 @@
 
         });
 
-        $('#btnSaveKri2').click(function () {
-
+        $('#btnSesuai,#btnTidakSesuai').click(function () {
+            var agd_id = $(this).data('agd');
+            var nilai = $(this).data('nilai');
             $.ajax({
                 url: "{{ route('monev.instrumen.store') }}",
                 type: 'POST',
                 data: {
                     '_token': '{{ csrf_token() }}',
-                    'dataNilai': data,
+                    'agd_id': agd_id,
+                    'nilai': nilai,
                     'idInsMon': "{{ $cekInsMon->id }}",
                 },
                 beforeSend: function () {

@@ -77,7 +77,7 @@
                             <div class="form-group">
                                 <label>Deskripsi LLO</label>
                                 <textarea id="des_llo" name="des_llo" style="height: 100px" class="form-control"
-                                    required readonly>
+                                    required>
 
                                 </textarea>
                                 <div class="spinner-border text-primary" id="loadDesc" role="status"
@@ -164,12 +164,12 @@
                                         aria-label="">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <input type="text" id="bab" class="form-control" placeholder="Masukkan Bab"
+                                    <input type="number" id="bab" class="form-control" placeholder="Masukkan Bab cth: 4"
                                         aria-label="">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <input type="text" id="halaman" class="form-control" placeholder="Masukkan Halaman"
-                                        aria-label="">
+                                    <input type="text" id="halaman" class="form-control"
+                                        placeholder="Masukkan Halaman cth: 60, 60-65" aria-label="">
                                 </div>
                                 <button class="btn btn-primary" id="btnPustaka" type="button">Tambah Pustaka</button>
                             </div>

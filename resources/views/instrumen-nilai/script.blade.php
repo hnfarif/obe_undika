@@ -10,7 +10,8 @@
                 dataType: 'json',
                 data: {
                     'kode_mk': $(this).data('mk'),
-                    'nik': $(this).data('nik')
+                    'nik': $(this).data('nik'),
+                    'kelas': $(this).data('kelas'),
                 },
                 success: function (data) {
                     if ($.isEmptyObject(data.error)) {

@@ -1058,7 +1058,6 @@
             $('#sltLlo').attr('hidden', 'hidden');
             $('#kode_llo_opt').val('default').change();
             $('#des_llo').val('');
-            $('#des_llo').removeAttr('readonly');
 
 
         })
@@ -1067,14 +1066,14 @@
             $('#inNewLlo').attr('hidden', 'hidden');
             $('#sltLlo').removeAttr('hidden');
             $('#kode_llo').val('');
-            $('#des_llo').attr('readonly', 'readonly');
 
         })
 
         $("#kode_llo_opt, input[type=radio][name=praktikum]").on('change', function () {
             var kode_llo = $("#kode_llo_opt").val();
             var isPrak = $("input[type=radio][name=praktikum]:checked").val();
-            var db = ($('#kode_llo_opt option:selected').attr('data-sts') == 'lloDb') ? true : false;
+            var db = ($('#kode_llo_opt option:selected').attr('data-sts') == 'lloDb') ? 'lloDb' : '';
+
             $.ajax({
                 url: "{{ route('create.getLlo') }}",
                 type: "GET",

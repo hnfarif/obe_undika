@@ -61,7 +61,85 @@
                         </div>
 
                     </div>
-                    @endif
+                    <div class="col-12 col-md-6 col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Daftar Bentuk Penilaian</h4>
+                            </div>
+                            <div class="card-body">
+
+                                <table class="table table-striped" id="table" width="100%">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th>
+                                                #
+                                            </th>
+                                            <th>
+                                                Bentuk Penilaian
+                                            </th>
+                                            <th>
+                                                Jenis Penilaian
+                                            </th>
+
+                                            <th>
+                                                Aksi
+                                            </th>
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody class="text-center">
+                                        @foreach ($penilaian as $i)
+                                        <tr>
+                                            <td>
+                                                {{ $loop->iteration }}
+                                            </td>
+                                            <td>
+                                                {{ $i->btk_penilaian }}
+                                            </td>
+                                            <td>
+                                                {{ $i->jenis }}
+                                            </td>
+                                            <td>
+
+                                                <div class="d-flex my-auto">
+                                                    @if (auth()->user()->nik == $rps->penyusun)
+                                                    <a href="#" class="btn btn-light mr-2 editPenilaian"
+                                                        data-id="{{ $i->id }}" data-toggle="modal"
+                                                        data-target="#editPenilaian"><i class="fas fa-edit"></i>
+
+                                                    </a>
+                                                    <form action="{{ route('penilaian.delete', $i->id) }}"
+                                                        method="POST">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <input name="_method" type="hidden" value="DELETE">
+                                                        <input type="hidden" name="rps_id" value="{{ $rps->id }}">
+                                                        <button class="btn btn-danger delPenilaian"><i
+                                                                class="fas fa-trash"></i>
+
+                                                        </button>
+                                                    </form>
+                                                    @endif
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                        @endforeach
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    @else
+
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -138,6 +216,7 @@
                         </div>
 
                     </div>
+                    @endif
                 </div>
 
             </div>

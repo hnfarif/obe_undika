@@ -16,6 +16,15 @@
     <div class="main-content">
         <section class="section">
             <div class="section-body">
+                @if (session()->has('message'))
+                <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
+                    {{ session()->get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
+
                 @if ($startFill <= $now) <div class="alert alert-info alert-has-icon">
                     <div class="alert-icon"><i class="far fa-lightbulb"></i> </div>
                     <div class="alert-body">

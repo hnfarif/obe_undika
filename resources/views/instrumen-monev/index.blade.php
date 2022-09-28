@@ -163,10 +163,6 @@
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="d-flex align-items-center my-0">
                             <h2 class="section-title titleClo">Kriteria {{ $loop->iteration }}</h2>
-                            @if ($plot->nik_pemonev == auth()->user()->nik)
-
-                            <button class="ml-2 btn btn-primary ml-auto" id="btnSaveKri2" disabled> <i class="fas fa-save"></i> Simpan Nilai </button>
-                            @endif
                         </div>
                         <div class="card">
                             <div class="card-body">
@@ -205,9 +201,7 @@
                                                 <input type="hidden" id="agd" value="{{ $a->id }}">
                                                 <input type="hidden" id="kri" value="{{ $k->id }}">
                                                 <input type="number" class="form-control text-center nilai" min="0" max="4" value="{{ $a->detailInstrumenMonev->where('ins_monev_id', $cekInsMon->id)->where('id_kri', $k->id)->where('agd_id', $a->id)->first()->nilai ?? '' }}"
-                                                @if ($plot->nik_pemonev != auth()->user()->nik)
                                                 readonly
-                                                @endif
                                                 >
                                             </td>
                                             @endif
@@ -575,7 +569,7 @@
                                                     $nilai = $dtlInsMon->where('agd_id', $i->id)->first()->nilai ?? null;
                                                 @endphp
                                                 @if (!($i->pekan == '8' || $i->pekan == '16'))
-                                                    @if ($nilai)
+                                                    @if ($nilai == '1' || $nilai == '0')
                                                         @if($nilai == '1')
                                                             <span class="badge badge-primary">Sesuai</span>
                                                         @else
@@ -583,10 +577,16 @@
                                                         @endif
                                                     @else
                                                         @if ($week >= $i->pekan)
-                                                            <button class="btn btn-primary mr-2"><i class="fas fa-check"></i> Sesuai</button>
-                                                            <button class="btn btn-danger"><i class="fas fa-times"></i> Tidak</button>
-                                                            @else
-                                                            <span class="badge badge-info">Belum waktunya penyesuaian</span>
+
+                                                            @if ($plot->nik_pemonev == auth()->user()->nik)
+
+                                                            <button id="btnSesuai" data-agd="{{ $i->id }}" data-nilai="1" class="btn btn-primary mr-2"><i class="fas fa-check"></i> Sesuai</button>
+
+                                                            <button data-agd="{{ $i->id }}" id="btnTidakSesuai" data-nilai="0" class="btn btn-danger"><i class="fas fa-times"></i> Tidak</button>
+                                                            @endif
+
+                                                        @else
+                                                        <span class="badge badge-info">Belum waktunya penyesuaian</span>
                                                         @endif
                                                     @endif
                                                 @endif
