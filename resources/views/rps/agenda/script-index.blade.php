@@ -319,7 +319,6 @@
                     $("#loadTitle").show();
                 },
                 success: function (data) {
-                    // console.log(data);
                     $('#ttlAgd').html('Edit Agenda Belajar Minggu Ke ' + data.agenda_belajar
                         .pekan + ' ' + data.clo.kode_clo)
                     $('#clo_id').children("option").each(function () {

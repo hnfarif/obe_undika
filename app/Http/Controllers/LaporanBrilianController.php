@@ -402,9 +402,10 @@ class LaporanBrilianController extends Controller
 
         $m->addRaw($pdf2->output());
 
-        $pdfMerge = file_put_contents('laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf', $m->merge());
+        $pdfMerge = $m->merge();
 
-        // return $pdf->stream('laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf');
-        return response()->download('laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf');
+        return response()->streamDownload(function () use ($pdfMerge) {
+            echo $pdfMerge;
+        }, 'laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf');
     }
 }

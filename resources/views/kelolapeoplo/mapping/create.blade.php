@@ -196,7 +196,6 @@
 
                     for (var i = 0; i < datamk.length; i++) {
                         if (datamk[i].trim() == ui.draggable.attr('data-id').trim()) {
-                            // console.log(datamk);
                             isAvail = true;
 
                         }

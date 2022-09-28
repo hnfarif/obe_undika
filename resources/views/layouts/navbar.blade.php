@@ -34,7 +34,6 @@
             </li>
 
 
-
             <li class="nav-item @yield('peoplo')">
                 <a href="{{ route('peoplo.peo') }}" class="nav-link"><i
                         class="fas fa-table"></i><span>PEO-PLO</span></a>
@@ -64,8 +63,7 @@
                         Monev</span></a>
             </li>
             @endif
-            @if (auth()->user()->role == 'p3ai' || auth()->user()->role == 'kaprodi' || auth()->user()->role ==
-            'pimpinan')
+            @if (auth()->user()->role == 'p3ai')
 
             <li class="nav-item @yield('laporan')">
                 <a href="{{ route('laporan.monev.index') }}" class="nav-link"><i

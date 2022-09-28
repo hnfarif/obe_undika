@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fakultas;
 use App\Models\KaryawanDosen;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class BerandaController extends Controller
         $kary = KaryawanDosen::with('bagianKary')->where('nik', $nik)->first();
         $chkDosen = $kary->fakul_id;
         $chkKaprodi = Prodi::where('mngr_id', $nik)->first(); // cek kaprodi atau bukan
+        $chkDekan = Fakultas::where('mngr_id', $nik)->first(); // cek dekan atau bukan
         if ($kary->bagian) {
             $nama = $kary->bagianKary->nama;
             $nick = $kary->bagianKary->nick;
@@ -31,6 +33,9 @@ class BerandaController extends Controller
         }
         if ($chkKaprodi) {
             $roles[] = 'kaprodi';
+        }
+        if ($chkDekan) {
+            $roles[] = 'dekan';
         }
         // dd($roles);
         return view('beranda.index', compact('roles'));

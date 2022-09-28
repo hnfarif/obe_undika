@@ -585,7 +585,7 @@
                 success: function (data) {
                     if ($.isEmptyObject(data.error) && $.isEmptyObject(data.errBbt) && $
                         .isEmptyObject(data.errMnt)) {
-                        // console.log(data.listLlo);
+
                         Swal.fire({
                             position: 'top-end',
                             icon: 'success',
@@ -1019,7 +1019,7 @@
                     'rps_id': "{{ $rps->id }}",
                 },
                 success: function (data) {
-                    // console.log(data);
+
                     $("#kode_llo_opt").select2("destroy");
                     $("#kode_llo_opt").select2();
 

@@ -398,7 +398,7 @@
                     data.plo.forEach(element => {
                         plos.push(element.id);
                     });
-                    console.log(data.allplo);
+
                     data.allplo.forEach(element => {
 
                         if (plos.includes(element.id)) {

@@ -391,12 +391,12 @@
             ],
             datasets: [{
 
-                    backgroundColor: ['#277BC0', '#89CFFD'],
+                    backgroundColor: ['#AAA', '#777'],
                     data: [sumCapai, sumNoCapai]
                 },
                 {
 
-                    backgroundColor: ['#0C7B93', '#00A8CC'],
+                    backgroundColor: ['hsl(240, 100%, 75%)', 'hsl(240, 100%, 60%)'],
                     data: [sumMhsCapai, sumMhsNoCapai]
                 }
             ]
@@ -469,7 +469,7 @@
     })
 
     $('.btnSimpanNilai').on('click', function () {
-        // console.log(data);
+
         $.ajax({
             url: "{{ route('penilaian.clo.store') }}",
             type: 'POST',

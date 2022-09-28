@@ -13,7 +13,6 @@
                     'nik': $(this).data('nik')
                 },
                 success: function (data) {
-                    // console.log(data.error);
                     if ($.isEmptyObject(data.error)) {
                         window.location.href = data.url;
                     } else {

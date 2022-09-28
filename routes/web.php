@@ -37,9 +37,9 @@ use Illuminate\Http\Request;
 // });
 Route::get('/', function () {
     return redirect()->route('beranda.index');
-})->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen');
+})->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen,dekan');
 
-Route::prefix('beranda')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen')->name('beranda.')->group(function (){
+Route::prefix('beranda')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen,dekan')->name('beranda.')->group(function (){
     Route::resource('/', BerandaController::class);
 });
 
@@ -47,19 +47,19 @@ Route::prefix('beranda')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen
 Route::get('/login', [UserController::class, 'login'])->middleware('guest')->name('login');
 Route::post('/login', [UserController::class, 'authenticate'])->name('authenticate');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
-Route::put('/update/role', [UserController::class, 'updateRole'])->name('updateRole')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen');
+Route::put('/update/role', [UserController::class, 'updateRole'])->name('updateRole')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen,dekan');
 
 //socialize routes
 
 Route::get('sign-in-google', [UserController::class, 'google'])->name('user.login.google');
 Route::get('auth/google/callback', [UserController::class, 'handleProviderCallback'])->name('user.google.callback');
 
-Route::prefix('kelola')->middleware('ensureUserRole:kaprodi,p3ai,dosen,pimpinan')->group(function () {
+Route::prefix('kelola')->middleware('ensureUserRole:kaprodi,p3ai,dosen,pimpinan,dekan')->group(function () {
 
 
 
     Route::get('/peo', [PeoController::class, 'index'])->name('peoplo.peo');
-    Route::get('/peo/detail', [PeoController::class, 'detail'])->name('peo.detail')->middleware('ensureUserRole:p3ai,pimpinan');
+    Route::get('/peo/detail', [PeoController::class, 'detail'])->name('peo.detail');
     Route::post('/peo/store', [PeoController::class, 'store'])->name('peoplo.peo.store')->middleware('ensureUserRole:kaprodi');
     Route::get('/peo/edit', [PeoController::class, 'edit'])->name('peoplo.peo.edit')->middleware('ensureUserRole:kaprodi');
     Route::put('/peo/update', [PeoController::class, 'update'])->name('peoplo.peo.update')->middleware('ensureUserRole:kaprodi');
@@ -79,7 +79,7 @@ Route::prefix('kelola')->middleware('ensureUserRole:kaprodi,p3ai,dosen,pimpinan'
     Route::delete('/mapping/delete/{peo}/{plo}', [PeoPloController::class, 'destroy'])->name('peoplo.map.delete')->middleware('ensureUserRole:kaprodi');
 });
 
-Route::prefix('rps')->middleware('ensureUserRole:p3ai,dosen,pimpinan,kaprodi')->group(function (){
+Route::prefix('rps')->middleware('ensureUserRole:p3ai,dosen,pimpinan,kaprodi,dekan')->group(function (){
 
 
     Route::get('/', [RpsController::class,'index'])->name('rps.index');
@@ -134,39 +134,39 @@ Route::prefix('rps')->middleware('ensureUserRole:p3ai,dosen,pimpinan,kaprodi')->
 
 Route::prefix('penilaian')->name('penilaian.')->group(function (){
 
-    Route::get('/cekrps', [InstrumenNilaiController::class, 'cekRps'])->name('cekrps')->middleware('ensureUserRole:dosen,p3ai,kaprodi,pimpinan');
+    Route::get('/cekrps', [InstrumenNilaiController::class, 'cekRps'])->name('cekrps')->middleware('ensureUserRole:dosen,p3ai,kaprodi,pimpinan,dekan');
 
     Route::put('/nilaimin', [InstrumenNilaiController::class, 'uptNilaiMin'])->name('putNilaiMin')->middleware('ensureUserRole:dosen');
 
     Route::post('/save-summary', [InstrumenNilaiController::class, 'storeSummary'])->name('storeSummary')->middleware('ensureUserRole:dosen');
 
-    Route::get('/clo/detail', [InstrumenNilaiController::class, 'detailInstrumen'])->name('detailInstrumen')->middleware('ensureUserRole:p3ai,kaprodi,pimpinan');
+    Route::get('/clo/detail', [InstrumenNilaiController::class, 'detailInstrumen'])->name('detailInstrumen')->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dekan');
 
-    Route::resource('clo', InstrumenNilaiController::class)->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dosen');
+    Route::resource('clo', InstrumenNilaiController::class)->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dosen,dekan');
 });
 
 Route::prefix('monev')->name('monev.')->group(function(){
 
-    Route::get('/kriteria/create', [PlottingMonevController::class, 'createCriteria'])->name('createCriteria')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
+    Route::get('/kriteria/create', [PlottingMonevController::class, 'createCriteria'])->name('createCriteria')->middleware('ensureUserRole:p3ai');
 
-    Route::post('/kriteria/store', [PlottingMonevController::class, 'storeCriteria'])->name('storeCriteria')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
+    Route::post('/kriteria/store', [PlottingMonevController::class, 'storeCriteria'])->name('storeCriteria')->middleware('ensureUserRole:p3ai');
 
-    Route::get('/kriteria/show', [PlottingMonevController::class, 'showCriteria'])->name('showCriteria')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
+    Route::get('/kriteria/show', [PlottingMonevController::class, 'showCriteria'])->name('showCriteria')->middleware('ensureUserRole:p3ai');
 
-    Route::put('/kriteria/update', [PlottingMonevController::class, 'updateCriteria'])->name('updateCriteria')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
+    Route::put('/kriteria/update', [PlottingMonevController::class, 'updateCriteria'])->name('updateCriteria')->middleware('ensureUserRole:p3ai');
 
-    Route::delete('/kriteria/delete/{id}', [PlottingMonevController::class, 'deleteCriteria'])->name('deleteCriteria')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
+    Route::delete('/kriteria/delete/{id}', [PlottingMonevController::class, 'deleteCriteria'])->name('deleteCriteria')->middleware('ensureUserRole:p3ai');
 
-    Route::get('/plot/detail', [PlottingMonevController::class, 'detailPlot'])->name('detailPlot')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
+    Route::get('/plot/detail', [PlottingMonevController::class, 'detailPlot'])->name('detailPlot')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dekan');
 
     Route::get('/list', [InstrumenMonevController::class, 'listMonev'])->name('listMonev')->middleware('ensureUserRole:dosen');
 
-    Route::resource('plotting', PlottingMonevController::class)->middleware('ensureUserRole:kaprodi,p3ai,pimpinan');
-    Route::resource('instrumen', InstrumenMonevController::class)->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen');
+    Route::resource('plotting', PlottingMonevController::class)->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dekan');
+    Route::resource('instrumen', InstrumenMonevController::class)->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen,dekan');
 });
 
 
-Route::prefix('laporan')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan')->name('laporan.')->group(function(){
+Route::prefix('laporan')->middleware('ensureUserRole:p3ai')->name('laporan.')->group(function(){
 
     Route::get('/brilian/export-pdf', [LaporanBrilianController::class, 'exportPdf'])->name('brilian.exportPdf');
     Route::get('/monev/data', [LaporanMonevController::class, 'data'])->name('data');

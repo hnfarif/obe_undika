@@ -116,7 +116,6 @@
                     sum += +parseFloat($(this).text());
                 }
             })
-            // console.log(sum);
             var avg = sum / parseFloat(count);
             $(this).text(avg.toFixed(2));
         })
@@ -305,7 +304,7 @@
             })
             var nilai = sum / 14 * 100;
             $(this).text(Math.round(nilai) + '%');
-            // console.log(sum);
+
         });
 
         $('.nilaiSesuai').each(function (i, v) {

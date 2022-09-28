@@ -117,6 +117,7 @@ class UserController extends Controller
 
         }else{
             $chkKaprodi = Prodi::where('mngr_id', $request->nik)->first();
+            $chkDekan = Fakultas::where('mngr_id', $request->nik)->first();
             $chkStaf = KaryawanDosen::where('nik', $request->nik)->first();
 
             if($chkKaprodi){
@@ -156,6 +157,12 @@ class UserController extends Controller
                     }
 
                 }
+            }else if($chkDekan){
+                $user = User::create([
+                    'nik' => $request->nik,
+                    'role' => 'dekan',
+                    'password' => bcrypt('123456'),
+                ]);
             }
 
         }
