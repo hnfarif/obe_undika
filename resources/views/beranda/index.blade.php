@@ -8,7 +8,7 @@
             <div class="section-body">
                 <div class="col-12 mb-4">
                     <div class="hero text-white hero-bg-image hero-bg-parallax"
-                        data-background="../assets/img/unsplash/andre-benz-1214056-unsplash.jpg">
+                        data-background="{{ asset('assets/img/unsplash/andre-benz-1214056-unsplash.jpg') }}">
                         <div class="hero-inner">
                             <h2>Welcome, {{ auth()->user()->karyawan->nama }}!</h2>
                             <div class="mt-4">

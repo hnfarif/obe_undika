@@ -138,7 +138,7 @@ class UserController extends Controller
                     $chkBagian = Bagian::where('kode', $chkStaf->bagian)->first();
 
                     if($chkBagian){
-                        if ($chkBagian->nick == 'P3AI') {
+                        if ($chkBagian->nama == 'PUSAT PENGEMB. PEND & AKTIV.INSTR') {
 
                             $user = User::create([
                                 'nik' => $chkStaf->nik,

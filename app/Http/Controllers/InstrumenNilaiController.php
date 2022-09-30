@@ -60,7 +60,7 @@ class InstrumenNilaiController extends Controller
             $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
         }else{
 
-            $kary = KaryawanDosen::where('fakul_id', '<>', null)->fakultas()->prodi()->get();
+            $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->fakultas()->prodi()->get();
             $jdwkul = JadwalKuliah::all();
             $smt = Semester::all();
 

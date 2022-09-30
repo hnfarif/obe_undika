@@ -35,7 +35,7 @@ class RpsController extends Controller
 
         $role = auth()->user()->role;
         $nik = auth()->user()->nik;
-        $dosens = KaryawanDosen::with('emailStaf')->where('fakul_id', '<>', null)->get();
+        $dosens = KaryawanDosen::with('emailStaf')->where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->get();
 
         if ($role == 'dosen') {
             $fak_id = $dosens->where('nik', $nik)->first()->fakul_id;
