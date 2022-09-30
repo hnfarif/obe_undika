@@ -20,13 +20,13 @@ class BerandaController extends Controller
         $chkDekan = Fakultas::where('mngr_id', $nik)->first(); // cek dekan atau bukan
         if ($kary->bagian) {
             $nama = $kary->bagianKary->nama;
-            $nick = $kary->bagianKary->nick;
+            $nick = $kary->bagianKary['nick'];
             if ($nama == 'PIMPINAN') {
                 $roles[] = 'pimpinan';
 
             }
 
-            if($nick == 'P3AI'){
+            if(stripos($nick, 'P3AI') !== false){
                 $roles[] = 'p3ai';
             }
         }

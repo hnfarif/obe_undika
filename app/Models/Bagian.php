@@ -11,7 +11,7 @@ class Bagian extends Model
 
     protected $table = 'bagian1';
     protected $guarded = ["kode"];
-    protected $primaryKey = 'kode';
+    // protected $primaryKey = 'kode';
 
 
     public function karyawans()
