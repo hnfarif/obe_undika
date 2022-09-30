@@ -8,6 +8,7 @@ use App\Models\DetailAgenda;
 use App\Models\Fakultas;
 use App\Models\InstrumenNilai;
 use App\Models\KaryawanDosen;
+use App\Models\MailStaf;
 use App\Models\MataKuliah;
 use App\Models\MateriKuliah;
 use App\Models\Prodi;
@@ -36,6 +37,7 @@ class RpsController extends Controller
         $role = auth()->user()->role;
         $nik = auth()->user()->nik;
         $dosens = KaryawanDosen::with('emailStaf')->where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->get();
+        $mailStaf = MailStaf::all();
 
         if ($role == 'dosen') {
             $fak_id = $dosens->where('nik', $nik)->first()->fakul_id;
@@ -47,7 +49,7 @@ class RpsController extends Controller
         }
 
 
-        return view('rps.index', compact('rps','fak','prodi', 'dosens', 'smt'));
+        return view('rps.index', compact('rps','fak','prodi', 'dosens', 'smt', 'mailStaf'));
     }
 
     /**
