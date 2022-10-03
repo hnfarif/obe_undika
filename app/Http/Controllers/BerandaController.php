@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bagian;
 use App\Models\Fakultas;
 use App\Models\KaryawanDosen;
 use App\Models\Prodi;
@@ -19,7 +20,9 @@ class BerandaController extends Controller
         $chkKaprodi = Prodi::where('mngr_id', $nik)->first(); // cek kaprodi atau bukan
         $chkDekan = Fakultas::where('mngr_id', $nik)->first(); // cek dekan atau bukan
         $nama = $kary->bagianKary->nama;
-        $nick = $kary->bagianKary->nick;
+
+        $nick = Bagian::whereKode($kary->bagian)->first()->nick;
+
         if ($nama == 'PIMPINAN') {
             $roles[] = 'pimpinan';
 
