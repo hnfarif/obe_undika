@@ -10,8 +10,6 @@ class Bap extends Model
     use HasFactory;
 
     protected $table = 'berita_acara';
-    protected $guarded = ["kode_bap"];
-    public $incrementing = false;
-    protected $primaryKey = null;
+
 
 }

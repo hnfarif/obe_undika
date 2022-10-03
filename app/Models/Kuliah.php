@@ -10,6 +10,5 @@ class Kuliah extends Model
     use HasFactory;
 
     protected $table = 'kul_tf';
-    public $incrementing = false;
-    protected $primaryKey = null;
+
 }

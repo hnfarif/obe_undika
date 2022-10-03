@@ -10,8 +10,6 @@ class MataKuliah extends Model
     use HasFactory;
 
     protected $table = 'kurlkl_mf';
-    protected $guarded = [];
-    protected $primaryKey = 'id';
 
     public function prodi()
     {

@@ -10,7 +10,5 @@ class Semester extends Model
     use HasFactory;
 
     protected $table = 'semester_mf';
-    protected $guarded = ['fak_id'];
-    // protected $primaryKey = false;
-    // public $incrementing = false;
+
 }

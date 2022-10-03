@@ -11,9 +11,9 @@ class DetailBap extends Model
     use HasFactory;
 
     protected $table = 'detail_berita';
-    protected $guarded = ["kode_bap"];
-    public $incrementing = false;
-    protected $primaryKey = null;
+    // protected $guarded = ["kode_bap"];
+    // public $incrementing = false;
+    // protected $primaryKey = null;
 
     public function convertDate($date)
     {

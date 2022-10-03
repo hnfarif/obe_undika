@@ -11,8 +11,6 @@ class Krs extends Model
 
 
     protected $table = 'krs_tf';
-    public $incrementing = false;
-    protected $primaryKey = null;
 
     public function mahasiswa()
     {

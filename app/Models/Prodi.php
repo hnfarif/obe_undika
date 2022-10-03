@@ -11,7 +11,7 @@ class Prodi extends Model
 
     protected $table = 'fak_mf';
     protected $guarded = [];
-    protected $primaryKey = 'id';
+    
 
 
     public function fakultas()

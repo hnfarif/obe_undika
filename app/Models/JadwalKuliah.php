@@ -12,9 +12,7 @@ class JadwalKuliah extends Model
 
 
     protected $table = 'jdwkul_mf';
-    protected $guarded = ["kary_nik"];
-    public $incrementing = false;
-    protected $primaryKey = null;
+
     // protected $appends = ['nameMatakuliah'];
 
     public function matakuliahs()

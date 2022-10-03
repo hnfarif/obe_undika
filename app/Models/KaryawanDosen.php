@@ -10,8 +10,7 @@ class KaryawanDosen extends Model
     use HasFactory;
 
     protected $table = 'kar_mf';
-    protected $guarded = ['nik'];
-    // protected $primaryKey = 'nik';
+
 
 
     public function prodi()

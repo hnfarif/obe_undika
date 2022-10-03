@@ -10,9 +10,6 @@ class MailStaf extends Model
     use HasFactory;
 
     protected $table = 'mail_staf';
-    protected $guarded = ["nik"];
-    // public $incrementing = false;
-    // protected $primaryKey = null;
 
 
 

@@ -10,5 +10,5 @@ class BrilianWeek extends Model
     use HasFactory;
 
     protected $table = 'brilian_week';
-    protected $guarded = ["id"];
+
 }

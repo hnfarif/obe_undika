@@ -10,8 +10,6 @@ class Fakultas extends Model
     use HasFactory;
 
     protected $table = 'fakultas';
-    protected $guarded = ["id"];
-    protected $primaryKey = 'id';
 
 
     public function prodis()

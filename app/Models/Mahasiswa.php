@@ -11,8 +11,7 @@ class Mahasiswa extends Model
 
 
     protected $table = 'mhs_mf';
-    protected $guarded = ['nim'];
-    // protected $primaryKey = 'nim';
+
 
     public function krses()
     {
