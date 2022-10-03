@@ -40,7 +40,12 @@
                                     {{ $jdwkul->where('kary_nik', $k->nik)->count() }}
                                 </td>
                                 <td>
+                                    @if ($smt->where('fak_id',$k->fakul_id)->first())
+
                                     {{ $instru->where('nik', $k->nik)->where('semester', $smt->where('fak_id',$k->fakul_id)->first()['smt_aktif'])->count() }}
+                                    @else
+                                    -
+                                    @endif
                                 </td>
                                 <td><a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->nik]) }}"
                                         class="btn btn-primary btn-sm text-sm">Detail</a>

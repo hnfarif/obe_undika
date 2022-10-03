@@ -18,17 +18,15 @@ class BerandaController extends Controller
         $chkDosen = $kary->fakul_id;
         $chkKaprodi = Prodi::where('mngr_id', $nik)->first(); // cek kaprodi atau bukan
         $chkDekan = Fakultas::where('mngr_id', $nik)->first(); // cek dekan atau bukan
-        if ($kary->bagian) {
-            $nama = $kary->bagianKary->nama;
-            $nick = $kary->bagianKary['nick'];
-            if ($nama == 'PIMPINAN') {
-                $roles[] = 'pimpinan';
+        $nama = $kary->bagianKary->nama;
+        $nick = $kary->bagianKary->nick;
+        if ($nama == 'PIMPINAN') {
+            $roles[] = 'pimpinan';
 
-            }
+        }
 
-            if(stripos($nick, 'P3AI') !== false){
-                $roles[] = 'p3ai';
-            }
+        if(stripos($nick, 'P3AI') !== false){
+            $roles[] = 'p3ai';
         }
 
         if ($chkDosen) {
