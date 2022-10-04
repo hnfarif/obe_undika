@@ -33,7 +33,12 @@ class JadwalKuliah extends Model
     {
         $maku = MataKuliah::where('id', $this->prodi.$this->klkl_id)->first();
 
-        return $maku->nama;
+        if ($maku) {
+            return $maku->nama;
+        }else{
+            return '-';
+        }
+
     }
 
 

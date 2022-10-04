@@ -64,9 +64,13 @@ class RpsController extends Controller
 
         foreach ($mk as $i) {
             $smt = Semester::where('fak_id', $i->fakul_id)->first();
-            $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_aktif)->first();
-            if(!$findRps){
-                $filMk[] = $i;
+            if ($smt) {
+
+                $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_aktif)->first();
+
+                if(!$findRps){
+                    $filMk[] = $i;
+                }
             }
         }
         $mk = $filMk;

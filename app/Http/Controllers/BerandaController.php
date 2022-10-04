@@ -35,9 +35,11 @@ class BerandaController extends Controller
         if ($chkDosen) {
             $roles[] = 'dosen';
         }
+
         if ($chkKaprodi) {
             $roles[] = 'kaprodi';
         }
+
         if ($chkDekan) {
             $roles[] = 'dekan';
         }
