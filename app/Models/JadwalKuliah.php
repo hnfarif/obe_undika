@@ -29,9 +29,9 @@ class JadwalKuliah extends Model
         return $this->belongsTo(KaryawanDosen::class, 'kary_nik', 'nik');
     }
 
-    public function getNameMataKuliah()
+    public function getNameMataKuliah($kdMk, $kdProdi)
     {
-        $maku = MataKuliah::where('id', $this->prodi.$this->klkl_id)->first();
+        $maku = MataKuliah::where('id', $kdProdi.$kdMk)->first();
 
         if ($maku) {
             return $maku->nama;

@@ -37,8 +37,8 @@ class CloController extends Controller
      */
     public function create(Rps $rps)
     {
-        $plo = Plo::all();
-
+        $prodi = MataKuliah::where('id',$rps->kurlkl_id)->first()->fakul_id;
+        $plo = Plo::where('fakul_id', $prodi)->get();
         $iteration = Clo::where('rps_id', $rps->id)->latest()->select('kode_clo')->pluck('kode_clo')->first();
         $num = substr($iteration, -2, 2);
         $num++;

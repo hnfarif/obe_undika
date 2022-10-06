@@ -390,6 +390,9 @@
                                             </td>
                                             <td>
                                                 <textarea class="form-control mt-2 mb-2 csFail"  id="csFail" style="width:200px; height: 80px;"
+                                                @if ($isRead)
+                                                    readonly
+                                                @endif
                                                 data-clo="{{ $da->clo_id }}"
                                                 data-ins="{{ $idIns }}"
                                                 data-sts="csFail"
@@ -397,6 +400,9 @@
                                             </td>
                                             <td>
                                                 <textarea class="form-control mt-2 mb-2 improvClo" id="improvClo" style="width:200px; height: 80px;"
+                                                @if ($isRead)
+                                                    readonly
+                                                @endif
                                                 data-clo="{{ $da->clo_id }}"
                                                 data-ins="{{ $idIns }}"
                                                 data-sts="improvClo">{{ $summary->where('clo_id', $da->clo_id)->first()->perbaikan ?? ' ' }}</textarea>

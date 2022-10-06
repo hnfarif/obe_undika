@@ -59,7 +59,7 @@ class RpsController extends Controller
      */
     public function create()
     {
-        $mk = MataKuliah::where('status', 1)->get();
+        $mk = MataKuliah::where('status', 1)->where('kurlkl_id', '<>', null)->get();
         $filMk = [];
 
         foreach ($mk as $i) {

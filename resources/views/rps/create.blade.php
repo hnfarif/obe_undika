@@ -71,7 +71,8 @@
                                                 @foreach ($mk as $i)
                                                 <tr>
                                                     <td>{{ $i->getProdiName($i->fakul_id) }}</td>
-                                                    <td>{{ substr($i->id,5) }}</td>
+                                                    {{-- <td>{{ substr($i->id,5) }}</td> --}}
+                                                    <td>{{ $i->id }}</td>
                                                     <td>{{ $i->nama }}</td>
                                                     <td>
                                                         <div class="custom-control custom-checkbox checkbox-xl">
