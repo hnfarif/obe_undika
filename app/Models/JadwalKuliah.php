@@ -31,7 +31,7 @@ class JadwalKuliah extends Model
 
     public function getNameMataKuliah($kdMk, $kdProdi)
     {
-        $maku = MataKuliah::where('id', $kdProdi.$kdMk)->first();
+        $maku = MataKuliah::where('id', 'like', '%'.$kdMk.'%')->first();
 
         if ($maku) {
             return $maku->nama;
