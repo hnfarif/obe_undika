@@ -45,7 +45,7 @@ class RpsController extends Controller
             $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('penyusun', $nik)->where('semester', $smt->smt_aktif)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else{
             $smt = Semester::where('fak_id', '41010')->first();
-            $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('semester', $smt->smt_aktif)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
+            $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
         // dd($mailStaf);
@@ -59,7 +59,7 @@ class RpsController extends Controller
      */
     public function create()
     {
-        $mk = MataKuliah::where('status', 1)->where('id', '<>', null)->get();
+        $mk = MataKuliah::where('status', 1)->where('id', '<>', null)->where('fakul_id', '<>', null)->get();
         $filMk = [];
 
         foreach ($mk as $i) {
@@ -101,6 +101,7 @@ class RpsController extends Controller
 
             $mk = MataKuliah::where('id',$i)->first();
             $findRps = Rps::where('kurlkl_id', $i)->where('semester',$request->semester)->first();
+            $smt = Semester::where('fak_id', $mk->fakul_id)->first();
 
             if ($findRps) {
                 continue;
@@ -110,7 +111,7 @@ class RpsController extends Controller
                 $rps->nik = $request->ketua_rumpun;
                 $rps->nama_mk = $mk->nama;
                 $rps->rumpun_mk = $request->rumpun_mk;
-                $rps->semester = $request->semester;
+                $rps->semester = $smt->smt_aktif;
                 $rps->save();
 
             }
