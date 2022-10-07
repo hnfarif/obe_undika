@@ -11,7 +11,6 @@ class Rps extends Model
 
     protected $table = 'rps';
     protected $guarded = ["id"];
-    protected $primaryKey = 'id';
 
     public function clos()
     {
