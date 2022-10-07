@@ -45,7 +45,7 @@ class RpsController extends Controller
             $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('penyusun', $nik)->where('semester', $smt->smt_aktif)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else{
             $smt = Semester::where('fak_id', '41010')->first();
-            $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
+            $rps = Rps::latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
         // dd($mailStaf);

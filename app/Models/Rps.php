@@ -12,6 +12,7 @@ class Rps extends Model
     protected $table = 'rps';
     protected $guarded = ["id"];
 
+
     public function clos()
     {
         return $this->hasMany(Clo::class)->orderBy('id');
