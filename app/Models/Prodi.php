@@ -10,8 +10,8 @@ class Prodi extends Model
     use HasFactory;
 
     protected $table = 'fak_mf';
-    protected $guarded = [];
-    
+    public $incrementing = false;
+
 
 
     public function fakultas()

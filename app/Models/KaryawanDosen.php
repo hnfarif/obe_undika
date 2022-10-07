@@ -10,7 +10,7 @@ class KaryawanDosen extends Model
     use HasFactory;
 
     protected $table = 'kar_mf';
-
+    public $incrementing = false;
 
 
     public function prodi()
