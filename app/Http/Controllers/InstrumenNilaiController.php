@@ -73,7 +73,7 @@ class InstrumenNilaiController extends Controller
 
         //Data Filter
         $fak = Fakultas::all();
-        $prodi = Prodi::all();
+        $prodi = Prodi::where('sts_aktif', 'Y')->get();
 
         return view('instrumen-nilai.index', compact('jdwkul', 'instru', 'fak', 'prodi', 'kary', 'smt'));
     }

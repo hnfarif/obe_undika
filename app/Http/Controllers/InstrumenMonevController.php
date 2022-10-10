@@ -208,7 +208,7 @@ class InstrumenMonevController extends Controller
         $nik = auth()->user()->nik;
         // Data Filters
         $fak = Fakultas::all();
-        $prodi = Prodi::all();
+        $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::all();
 
         $kar = KaryawanDosen::where('nik', $nik)->first();

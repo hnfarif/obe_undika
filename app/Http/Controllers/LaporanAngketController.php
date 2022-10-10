@@ -17,7 +17,7 @@ class LaporanAngketController extends Controller
         $angket = AngketTrans::with('karyawan')->fakultas()->prodi()->dosen()->get();
         $smt = Semester::all();
         $fak = Fakultas::with('prodis')->get();
-        $prodi = Prodi::all();
+        $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::all();
 
 

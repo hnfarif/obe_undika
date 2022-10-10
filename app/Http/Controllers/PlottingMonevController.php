@@ -28,10 +28,11 @@ class PlottingMonevController extends Controller
     {
         // data filters
         $fak = Fakultas::all();
-        $prodi = Prodi::all();
+        $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::all();
 
-        $smt = Semester::where('fak_id', '41010')->first();
+        $getFtPro = $prodi->first();
+        $smt = Semester::where('fak_id', $getFtPro->id)->first();
         $pltMnv = PlottingMonev::where('semester', $smt->smt_yad)->fakultas()->prodi()->dosen()->name()->get();
         $kri = KriteriaMonev::all();
         return view('plotting-monev.index', compact('pltMnv', 'kri', 'fak', 'prodi', 'kary'));

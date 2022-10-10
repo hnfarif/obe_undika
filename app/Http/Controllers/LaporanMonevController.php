@@ -20,7 +20,7 @@ class LaporanMonevController extends Controller
 
         // data filters
         $fak = Fakultas::all();
-        $prodi = Prodi::all();
+        $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::all();
 
         // dd(request()->all());

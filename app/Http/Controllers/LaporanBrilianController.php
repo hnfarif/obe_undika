@@ -22,8 +22,9 @@ class LaporanBrilianController extends Controller
         $filter = request()->all();
         $url = "https://mybrilian.dinamika.ac.id/undika/report/P3AI_-_klasemen_kelas_matakuliah.php?";
 
-
-        $smt = Semester::where('fak_id', '41010')->first()->smt_yad;
+        $prodi = Prodi::where('sts_aktif', 'Y')->get();
+        $getFirstPro = $prodi->first();
+        $smt = Semester::where('fak_id', $getFirstPro->id)->first()->smt_yad;
         $response = Http::get($url, [
             'semester' => $smt,
             'json' => true,
@@ -31,7 +32,6 @@ class LaporanBrilianController extends Controller
 
         //data filters
         $fak = Fakultas::all();
-        $prodi = Prodi::all();
         $kary = KaryawanDosen::all();
         $badges = [
             [

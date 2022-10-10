@@ -37,7 +37,7 @@ class PeoController extends Controller
             $peo = Peo::where('fakul_id', $chkrole->fakul_id)->with('plos')->get();
             return view('kelolapeoplo.kelolapeo', compact('peo'));
         }else{
-            $prodi = Prodi::all();
+            $prodi = Prodi::where('sts_aktif', 'Y')->get();
             return view('kelolapeoplo.kelolapeo', compact('prodi'));
         }
 

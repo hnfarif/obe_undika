@@ -32,7 +32,7 @@ class RpsController extends Controller
     {
         // Data Filters
         $fak = Fakultas::all();
-        $prodi = Prodi::all();
+        $prodi = Prodi::where('sts_aktif', 'Y')->get();
 
         $role = auth()->user()->role;
         $nik = auth()->user()->nik;
@@ -44,7 +44,8 @@ class RpsController extends Controller
             $smt = Semester::where('fak_id', $fak_id)->first();
             $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('penyusun', $nik)->where('semester', $smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else{
-            $smt = Semester::where('fak_id', '41010')->first();
+            $prodi = Prodi::where('sts_aktif', 'Y')->first();
+            $smt = Semester::where('fak_id', $prodi->id)->first();
             $rps = Rps::whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
@@ -63,15 +64,19 @@ class RpsController extends Controller
         $filMk = [];
 
         foreach ($mk as $i) {
-            $smt = Semester::where('fak_id', $i->fakul_id)->first();
-            if ($smt) {
+            $prodiAktif = Prodi::where('id', $i->fakul_id)->first()->sts_aktif;
+            if ($prodiAktif == 'Y') {
+                $smt = Semester::where('fak_id', $i->fakul_id)->first();
+                if ($smt) {
 
-                $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_yad)->first();
+                    $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_yad)->first();
 
-                if(!$findRps){
-                    $filMk[] = $i;
+                    if(!$findRps){
+                        $filMk[] = $i;
+                    }
                 }
             }
+
         }
         $mk = $filMk;
         $dosens = KaryawanDosen::all();
