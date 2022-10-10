@@ -42,7 +42,7 @@
                                 </td>
                                 <td>
 
-                                    {{ $instru->where('nik', $k->nik)->where('semester', $smt->where('fak_id',$k->fakul_id)->first()['smt_aktif'])->count() }}
+                                    {{ $instru->where('nik', $k->nik)->where('semester', $smt->where('fak_id',$k->fakul_id)->first()['smt_yad'])->count() }}
 
                                 </td>
                                 <td><a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->nik]) }}"

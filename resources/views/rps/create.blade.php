@@ -48,17 +48,6 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>Semester Pembuatan</label>
-                                        <input type="text" name="semester"
-                                            class="form-control @error('semester') is-invalid @enderror"
-                                            value="{{ old('semester') }}" placeholder="cth : 201, 202, 211" required>
-                                        @error('semester')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
                                         <label for="">Daftar Mata Kuliah</label>
                                         <table class="table table-striped text-center" id="tableMk" width="100%">
                                             <thead>

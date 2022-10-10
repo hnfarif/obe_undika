@@ -42,10 +42,10 @@ class RpsController extends Controller
         if ($role == 'dosen') {
             $fak_id = $dosens->where('nik', $nik)->first()->fakul_id;
             $smt = Semester::where('fak_id', $fak_id)->first();
-            $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('penyusun', $nik)->where('semester', $smt->smt_aktif)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
+            $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('penyusun', $nik)->where('semester', $smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else{
             $smt = Semester::where('fak_id', '41010')->first();
-            $rps = Rps::latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
+            $rps = Rps::whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
         // dd($mailStaf);
@@ -66,7 +66,7 @@ class RpsController extends Controller
             $smt = Semester::where('fak_id', $i->fakul_id)->first();
             if ($smt) {
 
-                $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_aktif)->first();
+                $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_yad)->first();
 
                 if(!$findRps){
                     $filMk[] = $i;
@@ -90,7 +90,6 @@ class RpsController extends Controller
        $validatedData = $request->validate([
             'rumpun_mk' => 'required',
             'ketua_rumpun' => 'required',
-            'semester' => 'required',
             'mklist' => 'required',
         ]);
 
@@ -111,7 +110,7 @@ class RpsController extends Controller
                 $rps->nik = $request->ketua_rumpun;
                 $rps->nama_mk = $mk->nama;
                 $rps->rumpun_mk = $request->rumpun_mk;
-                $rps->semester = $smt->smt_aktif;
+                $rps->semester = $smt->smt_yad;
                 $rps->save();
 
             }

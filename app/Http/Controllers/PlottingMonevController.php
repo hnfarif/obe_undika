@@ -32,7 +32,7 @@ class PlottingMonevController extends Controller
         $kary = KaryawanDosen::all();
 
         $smt = Semester::where('fak_id', '41010')->first();
-        $pltMnv = PlottingMonev::where('semester', $smt->smt_aktif)->fakultas()->prodi()->dosen()->name()->get();
+        $pltMnv = PlottingMonev::where('semester', $smt->smt_yad)->fakultas()->prodi()->dosen()->name()->get();
         $kri = KriteriaMonev::all();
         return view('plotting-monev.index', compact('pltMnv', 'kri', 'fak', 'prodi', 'kary'));
     }
@@ -49,7 +49,7 @@ class PlottingMonevController extends Controller
         $rps = Rps::all();
         foreach ($rps as $r) {
             $smt = Semester::where('fak_id', substr($r->kurlkl_id, 0, 5))->first();
-            if($r->semester == $smt->smt_aktif){
+            if($r->semester == $smt->smt_yad){
                 $rpsKl[] = $r->kurlkl_id;
             }
         }
@@ -100,7 +100,7 @@ class PlottingMonevController extends Controller
                 'klkl_id' => $expData[1],
                 'prodi' => $expData[2],
                 'kelas' => $expData[3],
-                'semester' => $smt->smt_aktif,
+                'semester' => $smt->smt_yad,
 
             ]);
         }

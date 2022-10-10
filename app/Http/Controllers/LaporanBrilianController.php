@@ -23,7 +23,7 @@ class LaporanBrilianController extends Controller
         $url = "https://mybrilian.dinamika.ac.id/undika/report/P3AI_-_klasemen_kelas_matakuliah.php?";
 
 
-        $smt = Semester::where('fak_id', '41010')->first()->smt_aktif;
+        $smt = Semester::where('fak_id', '41010')->first()->smt_yad;
         $response = Http::get($url, [
             'semester' => $smt,
             'json' => true,

@@ -49,7 +49,7 @@ class InstrumenNilaiController extends Controller
             $kary = KaryawanDosen::where('nik',$nik_kary)->first();
             $smt = Semester::where('fak_id', $kary->fakul_id)->first();
             $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
-            ->where('semester', $smt->smt_aktif)
+            ->where('semester', $smt->smt_yad)
             ->pluck('kurlkl_id')->toArray();
 
             $arrKlkl = [];
@@ -382,7 +382,7 @@ class InstrumenNilaiController extends Controller
         $kary = KaryawanDosen::where('nik',$nik_kary)->first();
         $smt = Semester::where('fak_id', $kary->fakul_id)->first();
 
-        $rps = Rps::where('kurlkl_id', $request->kode_mk)->where('semester', $smt->smt_aktif)->get();
+        $rps = Rps::where('kurlkl_id', $request->kode_mk)->where('semester', $smt->smt_yad)->get();
 
         if ($rps->count() > 1 ) {
             return response()->json([
@@ -412,7 +412,7 @@ class InstrumenNilaiController extends Controller
                 $newInstru = InstrumenNilai::create([
                     'rps_id' => $rps->id,
                     'klkl_id' => substr($request->kode_mk, 5),
-                    'semester' => $smt->smt_aktif,
+                    'semester' => $smt->smt_yad,
                     'nik' => $nik_kary,
                     'kelas' => $request->kelas,
                 ]);
@@ -482,7 +482,7 @@ class InstrumenNilaiController extends Controller
         $kary = KaryawanDosen::where('nik', request('nik'))->first();
         $smt = Semester::where('fak_id', $kary->fakul_id)->first();
         $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
-        ->where('semester', $smt->smt_aktif)
+        ->where('semester', $smt->smt_yad)
         ->pluck('kurlkl_id')->toArray();
 
         $arrKlkl = [];

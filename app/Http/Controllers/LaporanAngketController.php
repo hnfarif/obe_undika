@@ -24,7 +24,7 @@ class LaporanAngketController extends Controller
         $filterAngket = $angket->filter(function ($angket) use ($smt) {
             $semester = $smt->where('fak_id', $angket->prodi)->first();
 
-            return $angket->smt == $semester->smt_aktif;
+            return $angket->smt == $semester->smt_yad;
         });
 
 
@@ -48,7 +48,7 @@ class LaporanAngketController extends Controller
         $filterAngket = $angket->filter(function ($angket) use ($smt) {
             $semester = $smt->where('fak_id', $angket->prodi)->first();
 
-            return $angket->smt == $semester->smt_aktif;
+            return $angket->smt == $semester->smt_yad;
         });
 
         $pdf = PDF::loadView('laporan.angket.export-pdf', ['fak' => $fak,
