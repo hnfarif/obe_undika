@@ -44,12 +44,11 @@ class RpsController extends Controller
             $smt = Semester::where('fak_id', $fak_id)->first();
             $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('penyusun', $nik)->where('semester', $smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else{
-            $prodi = Prodi::where('sts_aktif', 'Y')->first();
-            $smt = Semester::where('fak_id', $prodi->id)->first();
+            $getFtPro = $prodi->first();
+            $smt = Semester::where('fak_id', $getFtPro->id)->first();
             $rps = Rps::whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
-        // dd($mailStaf);
         return view('rps.index', compact('rps','fak','prodi', 'dosens', 'smt', 'mailStaf'));
     }
 
