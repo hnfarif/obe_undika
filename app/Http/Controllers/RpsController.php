@@ -40,12 +40,10 @@ class RpsController extends Controller
         $mailStaf = MailStaf::all();
 
         if ($role == 'dosen') {
-            $fak_id = $dosens->where('nik', $nik)->first()->fakul_id;
-            $smt = Semester::where('fak_id', $fak_id)->first();
+            $smt = Semester::orderBy('smt_yad', 'desc')->first();
             $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('penyusun', $nik)->where('semester', $smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else{
-            $getFtPro = $prodi->first();
-            $smt = Semester::where('fak_id', $getFtPro->id)->first();
+            $smt = Semester::orderBy('smt_yad', 'desc')->first();
             $rps = Rps::whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
@@ -65,14 +63,13 @@ class RpsController extends Controller
         foreach ($mk as $i) {
             $prodiAktif = Prodi::where('id', $i->fakul_id)->first()->sts_aktif;
             if ($prodiAktif == 'Y') {
-                $smt = Semester::where('fak_id', $i->fakul_id)->first();
-                if ($smt) {
 
-                    $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_yad)->first();
+                $smt = Semester::orderBy('smt_yad', 'desc')->first();
 
-                    if(!$findRps){
-                        $filMk[] = $i;
-                    }
+                $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_yad)->first();
+
+                if(!$findRps){
+                    $filMk[] = $i;
                 }
             }
 
@@ -104,7 +101,7 @@ class RpsController extends Controller
 
             $mk = MataKuliah::where('id',$i)->first();
             $findRps = Rps::where('kurlkl_id', $i)->where('semester',$request->semester)->first();
-            $smt = Semester::where('fak_id', $mk->fakul_id)->first();
+            $smt = Semester::orderBy('smt_yad', 'desc')->first();
 
             if ($findRps) {
                 continue;

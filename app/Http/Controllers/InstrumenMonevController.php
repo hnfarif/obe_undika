@@ -212,7 +212,7 @@ class InstrumenMonevController extends Controller
         $kary = KaryawanDosen::all();
 
         $kar = KaryawanDosen::where('nik', $nik)->first();
-        $smt = Semester::where('fak_id', $kar->fakul_id)->first();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $pltMnv = PlottingMonev::with('programstudi')->where('nik_pemonev', $nik)->where('semester', $smt->smt_yad)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
         $arrPlot = $pltMnv->pluck('id')->toArray();
         $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();

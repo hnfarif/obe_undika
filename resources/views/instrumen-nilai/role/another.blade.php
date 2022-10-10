@@ -26,7 +26,7 @@
                         <tbody>
 
                             @foreach ($kary as $k)
-                            @if ($smt->where('fak_id',$k->fakul_id)->first())
+
                             <tr class="text-center">
                                 <td>
                                     {{ $k->nik }}
@@ -42,14 +42,14 @@
                                 </td>
                                 <td>
 
-                                    {{ $instru->where('nik', $k->nik)->where('semester', $smt->where('fak_id',$k->fakul_id)->first()['smt_yad'])->count() }}
+                                    {{ $instru->where('nik', $k->nik)->where('semester', $smt->smt_yad)->count() }}
 
                                 </td>
                                 <td><a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->nik]) }}"
                                         class="btn btn-primary btn-sm text-sm">Detail</a>
                                 </td>
                             </tr>
-                            @endif
+
                             @endforeach
 
 

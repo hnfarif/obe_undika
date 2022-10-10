@@ -47,14 +47,14 @@ class InstrumenNilaiController extends Controller
 
         if ($role == 'dosen') {
             $kary = KaryawanDosen::where('nik',$nik_kary)->first();
-            $smt = Semester::where('fak_id', $kary->fakul_id)->first();
+            $smt = Semester::orderBy('smt_yad', 'desc')->first();
             $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
             ->where('semester', $smt->smt_yad)
             ->pluck('kurlkl_id')->toArray();
 
             $arrKlkl = [];
             foreach ($rps as $i) {
-                $arrKlkl[] = substr($i, 5);
+                $arrKlkl[] = $i;
             }
 
             $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
@@ -62,10 +62,8 @@ class InstrumenNilaiController extends Controller
 
             $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->fakultas()->prodi()->get();
             $jdwkul = JadwalKuliah::all();
-            $smt = Semester::all();
+            $smt = Semester::orderBy('smt_yad', 'desc')->first();
 
-
-            // dd($kary);
         }
 
 
@@ -380,7 +378,7 @@ class InstrumenNilaiController extends Controller
     {
         $nik_kary = $request->nik;
         $kary = KaryawanDosen::where('nik',$nik_kary)->first();
-        $smt = Semester::where('fak_id', $kary->fakul_id)->first();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
 
         $rps = Rps::where('kurlkl_id', $request->kode_mk)->where('semester', $smt->smt_yad)->get();
 
@@ -399,7 +397,7 @@ class InstrumenNilaiController extends Controller
                     'error' => 'Data RPS belum selesai, silahkan hubungi penyusun RPS',
                 ]);
             }
-            $instru = InstrumenNilai::where('rps_id', $rps->id)->where('klkl_id', substr($request->kode_mk, 5))
+            $instru = InstrumenNilai::where('rps_id', $rps->id)->where('klkl_id', $request->kode_mk)
             ->where('nik', $nik_kary)
             ->first();
 
@@ -411,7 +409,7 @@ class InstrumenNilaiController extends Controller
             }else{
                 $newInstru = InstrumenNilai::create([
                     'rps_id' => $rps->id,
-                    'klkl_id' => substr($request->kode_mk, 5),
+                    'klkl_id' => $request->kode_mk,
                     'semester' => $smt->smt_yad,
                     'nik' => $nik_kary,
                     'kelas' => $request->kelas,
@@ -480,14 +478,14 @@ class InstrumenNilaiController extends Controller
     public function detailInstrumen()
     {
         $kary = KaryawanDosen::where('nik', request('nik'))->first();
-        $smt = Semester::where('fak_id', $kary->fakul_id)->first();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
         ->where('semester', $smt->smt_yad)
         ->pluck('kurlkl_id')->toArray();
 
         $arrKlkl = [];
         foreach ($rps as $i) {
-            $arrKlkl[] = substr($i, 5);
+            $arrKlkl[] = $i;
         }
 
         $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();

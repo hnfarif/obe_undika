@@ -24,7 +24,7 @@ class LaporanBrilianController extends Controller
 
         $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $getFirstPro = $prodi->first();
-        $smt = Semester::where('fak_id', $getFirstPro->id)->first()->smt_yad;
+        $smt = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
         $response = Http::get($url, [
             'semester' => $smt,
             'json' => true,

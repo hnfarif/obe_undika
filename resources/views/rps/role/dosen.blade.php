@@ -17,15 +17,15 @@
         @endif">
             <div class="card-header" style="height: 100px;">
                 <div class="d-block">
-                    <h4 class="text-dark">{{ $r->nama_mk }} ({{ substr($r->kurlkl_id,4) }})</h4>
+                    <h4 class="text-dark">{{ $r->nama_mk }} ({{ $r->kurlkl_id }})</h4>
                     <p class="m-0">{{ $r->matakuliah->prodi->nama }}</p>
                 </div>
                 <div class="card-header-action ml-auto">
-                    <a data-collapse="#{{ substr($r->kurlkl_id,4) }}" class="btn btn-icon btn-info" href="#"><i
+                    <a data-collapse="#{{ $r->id }}" class="btn btn-icon btn-info" href="#"><i
                             class="fas fa-plus"></i></a>
                 </div>
             </div>
-            <div class="collapse" id="{{ substr($r->kurlkl_id,4) }}">
+            <div class="collapse" id="{{ $r->id }}">
                 <div class="card-body">
                     <b>Rumpun Mata Kuliah</b>
                     <p>{{ $r->rumpun_mk }}</p>

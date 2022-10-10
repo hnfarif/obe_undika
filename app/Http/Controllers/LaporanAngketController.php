@@ -15,16 +15,15 @@ class LaporanAngketController extends Controller
     public function index()
     {
         $angket = AngketTrans::with('karyawan')->fakultas()->prodi()->dosen()->get();
-        $smt = Semester::all();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $fak = Fakultas::with('prodis')->get();
         $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::all();
 
 
         $filterAngket = $angket->filter(function ($angket) use ($smt) {
-            $semester = $smt->where('fak_id', $angket->prodi)->first();
 
-            return $angket->smt == $semester->smt_yad;
+            return $angket->smt == $smt->smt_yad;
         });
 
 
@@ -41,14 +40,13 @@ class LaporanAngketController extends Controller
         }
 
         $angket = AngketTrans::with('karyawan')->fakultas()->prodi()->dosen()->get();
-        $smt = Semester::all();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $fak = Fakultas::with('prodis')->get();
 
 
         $filterAngket = $angket->filter(function ($angket) use ($smt) {
-            $semester = $smt->where('fak_id', $angket->prodi)->first();
 
-            return $angket->smt == $semester->smt_yad;
+            return $angket->smt == $smt->smt_yad;
         });
 
         $pdf = PDF::loadView('laporan.angket.export-pdf', ['fak' => $fak,

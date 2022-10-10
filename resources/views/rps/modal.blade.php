@@ -57,17 +57,22 @@
                                     $smt->smt_lain,
                                 request('semester'))) checked @endif id="semester-1">
                                 <label class="custom-control-label" for="semester-1">{{ $smt->smt_lain }}</label>
+                            </div>
+                            <div class="custom-control custom-checkbox checkbox-xl">
                                 <input type="checkbox" name="semester[]" value="{{ $smt->smt_yad }}"
                                     class="custom-control-input" @if(is_array(request('semester')) && in_array(
                                     $smt->smt_yad,
                                 request('semester'))) checked @endif id="semester-2">
                                 <label class="custom-control-label" for="semester-2">{{ $smt->smt_yad }}</label>
+                            </div>
+                            <div class="custom-control custom-checkbox checkbox-xl">
                                 <input type="checkbox" name="semester[]" value="{{ $smt->smt_aktif }}"
                                     class="custom-control-input" @if(is_array(request('semester')) && in_array(
                                     $smt->smt_aktif,
                                 request('semester'))) checked @endif id="semester-3">
                                 <label class="custom-control-label" for="semester-3">{{ $smt->smt_aktif }}</label>
                             </div>
+
                             <div class="mb-3"></div>
                             <h6>Penyusun</h6>
                             <div class="form-group m-0">

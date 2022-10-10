@@ -32,7 +32,7 @@ class PlottingMonevController extends Controller
         $kary = KaryawanDosen::all();
 
         $getFtPro = $prodi->first();
-        $smt = Semester::where('fak_id', $getFtPro->id)->first();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $pltMnv = PlottingMonev::where('semester', $smt->smt_yad)->fakultas()->prodi()->dosen()->name()->get();
         $kri = KriteriaMonev::all();
         return view('plotting-monev.index', compact('pltMnv', 'kri', 'fak', 'prodi', 'kary'));
@@ -49,7 +49,7 @@ class PlottingMonevController extends Controller
         $rpsKl = [];
         $rps = Rps::all();
         foreach ($rps as $r) {
-            $smt = Semester::where('fak_id', substr($r->kurlkl_id, 0, 5))->first();
+            $smt = Semester::orderBy('smt_yad', 'desc')->first();
             if($r->semester == $smt->smt_yad){
                 $rpsKl[] = $r->kurlkl_id;
             }
@@ -58,7 +58,7 @@ class PlottingMonevController extends Controller
         $arrKurlkl = [];
 
         foreach ($rpsKl as $i) {
-            $arrKurlkl[] = substr($i,5);
+            $arrKurlkl[] = $i;
         }
 
         $jdwkul = JadwalKuliah::whereIn('klkl_id', $arrKurlkl)->get();
@@ -73,9 +73,7 @@ class PlottingMonevController extends Controller
         $jdwkul = $arrJdwkul;
         $kary = KaryawanDosen::where('fakul_id', '<>', null)->get();
 
-        $smt = Semester::all();
-
-        return view('plotting-monev.create', compact('jdwkul', 'kary', 'smt'));
+        return view('plotting-monev.create', compact('jdwkul', 'kary'));
     }
 
     /**
@@ -94,7 +92,7 @@ class PlottingMonevController extends Controller
         ]);
         foreach ($request->mk_monev as $i) {
             $expData = explode("-", $i);
-            $smt = Semester::where('fak_id', $expData[2])->first();
+            $smt =  Semester::orderBy('smt_yad', 'desc')->first();
             PlottingMonev::create([
                 'nik_pemonev' => $request->dosen_pemonev,
                 'nik_pengajar' => $expData[0],
