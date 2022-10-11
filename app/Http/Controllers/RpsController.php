@@ -47,7 +47,7 @@ class RpsController extends Controller
             $rps = Rps::whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
-        return view('rps.index', compact('rps','fak','prodi', 'dosens', 'smt', 'mailStaf', 'smtMax', 'smtMin'));
+        return view('rps.index', compact('rps','fak','prodi', 'dosens', 'smt', 'mailStaf'));
     }
 
     /**
