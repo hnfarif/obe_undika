@@ -7,6 +7,7 @@ use App\Models\AgendaBelajar;
 use App\Models\DetailAgenda;
 use App\Models\Fakultas;
 use App\Models\InstrumenNilai;
+use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\MailStaf;
 use App\Models\MataKuliah;
@@ -63,20 +64,17 @@ class RpsController extends Controller
      */
     public function create()
     {
-        $mk = MataKuliah::where('fakul_id', '<>', null)->get();
+        $jdw = JadwalKuliah::distinct('klkl_id')->pluck('klkl_id')->toArray();
+        $mk = MataKuliah::whereIn('id', $jdw)->get();
         $filMk = [];
 
         foreach ($mk as $i) {
-            $prodiAktif = Prodi::where('id', $i->fakul_id)->first()->sts_aktif;
-            if ($prodiAktif == 'Y') {
+            $smt = Semester::orderBy('smt_yad', 'desc')->first();
 
-                $smt = Semester::orderBy('smt_yad', 'desc')->first();
+            $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_yad)->first();
 
-                $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_yad)->first();
-
-                if(!$findRps){
-                    $filMk[] = $i;
-                }
+            if(!$findRps){
+                $filMk[] = $i;
             }
 
         }
