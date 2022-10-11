@@ -52,25 +52,12 @@
                             <div class="mb-3"></div>
                             <h6>Semester</h6>
                             <div class="custom-control custom-checkbox checkbox-xl">
-                                <input type="checkbox" name="semester[]" value="{{ $smtMax }}"
-                                    class="custom-control-input" @if(is_array(request('semester')) && in_array( $smtMax,
-                                    request('semester'))) checked @endif id="semester-1">
-                                <label class="custom-control-label" for="semester-1">{{ $smtMax }}</label>
-                            </div>
-                            <div class="custom-control custom-checkbox checkbox-xl">
-                                <input type="checkbox" name="semester[]" value="{{ $smt->smt_yad }}"
+                                <input type="checkbox" name="semester[]" value="{{ $smt->smt_aktif }}"
                                     class="custom-control-input" @if(is_array(request('semester')) && in_array(
-                                    $smt->smt_yad,
+                                    $smt->smt_aktif,
                                 request('semester'))) checked @endif id="semester-2">
-                                <label class="custom-control-label" for="semester-2">{{ $smt->smt_yad }}</label>
+                                <label class="custom-control-label" for="semester-2">{{ $smt->smt_aktif }}</label>
                             </div>
-                            <div class="custom-control custom-checkbox checkbox-xl">
-                                <input type="checkbox" name="semester[]" value="{{ $smtMin }}"
-                                    class="custom-control-input" @if(is_array(request('semester')) && in_array( $smtMin,
-                                    request('semester'))) checked @endif id="semester-3">
-                                <label class="custom-control-label" for="semester-3">{{ $smtMin }}</label>
-                            </div>
-
                             <div class="mb-3"></div>
                             <h6>Penyusun</h6>
                             <div class="form-group m-0">

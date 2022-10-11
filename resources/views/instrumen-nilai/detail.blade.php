@@ -33,11 +33,11 @@
                                     <p class="m-0">{{ $jdw->getNameProdi($jdw->prodi) }}</p>
                                 </div>
                                 <div class="card-header-action ml-auto">
-                                    <a data-collapse="#{{ $jdw->klkl_id }}" class="btn btn-icon btn-info" href="#"><i
-                                            class="fas fa-plus"></i></a>
+                                    <a data-collapse="#{{ $jdw->klkl_id.$jdw->kelas }}" class="btn btn-icon btn-info"
+                                        href="#"><i class="fas fa-plus"></i></a>
                                 </div>
                             </div>
-                            <div class="collapse" id="{{ $jdw->klkl_id }}">
+                            <div class="collapse" id="{{ $jdw->klkl_id.$jdw->kelas }}">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12 d-flex justify-content-between">

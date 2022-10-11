@@ -41,11 +41,9 @@ class RpsController extends Controller
 
         if ($role == 'dosen') {
             $smt = Semester::orderBy('smt_yad', 'desc')->first();
-            $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('penyusun', $nik)->where('semester', $smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
+            $rps = Rps::where('penyusun', $nik)->whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else{
             $smt = Semester::orderBy('smt_yad', 'desc')->first();
-            $smtMax = Semester::max('smt_yad');
-            $smtMin = Semester::min('smt_yad');
             $rps = Rps::whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
@@ -59,7 +57,7 @@ class RpsController extends Controller
      */
     public function create()
     {
-        $mk = MataKuliah::where('status', 1)->where('id', '<>', null)->where('fakul_id', '<>', null)->get();
+        $mk = MataKuliah::where('fakul_id', '<>', null)->get();
         $filMk = [];
 
         foreach ($mk as $i) {
@@ -249,7 +247,7 @@ class RpsController extends Controller
                 $q->where('rps_id', $rps->id);
             });
         })->select('deskripsi_pbm')->where('status', 'pbm')->distinct()->get();
-        // dd($pus);
+
         return view('rps.rangkuman', compact('dataRps','rps','kultot','med','pus','pbm'));
     }
 
