@@ -59,10 +59,11 @@ class Rps extends Model
         if (request()->prodi) {
             // $arr = request()->prodi->toArray();
             $filProdi = request()->prodi;
+            $mk = MataKuliah::whereIn('fakul_id', $filProdi)->pluck('id')->toArray();
 
-            return $query->where(function ($q) use ($filProdi) {
-                foreach ($filProdi as $key => $value) {
-                    $q->orWhere('kurlkl_id', 'LIKE', $value . '%');
+            return $query->where(function ($q) use ($mk) {
+                foreach ($mk as $key => $value) {
+                    $q->orWhere('kurlkl_id', $value);
                 }
             });
         }

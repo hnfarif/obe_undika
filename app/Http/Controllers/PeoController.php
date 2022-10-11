@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fakultas;
 use App\Models\KaryawanDosen;
 use App\Models\Peo;
 use App\Models\PeoPlo;
@@ -36,6 +37,11 @@ class PeoController extends Controller
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
             $peo = Peo::where('fakul_id', $chkrole->fakul_id)->with('plos')->get();
             return view('kelolapeoplo.kelolapeo', compact('peo'));
+
+        }else if ($user->role == 'dekan'){
+            $fak = Fakultas::where('mngr_id', $user->nik)->first();
+            $prodi = Prodi::where('sts_aktif', 'Y')->where('id_fakultas', $fak->id)->get();
+            return view('kelolapeoplo.kelolapeo', compact('prodi'));
         }else{
             $prodi = Prodi::where('sts_aktif', 'Y')->get();
             return view('kelolapeoplo.kelolapeo', compact('prodi'));
