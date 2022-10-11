@@ -2,7 +2,7 @@
 
 <div class="section-body">
     <div class="d-flex align-items-center my-0">
-        <h2 class="section-title">Kelola PLO</h2>
+        <h2 class="section-title">Program Learning Outcomes (PLO)</h2>
 
     </div>
     <div class="row">

@@ -1,7 +1,7 @@
 @include('kelolapeoplo.section-header')
 <div class="section-body">
     <div class="d-flex align-items-center my-0">
-        <h2 class="section-title">Kelola PEO</h2>
+        <h2 class="section-title">(Program Educational Objectives) PEO</h2>
     </div>
     <div class="row">
         <div class="col-12">

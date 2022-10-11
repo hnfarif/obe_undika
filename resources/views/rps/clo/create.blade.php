@@ -119,7 +119,8 @@
 
                                                 <input type="number" name="target_lulus"
                                                     class="form-control @error('target_lulus') is-invalid @enderror"
-                                                    min="0" max="100" value="{{ old('target_lulus') }}" required>
+                                                    min="0" max="100" maxlength="3" value="{{ old('target_lulus') }}"
+                                                    required>
                                                 @error('target_lulus')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -133,7 +134,8 @@
 
                                                 <input type="number" name="nilai_min"
                                                     class="form-control @error('nilai_min') is-invalid @enderror "
-                                                    min="0" max="100" value="{{ old('nilai_min') }}" required>
+                                                    min="0" max="100" maxlength="3" value="{{ old('nilai_min') }}"
+                                                    required>
                                                 @error('nilai_min')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
