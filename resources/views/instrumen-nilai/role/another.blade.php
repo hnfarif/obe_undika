@@ -26,7 +26,9 @@
                         <tbody>
 
                             @foreach ($kary as $k)
-
+                            @if ($jdwkul->where('kary_nik', $k->nik)->count() == 0)
+                            @continue
+                            @else
                             <tr class="text-center">
                                 <td>
                                     {{ $k->nik }}
@@ -49,7 +51,7 @@
                                         class="btn btn-primary btn-sm text-sm">Detail</a>
                                 </td>
                             </tr>
-
+                            @endif
                             @endforeach
 
 

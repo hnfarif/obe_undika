@@ -44,10 +44,12 @@ class RpsController extends Controller
             $rps = Rps::with('matakuliah','karyawan','dosenPenyusun')->where('penyusun', $nik)->where('semester', $smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else{
             $smt = Semester::orderBy('smt_yad', 'desc')->first();
+            $smtMax = Semester::max('smt_yad');
+            $smtMin = Semester::min('smt_yad');
             $rps = Rps::whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
-        return view('rps.index', compact('rps','fak','prodi', 'dosens', 'smt', 'mailStaf'));
+        return view('rps.index', compact('rps','fak','prodi', 'dosens', 'smt', 'mailStaf', 'smtMax', 'smtMin'));
     }
 
     /**
@@ -101,7 +103,7 @@ class RpsController extends Controller
 
             $mk = MataKuliah::where('id',$i)->first();
             $findRps = Rps::where('kurlkl_id', $i)->where('semester',$request->semester)->first();
-            $smt = Semester::orderBy('smt_yad', 'desc')->first();
+            $smt = Semester::max('smt_yad');
 
             if ($findRps) {
                 continue;
@@ -111,7 +113,7 @@ class RpsController extends Controller
                 $rps->nik = $request->ketua_rumpun;
                 $rps->nama_mk = $mk->nama;
                 $rps->rumpun_mk = $request->rumpun_mk;
-                $rps->semester = $smt->smt_yad;
+                $rps->semester = $smt;
                 $rps->save();
 
             }

@@ -55,8 +55,8 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button data-mk="{{ $jdw->prodi.$jdw->klkl_id }}" data-nik="{{ $jdw->kary_nik }}"
-                    data-kelas="{{ $jdw->kelas }}" class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first())
+                <button data-mk="{{ $jdw->klkl_id }}" data-nik="{{ $jdw->kary_nik }}" data-kelas="{{ $jdw->kelas }}"
+                    class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first())
                     btn-primary @else btn-warning @endif btn-sm btnUbahNilai">
 
                     @if($instru->where('klkl_id', $jdw->klkl_id)->where('nik', $jdw->kary_nik)->first()) Lihat Instrumen

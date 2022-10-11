@@ -57,7 +57,7 @@ class InstrumenNilaiController extends Controller
                 $arrKlkl[] = $i;
             }
 
-            $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
+            $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
         }else{
 
             $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->fakultas()->prodi()->get();
@@ -388,7 +388,7 @@ class InstrumenNilaiController extends Controller
             ]);
         }else if($rps->count() == 0){
             return response()->json([
-                'error' => 'Data RPS tidak ditemukan',
+                'error' => 'RPS tidak ditemukan',
             ]);
         }else{
             $rps = $rps->first();
@@ -488,7 +488,7 @@ class InstrumenNilaiController extends Controller
             $arrKlkl[] = $i;
         }
 
-        $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('sts_kul', '1')->whereIn('klkl_id', $arrKlkl)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
+        $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('sts_kul', '1')->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
         $instru = InstrumenNilai::all();
 
 
