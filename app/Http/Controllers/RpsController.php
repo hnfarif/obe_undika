@@ -45,8 +45,8 @@ class RpsController extends Controller
             $rps = Rps::where('penyusun', $nik)->whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else if($role == 'dekan'){
             $smt = Semester::orderBy('smt_yad', 'desc')->first();
-            $fak = Fakultas::where('mngr_id', $nik)->first();
-            $prodi = Prodi::where('sts_aktif', 'Y')->where('id_fakultas', $fak->id)->pluck('id')->toArray();
+            $faks = Fakultas::where('mngr_id', $nik)->first();
+            $prodi = Prodi::where('sts_aktif', 'Y')->where('id_fakultas', $faks->id)->pluck('id')->toArray();
             $mk = MataKuliah::whereIn('fakul_id', $prodi)->pluck('id')->toArray();
             $rps = Rps::whereIn('id', $mk)->whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }else{
