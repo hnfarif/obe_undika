@@ -482,9 +482,9 @@ class AgendaController extends Controller
 
     public function getSks(Request $request)
     {
-        $rps = Rps::with('mataKuliah')->find($request->rps_id);
+        $mk = MataKuliah::where('id', $request->mk_id)->first();
 
-        return $rps;
+        return $mk->sks;
     }
 
     public function listLlo(Request $request)

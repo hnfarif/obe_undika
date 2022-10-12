@@ -285,11 +285,11 @@
             url: "{{ route('kuliah.getSks') }}",
             type: 'GET',
             data: {
-                'rps_id': "{{ $rps->id }}",
+                'mk_id': "{{ $rps->kurlkl_id }}",
             },
             success: function (data) {
-                $('#responsi').val(data.mata_kuliah.sks * 60);
-                $('#belajarMandiri').val(data.mata_kuliah.sks * 60);
+                $('#responsi').val(data * 60);
+                $('#belajarMandiri').val(data * 60);
             }
 
         })
@@ -302,7 +302,7 @@
                 url: "{{ route('kuliah.getSks') }}",
                 type: 'GET',
                 data: {
-                    'rps_id': "{{ $rps->id }}",
+                    'mk_id': "{{ $rps->kurlkl_id }}",
                 },
                 success: function (data) {
 
@@ -325,11 +325,11 @@
                 url: "{{ route('kuliah.getSks') }}",
                 type: 'GET',
                 data: {
-                    'rps_id': "{{ $rps->id }}",
+                    'mk_id': "{{ $rps->kurlkl_id }}",
                 },
                 success: function (data) {
-                    $('#responsi').val(data.mata_kuliah.sks * 60);
-                    $('#belajarMandiri').val(data.mata_kuliah.sks * 60);
+                    $('#responsi').val(data * 60);
+                    $('#belajarMandiri').val(data * 60);
                     $('#prak').attr('readonly', 'readonly');
                     $('#tm').removeAttr('readonly');
                     $('#sl').removeAttr('readonly');

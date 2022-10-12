@@ -59,7 +59,7 @@ class InstrumenMonevController extends Controller
             $dtlAgd = DetailAgenda::whereIn('agd_id', $agd->pluck('id')->toArray())->with('penilaian','clo','detailInstrumenNilai','agendaBelajar')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
             $dtlInsMon = DetailInstrumenMonev::where('ins_monev_id', $cekInsMon->id)->get();
 
-            $kul = MingguKuliah::where('smt', $cekInsNilai->semester)->get();
+            $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $cekInsNilai->semester)->get();
 
             $week = '';
             foreach ($kul as $k) {
@@ -101,7 +101,7 @@ class InstrumenMonevController extends Controller
 
 
             // mencari pertemuan sesuai tanggal
-            $kul = MingguKuliah::where('smt', $plot->semester)->get();
+            $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $plot->semester)->get();
 
             $week = '';
             foreach ($kul as $k) {
