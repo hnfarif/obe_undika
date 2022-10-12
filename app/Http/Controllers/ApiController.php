@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MingguKuliah;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -23,5 +24,11 @@ class ApiController extends Controller
         $responseBody = json_decode($response->getBody());
 
         dd($responseBody->data);
+    }
+
+    public function cekData(){
+        $mk = MingguKuliah::all();
+
+        dd($mk);
     }
 }

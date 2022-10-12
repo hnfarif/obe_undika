@@ -179,3 +179,4 @@ Route::prefix('laporan')->middleware('ensureUserRole:p3ai')->name('laporan.')->g
 });
 
 Route::get('/testapi', [ApiController::class, 'apiwithoutKey']);
+Route::get('/cek-data', [ApiController::class, 'cekData']);
