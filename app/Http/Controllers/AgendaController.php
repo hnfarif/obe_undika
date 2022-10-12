@@ -170,7 +170,7 @@ class AgendaController extends Controller
         if($listLlo){
             $fAgd = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $request->week)->first();
             if (!$fAgd) {
-                $kul = MingguKuliah::where('smt', $rps->semester)->where('minggu_ke', $request->week)->first();
+                $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $request->week)->first();
                 $agdBelajar = new AgendaBelajar;
                 $agdBelajar->rps_id = $rps->id;
                 $agdBelajar->pekan = $request->week;
