@@ -63,7 +63,7 @@
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <table class="table table-striped table-responsive" id="tableLlo">
+                                <table class="table table-striped" id="tableLlo">
                                     <thead>
                                         <tr>
 
