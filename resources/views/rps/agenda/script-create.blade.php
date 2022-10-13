@@ -1008,25 +1008,17 @@
             $("#week").val(week);
         });
 
-        $('#formAgenda').on('show.bs.modal', function (e) {
-            var button = e.relatedTarget;
-            if ($(button).hasClass('no-modal')) {
-                e.stopPropagation();
-            }
-        });
 
         $('#btnFormClo').on('click', function () {
             var week = $("#week").val();
-
-            if (!week) {
-                $('#formAgenda').modal('hide');
+            if (week) {
+                $('#formAgenda').modal('show');
+            } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Silahkan pilih minggu terlebih dahulu!',
                 })
-            } else {
-                $('#formAgenda').modal('show');
             }
 
             $.ajax({
