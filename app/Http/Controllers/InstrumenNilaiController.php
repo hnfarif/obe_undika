@@ -133,7 +133,7 @@ class InstrumenNilaiController extends Controller
             }
 
         }
-        dd($weekEigth);
+        dd($kul);
         if($now >= $weekEigth['start'] && $now <= $weekEigth['end']){
             $week = '8';
         } else if($now >= $weekSixteen['start'] && $now <= $weekSixteen['end']){
