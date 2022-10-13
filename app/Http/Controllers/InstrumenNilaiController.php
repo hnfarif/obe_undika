@@ -89,6 +89,9 @@ class InstrumenNilaiController extends Controller
         $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
 
+        $weekEigth = [];
+        $weekSixteen = [];
+
         if ($nik_kary != $instru->nik) {
             $isRead = true;
         }
@@ -97,28 +100,28 @@ class InstrumenNilaiController extends Controller
         // ada kolom jenis semester harus diperhatikan
         $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $instru->semester)->get();
 
-        $weekEigth = [];
-        $weekSixteen = [];
+
 
         $week = '';
         foreach ($kul as $k) {
 
             if ($k->minggu_ke == '7') {
                 $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
-                $weekEigth['start'][] = $start;
+
+                $weekEigth[] = $start;
 
             }
 
             if ($k->minggu_ke == '9') {
 
                 $end = date('Y-m-d', strtotime('-1 days', strtotime($k->tgl_mulai)));
-                $weekEigth['end'][] = $end;
+                $weekEigth[] = $end;
             }
 
             if ($k->minggu_ke == '15') {
                 $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
-                $weekSixteen['start'][] = $start;
-                $weekSixteen['end'][] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
+                $weekSixteen[] = $start;
+                $weekSixteen[] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
             }
 
             $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
