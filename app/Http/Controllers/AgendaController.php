@@ -476,8 +476,21 @@ class AgendaController extends Controller
     public function destroy($id, $rps)
     {
         $dtlAgd = DetailAgenda::find($id);
-        $ifAgd = DetailAgenda::where('agd_id', $dtlAgd->agd_id)->count();
-        $ifLlo = DetailAgenda::where('llo_id', $dtlAgd->llo_id)->count();
+
+        if ($dtlAgd->agd_id) {
+
+            $ifAgd = DetailAgenda::where('agd_id', $dtlAgd->agd_id)->count();
+        }else{
+            $ifAgd = 0;
+        }
+
+        if ($dtlAgd->llo_id) {
+
+            $ifLlo = DetailAgenda::where('llo_id', $dtlAgd->llo_id)->count();
+        }else{
+            $ifLlo = 0;
+        }
+
 
         $delAgdLlo = $dtlAgd;
         $dtlAgd->delete();
