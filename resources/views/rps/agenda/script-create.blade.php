@@ -1009,6 +1009,17 @@
         });
 
         $('#btnFormClo').on('click', function () {
+            var week = $("#week").val();
+            if (week) {
+                //modal show
+                $('#formAgenda').modal('show');
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Silahkan pilih minggu terlebih dahulu!',
+                })
+            }
 
             $.ajax({
                 url: "{{ route('create.session.getLlo') }}",
