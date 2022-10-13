@@ -105,7 +105,7 @@ class InstrumenNilaiController extends Controller
         $week = '';
         foreach ($kul as $k) {
 
-            if ($k->minggu_ke == '7') {
+            if ($k->minggu_ke === '7') {
                 $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
                 dd($start);
                 $weekEigth[] = $start;
