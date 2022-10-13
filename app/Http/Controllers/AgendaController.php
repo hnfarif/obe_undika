@@ -479,15 +479,16 @@ class AgendaController extends Controller
         $ifAgd = DetailAgenda::where('agd_id', $dtlAgd->agd_id)->count();
         $ifLlo = DetailAgenda::where('llo_id', $dtlAgd->llo_id)->count();
 
+        $delAgdLlo = $dtlAgd;
+        $dtlAgd->delete();
+
         if($ifAgd == 1){
-            $agd = AgendaBelajar::find($dtlAgd->agd_id);
+            $agd = AgendaBelajar::find($delAgdLlo->agd_id);
             $agd->delete();
-        }else{
-            $dtlAgd->delete();
         }
 
         if ($ifLlo == 1) {
-            $llo = LLo::find($dtlAgd->llo_id);
+            $llo = LLo::find($delAgdLlo->llo_id);
             $llo->delete();
         }
 
