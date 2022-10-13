@@ -157,7 +157,7 @@ class AgendaController extends Controller
      */
     public function store(Request $request, Rps $rps)
     {
-        // dd($request->tanggal);
+
         $this->validate($request, [
             'week' => 'required',
         ]);
@@ -513,7 +513,7 @@ class AgendaController extends Controller
 
     public function listLlo(Request $request)
     {
-        if ($request->week == 'UTS' || $request->week == 'UAS') {
+        if ($request->week == '8' || $request->week == '16') {
             $condLlo = 'nullable';
             $conDes = 'nullable';
             $conCapai = 'nullable';
