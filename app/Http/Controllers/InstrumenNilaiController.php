@@ -105,20 +105,20 @@ class InstrumenNilaiController extends Controller
 
             if ($k->minggu_ke == '7') {
                 $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
-                $weekEigth['start'] = $start;
+                $weekEigth['start'][] = $start;
 
             }
 
             if ($k->minggu_ke == '9') {
 
                 $end = date('Y-m-d', strtotime('-1 days', strtotime($k->tgl_mulai)));
-                $weekEigth['end'] = $end;
+                $weekEigth['end'][] = $end;
             }
 
             if ($k->minggu_ke == '15') {
                 $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
-                $weekSixteen['start'] = $start;
-                $weekSixteen['end'] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
+                $weekSixteen['start'][] = $start;
+                $weekSixteen['end'][] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
             }
 
             $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
