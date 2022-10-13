@@ -24,7 +24,7 @@
 
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-12 mb-3 d-flex">
-                        <button type="button" class="btn btn-primary" id="btnFormClo" data-toggle="modal"
+                        <button type="button" class="btn btn-primary no-modal" id="btnFormClo" data-toggle="modal"
                             data-target="#formAgenda"> <i class="fas fa-plus"></i> Tambah data</button>
                         <form class="ml-auto" action="{{ route('agenda.store', $rps->id) }}" method="POST">
                             @csrf
