@@ -336,18 +336,24 @@
                             $('#kode_llo_opt').prepend(
                                 `<option selected data-sts="lloDb" data-index="true" value="${data.llo_id}">${data.llo.kode_llo}</option>`
                             );
+                        } else {
+                            $('#kode_llo_opt').val('default').change();
                         }
                     });
 
                     if (data.praktikum) {
                         if (data.llo) {
 
-                            $('#des_llo').val(data.llo.deskripsi_prak)
+                            $('#des_llo').val(data.llo.deskripsi_prak);
+                        } else {
+                            $('#des_llo').val('');
                         }
                     } else {
                         if (data.llo) {
 
-                            $('#des_llo').val(data.llo.deskripsi)
+                            $('#des_llo').val(data.llo.deskripsi);
+                        } else {
+                            $('#des_llo').val('');
                         }
                     }
                     $('.sn-capai').summernote('code', data.capaian_llo);
