@@ -97,8 +97,30 @@ class InstrumenNilaiController extends Controller
         // ada kolom jenis semester harus diperhatikan
         $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $instru->semester)->get();
 
+        $weekEigth = [];
+        $weekSixteen = [];
+
         $week = '';
         foreach ($kul as $k) {
+
+            if ($k->minggu_ke == '7') {
+                $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
+                $weekEigth['start'] = $start;
+
+            }
+
+            if ($k->minggu_ke == '9') {
+
+                $end = date('Y-m-d', strtotime('-1 days', strtotime($k->tgl_mulai)));
+                $weekEigth['end'] = $end;
+            }
+
+            if ($k->minggu_ke == '15') {
+                $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
+                $weekSixteen['start'] = $start;
+                $weekSixteen['end'] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
+            }
+
             $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
             $weekEndDate = Carbon::parse($k->tgl_akhir)->format('Y-m-d');
 
@@ -109,7 +131,12 @@ class InstrumenNilaiController extends Controller
 
         }
 
-        // dd($week);
+        if($now >= $weekEigth['start'] && $now <= $weekEigth['end']){
+            $week = '8';
+        } else if($now >= $weekSixteen['start'] && $now <= $weekSixteen['end']){
+            $week = '16';
+        }
+
         $rps = Rps::where('id', $instru->rps_id)->first();
 
         $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();

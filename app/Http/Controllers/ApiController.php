@@ -29,6 +29,8 @@ class ApiController extends Controller
     public function cekData(){
         $mk = MingguKuliah::all();
 
-        dd($mk);
+        //json
+        $data = json_encode($mk);
+        return $data;
     }
 }

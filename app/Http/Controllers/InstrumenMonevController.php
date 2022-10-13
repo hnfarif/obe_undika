@@ -61,8 +61,31 @@ class InstrumenMonevController extends Controller
 
             $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $cekInsNilai->semester)->get();
 
+            $weekEigth = [];
+            $weekSixteen = [];
+
             $week = '';
             foreach ($kul as $k) {
+
+                if ($k->minggu_ke == '7') {
+                    $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
+                    $weekEigth['start'] = $start;
+
+                }
+
+                if ($k->minggu_ke == '9') {
+
+                    $end = date('Y-m-d', strtotime('-1 days', strtotime($k->tgl_mulai)));
+                    $weekEigth['end'] = $end;
+                }
+
+                if ($k->minggu_ke == '15') {
+                    $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
+                    $weekSixteen['start'] = $start;
+                    $weekSixteen['end'] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
+                }
+
+
                 $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
                 $weekEndDate = Carbon::parse($k->tgl_akhir)->format('Y-m-d');
 
@@ -72,16 +95,23 @@ class InstrumenMonevController extends Controller
                 }
 
             }
-            // dd($week);
+
+            if($now >= $weekEigth['start'] && $now <= $weekEigth['end']){
+                $week = '8';
+            } else if($now >= $weekSixteen['start'] && $now <= $weekSixteen['end']){
+                $week = '16';
+            }
+
+
             $rps = Rps::where('id', $cekInsNilai->rps_id)->first();
 
             $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
 
-            // dd($getPekan->tgl_nilai);
+
             $startFill = Carbon::parse($getPekan->tgl_nilai);
             $endFill = Carbon::parse($startFill)->addDays(14);
 
-            //data RPS
+
             $agenda = AgendaBelajar::where('rps_id', $cekInsNilai->rps_id)->with('detailAgendas')
             ->orderBy('pekan', 'asc')->get();
 
@@ -100,20 +130,7 @@ class InstrumenMonevController extends Controller
             $bap = Bap::whereIn('kode_bap', $plDtlBap)->where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->get();
 
 
-            // mencari pertemuan sesuai tanggal
-            $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $plot->semester)->get();
 
-            $week = '';
-            foreach ($kul as $k) {
-                $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
-                $weekEndDate = Carbon::parse($k->tgl_akhir)->format('Y-m-d');
-
-                if ($now >= $weekStartDate && $now <= $weekEndDate) {
-                    $week = $k->minggu_ke;
-                    break;
-                }
-
-            }
 
 
             return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bap', 'rps', 'agenda', 'clo', 'penilaian', 'llo', 'plot', 'week'));

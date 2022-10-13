@@ -170,12 +170,36 @@ class AgendaController extends Controller
         if($listLlo){
             $fAgd = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $request->week)->first();
             if (!$fAgd) {
-                $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $request->week)->first();
-                $agdBelajar = new AgendaBelajar;
-                $agdBelajar->rps_id = $rps->id;
-                $agdBelajar->pekan = $request->week;
-                $agdBelajar->tgl_nilai = $kul->tgl_awal;
-                $agdBelajar->save();
+                if ($request->week == 8) {
+                    $getPreWeek = $request->week - 1;
+                    $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $getPreWeek)->first()->tgl_akhir;
+
+                    $tglAwal = date('Y-m-d', strtotime('+1 days', strtotime($kul)));
+
+                    $agdBelajar = new AgendaBelajar;
+                    $agdBelajar->rps_id = $rps->id;
+                    $agdBelajar->pekan = $request->week;
+                    $agdBelajar->tgl_nilai = $tglAwal;
+                    $agdBelajar->save();
+                }else if ($request->week == 16) {
+                    $getPreWeek = $request->week - 1;
+                    $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $getPreWeek)->first()->tgl_akhir;
+
+                    $tglAwal = date('Y-m-d', strtotime('+1 days', strtotime($kul)));
+
+                    $agdBelajar = new AgendaBelajar;
+                    $agdBelajar->rps_id = $rps->id;
+                    $agdBelajar->pekan = $request->week;
+                    $agdBelajar->tgl_nilai = $tglAwal;
+                    $agdBelajar->save();
+                }else{
+                    $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $request->week)->first();
+                    $agdBelajar = new AgendaBelajar;
+                    $agdBelajar->rps_id = $rps->id;
+                    $agdBelajar->pekan = $request->week;
+                    $agdBelajar->tgl_nilai = $kul->tgl_awal;
+                    $agdBelajar->save();
+                }
             }
 
 
