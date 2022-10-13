@@ -125,8 +125,16 @@
                                         <tr>
                                             <th>TM</th>
                                             <th>SL</th>
-                                            <th>ASL</th>
-                                            <th>ASM</th>
+                                            <th>
+                                                <div style="min-width: 50px;">
+                                                    ASL
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div style="min-width: 50px;">
+                                                    ASM
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -172,9 +172,9 @@ class AgendaController extends Controller
             if (!$fAgd) {
                 if ($request->week == 8) {
                     $getPreWeek = $request->week - 1;
-                    $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $getPreWeek)->first()->tgl_akhir;
+                    $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $getPreWeek)->first()->tgl_awal;
 
-                    $tglAwal = date('Y-m-d', strtotime('+1 days', strtotime($kul)));
+                    $tglAwal = date('Y-m-d', strtotime('+7 days', strtotime($kul)));
 
                     $agdBelajar = new AgendaBelajar;
                     $agdBelajar->rps_id = $rps->id;
@@ -183,9 +183,9 @@ class AgendaController extends Controller
                     $agdBelajar->save();
                 }else if ($request->week == 16) {
                     $getPreWeek = $request->week - 1;
-                    $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $getPreWeek)->first()->tgl_akhir;
+                    $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $getPreWeek)->first()->tgl_awal;
 
-                    $tglAwal = date('Y-m-d', strtotime('+1 days', strtotime($kul)));
+                    $tglAwal = date('Y-m-d', strtotime('+7 days', strtotime($kul)));
 
                     $agdBelajar = new AgendaBelajar;
                     $agdBelajar->rps_id = $rps->id;
