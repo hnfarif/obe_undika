@@ -21,7 +21,7 @@
     @foreach ($jdwkul as $jdw)
     <div class="col-12 col-md-12 col-lg-4">
         <div
-            class="card @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) card-primary @else card-warning @endif">
+            class="card @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->where('kelas', $jdw->kelas)->first()) card-primary @else card-warning @endif">
             <div class="card-header" style="height: 100px;">
                 <div class="d-block">
                     <h4 class="text-dark">{{ $jdw->getNameMataKuliah($jdw->klkl_id,$jdw->prodi) }}
@@ -56,7 +56,7 @@
             </div>
             <div class="card-footer">
                 <button data-mk="{{ $jdw->klkl_id }}" data-nik="{{ $jdw->kary_nik }}" data-kelas="{{ $jdw->kelas }}"
-                    class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first())
+                    class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->where('kelas', $jdw->kelas)->first())
                     btn-primary @else btn-warning @endif btn-sm btnUbahNilai">
 
                     @if($instru->where('klkl_id', $jdw->klkl_id)->where('nik', $jdw->kary_nik)->first()) Lihat Instrumen
