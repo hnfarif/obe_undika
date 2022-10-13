@@ -477,24 +477,20 @@ class AgendaController extends Controller
     {
         $dtlAgd = DetailAgenda::find($id);
         $ifAgd = DetailAgenda::where('agd_id', $dtlAgd->agd_id)->count();
+        $ifLlo = DetailAgenda::where('llo_id', $dtlAgd->llo_id)->count();
+
         if($ifAgd == 1){
             $agd = AgendaBelajar::find($dtlAgd->agd_id);
-            $ifLlo = DetailAgenda::where('llo_id', $dtlAgd->llo_id)->count();
             $agd->delete();
-
-            if ($ifLlo == 1) {
-                $llo = LLo::find($dtlAgd->llo_id);
-                $llo->delete();
-            }
         }else{
-            $ifLlo = DetailAgenda::where('llo_id', $dtlAgd->llo_id)->count();
             $dtlAgd->delete();
-            if ($ifLlo == 1) {
-                $llo = LLo::find($dtlAgd->llo_id);
-                $llo->delete();
-            }
         }
-        // dd($ifAgd);
+
+        if ($ifLlo == 1) {
+            $llo = LLo::find($dtlAgd->llo_id);
+            $llo->delete();
+        }
+
         if ($dtlAgd) {
             Session::flash('message','Data berhasil dihapus.');
             Session::flash('alert-class','alert-success');
