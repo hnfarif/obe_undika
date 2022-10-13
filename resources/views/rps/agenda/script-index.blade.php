@@ -329,6 +329,7 @@
                             );
                         }
                     });
+
                     $('#kode_llo_opt').children("option").each(function () {
                         if ($(this).val() == data.llo_id) {
                             $(this).remove();
@@ -337,7 +338,7 @@
                             );
                         }
                     });
-                    // $('#kode_llo').val(data.llo.kode_llo)
+
                     if (data.praktikum) {
 
                         $('#des_llo').val(data.llo.deskripsi_prak)
