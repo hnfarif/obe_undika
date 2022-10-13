@@ -340,10 +340,15 @@
                     });
 
                     if (data.praktikum) {
+                        if (data.llo) {
 
-                        $('#des_llo').val(data.llo.deskripsi_prak)
+                            $('#des_llo').val(data.llo.deskripsi_prak)
+                        }
                     } else {
-                        $('#des_llo').val(data.llo.deskripsi)
+                        if (data.llo) {
+
+                            $('#des_llo').val(data.llo.deskripsi)
+                        }
                     }
                     $('.sn-capai').summernote('code', data.capaian_llo);
                     $('#btk_penilaian').children("option").each(function () {
