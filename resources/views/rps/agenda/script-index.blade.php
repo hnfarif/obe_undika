@@ -331,11 +331,13 @@
                     });
 
                     $('#kode_llo_opt').children("option").each(function () {
-                        if ($(this).val() == data.llo_id) {
-                            $(this).remove();
-                            $('#kode_llo_opt').prepend(
-                                `<option selected data-sts="lloDb" data-index="true" value="${data.llo_id}">${data.llo.kode_llo}</option>`
-                            );
+                        if (data.llo) {
+                            if ($(this).val() == data.llo_id) {
+                                $(this).remove();
+                                $('#kode_llo_opt').prepend(
+                                    `<option selected data-sts="lloDb" data-index="true" value="${data.llo_id}">${data.llo.kode_llo}</option>`
+                                );
+                            }
                         } else {
                             $('#kode_llo_opt').val('default').change();
                         }
