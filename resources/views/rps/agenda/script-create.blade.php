@@ -1010,10 +1010,9 @@
 
         $('#btnFormClo').on('click', function () {
             var week = $("#week").val();
-            if (week) {
-                //modal show
-                $('#formAgenda').modal('show');
-            } else {
+
+            if (!week) {
+                $('#formAgenda').modal('hide');
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
