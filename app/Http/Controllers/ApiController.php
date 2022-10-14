@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Krs;
 use App\Models\MingguKuliah;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class ApiController extends Controller
     }
 
     public function cekData(){
-        $mk = MingguKuliah::where('jenis_smt', 'T')->where('smt', '221')->get();
+        $mk = Krs::all();
 
         //json
         $data = json_encode($mk);
