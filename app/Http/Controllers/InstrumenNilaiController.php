@@ -161,6 +161,9 @@ class InstrumenNilaiController extends Controller
 
         $krs = Krs::where('jkul_klkl_id', $instru->klkl_id)->where('jkul_kelas', $jdw->kelas)->where('kary_nik', $jdw->kary_nik)->with('mahasiswa')->get();
 
+        $dKrs = Krs::all();
+        dd($dKrs);
+
         $dtlInstru = DetailInstrumenNilai::where('ins_nilai_id', $instru->id)->get();
 
 
