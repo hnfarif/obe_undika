@@ -126,7 +126,7 @@ class InstrumenNilaiController extends Controller
         }
 
         if($wNine){
-            $end = Carbon::parse($wNine->tgl_awal)->subDays(1);
+            $end = Carbon::parse($wNine->tgl_awal)->subDays(1)->format('Y-m-d');
             $weekEigth['end'][] = $end;
         }
 
