@@ -89,7 +89,7 @@ class InstrumenNilaiController extends Controller
         $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
 
-        $weekEigth = ['start' => '', 'end' => ''];
+        $weekEigth = [];
         $weekSixteen = [];
 
         if ($nik_kary != $instru->nik) {
@@ -113,27 +113,30 @@ class InstrumenNilaiController extends Controller
                 break;
             }
 
-            if ($value['minggu_ke'] == '7') {
-                dd($value->minggu_ke);
-                $start = date('Y-m-d', strtotime('+1 days', strtotime($value->tgl_akhir)));
-                dd($start);
-                $weekEigth['start'][] = $start;
+        }
 
-            }
 
-            if ($value->minggu_ke == '9') {
+        $wSeven = $kul->where('minggu_ke', '7')->first();
+        $wNine = $kul->where('minggu_ke', '9')->first();
+        $wFifth = $kul->where('minggu_ke', '15')->first();
 
-                $end = date('Y-m-d', strtotime('-1 days', strtotime($value->tgl_mulai)));
-                $weekEigth[] = $end;
-            }
+        if($wSeven){
+            $start = date('Y-m-d', strtotime('+1 days', strtotime($wSeven->tgl_akhir)));
+            $weekEigth['start'][] = $start;
+        }
 
-            if ($value->minggu_ke == '15') {
-                $start = date('Y-m-d', strtotime('+1 days', strtotime($value->tgl_akhir)));
-                $weekSixteen[] = $start;
-                $weekSixteen[] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
-            }
+        if($wNine){
+            $end = date('Y-m-d', strtotime('-1 days', strtotime($value->tgl_mulai)));
+            $weekEigth['end'][] = $end;
+        }
+
+        if($wFifth){
+            $start = date('Y-m-d', strtotime('+1 days', strtotime($value->tgl_akhir)));
+            $weekSixteen[] = $start;
+            $weekSixteen[] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
         }
         dd($weekEigth);
+
         if($now >= $weekEigth['start'] && $now <= $weekEigth['end']){
             $week = '8';
         } else if($now >= $weekSixteen['start'] && $now <= $weekSixteen['end']){
