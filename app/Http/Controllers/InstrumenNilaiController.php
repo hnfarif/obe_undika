@@ -100,13 +100,11 @@ class InstrumenNilaiController extends Controller
 
         $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $instru->semester)->get();
 
-
-
         $week = '';
         foreach ($kul as $key => $value) {
 
             $weekStartDate = Carbon::parse($value->tgl_awal)->format('Y-m-d');
-            $weekEndDate = Carbon::parse($value->tgl_akhir)->format('Y-m-d');
+            $weekEndDate = Carbon::parse($value->tgl_akhir)->addDays(2)->format('Y-m-d');
 
             if ($now >= $weekStartDate && $now <= $weekEndDate) {
                 $week = $value->minggu_ke;
@@ -115,31 +113,30 @@ class InstrumenNilaiController extends Controller
 
         }
 
-
         $wSeven = $kul->where('minggu_ke', '7')->first();
         $wNine = $kul->where('minggu_ke', '9')->first();
         $wFifth = $kul->where('minggu_ke', '15')->first();
 
         if($wSeven){
             $start = date('Y-m-d', strtotime('+1 days', strtotime($wSeven->tgl_akhir)));
-            $weekEigth['start'][] = $start;
+            $weekEigth['start'] = $start;
         }
 
         if($wNine){
             $end = Carbon::parse($wNine->tgl_awal)->subDays(1)->format('Y-m-d');
-            $weekEigth['end'][] = $end;
+            $weekEigth['end'] = $end;
         }
 
         if($wFifth){
             $start = date('Y-m-d', strtotime('+1 days', strtotime($value->tgl_akhir)));
-            $weekSixteen[] = $start;
-            $weekSixteen[] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
+            $weekSixteen['start'] = $start;
+
         }
         dd($weekEigth);
 
         if($now >= $weekEigth['start'] && $now <= $weekEigth['end']){
             $week = '8';
-        } else if($now >= $weekSixteen['start'] && $now <= $weekSixteen['end']){
+        } else if($now >= $weekSixteen['start']){
             $week = '16';
         }
 
