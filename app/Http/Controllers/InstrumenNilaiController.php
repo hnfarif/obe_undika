@@ -109,7 +109,7 @@ class InstrumenNilaiController extends Controller
                 dd($value->minggu_ke);
                 $start = date('Y-m-d', strtotime('+1 days', strtotime($value->tgl_akhir)));
                 dd($start);
-                $weekEigth[] = $start;
+                $weekEigth['start'][] = $start;
 
             }
 
