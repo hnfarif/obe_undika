@@ -89,7 +89,7 @@ class InstrumenNilaiController extends Controller
         $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
 
-        $weekEigth = [];
+        $weekEigth = ['start' => '', 'end' => ''];
         $weekSixteen = [];
 
         if ($nik_kary != $instru->nik) {
