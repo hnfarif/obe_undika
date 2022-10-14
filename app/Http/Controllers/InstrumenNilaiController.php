@@ -105,6 +105,14 @@ class InstrumenNilaiController extends Controller
         $week = '';
         foreach ($kul as $key => $value) {
 
+            $weekStartDate = Carbon::parse($value->tgl_awal)->format('Y-m-d');
+            $weekEndDate = Carbon::parse($value->tgl_akhir)->format('Y-m-d');
+
+            if ($now >= $weekStartDate && $now <= $weekEndDate) {
+                $week = $value->minggu_ke;
+                break;
+            }
+
             if ($value['minggu_ke'] == '7') {
                 dd($value->minggu_ke);
                 $start = date('Y-m-d', strtotime('+1 days', strtotime($value->tgl_akhir)));
@@ -124,15 +132,6 @@ class InstrumenNilaiController extends Controller
                 $weekSixteen[] = $start;
                 $weekSixteen[] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
             }
-
-            $weekStartDate = Carbon::parse($value->tgl_awal)->format('Y-m-d');
-            $weekEndDate = Carbon::parse($value->tgl_akhir)->format('Y-m-d');
-
-            if ($now >= $weekStartDate && $now <= $weekEndDate) {
-                $week = $value->minggu_ke;
-                break;
-            }
-
         }
         dd($weekEigth);
         if($now >= $weekEigth['start'] && $now <= $weekEigth['end']){
