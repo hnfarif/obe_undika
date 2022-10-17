@@ -140,6 +140,7 @@ class InstrumenNilaiController extends Controller
             $week = '16';
         }
 
+        dd($week);
         $rps = Rps::where('id', $instru->rps_id)->first();
 
         $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
