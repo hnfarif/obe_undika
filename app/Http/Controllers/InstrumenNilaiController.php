@@ -169,7 +169,7 @@ class InstrumenNilaiController extends Controller
 
 
 
-        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary', 'week', 'getPekan', 'now', 'startFill', 'endFill', 'isRead'));
+        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'summary', 'week', 'getPekan', 'now', 'startFill', 'endFill', 'isRead'));
     }
 
     /**
