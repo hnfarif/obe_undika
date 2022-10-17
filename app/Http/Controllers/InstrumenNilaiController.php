@@ -118,7 +118,7 @@ class InstrumenNilaiController extends Controller
         $wFifth = $kul->where('minggu_ke', '15')->first();
 
         if($wSeven){
-            $start = date('Y-m-d', strtotime('+1 days', strtotime($wSeven->tgl_akhir)));
+            $start = Carbon::parse($wSeven->tgl_awal)->addDays(7)->format('Y-m-d');
             $weekEigth['start'] = $start;
         }
 
@@ -128,7 +128,8 @@ class InstrumenNilaiController extends Controller
         }
 
         if($wFifth){
-            $start = date('Y-m-d', strtotime('+1 days', strtotime($value->tgl_akhir)));
+
+            $start = Carbon::parse($wFifth->tgl_awal)->addDays(7)->format('Y-m-d');
             $weekSixteen['start'] = $start;
 
         }
@@ -140,7 +141,7 @@ class InstrumenNilaiController extends Controller
             $week = '16';
         }
 
-        dd($weekSixteen);
+        dd($week);
         $rps = Rps::where('id', $instru->rps_id)->first();
 
         $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
