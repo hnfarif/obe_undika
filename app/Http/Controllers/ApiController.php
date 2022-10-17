@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JadwalKuliah;
 use App\Models\Krs;
 use App\Models\MingguKuliah;
 use GuzzleHttp\Client;
@@ -28,7 +29,7 @@ class ApiController extends Controller
     }
 
     public function cekData(){
-        $mk = Krs::all();
+        $mk = JadwalKuliah::all();
 
         //json
         $data = json_encode($mk);
