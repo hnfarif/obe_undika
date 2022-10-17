@@ -67,25 +67,6 @@ class InstrumenMonevController extends Controller
             $week = '';
             foreach ($kul as $k) {
 
-                if ($k->minggu_ke == '7') {
-                    $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
-                    $weekEigth['start'] = $start;
-
-                }
-
-                if ($k->minggu_ke == '9') {
-
-                    $end = date('Y-m-d', strtotime('-1 days', strtotime($k->tgl_mulai)));
-                    $weekEigth['end'] = $end;
-                }
-
-                if ($k->minggu_ke == '15') {
-                    $start = date('Y-m-d', strtotime('+1 days', strtotime($k->tgl_akhir)));
-                    $weekSixteen['start'] = $start;
-                    $weekSixteen['end'] = date('Y-m-d', strtotime('+14 days', strtotime($start)));
-                }
-
-
                 $weekStartDate = Carbon::parse($k->tgl_awal)->format('Y-m-d');
                 $weekEndDate = Carbon::parse($k->tgl_akhir)->format('Y-m-d');
 
@@ -96,9 +77,30 @@ class InstrumenMonevController extends Controller
 
             }
 
+            $wSeven = $kul->where('minggu_ke', '7')->first();
+            $wNine = $kul->where('minggu_ke', '9')->first();
+            $wFifth = $kul->where('minggu_ke', '15')->first();
+
+            if($wSeven){
+                $start = Carbon::parse($wSeven->tgl_awal)->addDays(7)->format('Y-m-d');
+                $weekEigth['start'] = $start;
+            }
+
+            if($wNine){
+                $end = Carbon::parse($wNine->tgl_awal)->subDays(1)->format('Y-m-d');
+                $weekEigth['end'] = $end;
+            }
+
+            if($wFifth){
+
+                $start = Carbon::parse($wFifth->tgl_awal)->addDays(7)->format('Y-m-d');
+                $weekSixteen['start'] = $start;
+
+            }
+
             if($now >= $weekEigth['start'] && $now <= $weekEigth['end']){
                 $week = '8';
-            } else if($now >= $weekSixteen['start'] && $now <= $weekSixteen['end']){
+            } else if($now >= $weekSixteen['start']){
                 $week = '16';
             }
 
