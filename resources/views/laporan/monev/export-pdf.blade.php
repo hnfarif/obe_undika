@@ -223,7 +223,7 @@
                     @endif
                     @endforeach
                     @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) != 'insMon' &&
-                    $j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) != 'plot')
+                    $j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) != 'plot')
                     <td>
                         {{ $j->getNilaiAkhir($j->kary_nik,$j->klkl_id, $j->kelas) }}
                     </td>
