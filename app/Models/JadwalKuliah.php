@@ -71,13 +71,14 @@ class JadwalKuliah extends Model
         return $denominator == 0 ? 0 : ($numerator / $denominator);
     }
 
-    public function cekKriteria($nik, $mk, $prodi)
+    public function cekKriteria($nik, $mk, $prodi, $kelas)
     {
-        $smt = Semester::where('fak_id', $prodi)->first();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $plot = PlottingMonev::where('nik_pengajar', $nik)
             ->where('klkl_id', $mk)
             ->where('prodi', $prodi)
             ->where('semester', $smt->smt_aktif)
+            ->where('kelas', $kelas)
             ->first();
         if ($plot) {
             $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
@@ -92,13 +93,14 @@ class JadwalKuliah extends Model
         }
     }
 
-    public function getNilaiKri1($nik, $mk, $prodi, $kriteria)
+    public function getNilaiKri1($nik, $mk, $prodi, $kriteria, $kelas)
     {
-        $smt = Semester::where('fak_id', $prodi)->first();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $plot = PlottingMonev::where('nik_pengajar', $nik)
             ->where('klkl_id', $mk)
             ->where('prodi', $prodi)
             ->where('semester', $smt->smt_aktif)
+            ->where('kelas', $kelas)
             ->first();
         $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
         $dtlMon = DetailInstrumenMonev::where('ins_monev_id', $insMon->id)->where('id_kri', $kriteria)->sum('nilai');
@@ -109,13 +111,14 @@ class JadwalKuliah extends Model
 
         return $count == 0 ? 0 : number_format($dtlMon / $count, 2);
     }
-    public function getNilaiKri2($nik, $mk, $prodi, $kriteria)
+    public function getNilaiKri2($nik, $mk, $prodi, $kriteria, $kelas)
     {
-        $smt = Semester::where('fak_id', $prodi)->first();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $plot = PlottingMonev::where('nik_pengajar', $nik)
             ->where('klkl_id', $mk)
             ->where('prodi', $prodi)
             ->where('semester', $smt->smt_aktif)
+            ->where('kelas', $kelas)
             ->first();
         $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
         $dtlMon = DetailInstrumenMonev::where('ins_monev_id', $insMon->id)->where('id_kri', $kriteria)->sum('nilai');
@@ -146,12 +149,12 @@ class JadwalKuliah extends Model
     {
         $nilaiBbt = [];
         $nilaiperClo = [];
-        $smt = Semester::where('fak_id', $prodi)->first();
+        $smt = $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $insNilai = InstrumenNilai::where('klkl_id', $mk)->where('semester', $smt->smt_aktif)->where('nik', $nik)->first();
         $countClo = Clo::where('rps_id', $insNilai->rps_id)->count();
         $dtlNilai = DetailInstrumenNilai::where('ins_nilai_id', $insNilai->id)->get();
-        $countMhs = Krs::where('jkul_klkl_id', $mk)->where('kary_nik', $nik)->where('jkul_kelas', $kls)->count();
-        $countPresensi = Krs::where('jkul_klkl_id', $mk)->where('kary_nik', $nik)->where('jkul_kelas', $kls)->where('sts_pre', '1')->count();
+        $countMhs = Krs::where('jkul_klkl_id', $mk)->where('jkul_kelas', $kls)->count();
+        $countPresensi = Krs::where('jkul_klkl_id', $mk)->where('jkul_kelas', $kls)->where('sts_pre', '1')->count();
         $sumLulus = 0;
 
         foreach ($dtlNilai as $dn) {
