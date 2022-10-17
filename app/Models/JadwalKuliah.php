@@ -145,7 +145,7 @@ class JadwalKuliah extends Model
         return $eval;
 
     }
-    public function getNilaiKri3($nik, $mk, $prodi, $kls)
+    public function getNilaiKri3($nik, $mk, $kls)
     {
         $nilaiBbt = [];
         $nilaiperClo = [];
@@ -203,10 +203,10 @@ class JadwalKuliah extends Model
         foreach ($kri as $key => $k) {
             if($key == 0){
 
-                $na += $this->getNilaiKri1($nik, $mk, $prodi, $k->id) * ($k->bobot/100);
+                $na += $this->getNilaiKri1($nik, $mk, $prodi, $k->id, $kls) * ($k->bobot/100);
             }elseif($key == 1){
 
-                $na += $this->getNilaiKri2($nik, $mk, $prodi, $k->id) * ($k->bobot/100);
+                $na += $this->getNilaiKri2($nik, $mk, $prodi, $k->id, $kls) * ($k->bobot/100);
             }elseif($key == 2){
 
                 $na += $this->getNilaiKri3($nik, $mk, $prodi, $kls) * ($k->bobot/100);

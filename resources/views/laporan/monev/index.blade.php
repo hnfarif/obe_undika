@@ -115,7 +115,7 @@
                                                 </td>
                                                 @elseif($loop->iteration == '3')
                                                 <td data-bbt="{{ $k->bobot }}" data-prodi="{{ $j->prodi }}">
-                                                    {{ $j->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) }}
+                                                    {{ $j->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->kelas) }}
                                                 </td>
                                                 @endif
                                                 @endif
