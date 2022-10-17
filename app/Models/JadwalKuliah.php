@@ -77,7 +77,7 @@ class JadwalKuliah extends Model
         $plot = PlottingMonev::where('nik_pengajar', $nik)
             ->where('klkl_id', $mk)
             ->where('prodi', $prodi)
-            ->where('semester', $smt->smt_aktif)
+            ->where('semester', $smt->smt_yad)
             ->where('kelas', $kelas)
             ->first();
         if ($plot) {
@@ -99,7 +99,7 @@ class JadwalKuliah extends Model
         $plot = PlottingMonev::where('nik_pengajar', $nik)
             ->where('klkl_id', $mk)
             ->where('prodi', $prodi)
-            ->where('semester', $smt->smt_aktif)
+            ->where('semester', $smt->smt_yad)
             ->where('kelas', $kelas)
             ->first();
         $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
@@ -117,7 +117,7 @@ class JadwalKuliah extends Model
         $plot = PlottingMonev::where('nik_pengajar', $nik)
             ->where('klkl_id', $mk)
             ->where('prodi', $prodi)
-            ->where('semester', $smt->smt_aktif)
+            ->where('semester', $smt->smt_yad)
             ->where('kelas', $kelas)
             ->first();
         $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
@@ -149,8 +149,8 @@ class JadwalKuliah extends Model
     {
         $nilaiBbt = [];
         $nilaiperClo = [];
-        $smt = $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $insNilai = InstrumenNilai::where('klkl_id', $mk)->where('semester', $smt->smt_aktif)->where('nik', $nik)->first();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
+        $insNilai = InstrumenNilai::where('klkl_id', $mk)->where('semester', $smt->smt_yad)->where('nik', $nik)->first();
         $countClo = Clo::where('rps_id', $insNilai->rps_id)->count();
         $dtlNilai = DetailInstrumenNilai::where('ins_nilai_id', $insNilai->id)->get();
         $countMhs = Krs::where('jkul_klkl_id', $mk)->where('jkul_kelas', $kls)->count();

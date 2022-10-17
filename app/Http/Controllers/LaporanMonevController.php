@@ -7,7 +7,9 @@ use App\Models\Fakultas;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\KriteriaMonev;
+use App\Models\PlottingMonev;
 use App\Models\Prodi;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use Excel;
 use PDF;
@@ -26,7 +28,9 @@ class LaporanMonevController extends Controller
         // dd(request()->all());
         $fakul = Fakultas::with('prodis')->get();
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
-        $jdw = JadwalKuliah::with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
+        $plot = PlottingMonev::whereSemester($smt->smt_yad)->pluck('klkl_id')->toArray();
+        $jdw = JadwalKuliah::whereIn('klkl_id', $plot)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get();
         return view('laporan.monev.index', compact('kri', 'jdw', 'fak', 'prodi', 'kary', 'fakul'));
     }
 
