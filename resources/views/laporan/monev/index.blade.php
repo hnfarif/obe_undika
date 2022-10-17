@@ -76,7 +76,7 @@
                                                 <td class="text-center">
                                                     {{ $loop->iteration }}
                                                 </td>
-                                                <td>{{ $j->getNameMataKuliah($j->klkl_id,$j->prodi) }}</td>
+                                                <td>{{ $j->getNameMataKuliah($j->klkl_id) }}</td>
                                                 <td>{{ $j->kelas }}</td>
                                                 <td>{{ $j->karyawans->nama }}</td>
                                                 @foreach ($kri as $k)
