@@ -359,10 +359,8 @@
                                             $pen)
 
                                             <th class="
-                                            @if ($startFill <= $now)
-                                                @if ($pen->agd_id == $getPekan->id)
+                                            @if ($pen->agd_id == $getPekan->id)
                                                 bg-info text-white
-                                                @endif
                                             @endif
                                             ">
                                                 {{ $pen->penilaian->btk_penilaian}}
@@ -375,11 +373,10 @@
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                             $pen)
 
-                                            <th class=" @if ($startFill <= $now)
-                                            @if ($pen->agd_id == $getPekan->id)
-                                            bg-info text-white
-                                            @endif
-                                        @endif">{{ $pen->penilaian->jenis}}</th>
+                                            <th class="@if ($pen->agd_id == $getPekan->id)
+                                                bg-info text-white
+                                                @endif
+                                                ">{{ $pen->penilaian->jenis}}</th>
                                             @endforeach
                                             @endforeach
 
@@ -389,10 +386,9 @@
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                             $pen)
 
-                                            <th class="bbtPen  @if ($startFill <= $now)
-                                                @if ($pen->agd_id == $getPekan->id)
+                                            <th class="bbtPen
+                                            @if ($pen->agd_id == $getPekan->id)
                                                 bg-info text-white
-                                                @endif
                                             @endif" data-jns="{{ $pen->penilaian->jenis }}">{{ $pen->bobot.'%'}}</th>
                                             @endforeach
                                             @endforeach
@@ -490,7 +486,7 @@
                                 <h4>Daftar Agenda Pembelajaran</h4>
                             </div>
                             <div class="card-body">
-                                <table class="table table-striped table-responsive" id="tableRps" width="100%">
+                                <table class="table table-striped" id="tableRps" width="100%">
                                     <thead>
                                         <tr class="text-center">
                                             <th  class="align-middle">
