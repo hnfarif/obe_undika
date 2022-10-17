@@ -125,7 +125,7 @@ class InstrumenMonevController extends Controller
             $jdw = JadwalKuliah::where('klkl_id', $cekInsNilai->klkl_id)->where('kary_nik', $cekInsNilai->nik)->where('sts_kul', '1')->first();
             $smt = Semester::where('fak_id', $jdw->prodi)->first();
             $krs = Krs::where('jkul_klkl_id', $cekInsNilai->klkl_id)->where('jkul_kelas', $jdw->kelas)->with('mahasiswa')->get();
-            $jmlMhs = $krs->mahasiswa->count();
+            $jmlMhs = $krs->count();
             $jmlPre = $krs->where('sts_pre', '1')->count();
             $dtlBap = DetailBap::where('nik', $cekInsNilai->nik)->get();
             $plDtlBap = $dtlBap->pluck('kode_bap')->toArray();
