@@ -184,7 +184,7 @@ class InstrumenNilaiController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+
         // untuk mendapatkan id kriteria monev
         $now = Carbon::now();
 
@@ -269,10 +269,11 @@ class InstrumenNilaiController extends Controller
                         'plot_monev_id' => $plot->id,
                     ]);
                 }else{
-                    Session::flash('message', 'Gagal memasukkan nilai, Instrumen ini belum di plotting, Silahkan hubungi Admin!');
+
+                    Session::flash('message', 'Gagal memasukkan nilai, Instrumen ini belum di plotting, Silahkan hubungi bagian P3AI!');
                     Session::flash('alert-class', 'alert-danger');
 
-                    return redirect()->back();
+                    return json_encode(['error' => 'Gagal memasukkan nilai, Instrumen ini belum di plotting, Silahkan hubungin bagian P3AI!']);
                 }
 
                 $dtlMonev = DetailInstrumenMonev::where('ins_monev_id', $insMonev->id)->where('dtl_agd_id', $n['dtl_id'])->first();

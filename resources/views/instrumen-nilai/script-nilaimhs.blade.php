@@ -489,16 +489,22 @@
                 })
             },
             success: function (data) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: data.success,
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                setTimeout(() => {
+
+                if (data.error) {
                     location.reload();
-                }, 1500);
+                } else {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: data.success,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                }
+
             }
 
         })
