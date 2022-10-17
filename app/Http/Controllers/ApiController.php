@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bap;
 use App\Models\JadwalKuliah;
 use App\Models\Krs;
 use App\Models\Mahasiswa;
@@ -30,7 +31,7 @@ class ApiController extends Controller
     }
 
     public function cekData(){
-        $mk = MingguKuliah::where('smt', '221')->get();
+        $mk = Bap::where('smt', '221')->get();
 
         //json
         $data = json_encode($mk);
