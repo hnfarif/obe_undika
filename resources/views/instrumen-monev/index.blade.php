@@ -486,7 +486,7 @@
                                 <h4>Daftar Agenda Pembelajaran</h4>
                             </div>
                             <div class="card-body">
-                                <table class="table table-striped" id="tableRps">
+                                <table class="table table-striped" id="tableRps" width="100%">
                                     <thead>
                                         <tr class="text-center">
                                             <th  class="align-middle">
