@@ -491,7 +491,9 @@
             success: function (data) {
 
                 if (data.error) {
+
                     location.reload();
+
                 } else {
                     Swal.fire({
                         position: 'top-end',

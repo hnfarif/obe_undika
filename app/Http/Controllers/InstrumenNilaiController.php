@@ -273,7 +273,8 @@ class InstrumenNilaiController extends Controller
                     Session::flash('message', 'Gagal memasukkan nilai, Instrumen ini belum di plotting, Silahkan hubungi bagian P3AI!');
                     Session::flash('alert-class', 'alert-danger');
 
-                    return json_encode(['error' => 'Gagal memasukkan nilai, Instrumen ini belum di plotting, Silahkan hubungin bagian P3AI!']);
+                    return response()->json(['error' => 'Gagal memasukkan nilai, Instrumen ini belum di plotting, Silahkan hubungin bagian P3AI!']);
+
                 }
 
                 $dtlMonev = DetailInstrumenMonev::where('ins_monev_id', $insMonev->id)->where('dtl_agd_id', $n['dtl_id'])->first();
