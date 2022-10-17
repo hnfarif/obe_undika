@@ -104,7 +104,7 @@ class InstrumenNilaiController extends Controller
         foreach ($kul as $key => $value) {
 
             $weekStartDate = Carbon::parse($value->tgl_awal)->format('Y-m-d');
-            $weekEndDate = Carbon::parse($value->tgl_akhir)->addDays(2)->format('Y-m-d');
+            $weekEndDate = Carbon::parse($value->tgl_akhir)->addDays(1)->format('Y-m-d');
 
             if ($now >= $weekStartDate && $now <= $weekEndDate) {
                 $week = $value->minggu_ke;
