@@ -30,7 +30,7 @@ class ApiController extends Controller
     }
 
     public function cekData(){
-        $mk = MingguKuliah::all();
+        $mk = MingguKuliah::where('smt', '221')->get();
 
         //json
         $data = json_encode($mk);
