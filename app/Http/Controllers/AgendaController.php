@@ -11,6 +11,7 @@ use App\Models\MateriKuliah;
 use App\Models\MingguKuliah;
 use App\Models\Penilaian;
 use App\Models\Rps;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -171,10 +172,10 @@ class AgendaController extends Controller
             $fAgd = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $request->week)->first();
             if (!$fAgd) {
                 if ($request->week == 8) {
-                    $getPreWeek = $request->week - 1;
+                    $getPreWeek = $request->week + 1;
                     $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $getPreWeek)->first()->tgl_awal;
 
-                    $tglAwal = date('Y-m-d', strtotime('+7 days', strtotime($kul)));
+                    $tglAwal = Carbon::parse($kul)->subDays(14)->format('Y-m-d');
 
                     $agdBelajar = new AgendaBelajar;
                     $agdBelajar->rps_id = $rps->id;
