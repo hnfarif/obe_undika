@@ -49,7 +49,7 @@
                 </td>
                 @else
                 <td data-bbt="{{ $k->bobot }}" data-prodi="{{ $j->prodi }}">
-                    {{ $k->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) }}
+                    {{ $j->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) }}
                 </td>
                 @endif
                 @endif
