@@ -31,7 +31,7 @@ class ApiController extends Controller
     }
 
     public function cekData(){
-        $mk = Bap::where('smt', '221')->get();
+        $mk = Bap::all();
 
         //json
         $data = json_encode($mk);

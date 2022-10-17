@@ -560,7 +560,7 @@
                                                 -
                                                 @endif
                                             </td>
-                                            <td class="d-flex">
+                                            <td>
                                                 @php
                                                     $nilai = $dtlInsMon->where('agd_id', $i->id)->first()->nilai ?? null;
                                                 @endphp
@@ -575,10 +575,12 @@
                                                         @if ($week >= $i->pekan)
 
                                                             @if ($plot->nik_pemonev == auth()->user()->nik)
+                                                            <div class="d-flex">
+                                                                <button id="btnSesuai" data-agd="{{ $i->id }}" data-nilai="1" class="btn btn-primary mr-2"><i class="fas fa-check"></i> Sesuai</button>
 
-                                                            <button id="btnSesuai" data-agd="{{ $i->id }}" data-nilai="1" class="btn btn-primary mr-2"><i class="fas fa-check"></i> Sesuai</button>
+                                                                <button data-agd="{{ $i->id }}" id="btnTidakSesuai" data-nilai="0" class="btn btn-danger"><i class="fas fa-times"></i> Tidak</button>
+                                                            </div>
 
-                                                            <button data-agd="{{ $i->id }}" id="btnTidakSesuai" data-nilai="0" class="btn btn-danger"><i class="fas fa-times"></i> Tidak</button>
                                                             @endif
 
                                                         @else
