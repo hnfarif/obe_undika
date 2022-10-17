@@ -29,7 +29,7 @@
                             @endif">
                             <div class="card-header" style="height: 100px;">
                                 <div class="d-block">
-                                    <h4 class="text-dark">{{ $m->getNameMataKuliah($m->klkl_id, $m->prodi) }}
+                                    <h4 class="text-dark">{{ $m->getNameMataKuliah($m->klkl_id) }}
                                         ({{ $m->klkl_id }})</h4>
                                     <p class="m-0">{{ $m->programstudi->nama }}</p>
                                 </div>

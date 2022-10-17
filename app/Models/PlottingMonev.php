@@ -12,9 +12,9 @@ class PlottingMonev extends Model
     protected $table = 'plot_monev';
     protected $guarded = ["id"];
 
-    public function getNameMataKuliah($mk, $prodi)
+    public function getNameMataKuliah($mk)
     {
-        $maku = MataKuliah::where('id', $prodi.$mk)->first();
+        $maku = MataKuliah::where('id', $mk)->first();
 
         return $maku->nama;
     }
