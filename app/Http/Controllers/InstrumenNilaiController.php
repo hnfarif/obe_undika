@@ -96,6 +96,8 @@ class InstrumenNilaiController extends Controller
             $isRead = true;
         }
 
+        $jdw = JadwalKuliah::where('klkl_id', $instru->klkl_id)->where('kary_nik', $instru->nik)->where('sts_kul', '1')->first();
+
         $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $instru->semester)->get();
 
         $week = '';
@@ -169,7 +171,7 @@ class InstrumenNilaiController extends Controller
 
 
 
-        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'summary', 'week', 'getPekan', 'now', 'startFill', 'endFill', 'isRead'));
+        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary', 'week', 'getPekan', 'now', 'startFill', 'endFill', 'isRead'));
     }
 
     /**
