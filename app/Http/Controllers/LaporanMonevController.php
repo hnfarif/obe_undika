@@ -48,9 +48,12 @@ class LaporanMonevController extends Controller
             $filProdi = null;
         }
 
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
+        $plot = PlottingMonev::whereSemester($smt->smt_yad)->pluck('klkl_id')->toArray();
+
         $pdf = PDF::loadView('laporan.brilian.export-pdf', ['fakul' => Fakultas::with('prodis')->get(),
         'kri' => KriteriaMonev::orderBy('id', 'asc')->get(),
-        'jdw' => JadwalKuliah::with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get(),
+        'jdw' => JadwalKuliah::where('klkl_id', $plot)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get(),
         'prodi' => $filProdi
         ]);
 
