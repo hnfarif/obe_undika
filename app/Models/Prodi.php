@@ -40,7 +40,7 @@ class Prodi extends Model
         $count = 0;
         $sum = 0;
         foreach ($jdw as $j) {
-            if ($j->cekKriteria($j->kary_nik, $j->klkl_id, $j->prodi) == 'ada') {
+            if ($j->cekKriteria($j->kary_nik, $j->klkl_id, $j->prodi, $j->kelas) == 'ada') {
                 $count++;
                 $sum += $j->getNilaiAkhir($j->kary_nik, $j->klkl_id, $j->prodi, $j->kelas);
             }
