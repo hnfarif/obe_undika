@@ -486,116 +486,118 @@
                                 <h4>Daftar Agenda Pembelajaran</h4>
                             </div>
                             <div class="card-body">
-                                <table class="table table-striped" id="tableRps">
-                                    <thead>
-                                        <tr class="text-center">
-                                            <th  class="align-middle">
-                                                Minggu Ke
-                                            </th>
-                                            <th class="align-middle">Kode CLO</th>
-                                            <th class="align-middle">
-                                                Kode LLO
-                                            </th>
-                                            <th class="align-middle">Realisasi</th>
-                                            <th class="align-middle">Tanggal Entry</th>
-                                            <th class="align-middle">Kesesuaian</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="tableRps">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th  class="align-middle">
+                                                    Minggu Ke
+                                                </th>
+                                                <th class="align-middle">Kode CLO</th>
+                                                <th class="align-middle">
+                                                    Kode LLO
+                                                </th>
+                                                <th class="align-middle">Realisasi</th>
+                                                <th class="align-middle">Tanggal Entry</th>
+                                                <th class="align-middle">Kesesuaian</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                        @foreach ($agenda as $key => $i)
+                                            @foreach ($agenda as $key => $i)
 
-                                        <tr>
-                                            <td class="text-center">
-                                                @if ($i->pekan == 8)
-                                                {{ $i->pekan }} (UTS)
-                                                @elseif ($i->pekan == 16)
-                                                {{ $i->pekan }} (UAS)
-                                                @else
-                                                {{ $i->pekan }}
-                                                @endif
-                                            </td>
-                                            <td class="text-center">
-                                                @foreach ($i->detailAgendas->unique('clo_id') as $key => $d)
-                                                <p>
-
-                                                    {!! $d->clo->kode_clo.'<br>' !!}
-                                                </p>
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                @foreach ($i->detailAgendas as $key => $d)
-                                                @if ($d->llo_id)
-                                                @if ($d->praktikum)
-
-                                                {!! '<b>'.$d->llo->kode_llo.' (praktikum) </b>
-                                                <br>'.$d->llo->deskripsi_prak.'<br> <b>Ketercapaian
-                                                    '.$d->llo->kode_llo.'</b>
-                                                <br>'.$d->capaian_llo !!}
-
-                                                @else
-
-                                                {!! '<b>'.$d->llo->kode_llo.'</b> <br>'.$d->llo->deskripsi.'<br>
-                                                <b>Ketercapaian '.$d->llo->kode_llo.'</b> <br>'.$d->capaian_llo !!}
-                                                @endif
-                                                @else
-                                                -
-                                                @endif
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                @php
-                                                    $kodeBap = $bap->where('pertemuan', $i->pekan)->first()->kode_bap ?? '';
-                                                @endphp
-                                                @if ($kodeBap)
-                                                {{ $dtlBap->where('kode_bap', $kodeBap)->first()->realisasi ?? '' }}
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($kodeBap)
-                                                {{ $dtlBap->where('kode_bap', $kodeBap)->first()->waktu_entry ?? '' }}
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @php
-                                                    $nilai = $dtlInsMon->where('agd_id', $i->id)->first()->nilai ?? null;
-                                                @endphp
-                                                @if (!($i->pekan == '8' || $i->pekan == '16'))
-                                                    @if ($nilai == '1' || $nilai == '0')
-                                                        @if($nilai == '1')
-                                                            <span class="badge badge-primary">Sesuai</span>
-                                                        @else
-                                                            <span class="badge badge-danger">Tidak Sesuai</span>
-                                                        @endif
+                                            <tr>
+                                                <td class="text-center">
+                                                    @if ($i->pekan == 8)
+                                                    {{ $i->pekan }} (UTS)
+                                                    @elseif ($i->pekan == 16)
+                                                    {{ $i->pekan }} (UAS)
                                                     @else
-                                                        @if ($week >= $i->pekan)
+                                                    {{ $i->pekan }}
+                                                    @endif
+                                                </td>
+                                                <td class="text-center">
+                                                    @foreach ($i->detailAgendas->unique('clo_id') as $key => $d)
+                                                    <p>
 
-                                                            @if ($plot->nik_pemonev == auth()->user()->nik)
-                                                            <div class="d-flex">
-                                                                <button id="btnSesuai" data-agd="{{ $i->id }}" data-nilai="1" class="btn btn-primary mr-2"><i class="fas fa-check"></i> Sesuai</button>
+                                                        {!! $d->clo->kode_clo.'<br>' !!}
+                                                    </p>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($i->detailAgendas as $key => $d)
+                                                    @if ($d->llo_id)
+                                                    @if ($d->praktikum)
 
-                                                                <button data-agd="{{ $i->id }}" id="btnTidakSesuai" data-nilai="0" class="btn btn-danger"><i class="fas fa-times"></i> Tidak</button>
-                                                            </div>
+                                                    {!! '<b>'.$d->llo->kode_llo.' (praktikum) </b>
+                                                    <br>'.$d->llo->deskripsi_prak.'<br> <b>Ketercapaian
+                                                        '.$d->llo->kode_llo.'</b>
+                                                    <br>'.$d->capaian_llo !!}
 
+                                                    @else
+
+                                                    {!! '<b>'.$d->llo->kode_llo.'</b> <br>'.$d->llo->deskripsi.'<br>
+                                                    <b>Ketercapaian '.$d->llo->kode_llo.'</b> <br>'.$d->capaian_llo !!}
+                                                    @endif
+                                                    @else
+                                                    -
+                                                    @endif
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @php
+                                                        $kodeBap = $bap->where('pertemuan', $i->pekan)->first()->kode_bap ?? '';
+                                                    @endphp
+                                                    @if ($kodeBap)
+                                                    {{ $dtlBap->where('kode_bap', $kodeBap)->first()->realisasi ?? '' }}
+                                                    @else
+                                                    -
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($kodeBap)
+                                                    {{ $dtlBap->where('kode_bap', $kodeBap)->first()->waktu_entry ?? '' }}
+                                                    @else
+                                                    -
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @php
+                                                        $nilai = $dtlInsMon->where('agd_id', $i->id)->first()->nilai ?? null;
+                                                    @endphp
+                                                    @if (!($i->pekan == '8' || $i->pekan == '16'))
+                                                        @if ($nilai == '1' || $nilai == '0')
+                                                            @if($nilai == '1')
+                                                                <span class="badge badge-primary">Sesuai</span>
+                                                            @else
+                                                                <span class="badge badge-danger">Tidak Sesuai</span>
                                                             @endif
-
                                                         @else
-                                                        <span class="badge badge-info">Belum waktunya penyesuaian</span>
+                                                            @if ($week >= $i->pekan)
+
+                                                                @if ($plot->nik_pemonev == auth()->user()->nik)
+                                                                <div class="d-flex">
+                                                                    <button id="btnSesuai" data-agd="{{ $i->id }}" data-nilai="1" class="btn btn-primary mr-2"><i class="fas fa-check"></i> Sesuai</button>
+
+                                                                    <button data-agd="{{ $i->id }}" id="btnTidakSesuai" data-nilai="0" class="btn btn-danger"><i class="fas fa-times"></i> Tidak</button>
+                                                                </div>
+
+                                                                @endif
+
+                                                            @else
+                                                            <span class="badge badge-info">Belum waktunya penyesuaian</span>
+                                                            @endif
                                                         @endif
                                                     @endif
-                                                @endif
 
 
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
 
-                                </table>
+                                    </table>
+                                </div>
                             </div>
 
                         </div>
