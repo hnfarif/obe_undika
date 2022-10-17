@@ -225,7 +225,7 @@
                     @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) != 'insMon' &&
                     $j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) != 'plot')
                     <td>
-                        {{ $j->getNilaiAkhir($j->kary_nik,$j->klkl_id, $j->kelas) }}
+                        {{ $j->getNilaiAkhir($j->kary_nik, $j->klkl_id, $j->prodi, $j->kelas) }}
                     </td>
                     @endif
                 </tr>
