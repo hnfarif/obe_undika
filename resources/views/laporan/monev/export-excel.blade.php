@@ -32,18 +32,18 @@
                 <td class="text-center">
                     {{ $loop->iteration }}
                 </td>
-                <td>{{ $j->getNameMataKuliah($j->klkl_id,$j->prodi) }}</td>
+                <td>{{ $j->getNameMataKuliah($j->klkl_id) }}</td>
                 <td>{{ $j->kelas }}</td>
                 <td>{{ $j->karyawans->nama }}</td>
 
                 @foreach ($kri as $k)
                 @if ($loop->last)
-                @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) == 'insMon')
+                @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) == 'insMon')
 
                 <td class="text-warning text-center">
                     <b>Instrumen Monev belum dibuat</b>
                 </td>
-                @elseif ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi) == 'plot')
+                @elseif ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) == 'plot')
                 <td class="text-danger text-center">
                     <b>Plotting belum dibuat</b>
                 </td>
