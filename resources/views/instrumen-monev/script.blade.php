@@ -10,7 +10,8 @@
 
         var tableRps = $('#tableRps').DataTable({
             'responsive': true,
-            'autoWidth': false,
+            'autoWidth': true,
+            'scrollX': true,
             columnDefs: [{
                 type: 'natural',
                 targets: 0
