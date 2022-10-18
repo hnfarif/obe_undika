@@ -384,6 +384,7 @@ class LaporanBrilianController extends Controller
     {
 
         $data = $this->dataBrilian;
+        $rangBadge = $this->rangkumanBdg;
         if (request()->has('prodi')) {
             $filProdi = Prodi::whereIn('id', request('prodi'))->get();
         } else {
@@ -392,7 +393,7 @@ class LaporanBrilianController extends Controller
 
         $m = new Merger();
 
-        $pdf = PDF::loadView('laporan.brilian.export-pdf', ['rangBadge' => request('rangBadge'),
+        $pdf = PDF::loadView('laporan.brilian.export-pdf', ['rangBadge' => $rangBadge,
         'rataFak' => request('rataFak'),
         'rataProdi' => request('rataProdi'),
 
