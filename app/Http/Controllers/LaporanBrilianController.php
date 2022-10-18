@@ -90,22 +90,22 @@ class LaporanBrilianController extends Controller
 
     public function store(Request $request)
     {
-        dd(json_decode($request->data));
 
-        //get property data
+        $data = json_decode($request->data);
+
         $bWeek = BrilianWeek::create([
             'minggu_ke' => $request->minggu,
             'semester' => $request->semester,
         ]);
 
-        foreach ($request->data['nik'] as $key => $value) {
+        foreach ($data as $value) {
             BrilianDetail::create([
                 'brilian_week_id' => $bWeek->id,
-                'nik' => $value,
-                'kode_mk' => $request->data['kode_mk'][$key],
-                'kelas' => $request->data['kelas'][$key],
-                'prodi' => $request->data['prodi'][$key],
-                'nilai' => $request->data['skor'][$key],
+                'nik' => $value->nik,
+                'kode_mk' => $value->kode_mk,
+                'kelas' => $value->kelas,
+                'prodi' => $value->prodi,
+                'nilai' => $value->skor_total,
             ]);
         }
 
