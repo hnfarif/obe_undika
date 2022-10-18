@@ -11,6 +11,5 @@ class BrilianDetail extends Model
 
     protected $table = 'brilian_detail';
     protected $guarded = ['id'];
-    protected
 
 }
