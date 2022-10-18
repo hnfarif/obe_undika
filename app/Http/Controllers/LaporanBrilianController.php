@@ -411,6 +411,9 @@ class LaporanBrilianController extends Controller
         $rangBadge = $manipulate['rangBadge'];
         $rataFak = $manipulate['rataFak'];
         $rataProdi = $manipulate['rataProdi'];
+        $indikator = $manipulate['indikator'];
+        $pekan = $manipulate['pekan'];
+        $dtlBri = $manipulate['dtlBri'];
 
         if (request()->has('prodi')) {
             $filProdi = Prodi::whereIn('id', request('prodi'))->get();
@@ -429,9 +432,9 @@ class LaporanBrilianController extends Controller
         $m->addRaw($pdf->output());
 
         $pdf2 = PDF::loadView('laporan.brilian.export-pdf-2', ['data' => $data,
-        'indikator' => request('indikator'),
-        'week' => request('pekan'),
-        'dtlBri' => request('dtlBri'),
+        'indikator' => $indikator,
+        'week' => $pekan,
+        'dtlBri' => $dtlBri,
         'prodi' => $filProdi,
         ])->setPaper('a4', 'landscape');
 
