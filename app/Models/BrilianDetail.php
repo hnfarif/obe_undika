@@ -10,5 +10,6 @@ class BrilianDetail extends Model
     use HasFactory;
 
     protected $table = 'brilian_detail';
+    protected $guard = ['id'];
 
 }
