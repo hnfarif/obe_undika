@@ -18,6 +18,8 @@ class LaporanBrilianController extends Controller
 {
     protected $dataBrilian = [];
     protected $rangkumanBdg = [];
+    protected $avgFak = [];
+    protected $avgProdi = [];
 
     public function index()
     {
@@ -171,7 +173,7 @@ class LaporanBrilianController extends Controller
             ],
         ];
 
-        $this->rangkumanBdg = $rangBadge;
+
         // rata-rata penggunaan brilian per fakultas
 
         $rataFak = [];
@@ -348,7 +350,11 @@ class LaporanBrilianController extends Controller
         $pekan = BrilianWeek::where('semester', $smt)->get();
         $weekId = $pekan->pluck('id')->toArray();
         $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->get();
+
         $this->dataBrilian = $data;
+        $this->rangkumanBdg = $rangBadge;
+        $this->avgFak = $rataFak;
+        $this->avgProdi = $rataProdi;
 
         return view('laporan.brilian.index', compact('data','indikator', 'smt','dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
     }
@@ -385,6 +391,9 @@ class LaporanBrilianController extends Controller
 
         $data = $this->dataBrilian;
         $rangBadge = $this->rangkumanBdg;
+        $rataFak = $this->avgFak;
+        $rataProdi = $this->avgProdi;
+
         if (request()->has('prodi')) {
             $filProdi = Prodi::whereIn('id', request('prodi'))->get();
         } else {
@@ -394,8 +403,8 @@ class LaporanBrilianController extends Controller
         $m = new Merger();
 
         $pdf = PDF::loadView('laporan.brilian.export-pdf', ['rangBadge' => $rangBadge,
-        'rataFak' => request('rataFak'),
-        'rataProdi' => request('rataProdi'),
+        'rataFak' => $rataFak,
+        'rataProdi' => $rataProdi,
 
         ]);
 
