@@ -90,7 +90,9 @@ class LaporanBrilianController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        dd(json_decode($request->data));
+
+        //get property data
         $bWeek = BrilianWeek::create([
             'minggu_ke' => $request->minggu,
             'semester' => $request->semester,
