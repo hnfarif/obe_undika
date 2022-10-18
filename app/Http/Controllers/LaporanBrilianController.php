@@ -16,6 +16,7 @@ use iio\libmergepdf\Merger;
 
 class LaporanBrilianController extends Controller
 {
+    protected $dataBrilian = [];
     public function index()
     {
         // dd(request()->all());
@@ -344,6 +345,7 @@ class LaporanBrilianController extends Controller
         $pekan = BrilianWeek::where('semester', $smt)->get();
         $weekId = $pekan->pluck('id')->toArray();
         $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->get();
+        $this->dataBrilian = $data;
 
         return view('laporan.brilian.index', compact('data','indikator', 'smt','dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
     }
@@ -377,6 +379,8 @@ class LaporanBrilianController extends Controller
 
     public function exportPdf()
     {
+
+        $data = $this->dataBrilian;
         if (request()->has('prodi')) {
             $filProdi = Prodi::whereIn('id', request('prodi'))->get();
         } else {
@@ -393,7 +397,7 @@ class LaporanBrilianController extends Controller
 
         $m->addRaw($pdf->output());
 
-        $pdf2 = PDF::loadView('laporan.brilian.export-pdf-2', ['data' => request('data'),
+        $pdf2 = PDF::loadView('laporan.brilian.export-pdf-2', ['data' => $data,
         'indikator' => request('indikator'),
         'week' => request('pekan'),
         'dtlBri' => request('dtlBri'),
