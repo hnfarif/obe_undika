@@ -191,7 +191,7 @@
                     @foreach ($week as $w)
 
                     <td>
-                        {{ number_format(collect($dtlBri)->where('brilian_week_id', $w['id'])->where('nik', $d['nik'])->where('kode_mk', $d['kode_mk'])->where('kelas', $d['kelas'])->where('prodi', $d['prodi'])->first()['nilai'], 2) ?? '' }}
+                        {{ number_format(collect($dtlBri)->where('brilian_week_id', $w['id'])->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()['nilai'], 2) ?? '' }}
                     </td>
                     @endforeach
                     @endif
