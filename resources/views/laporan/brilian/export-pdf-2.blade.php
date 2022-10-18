@@ -74,10 +74,12 @@
                     @endforeach
                     <th rowspan="2">Skor Total</th>
 
+                    @if($week)
                     @foreach ($week as $w)
 
                     <th rowspan="2">{{ 'Nilai M'.$w['minggu_ke'] }}</th>
                     @endforeach
+                    @endif
 
                     <th rowspan="2">Badges</th>
                 </tr>
@@ -111,12 +113,15 @@
                     <td>
                         {{ $d->skor_total }}
                     </td>
+                    @if ($week)
                     @foreach ($week as $w)
 
                     <td>
                         {{ number_format(collect($dtlBri)->where('brilian_week_id', $w['id'])->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()['nilai'], 2) ?? '' }}
                     </td>
                     @endforeach
+                    @endif
+
                     <td>
                         {{ $d->badge }}
                     </td>
@@ -142,10 +147,13 @@
                     @endforeach
                     <th rowspan="2">Skor Total</th>
 
+                    @if ($week)
                     @foreach ($week as $w)
 
                     <th rowspan="2">{{ 'Nilai M'.$w['minggu_ke'] }}</th>
                     @endforeach
+                    @endif
+
 
                     <th rowspan="2">Badges</th>
                 </tr>
@@ -179,12 +187,14 @@
                     <td>
                         {{ $d['skor_total'] }}
                     </td>
+                    @if ($week)
                     @foreach ($week as $w)
 
                     <td>
                         {{ number_format(collect($dtlBri)->where('brilian_week_id', $w['id'])->where('nik', $d['nik'])->where('kode_mk', $d['kode_mk'])->where('kelas', $d['kelas'])->where('prodi', $d['prodi'])->first()['nilai'], 2) ?? '' }}
                     </td>
                     @endforeach
+                    @endif
                     <td>
                         {{ $d['badge'] }}
                     </td>
