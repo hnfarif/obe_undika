@@ -17,6 +17,8 @@ use iio\libmergepdf\Merger;
 class LaporanBrilianController extends Controller
 {
     protected $dataBrilian = [];
+    protected $rangkumanBdg = [];
+
     public function index()
     {
         // dd(request()->all());
@@ -169,6 +171,7 @@ class LaporanBrilianController extends Controller
             ],
         ];
 
+        $this->rangkumanBdg = $rangBadge;
         // rata-rata penggunaan brilian per fakultas
 
         $rataFak = [];
