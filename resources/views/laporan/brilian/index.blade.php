@@ -39,7 +39,7 @@
                             <div class="card-header">
                                 <h4>Daftar Penggunaan Brilian</h4>
                                 <a target="_blank"
-                                    href="{{ route('laporan.brilian.exportPdf', ['pekan' => json_decode($pekan), 'rangBadge' => $rangBadge, 'rataFak' => $rataFak, 'rataProdi' => $rataProdi, 'indikator' => $indikator, 'dtlBri' => json_decode($dtlBri)]) }}"
+                                    href="{{ route('laporan.brilian.exportPdf', ['pekan' => json_decode($pekan), 'rataFak' => $rataFak, 'rataProdi' => $rataProdi, 'indikator' => $indikator, 'dtlBri' => json_decode($dtlBri)]), 'prodi' => request('prodi') }}"
                                     class="btn btn-danger ml-auto  mr-3">
                                     <i class="fas fa-file-pdf"></i> Export PDF </a>
                                 <form action="{{ route('laporan.brilian.store') }}" method="POST" class="mr-3">
