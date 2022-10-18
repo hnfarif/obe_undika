@@ -48,13 +48,15 @@
                                     <input type="hidden" value="{{ $pekan->count() + 1 }}" name="minggu">
                                     <input type="hidden" value="{{ $smt }}" name="semester">
 
-                                    @foreach ($data as $item)
+                                    {{-- @foreach ($data as $item)
                                     <input type="hidden" name="data[nik][]" value="{{ $item->nik }}">
                                     <input type="hidden" name="data[kode_mk][]" value="{{ $item->kode_mk }}">
                                     <input type="hidden" name="data[kelas][]" value="{{ $item->kelas }}">
                                     <input type="hidden" name="data[prodi][]" value="{{ $item->prodi }}">
                                     <input type="hidden" name="data[skor][]" value="{{ $item->skor_total }}">
-                                    @endforeach
+                                    @endforeach --}}
+
+                                    <input type="hidden" name="data" value="{{ json_encode($data) }}">
 
                                     @if ($pekan->count() + 1 <= 16) <button class="btn btn-success" type="submit">
                                         <i class="fas fa-plus"></i> Tambah nilai minggu {{ $pekan->count() + 1 }}
