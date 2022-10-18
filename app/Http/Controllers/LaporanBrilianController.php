@@ -127,7 +127,8 @@ class LaporanBrilianController extends Controller
         ]);
 
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
-        $prodi = Prodi::where('sts_aktif', 'Y')->get();
+        $arrFak = $fak->pluck('id')->toArray();
+        $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
 
         $badges = [
             [
