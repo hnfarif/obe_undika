@@ -16,58 +16,30 @@ use iio\libmergepdf\Merger;
 
 class LaporanBrilianController extends Controller
 {
-    public $dataBrilian = [];
-    public $rangkumanBdg = [];
-    public $avgFak = [];
-    public $avgProdi = [];
 
     public function index()
     {
         // dd(request()->all());
         $filter = request()->all();
-        $url = "https://mybrilian.dinamika.ac.id/undika/report/P3AI_-_klasemen_kelas_matakuliah.php?";
 
-        $prodi = Prodi::where('sts_aktif', 'Y')->get();
-        $getFirstPro = $prodi->first();
-        $smt = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
-        $response = Http::get($url, [
-            'semester' => $smt,
-            'json' => true,
-        ]);
 
         //data filters
-        $fak = Fakultas::all();
+        $fak = Fakultas::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::all();
-        $badges = [
-            [
 
-                'nama' => 'Bronze',
-                'min' => 0,
-                'max' => 2.49,
+        // run function manipulateDataApi
+        $manipulate = $this->manipulateDataApi();
 
-            ],
-            [
-
-                'nama' => 'Silver',
-                'min' => 2.5,
-                'max' => 2.99,
-            ],
-            [
-
-                'nama' => 'Gold',
-                'min' => 3,
-                'max' => 3.49,
-            ],
-            [
-
-                'nama' => 'Diamond',
-                'min' => 3.5,
-                'max' => 4,
-            ],
-        ];
-
-        $decode = json_decode($response->getBody());
-        $data = $decode->data;
+        $data = $manipulate['data'];
+        $indikator = $manipulate['indikator'];
+        $smt = $manipulate['smt'];
+        $dtlBri = $manipulate['dtlBri'];
+        $prodi = $manipulate['prodi'];
+        $rangBadge = $manipulate['rangBadge'];
+        $badges = $manipulate['badges'];
+        $rataFak = $manipulate['rataFak'];
+        $rataProdi = $manipulate['rataProdi'];
+        $pekan = $manipulate['pekan'];
 
         if (isset($filter['fakultas'])) {
             $filProdi = Prodi::whereIn('id_fakultas', $filter['fakultas'])->pluck('id')->toArray();
@@ -113,6 +85,80 @@ class LaporanBrilianController extends Controller
             });
         }
 
+        return view('laporan.brilian.index', compact('data','indikator', 'smt','dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
+    }
+
+    public function store(Request $request)
+    {
+        // dd($request->all());
+        $bWeek = BrilianWeek::create([
+            'minggu_ke' => $request->minggu,
+            'semester' => $request->semester,
+        ]);
+
+        foreach ($request->data['nik'] as $key => $value) {
+            BrilianDetail::create([
+                'brilian_week_id' => $bWeek->id,
+                'nik' => $value,
+                'kode_mk' => $request->data['kode_mk'][$key],
+                'kelas' => $request->data['kelas'][$key],
+                'prodi' => $request->data['prodi'][$key],
+                'nilai' => $request->data['skor'][$key],
+            ]);
+        }
+
+        Session::flash('message', 'Data berhasil ditambahkan');
+        Session::flash('alert-class', 'alert-success');
+
+
+        return back();
+
+    }
+
+    public function manipulateDataApi(){
+
+        $url = "https://mybrilian.dinamika.ac.id/undika/report/P3AI_-_klasemen_kelas_matakuliah.php?";
+
+
+        $smt = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+        $response = Http::get($url, [
+            'semester' => $smt,
+            'json' => true,
+        ]);
+
+        $fak = Fakultas::where('sts_aktif', 'Y')->get();
+        $prodi = Prodi::where('sts_aktif', 'Y')->get();
+
+        $badges = [
+            [
+
+                'nama' => 'Bronze',
+                'min' => 0,
+                'max' => 2.49,
+
+            ],
+            [
+
+                'nama' => 'Silver',
+                'min' => 2.5,
+                'max' => 2.99,
+            ],
+            [
+
+                'nama' => 'Gold',
+                'min' => 3,
+                'max' => 3.49,
+            ],
+            [
+
+                'nama' => 'Diamond',
+                'min' => 3.5,
+                'max' => 4,
+            ],
+        ];
+
+        $decode = json_decode($response->getBody());
+        $data = $decode->data;
 
         foreach ($data as $key => $value) {
 
@@ -351,48 +397,17 @@ class LaporanBrilianController extends Controller
         $weekId = $pekan->pluck('id')->toArray();
         $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->get();
 
-        $this->dataBrilian = $data;
-        $this->rangkumanBdg = $rangBadge;
-        $this->avgFak = $rataFak;
-        $this->avgProdi = $rataProdi;
-
-        return view('laporan.brilian.index', compact('data','indikator', 'smt','dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
-    }
-
-    public function store(Request $request)
-    {
-        // dd($request->all());
-        $bWeek = BrilianWeek::create([
-            'minggu_ke' => $request->minggu,
-            'semester' => $request->semester,
-        ]);
-
-        foreach ($request->data['nik'] as $key => $value) {
-            BrilianDetail::create([
-                'brilian_week_id' => $bWeek->id,
-                'nik' => $value,
-                'kode_mk' => $request->data['kode_mk'][$key],
-                'kelas' => $request->data['kelas'][$key],
-                'prodi' => $request->data['prodi'][$key],
-                'nilai' => $request->data['skor'][$key],
-            ]);
-        }
-
-        Session::flash('message', 'Data berhasil ditambahkan');
-        Session::flash('alert-class', 'alert-success');
-
-
-        return back();
-
+        return ['data' => $data, 'indikator' => $indikator, 'smt' => $smt, 'prodi' => $prodi, 'rangBadge' => $rangBadge, 'badges' => $badges, 'rataFak' => $rataFak, 'rataProdi' => $rataProdi, 'dtlBri' => $dtlBri, 'pekan' => $pekan ];
     }
 
     public function exportPdf()
     {
+        $manipulate = $this->manipulateDataApi();
 
-        $data = $this->dataBrilian;
-        $rangBadge = $this->rangkumanBdg;
-        $rataFak = $this->avgFak;
-        $rataProdi = $this->avgProdi;
+        $data = $manipulate['data'];
+        $rangBadge = $manipulate['rangBadge'];
+        $rataFak = $manipulate['rataFak'];
+        $rataProdi = $manipulate['rataProdi'];
 
         if (request()->has('prodi')) {
             $filProdi = Prodi::whereIn('id', request('prodi'))->get();
