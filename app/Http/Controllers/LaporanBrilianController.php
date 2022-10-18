@@ -16,10 +16,10 @@ use iio\libmergepdf\Merger;
 
 class LaporanBrilianController extends Controller
 {
-    protected $dataBrilian = [];
-    protected $rangkumanBdg = [];
-    protected $avgFak = [];
-    protected $avgProdi = [];
+    public $dataBrilian = [];
+    public $rangkumanBdg = [];
+    public $avgFak = [];
+    public $avgProdi = [];
 
     public function index()
     {
