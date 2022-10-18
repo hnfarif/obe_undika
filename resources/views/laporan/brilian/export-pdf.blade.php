@@ -146,10 +146,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($rataProdi as $f)
+                @foreach ($rataProdi as $key => $f)
                 <tr>
 
-                    <td>{{ $f['nama'] }}</td>
+                    <td>{{ $f['nama'].' ('.$key.')' }}</td>
                     <td>
                         @foreach ($f['kategori'] as $k)
                         <div class="my-3">
