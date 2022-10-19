@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AngketTrans;
 use App\Models\Bap;
 use App\Models\JadwalKuliah;
 use App\Models\Krs;
@@ -31,7 +32,7 @@ class ApiController extends Controller
     }
 
     public function cekData(){
-        $mk = JadwalKuliah::all();
+        $mk = AngketTrans::where('smt', '221')->get();
 
         //json
         $data = json_encode($mk);
