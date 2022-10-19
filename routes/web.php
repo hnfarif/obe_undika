@@ -66,7 +66,7 @@ Route::prefix('kelola')->middleware('ensureUserRole:kaprodi,p3ai,dosen,pimpinan,
     Route::delete('/peo/delete/{id}', [PeoController::class, 'destroy'])->name('peoplo.peo.delete')->middleware('ensureUserRole:kaprodi');
 
     Route::get('/plo', [PloController::class, 'index'])->name('peoplo.plo')->middleware('ensureUserRole:kaprodi,dosen');
-    Route::get('/plo/detail', [PloController::class, 'detail'])->name('plo.detail')->middleware('ensureUserRole:p3ai,pimpinan');
+    Route::get('/plo/detail', [PloController::class, 'detail'])->name('plo.detail');
     Route::post('/plo/store', [PloController::class, 'store'])->name('peoplo.plo.store')->middleware('ensureUserRole:kaprodi');
     Route::get('/plo/edit', [PloController::class, 'edit'])->name('peoplo.plo.edit')->middleware('ensureUserRole:kaprodi');
     Route::put('/plo/update', [PloController::class, 'update'])->name('peoplo.plo.update')->middleware('ensureUserRole:kaprodi');
