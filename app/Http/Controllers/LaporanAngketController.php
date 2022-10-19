@@ -14,8 +14,8 @@ class LaporanAngketController extends Controller
 {
     public function index()
     {
-        $angket = AngketTrans::with('karyawan')->fakultas()->prodi()->dosen()->get();
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
+        $angket = AngketTrans::where('smt', $smt->smt_yad)->with('karyawan')->fakultas()->prodi()->dosen()->get();
         $fak = Fakultas::with('prodis')->get();
         $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::all();
