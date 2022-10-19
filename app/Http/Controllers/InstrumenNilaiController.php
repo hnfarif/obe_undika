@@ -43,7 +43,11 @@ class InstrumenNilaiController extends Controller
         $nik_kary = auth()->user()->nik;
         $role = auth()->user()->role;
 
+        $instru = InstrumenNilai::all();
 
+        //Data Filter
+        $fak = Fakultas::all();
+        $prodi = Prodi::where('sts_aktif', 'Y')->get();
 
         if ($role == 'dosen') {
             $kary = KaryawanDosen::where('nik',$nik_kary)->first();
@@ -58,6 +62,14 @@ class InstrumenNilaiController extends Controller
             }
 
             $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
+        }else if ($role == 'dekan'){
+            $fakDekan = $fak->where('mngr_id', $nik_kary)->first();
+            $prodi = $prodi->where('id_fakultas', $fakDekan->id);
+            $arrProdi = $prodi->pluck('id')->toArray();
+            $kary = KaryawanDosen::whereIn('fakul_id', $arrProdi)->where('kary_type', 'like', '%D%')->prodi()->get();
+            $arrKary = $kary->pluck('nik')->toArray();
+            $jdwkul = JadwalKuliah::whereIn('kary_nik', $arrKary)->where('sts_kul', '1')->get();
+            $smt = Semester::orderBy('smt_yad', 'desc')->first();
         }else{
 
             $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->fakultas()->prodi()->get();
@@ -65,13 +77,6 @@ class InstrumenNilaiController extends Controller
             $smt = Semester::orderBy('smt_yad', 'desc')->first();
 
         }
-
-
-        $instru = InstrumenNilai::all();
-
-        //Data Filter
-        $fak = Fakultas::all();
-        $prodi = Prodi::where('sts_aktif', 'Y')->get();
 
         return view('instrumen-nilai.index', compact('jdwkul', 'instru', 'fak', 'prodi', 'kary', 'smt'));
     }
