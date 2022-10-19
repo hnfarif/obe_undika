@@ -11,8 +11,6 @@ class AngketTrans extends Model
 
     protected $table = 'angket_tf';
     protected $guarded = ["nik"];
-    public $incrementing = false;
-    protected $primaryKey = null;
 
     public function karyawan()
     {
