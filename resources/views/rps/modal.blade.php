@@ -11,6 +11,7 @@
                 <form action="{{ route('rps.index') }}">
                     <div class="row">
                         <div class="col-4">
+                            @if (auth()->user()->role == 'dekan')
                             <h6>Fakultas</h6>
                             @foreach ($fak as $f)
                             <div class="custom-control custom-checkbox checkbox-xl">
@@ -23,6 +24,7 @@
                             </div>
                             @endforeach
                             <div class="mb-3"></div>
+                            @endif
                             <h6>Prodi</h6>
                             @foreach ($prodi as $p)
                             <div class="custom-control custom-checkbox checkbox-xl">
