@@ -73,7 +73,7 @@ Route::prefix('kelola')->middleware('ensureUserRole:kaprodi,p3ai,dosen,pimpinan,
     Route::delete('/plo/delete/{id}', [PloController::class, 'destroy'])->name('peoplo.plo.delete')->middleware('ensureUserRole:kaprodi');
 
     Route::get('/mapping', [PeoPloController::class, 'index'])->name('peoplo.map')->middleware('ensureUserRole:kaprodi,dosen');
-    Route::get('/mapping/detail', [PeoPloController::class, 'detail'])->name('map.detail')->middleware('ensureUserRole:p3ai,pimpinan');
+    Route::get('/mapping/detail', [PeoPloController::class, 'detail'])->name('map.detail');
     Route::post('/mapping/store', [PeoPloController::class, 'store'])->name('peoplo.map.store')->middleware('ensureUserRole:kaprodi');
     Route::get('/mapping/create', [PeoPloController::class, 'create'])->name('peoplo.map.create')->middleware('ensureUserRole:kaprodi');
     Route::delete('/mapping/delete/{peo}/{plo}', [PeoPloController::class, 'destroy'])->name('peoplo.map.delete')->middleware('ensureUserRole:kaprodi');
