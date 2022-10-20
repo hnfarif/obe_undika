@@ -10,7 +10,6 @@ class AngketTrans extends Model
     use HasFactory;
 
     protected $table = 'angket_tf';
-    protected $primaryKey = false;
 
     public function karyawan()
     {
@@ -24,7 +23,13 @@ class AngketTrans extends Model
     public function getMatakuliahName($mk)
     {
         $mk = MataKuliah::where('id', $mk)->first();
-        return $mk->nama;
+
+        if ($mk) {
+            return $mk->nama;
+        } else {
+            return 'matakuliah belum ada';
+        }
+
     }
 
     public function scopeFakultas($query)
