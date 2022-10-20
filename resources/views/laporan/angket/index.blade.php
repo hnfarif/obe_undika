@@ -66,7 +66,7 @@
                                                 <td>{{ $fa->nik }}</td>
                                                 <td>{{ $fa->karyawan->nama }}</td>
                                                 <td>{{ $fa->kode_mk }}</td>
-                                                <td>{{ $fa->getMatakuliahName($fa->prodi,$fa->kode_mk) }}
+                                                <td>{{ $fa->getMatakuliahName($fa->kode_mk) }}
                                                 </td>
                                                 <td>{{ $fa->kelas }}</td>
                                                 <td data-prodi="{{ $fa->prodi }}">{{ number_format($fa->nilai,2) }}</td>

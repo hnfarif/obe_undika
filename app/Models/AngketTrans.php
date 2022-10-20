@@ -17,10 +17,10 @@ class AngketTrans extends Model
         return $this->belongsTo(KaryawanDosen::class, 'nik', 'nik');
     }
 
-    public function getMatakuliahName($prodi, $mk)
+    public function getMatakuliahName($mk)
     {
-        $mk = Matakuliah::where('id', $prodi.$mk)->first();
-        return $mk->nama ?? 'Mata Kuliah belum ada';
+        $mk = Matakuliah::where('id', $mk)->first();
+        return $mk->nama;
     }
 
     public function scopeFakultas($query)
