@@ -12,6 +12,16 @@ class PlottingMonev extends Model
     protected $table = 'plot_monev';
     protected $guarded = ["id"];
 
+    public function karyawan()
+    {
+        return $this->belongsTo(KaryawanDosen::class, 'nik_pengajar', 'nik');
+    }
+
+    public function matakuliah()
+    {
+        return $this->belongsTo(MataKuliah::class, 'klkl_id', 'id');
+    }
+
     public function getNameMataKuliah($mk)
     {
         $maku = MataKuliah::where('id', $mk)->first();

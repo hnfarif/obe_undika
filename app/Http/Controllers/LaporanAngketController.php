@@ -7,6 +7,7 @@ use App\Models\Fakultas;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\MataKuliah;
+use App\Models\PlottingMonev;
 use App\Models\Prodi;
 use App\Models\Semester;
 use PDF;
@@ -31,41 +32,25 @@ class LaporanAngketController extends Controller
     public function manipulateDataAngket(){
 
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $jdwkul = JadwalKuliah::all();
+        $plot = PlottingMonev::where('semester', $smt->smt_yad)->get();
         $angket = AngketTrans::where('smt', $smt->smt_yad)->get();
 
-        $rataAngket = [];
+        $data = [];
 
-        foreach ($jdwkul as $j) {
-            if ($j->matakuliahs) {
-                $sumDosen = $angket->where('nik', $j->kary_nik)->sum('nilai');
-                $cnDosen = $angket->where('nik', $j->kary_nik)->count();
-                $rataDosen = $j->divnum($sumDosen, $cnDosen);
-
-                $sumMk = $angket->where('nik', $j->kary_nik)->where('kode_mk', $j->klkl_id)->where('kelas', $j->kelas)->sum('nilai');
-                $cnMk = $angket->where('nik', $j->kary_nik)->where('kode_mk', $j->klkl_id)->where('kelas', $j->kelas)->count();
-                $rataMk = $j->divnum($sumMk, $cnMk);
-
-
-                $rataAngket[$j->kary_nik] = [
-                    'nama' => $j->karyawans->nama,
-                    'rata_dosen' => $rataDosen,
-                    'kode_mk' => [
-                        $j->klkl_id => [
-                            'nama' => $j->matakuliahs->nama,
-                            'kelas' => $j->kelas,
-                            'rata_mk' => $rataMk,
-                        ],
-                    ],
-
-                ];
-            }
-
-
+        foreach ($plot as $p) {
+            $data[$p->kode_mk]['nik'] = $p->nik_pengajar;
+            $data[$p->kode_mk]['nama'] = $p->karyawan->nama;
+            $data[$p->kode_mk]['kode_mk'] = $p->klkl_id;
+            $data[$p->kode_mk]['nama_mk'] = $p->matakuliah->nama;
+            $data[$p->kode_mk]['kelas'] = $p->kelas;
+            $data[$p->kode_mk]['rata_mk'] = $angket->where('nik', $p->nik_pengajar)->where('kode_mk', $p->klkl_id)->where('kelas', $p->kelas)->avg('nilai');
         }
 
 
-        return $rataAngket;
+
+
+
+        return $data;
     }
 
     public function exportPdf()
