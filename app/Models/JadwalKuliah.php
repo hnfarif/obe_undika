@@ -36,7 +36,7 @@ class JadwalKuliah extends Model
         if ($maku) {
             return $maku->nama;
         }else{
-            return '';
+            return '-';
         }
 
     }
