@@ -32,7 +32,7 @@ class LaporanAngketController extends Controller
 
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $jdwkul = JadwalKuliah::all();
-        $angket = AngketTrans::where('smt', $smt->smt_yad)->where('kode_mk', )->get();
+        $angket = AngketTrans::where('smt', $smt->smt_yad)->get();
 
         $rataAngket = [];
 
