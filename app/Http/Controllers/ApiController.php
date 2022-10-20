@@ -36,7 +36,11 @@ class ApiController extends Controller
         $mk = JadwalKuliah::all();
 
         //json
-        $data = json_encode($mk);
+        $data = [
+            'data' => $mk,
+            'count' => count($mk)
+        ];
+
         return $data;
     }
 }
