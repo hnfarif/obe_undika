@@ -22,6 +22,7 @@ class JadwalKuliah extends Model
     {
         return $this->belongsTo(Semester::class, 'fak_id', 'prodi');
     }
+
     public function karyawan()
     {
         return $this->belongsTo(KaryawanDosen::class, 'nik', 'kary_nik');
