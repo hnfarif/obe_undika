@@ -20,9 +20,9 @@ class AngketTrans extends Model
         return $this->belongsTo(MataKuliah::class, 'kode_mk', 'id');
     }
 
-    public function getMatakuliahName($mk)
+    public function getMatakuliahName($kode_mk)
     {
-        $mk = MataKuliah::where('id', $mk)->first();
+        $mk = MataKuliah::where('id', $kode_mk)->first();
 
         if ($mk) {
             return $mk->nama;
