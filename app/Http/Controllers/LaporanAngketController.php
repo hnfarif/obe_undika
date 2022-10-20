@@ -21,14 +21,8 @@ class LaporanAngketController extends Controller
         $kary = KaryawanDosen::all();
 
 
-        $filterAngket = $angket->filter(function ($angket) use ($smt) {
 
-            return $angket->smt == $smt->smt_yad;
-        });
-
-
-
-        return view('laporan.angket.index', compact('filterAngket', 'fak', 'prodi', 'kary' ));
+        return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary' ));
     }
 
     public function exportPdf()

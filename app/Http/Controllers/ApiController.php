@@ -32,7 +32,7 @@ class ApiController extends Controller
     }
 
     public function cekData(){
-        $mk = AngketTrans::all();
+        $mk = AngketTrans::where('smt', '212')->get();
 
         //json
         $data = json_encode($mk);

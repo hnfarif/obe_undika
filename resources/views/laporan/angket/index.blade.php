@@ -61,10 +61,10 @@
 
                                         </thead>
                                         <tbody>
-                                            @foreach ($filterAngket as $fa)
+                                            @foreach ($angket as $fa)
                                             <tr>
                                                 <td>{{ $fa->nik }}</td>
-                                                <td>{{ $fa->karyawan->nama ?? 'Nama Belum ada di database' }}</td>
+                                                <td>{{ $fa->karyawan->nama }}</td>
                                                 <td>{{ $fa->kode_mk }}</td>
                                                 <td>{{ $fa->getMatakuliahName($fa->prodi,$fa->kode_mk) }}
                                                 </td>
