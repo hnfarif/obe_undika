@@ -10,7 +10,7 @@ class AngketTrans extends Model
     use HasFactory;
 
     protected $table = 'angket_tf';
-    protected $guarded = ["nik"];
+    public $incrementing = false;
 
     public function karyawan()
     {
