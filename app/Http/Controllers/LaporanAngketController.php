@@ -6,6 +6,7 @@ use App\Models\AngketTrans;
 use App\Models\Fakultas;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
+use App\Models\MataKuliah;
 use App\Models\Prodi;
 use App\Models\Semester;
 use PDF;
@@ -31,7 +32,8 @@ class LaporanAngketController extends Controller
 
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->pluck('nik')->toArray();
-        $jdwkul = JadwalKuliah::whereIn('kary_nik', $kary)->get();
+        $mk = MataKuliah::where('status', 1)->pluck('id')->toArray();
+        $jdwkul = JadwalKuliah::whereIn('kary_nik', $kary)->whereIn('klkl_id', $mk)->get();
         $angket = AngketTrans::where('smt', $smt->smt_yad)->get();
 
         $rataAngket = [];
