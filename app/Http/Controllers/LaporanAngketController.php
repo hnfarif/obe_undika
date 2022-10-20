@@ -29,7 +29,7 @@ class LaporanAngketController extends Controller
 
     public function manipulateDataAngket(){
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $jdwkul = JadwalKuliah::distinct('kary_nik')->get();
+        $jdwkul = JadwalKuliah::all();
         $angket = AngketTrans::where('smt', $smt->smt_yad)->get();
 
         $rataAngket = [];
