@@ -30,7 +30,7 @@ class LaporanMonevController extends Controller
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $plot = PlottingMonev::whereSemester($smt->smt_yad)->pluck('klkl_id')->toArray();
-        $jdw = JadwalKuliah::whereIn('klkl_id', $plot)->with('matakuliah', 'karyawan')->fakultas()->prodi()->dosen()->get();
+        $jdw = JadwalKuliah::whereIn('klkl_id', $plot)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get();
         return view('laporan.monev.index', compact('kri', 'jdw', 'fak', 'prodi', 'kary', 'fakul'));
     }
 
