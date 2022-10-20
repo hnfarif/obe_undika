@@ -20,6 +20,18 @@ class AngketTrans extends Model
         return $this->belongsTo(MataKuliah::class, 'kode_mk', 'id');
     }
 
+    public function getKaryawan($nik)
+    {
+        $kary = KaryawanDosen::where('nik', $nik)->first();
+
+        if ($kary) {
+            return $kary->nama;
+        } else {
+            return 'dosen belum ada';
+        }
+
+    }
+
     public function getMatakuliahName($kode_mk)
     {
         $mk = MataKuliah::where('id', $kode_mk)->first();

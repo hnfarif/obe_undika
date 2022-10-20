@@ -64,7 +64,7 @@
                                             @foreach ($angket as $fa)
                                             <tr>
                                                 <td>{{ $fa->nik }}</td>
-                                                <td>{{ $fa->karyawan->nama }}</td>
+                                                <td>{{ $fa->getKaryawan($fa->nik) }}</td>
                                                 <td>{{ $fa->kode_mk }}</td>
                                                 <td>{{ $fa->getMatakuliahName($fa->kode_mk) }}
                                                 </td>
