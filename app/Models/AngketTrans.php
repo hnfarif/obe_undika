@@ -18,7 +18,7 @@ class AngketTrans extends Model
     }
 
     public function matakuliah(){
-        return $this->belongsTo(Matakuliah::class, 'id', 'kode_mk');
+        return $this->belongsTo(MataKuliah::class, 'id', 'kode_mk');
     }
 
     public function getMatakuliahName($mk)
