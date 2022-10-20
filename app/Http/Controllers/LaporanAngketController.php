@@ -40,11 +40,11 @@ class LaporanAngketController extends Controller
             if ($j->matakuliahs) {
                 $sumDosen = $angket->where('nik', $j->kary_nik)->sum('nilai');
                 $cnDosen = $angket->where('nik', $j->kary_nik)->count();
-                $rataDosen = $sumDosen / $cnDosen;
+                $rataDosen = $j->divnum($sumDosen, $cnDosen);
 
                 $sumMk = $angket->where('nik', $j->kary_nik)->where('kode_mk', $j->klkl_id)->where('kelas', $j->kelas)->sum('nilai');
                 $cnMk = $angket->where('nik', $j->kary_nik)->where('kode_mk', $j->klkl_id)->where('kelas', $j->kelas)->count();
-                $rataMk = $sumMk / $cnMk;
+                $rataMk = $j->divnum($sumMk, $cnMk);
 
 
                 $rataAngket[$j->kary_nik] = [
