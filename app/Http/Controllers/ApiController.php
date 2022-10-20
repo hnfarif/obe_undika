@@ -33,7 +33,7 @@ class ApiController extends Controller
 
     public function cekData(){
         // $jdwkul = JadwalKuliah::pluck('kary_nik')->toArray()->unique();
-        $mk = AngketTrans::where('smt', '221')->get();
+        $mk = JadwalKuliah::all();
 
         //json
         $data = json_encode($mk);
