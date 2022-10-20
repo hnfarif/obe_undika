@@ -31,26 +31,26 @@ class LaporanAngketController extends Controller
     public function manipulateDataAngket(){
 
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->pluck('nik')->toArray();
-        $mk = MataKuliah::where('status', 1)->pluck('id')->toArray();
-        $jdwkul = JadwalKuliah::whereIn('kary_nik', $kary)->whereIn('klkl_id', $mk)->get();
+        $jdwkul = JadwalKuliah::all();
         $angket = AngketTrans::where('smt', $smt->smt_yad)->get();
 
         $rataAngket = [];
 
         foreach ($jdwkul as $j) {
-            $rataAngket[$j] = [
-                'nama' => $j->karyawans->nama,
-                'rata_dosen' => $angket->where('nik', $j->kary_nik)->avg('nilai'),
-                'kode_mk' => [
-                    $j => [
-                        'nama' => $j->matakuliahs->nama,
-                        'kelas' => $j->kelas,
-                        'rata_mk' => $angket->where('nik', $j->kary_nik)->where('kode_mk', $j->klkl_id)->where('kelas', $j->kelas)->avg('nilai'),
+            if($j->getNameMataKuliah($j->klkl_id)){
+                $rataAngket[$j] = [
+                    'nama' => $j->karyawans->nama,
+                    'rata_dosen' => $angket->where('nik', $j->kary_nik)->avg('nilai'),
+                    'kode_mk' => [
+                        $j => [
+                            'nama' => $j->getNameMataKuliah($j->klkl_id),
+                            'kelas' => $j->kelas,
+                            'rata_mk' => $angket->where('nik', $j->kary_nik)->where('kode_mk', $j->klkl_id)->where('kelas', $j->kelas)->avg('nilai'),
+                        ],
                     ],
-                ],
 
-            ];
+                ];
+            }
         }
 
 
