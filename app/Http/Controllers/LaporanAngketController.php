@@ -38,14 +38,23 @@ class LaporanAngketController extends Controller
 
         foreach ($jdwkul as $j) {
             if ($j->matakuliahs) {
+                $sumDosen = $angket->where('nik', $j->kary_nik)->sum('nilai');
+                $cnDosen = $angket->where('nik', $j->kary_nik)->count();
+                $rataDosen = $sumDosen / $cnDosen;
+
+                $sumMk = $angket->where('nik', $j->kary_nik)->where('kode_mk', $j->klkl_id)->where('kelas', $j->kelas)->sum('nilai');
+                $cnMk = $angket->where('nik', $j->kary_nik)->where('kode_mk', $j->klkl_id)->where('kelas', $j->kelas)->count();
+                $rataMk = $sumMk / $cnMk;
+
+
                 $rataAngket[$j->kary_nik] = [
                     'nama' => $j->karyawans->nama,
-                    'rata_dosen' => $angket->where('nik', $j->kary_nik)->avg('nilai'),
+                    'rata_dosen' => $rataDosen,
                     'kode_mk' => [
                         $j->klkl_id => [
                             'nama' => $j->matakuliahs->nama,
                             'kelas' => $j->kelas,
-                            'rata_mk' => $angket->where('nik', $j->kary_nik)->where('kode_mk', $j->klkl_id)->where('kelas', $j->kelas)->avg('nilai'),
+                            'rata_mk' => $rataMk,
                         ],
                     ],
 
