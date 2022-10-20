@@ -32,7 +32,8 @@ class ApiController extends Controller
     }
 
     public function cekData(){
-        $mk = AngketTrans::where('smt', '221')->get();
+        $jdwkul = JadwalKuliah::pluck('kary_nik')->toArray()->unique();
+        $mk = AngketTrans::where('smt', '221')->whereIn('nik', $jdwkul)->get();
 
         //json
         $data = json_encode($mk);
