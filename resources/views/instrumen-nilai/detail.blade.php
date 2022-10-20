@@ -28,7 +28,7 @@
                             class="card @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) card-primary @else card-warning @endif">
                             <div class="card-header" style="height: 100px;">
                                 <div class="d-block">
-                                    <h4 class="text-dark">{{ $jdw->getNameMataKuliah($jdw->klkl_id,$jdw->prodi) }}
+                                    <h4 class="text-dark">{{ $jdw->getNameMataKuliah($jdw->klkl_id) }}
                                         ({{ $jdw->klkl_id }})</h4>
                                     <p class="m-0">{{ $jdw->getNameProdi($jdw->prodi) }}</p>
                                 </div>
