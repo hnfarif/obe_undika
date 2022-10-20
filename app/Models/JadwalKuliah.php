@@ -15,7 +15,7 @@ class JadwalKuliah extends Model
 
     public function matakuliah()
     {
-        return $this->belongsTo(MataKuliah::class, 'klkl_id', 'id');
+        return $this->belongsTo(MataKuliah::class, 'id', 'klkl_id');
     }
 
     public function semester()
@@ -24,7 +24,7 @@ class JadwalKuliah extends Model
     }
     public function karyawan()
     {
-        return $this->belongsTo(KaryawanDosen::class, 'kary_nik', 'nik');
+        return $this->belongsTo(KaryawanDosen::class, 'nik', 'kary_nik');
     }
 
     public function getNameMataKuliah($kdMk)
