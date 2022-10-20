@@ -33,14 +33,14 @@ class ApiController extends Controller
 
     public function cekData(){
         // $jdwkul = JadwalKuliah::pluck('kary_nik')->toArray()->unique();
-        $mk = JadwalKuliah::distinct('kary_nik')->get();
+        $mk = AngketTrans::where('smt', '221')->get();
 
         //json
         $data = [
             'data' => $mk,
-            'count' => count($mk)
+            'count' => $mk->count(),
         ];
 
-        return $data;
+        return response()->json($data);
     }
 }
