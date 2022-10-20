@@ -38,11 +38,11 @@ class LaporanAngketController extends Controller
 
         foreach ($jdwkul as $j) {
             if($j->getNameMataKuliah($j->klkl_id)){
-                $rataAngket[$j] = [
+                $rataAngket[$j->kary_nik] = [
                     'nama' => $j->karyawans->nama,
                     'rata_dosen' => $angket->where('nik', $j->kary_nik)->avg('nilai'),
                     'kode_mk' => [
-                        $j => [
+                        $j->klkl_id => [
                             'nama' => $j->getNameMataKuliah($j->klkl_id),
                             'kelas' => $j->kelas,
                             'rata_mk' => $angket->where('nik', $j->kary_nik)->where('kode_mk', $j->klkl_id)->where('kelas', $j->kelas)->avg('nilai'),
