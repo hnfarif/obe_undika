@@ -19,7 +19,7 @@ class AngketTrans extends Model
 
     public function getMatakuliahName($mk)
     {
-        $mk = Matakuliah::where('id', $mk)->first();
+        $mk = MataKuliah::where('id', $mk)->first();
         return $mk->nama;
     }
 
