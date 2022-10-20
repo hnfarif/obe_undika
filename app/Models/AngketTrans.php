@@ -10,7 +10,7 @@ class AngketTrans extends Model
     use HasFactory;
 
     protected $table = 'angket_tf';
-    public $incrementing = false;
+    protected $primaryKey = false;
 
     public function karyawan()
     {
