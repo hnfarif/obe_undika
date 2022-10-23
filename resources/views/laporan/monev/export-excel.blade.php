@@ -34,7 +34,7 @@
                 </td>
                 <td>{{ $j->getNameMataKuliah($j->klkl_id) }}</td>
                 <td>{{ $j->kelas }}</td>
-                <td>{{ $j->karyawans->nama }}</td>
+                <td>{{ $j->getNameKary($j->kary_nik) }}</td>
 
                 @foreach ($kri as $k)
                 @if ($loop->last)
