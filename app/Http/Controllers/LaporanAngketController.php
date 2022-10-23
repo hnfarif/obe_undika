@@ -17,21 +17,19 @@ class LaporanAngketController extends Controller
 {
     public function index()
     {
-
+        $fak = Fakultas::where('sts_aktif', 'Y')->get();
+        $arrFak = $fak->pluck('id')->toArray();
+        $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
 
-        $angket = $this->manipulateDataAngket();
+        $angket = $this->manipulateDataAngket($prodi, $fak);
 
         dd($angket);
 
         return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary' ));
     }
 
-    public function manipulateDataAngket(){
-
-        $fak = Fakultas::where('sts_aktif', 'Y')->get();
-        $arrFak = $fak->pluck('id')->toArray();
-        $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
+    public function manipulateDataAngket($prodi, $fak){
 
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $plot = PlottingMonev::where('semester', $smt->smt_yad)->get();
