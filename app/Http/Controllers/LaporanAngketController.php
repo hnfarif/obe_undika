@@ -36,13 +36,11 @@ class LaporanAngketController extends Controller
         $angket = AngketTrans::where('smt', $smt->smt_yad)->get();
         $ratamk = $angket;
 
-
-        dd($ratamk);
         $data = [];
 
         foreach ($plot as $p) {
             $rata_dosen =  $angket->where('nik', $p->nik_pengajar)->avg('nilai');
-            $rata_mk = $ratamk->where('nik', $p->nik_pengajar)->where('kode_mk', $p->klkl_id)->where('kelas', $p->kelas)->where('prodi', $p->prodi)->avg('nilai');
+            $rata_mk = $ratamk->where('nik', $p->nik_pengajar)->where('kode_mk', $p->klkl_id)->avg('nilai');
 
             $data[$p->nik_pengajar]['nama'] = $p->karyawan->nama;
             $data[$p->nik_pengajar]['rata_dosen'] = $rata_dosen;
