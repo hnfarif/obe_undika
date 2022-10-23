@@ -22,9 +22,7 @@ class LaporanAngketController extends Controller
         $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
 
-        $ang = $this->manipulateDataAngket();
-
-        dd($ang);
+        $angket = $this->manipulateDataAngket();
 
         return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary' ));
     }
