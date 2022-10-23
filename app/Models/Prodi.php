@@ -33,6 +33,13 @@ class Prodi extends Model
         return $this->hasMany(Peo::class);
     }
 
+    public function scopeId($query)
+    {
+        if (request()->prodi) {
+            return $query->whereIn('id', request('prodi'));
+        }
+    }
+
     public function getAvgMonev($prodi)
     {
 
@@ -44,22 +51,6 @@ class Prodi extends Model
                 $count++;
                 $sum += $j->getNilaiAkhir($j->kary_nik, $j->klkl_id, $j->prodi, $j->kelas);
             }
-        }
-
-        $njdw = new JadwalKuliah();
-        $avg = $njdw->divnum($sum, $count);
-        return number_format($avg, 2);
-
-    }
-
-    public function getAvgAngket($prodi)
-    {
-
-        $angket = AngketTrans::where('prodi', $prodi)->get();
-        $count = $angket->count();
-        $sum = 0;
-        foreach ($angket as $a) {
-            $sum += $a->nilai;
         }
 
         $njdw = new JadwalKuliah();

@@ -178,6 +178,7 @@
                     <th>Nama MK</th>
                     <th>Kelas</th>
                     <th>Rata-rata</th>
+                    <th>Rata-rata Dosen</th>
                 </tr>
 
             </thead>

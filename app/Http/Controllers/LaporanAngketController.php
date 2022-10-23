@@ -34,7 +34,7 @@ class LaporanAngketController extends Controller
     public function manipulateDataAngket($prodi, $fak){
 
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $plot = PlottingMonev::where('semester', $smt->smt_yad)->get();
+        $plot = PlottingMonev::where('semester', $smt->smt_yad)->prodi()->get();
         $angket = AngketTrans::where('smt', $smt->smt_yad)->whereIn('prodi', $plot->pluck('prodi')->toArray())->get();
         $ratamk = $angket;
 
