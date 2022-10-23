@@ -101,20 +101,60 @@
                     <th>Nama MK</th>
                     <th>Kelas</th>
                     <th>Rata-rata</th>
+                    <th>Rata-rata Dosen</th>
                 </tr>
 
             </thead>
             <tbody>
-                @foreach ($filterAngket->where('prodi', $pro->id) as $fa)
+                @foreach ($filterAngket as $key => $fa)
+                @foreach ($fa['matakuliah'] as $keymk => $mk)
+                @foreach ($mk as $keykelas => $kelas)
+                @if ($kelas['prodi'] == $pro->id)
                 <tr>
-                    <td>{{ $fa->nik }}</td>
-                    <td>{{ $fa->karyawan->nama ?? 'Nama Belum ada di database' }}</td>
-                    <td>{{ $fa->kode_mk }}</td>
-                    <td>{{ $fa->getMatakuliahName($fa->prodi,$fa->kode_mk) }}
+                    <td>{{ $key }}</td>
+                    <td>{{ $fa['nama'] }}</td>
+                    <td>
+                        @foreach ($fa['matakuliah'] as $keymk => $mk)
+                        {!! $keymk.'<br>' !!}
+                        @endforeach
                     </td>
-                    <td>{{ $fa->kelas }}</td>
-                    <td data-prodi="{{ $fa->prodi }}">{{ number_format($fa->nilai,2) }}</td>
+                    <td>
+                        @foreach ($fa['matakuliah'] as $keymk => $mk)
+
+                        @foreach ($mk as $keykelas => $kelas )
+
+                        {!! $kelas['nama'].'<br>' !!}
+
+                        @endforeach
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach ($fa['matakuliah'] as $keymk => $mk)
+
+                        @foreach ($mk as $keykelas => $kelas )
+
+                        {!! $keykelas.'<br>' !!}
+
+                        @endforeach
+                        @endforeach
+                    </td>
+                    <td>
+
+                        @foreach ($fa['matakuliah'] as $keymk => $mk)
+
+                        @foreach ($mk as $keykelas => $kelas )
+
+                        {!! number_format($kelas['rata_mk'],2).'<br>' !!}
+
+                        @endforeach
+                        @endforeach
+
+                    </td>
+                    <td>{{ $fa['rata_dosen'] }}</td>
                 </tr>
+                @endif
+                @endforeach
+                @endforeach
                 @endforeach
             </tbody>
         </table>
@@ -134,15 +174,48 @@
 
             </thead>
             <tbody>
-                @foreach ($filterAngket as $fa)
+                @foreach ($filterAngket as $key => $fa)
                 <tr>
-                    <td>{{ $fa->nik }}</td>
-                    <td>{{ $fa->karyawan->nama ?? 'Nama Belum ada di database' }}</td>
-                    <td>{{ $fa->kode_mk }}</td>
-                    <td>{{ $fa->getMatakuliahName($fa->prodi,$fa->kode_mk) }}
+                    <td>{{ $key }}</td>
+                    <td>{{ $fa['nama'] }}</td>
+                    <td>
+                        @foreach ($fa['matakuliah'] as $keymk => $mk)
+                        {!! $keymk.'<br>' !!}
+                        @endforeach
                     </td>
-                    <td>{{ $fa->kelas }}</td>
-                    <td data-prodi="{{ $fa->prodi }}">{{ number_format($fa->nilai,2) }}</td>
+                    <td>
+                        @foreach ($fa['matakuliah'] as $keymk => $mk)
+
+                        @foreach ($mk as $keykelas => $kelas )
+
+                        {!! $kelas['nama'].'<br>' !!}
+
+                        @endforeach
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach ($fa['matakuliah'] as $keymk => $mk)
+
+                        @foreach ($mk as $keykelas => $kelas )
+
+                        {!! $keykelas.'<br>' !!}
+
+                        @endforeach
+                        @endforeach
+                    </td>
+                    <td>
+
+                        @foreach ($fa['matakuliah'] as $keymk => $mk)
+
+                        @foreach ($mk as $keykelas => $kelas )
+
+                        {!! number_format($kelas['rata_mk'],2).'<br>' !!}
+
+                        @endforeach
+                        @endforeach
+
+                    </td>
+                    <td>{{ $fa['rata_dosen'] }}</td>
                 </tr>
                 @endforeach
             </tbody>

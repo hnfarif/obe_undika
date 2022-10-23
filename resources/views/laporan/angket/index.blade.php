@@ -57,6 +57,7 @@
                                                 <th>Nama MK</th>
                                                 <th>Kelas</th>
                                                 <th>Rata-rata</th>
+                                                <th>Rata-rata Dosen</th>
                                             </tr>
 
                                         </thead>
@@ -102,6 +103,7 @@
                                                     @endforeach
 
                                                 </td>
+                                                <td>{{ $fa['rata_dosen'] }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

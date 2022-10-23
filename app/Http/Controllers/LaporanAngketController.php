@@ -49,6 +49,7 @@ class LaporanAngketController extends Controller
             $data[$p->nik_pengajar]['nama'] = $p->karyawan->nama;
             $data[$p->nik_pengajar]['rata_dosen'] = number_format($rata_dosen, 2);
             $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['nama'] = $p->matakuliah->nama;
+            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['prodi'] = $p->programstudi->nama;
             $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['rata_mk'] = number_format($rata_mk, 2);
         }
 
@@ -77,18 +78,13 @@ class LaporanAngketController extends Controller
             $filProdi = null;
         }
 
-        $angket = AngketTrans::with('karyawan')->fakultas()->prodi()->dosen()->get();
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $fak = Fakultas::with('prodis')->get();
+        $fak = Fakultas::where('sts_aktif', 'Y')->with('prodis')->get();
+        $prodi = $fak->prodis;
 
-
-        $filterAngket = $angket->filter(function ($angket) use ($smt) {
-
-            return $angket->smt == $smt->smt_yad;
-        });
+        $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
 
         $pdf = PDF::loadView('laporan.angket.export-pdf', ['fak' => $fak,
-        'filterAngket' => $filterAngket,
+        'filterAngket' => $angket,
         'prodi' => $filProdi
         ]);
 
