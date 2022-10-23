@@ -78,8 +78,9 @@ class LaporanAngketController extends Controller
             $filProdi = null;
         }
 
-        $fak = Fakultas::where('sts_aktif', 'Y')->with('prodis')->get();
-        $prodi = $fak->prodis;
+        $fak = Fakultas::where('sts_aktif', 'Y')->get();
+        $arrFak = $fak->pluck('id')->toArray();
+        $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
 
         $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
 
