@@ -36,6 +36,8 @@ class LaporanAngketController extends Controller
         $angket = AngketTrans::where('smt', $smt->smt_yad)->get();
         $ratamk = $angket;
 
+
+        dd($ratamk);
         $data = [];
 
         foreach ($plot as $p) {
