@@ -48,7 +48,7 @@ class LaporanAngketController extends Controller
 
             $data[$p->nik_pengajar]['nama'] = $p->karyawan->nama;
             $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['nama'] = $p->matakuliah->nama;
-            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['prodi'] = $p->programstudi->nama;
+            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['prodi'] = $p->prodi;
             $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['rata_mk'] = number_format($rata_mk, 2);
 
             $count = count($data[$p->nik_pengajar]['matakuliah']);
