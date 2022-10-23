@@ -17,17 +17,21 @@ class LaporanAngketController extends Controller
 {
     public function index()
     {
-        $fak = Fakultas::where('sts_aktif', 'Y')->get();
-        $arrFak = $fak->pluck('id')->toArray();
-        $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
+
         $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
 
         $angket = $this->manipulateDataAngket();
+
+        dd($angket);
 
         return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary' ));
     }
 
     public function manipulateDataAngket(){
+
+        $fak = Fakultas::where('sts_aktif', 'Y')->get();
+        $arrFak = $fak->pluck('id')->toArray();
+        $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
 
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $plot = PlottingMonev::where('semester', $smt->smt_yad)->get();
@@ -35,6 +39,8 @@ class LaporanAngketController extends Controller
         $ratamk = $angket;
 
         $data = [];
+        $rataProdi = [];
+        $rataFakultas = [];
 
         foreach ($plot as $p) {
             $rata_dosen =  $angket->where('nik', $p->nik_pengajar)->avg('nilai');
@@ -42,11 +48,26 @@ class LaporanAngketController extends Controller
 
             $data[$p->nik_pengajar]['nama'] = $p->karyawan->nama;
             $data[$p->nik_pengajar]['rata_dosen'] = number_format($rata_dosen, 2);
+            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id]['prodi'] = $p->programstudi->nama;
             $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['nama'] = $p->matakuliah->nama;
             $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['rata_mk'] = number_format($rata_mk, 2);
         }
 
-        return $data;
+        foreach ($prodi as $value) {
+            $rataProdi[$value->id]['nama'] = $value->nama;
+            $rataProdi[$value->id]['rata_prodi'] = number_format($angket->where('prodi', $value->id)->avg('nilai'), 2);
+        }
+
+        foreach ($fak as $value) {
+            $rataFakultas[$value->id]['nama'] = $value->nama;
+            $rataFakultas[$value->id]['rata_fakultas'] = number_format($angket->whereIn('prodi', $value->prodis->pluck('id')->toArray())->avg('nilai'), 2);
+        }
+
+        return [
+            'data' => $data,
+            'rataProdi' => $rataProdi,
+            'rataFakultas' => $rataFakultas,
+        ];
     }
 
     public function exportPdf()

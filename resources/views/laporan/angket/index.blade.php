@@ -112,7 +112,7 @@
                     </div>
                 </div>
 
-                {{-- <div class="row rangkuman d-none">
+                <div class="row rangkuman d-none">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -125,7 +125,7 @@
                                         <thead>
                                             <tr class="text-center">
                                                 <th>Fakultas</th>
-                                                <th>Nama Prodi</th>
+                                                <th>Program Studi</th>
                                                 <th>Rata-Rata Prodi</th>
                                                 <th>Rata-Rata Fakultas</th>
                                             </tr>
@@ -135,39 +135,39 @@
                                             <tr>
 
                                                 <td>{{ $f->nama }}</td>
-                <td>
-                    @foreach ($f->prodis as $p )
-                    <div class="my-3">
+                                                <td>
+                                                    @foreach ($f->prodis as $p )
+                                                    <div class="my-3">
 
-                        {{ $p->nama.' ('.$p->id.')' }}
-                    </div>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach ($f->prodis as $p )
-                    <div class="text-center my-3" data-prodi="{{ $p->id }}">
+                                                        {{ $p->nama.' ('.$p->id.')' }}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($f->prodis as $p )
+                                                    <div class="text-center my-3">
 
-                        {{ $p->getAvgAngket($p->id) }}
+                                                        {{ $p->getAvgAngket($p->id) }}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $f->getAvgAngketFakul($f->id) }}
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    @endforeach
-                </td>
-                <td class="text-center">
-                    {{ $f->getAvgAngketFakul($f->id) }}
-                </td>
-                </tr>
-                @endforeach
-                </tbody>
-                </table>
+                </div>
+
             </div>
+        </section>
     </div>
-</div>
-</div>
-</div> --}}
-
-</div>
-</section>
-</div>
-@include('layouts.footer')
+    @include('layouts.footer')
 </div>
 @include('laporan.angket.modal-angket')
 @endsection
