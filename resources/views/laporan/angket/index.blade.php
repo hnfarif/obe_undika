@@ -90,7 +90,7 @@
                                                     @endforeach
                                                     @endforeach
                                                 </td>
-                                                <td data-prodi="{{ $fa->prodi }}">
+                                                <td>
 
                                                     @foreach ($fa['matakuliah'] as $keymk => $mk)
 
