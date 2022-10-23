@@ -38,10 +38,13 @@ class LaporanAngketController extends Controller
         $data = [];
 
         foreach ($plot as $p) {
+            $rata_dosen =  $angket->where('nik', $p->nik_pengajar)->avg('nilai');
+            $rata_mk = $angket->where('nik', $p->nik_pengajar)->where('kode_mk', $p->klkl_id)->where('kelas', $p->kelas)->where('prodi', $p->prodi)->avg('nilai');
+
             $data[$p->nik_pengajar]['nama'] = $p->karyawan->nama;
-            $data[$p->nik_pengajar]['rata_dosen'] = $angket->where('nik', $p->nik_pengajar)->avg('nilai');
+            $data[$p->nik_pengajar]['rata_dosen'] = $rata_dosen;
             $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['nama'] = $p->matakuliah->nama;
-            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['rata_mk'] = $angket->where('kode_mk', $p->klkl_id)->where('kelas', 'like', $p->kelas.'%')->avg('nilai');
+            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['rata_mk'] = $rata_mk;
         }
 
         return $data;
