@@ -63,8 +63,8 @@
                                         <tbody>
                                             @foreach ($angket as $key => $fa)
                                             <tr>
-                                                <td rowspan="{{ count($fa['matakuliah']) }}">{{ $key }}</td>
-                                                <td rowspan="{{ count($fa['matakuliah']) }}">{{ $fa['nama'] }}</td>
+                                                <td>{{ $key }}</td>
+                                                <td>{{ $fa['nama'] }}</td>
                                                 <td>
                                                     @foreach ($fa['matakuliah'] as $keymk => $mk)
                                                     {!! $keymk.'<br>' !!}
