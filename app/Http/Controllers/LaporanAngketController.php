@@ -48,7 +48,6 @@ class LaporanAngketController extends Controller
 
             $data[$p->nik_pengajar]['nama'] = $p->karyawan->nama;
             $data[$p->nik_pengajar]['rata_dosen'] = number_format($rata_dosen, 2);
-            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id]['prodi'] = $p->programstudi->nama;
             $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['nama'] = $p->matakuliah->nama;
             $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['rata_mk'] = number_format($rata_mk, 2);
         }
