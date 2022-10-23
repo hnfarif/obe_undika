@@ -34,12 +34,13 @@ class LaporanAngketController extends Controller
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $plot = PlottingMonev::where('semester', $smt->smt_yad)->get();
         $angket = AngketTrans::where('smt', $smt->smt_yad)->get();
+        $ratamk = $angket;
 
         $data = [];
 
         foreach ($plot as $p) {
             $rata_dosen =  $angket->where('nik', $p->nik_pengajar)->avg('nilai');
-            $rata_mk = $angket->where('nik', $p->nik_pengajar)->where('kode_mk', $p->klkl_id)->where('kelas', $p->kelas)->where('prodi', $p->prodi)->avg('nilai');
+            $rata_mk = $ratamk->where('nik', $p->nik_pengajar)->where('kode_mk', $p->klkl_id)->where('kelas', $p->kelas)->where('prodi', $p->prodi)->avg('nilai');
 
             $data[$p->nik_pengajar]['nama'] = $p->karyawan->nama;
             $data[$p->nik_pengajar]['rata_dosen'] = $rata_dosen;
