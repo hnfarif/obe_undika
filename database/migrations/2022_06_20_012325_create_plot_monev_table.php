@@ -17,7 +17,7 @@ class CreatePlotMonevTable extends Migration
             $table->id();
             $table->string('nik_pemonev', 6);
             $table->string('nik_pengajar', 6);
-            $table->string('klkl_id', 5);
+            $table->string('klkl_id');
             $table->string('prodi', 6);
             $table->string('semester', 3)->nullable();
             $table->string('kelas')->nullable();
