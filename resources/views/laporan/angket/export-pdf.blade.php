@@ -73,14 +73,22 @@
                     </td>
                     <td>
                         @foreach ($f->prodis as $p )
-                        <div class="text-center my-3" data-prodi="{{ $p->id }}">
+                        <div class="text-center my-3">
 
-                            {{ $p->getAvgAngket($p->id) }}
+                            @if (isset($rataProdi[$p->id]))
+
+                            {{ $rataProdi[$p->id]['rata_prodi'] }}
+
+                            @endif
                         </div>
                         @endforeach
                     </td>
                     <td class="text-center">
-                        {{ $f->getAvgAngketFakul($f->id) }}
+                        @if (isset($rataFak[$f->id]))
+
+                        {{ $rataFak[$f->id]['rata_fakultas'] }}
+
+                        @endif
                     </td>
                 </tr>
                 @endforeach

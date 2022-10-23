@@ -94,9 +94,15 @@ class LaporanAngketController extends Controller
 
         $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
 
+        $rataProdi = $this->manipulateDataAngket($prodi, $fak)['rataProdi'];
+
+        $rataFak = $this->manipulateDataAngket($prodi, $fak)['rataFakultas'];
+
         $pdf = PDF::loadView('laporan.angket.export-pdf', ['fak' => $fak,
         'filterAngket' => $angket,
-        'prodi' => $filProdi
+        'prodi' => $filProdi,
+        'rataProdi' => $rataProdi,
+        'rataFak' => $rataFak,
         ]);
 
         return $pdf->stream('laporan_angket_'.date('Y-m-d_H-i-s').'.pdf');
