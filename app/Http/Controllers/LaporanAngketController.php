@@ -22,9 +22,9 @@ class LaporanAngketController extends Controller
         $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
 
-        $angket = $this->manipulateDataAngket();
+        $ang = $this->manipulateDataAngket();
 
-        dd($angket);
+        dd($ang);
 
         return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary' ));
     }
@@ -41,7 +41,7 @@ class LaporanAngketController extends Controller
             $data[$p->nik_pengajar]['nama'] = $p->karyawan->nama;
             $data[$p->nik_pengajar]['rata_dosen'] = $angket->where('nik', $p->nik_pengajar)->avg('nilai');
             $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['nama'] = $p->matakuliah->nama;
-            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['rata_mk'] = collect($angket)->where('nik', $p->nik_pengajar)->where('kode_mk', $p->klkl_id)->where('kelas', 'like', $p->kelas.'%')->where('prodi', $p->prodi)->count('nilai');
+            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['rata_mk'] = $angket->where('nik', $p->nik_pengajar)->where('kode_mk', strval($p->klkl_id))->where('kelas', 'like', $p->kelas.'%')->where('prodi', $p->prodi)->count('nilai');
         }
 
         return $data;
