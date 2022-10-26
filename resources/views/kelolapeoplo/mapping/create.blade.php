@@ -38,19 +38,14 @@
                                     <thead>
                                         <tr>
                                             <th>
-                                                <div style="min-width:100px;">
-                                                    Kode PLO
-                                                </div>
+                                                Kode PLO
                                             </th>
                                             <th>
-                                                <div style="min-width:280px;">
-                                                    Deskripsi PLO
-                                                </div>
+                                                Deskripsi PLO
+
                                             </th>
                                             <th>
-                                                <div style="min-width:100px;">
-                                                    Aksi
-                                                </div>
+                                                Aksi
                                             </th>
                                         </tr>
                                     </thead>
