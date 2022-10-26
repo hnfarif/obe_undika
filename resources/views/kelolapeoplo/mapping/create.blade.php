@@ -110,7 +110,7 @@
                                         <label for="">Daftar PLO</label>
                                         <div class="bg-secondary">
 
-                                            <ul class="list-group" id="listPlo">
+                                            <ul class="list-group" id="dropzone">
                                                 <div class="dz-message"><span>Plo yang ditambahkan muncul disini</span>
                                                 </div>
 
