@@ -241,14 +241,14 @@
         $('#btnAddPlo').click(function () {
             // add plo to listPlo elemen
             var kode = $(this).data('kode');
-            var id = $(this).data('id');
+            let dataId = $(this).data('id');
 
             var $el = $('<li class="list-group-item drop-item" >' + kode +
                 '</li>'
 
             );
 
-            $el.append('<input type="hidden" name="plolist[]" value="' + id +
+            $el.append('<input type="hidden" name="plolist[]" value="' + dataId +
                 '">');
             $el.append($(
                 '<button type="button" class="btn btn-danger btn-sm remove">hapus</button>'
@@ -257,7 +257,7 @@
                 if (datamk.length > 0) {
 
                     for (var i = 0; i < datamk.length; i++) {
-                        if (datamk[i].trim() == id.trim()) {
+                        if (datamk[i].trim() == dataId.trim()) {
                             datamk.splice(i, 1);
                         }
                     }
@@ -274,7 +274,7 @@
 
 
                 for (var i = 0; i < datamk.length; i++) {
-                    if (datamk[i].trim() == id.trim()) {
+                    if (datamk[i].trim() == dataId.trim()) {
                         isAvail = true;
 
                     }
@@ -283,11 +283,11 @@
                 if (!isAvail) {
 
                     $('#listPlo').append($el);
-                    datamk.push(id.trim());
+                    datamk.push(dataId.trim());
 
                 }
             } else {
-                datamk.push(id.trim());
+                datamk.push(dataId.trim());
                 $('#listPlo').append($el);
                 $('.dz-message').hide();
             }
