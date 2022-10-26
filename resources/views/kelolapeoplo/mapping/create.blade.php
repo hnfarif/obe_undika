@@ -108,11 +108,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="">Daftar PLO</label>
-                                        <ul class="list-group" id="listPlo">
-                                            <div class="dz-message"><span>Plo yang ditambahkan muncul disini</span>
-                                            </div>
+                                        <div class="bg-secondary">
 
-                                        </ul>
+                                            <ul class="list-group" id="listPlo">
+                                                <div class="dz-message"><span>Plo yang ditambahkan muncul disini</span>
+                                                </div>
+
+                                            </ul>
+                                        </div>
                                         @error('plolist')
                                         <div class="alert alert-danger alert-dismissible show fade ">{{ $message }}
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
