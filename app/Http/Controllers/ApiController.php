@@ -34,7 +34,7 @@ class ApiController extends Controller
 
     public function cekData(){
 
-        $mk = InstrumenNilai::find(1);
+        $mk = InstrumenNilai::where('klkl_id', '36565')->first();
 
         $mk->delete();
 
