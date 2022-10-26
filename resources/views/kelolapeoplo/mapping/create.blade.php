@@ -47,6 +47,11 @@
                                                     Deskripsi PLO
                                                 </div>
                                             </th>
+                                            <th>
+                                                <div style="min-width:100px;">
+                                                    Aksi
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -61,6 +66,13 @@
                                                 <div data-id="{{ $i->id }}">
                                                     <span>{{ $i->deskripsi }}</span>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary" id="btnAddPlo" data-id="{{ $i->id }}"
+                                                    data-kode="{{ $i->kode_plo }}">
+                                                    <i class="fas fa-plus"></i>
+                                                    Tambahkan
+                                                </button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -96,8 +108,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="">Daftar PLO</label>
-                                        <ul class="list-group" id="dropzone">
-                                            <div class="dz-message"><span>Drag kode PLO-nya kesini</span></div>
+                                        <ul class="list-group" id="listPlo">
+                                            <div class="dz-message"><span>Plo yang ditambahkan muncul disini</span>
+                                            </div>
 
                                         </ul>
                                         @error('plolist')
@@ -225,6 +238,63 @@
         });
 
 
+        $('#btnAddPlo').click(function () {
+            // add plo to listPlo elemen
+            var kode = $(this).data('kode');
+            var id = $(this).data('id');
+
+            var $el = $('<li class="list-group-item drop-item" >' + kode +
+                '</li>'
+
+            );
+
+            $el.append('<input type="hidden" name="plolist[]" value="' + id +
+                '">');
+            $el.append($(
+                '<button type="button" class="btn btn-danger btn-sm remove">hapus</button>'
+            ).click(function () {
+                $(this).parent().detach();
+                if (datamk.length > 0) {
+
+                    for (var i = 0; i < datamk.length; i++) {
+                        if (datamk[i].trim() == id.trim()) {
+                            datamk.splice(i, 1);
+                        }
+                    }
+
+                }
+                if (datamk.length == 0) {
+
+                    $('.dz-message').show();
+                }
+            }));
+            var isAvail = false;
+
+            if (datamk.length > 0) {
+
+
+                for (var i = 0; i < datamk.length; i++) {
+                    if (datamk[i].trim() == id.trim()) {
+                        isAvail = true;
+
+                    }
+                }
+
+                if (!isAvail) {
+
+                    $('#listPlo').append($el);
+                    datamk.push(id.trim());
+
+                }
+            } else {
+                datamk.push(id.trim());
+                $('#listPlo').append($el);
+                $('.dz-message').hide();
+            }
+
+
+        })
+        // $('#listPlo').
     })
 
 </script>
