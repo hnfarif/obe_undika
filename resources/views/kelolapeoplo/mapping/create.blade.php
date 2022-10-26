@@ -241,7 +241,7 @@
         $('#btnAddPlo').click(function () {
             // add plo to listPlo elemen
             var kode = $(this).data('kode');
-            let dataId = $(this).data('id');
+            var dataId = $(this).attr('data-id');
 
             var $el = $('<li class="list-group-item drop-item" >' + kode +
                 '</li>'
