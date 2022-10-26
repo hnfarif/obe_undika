@@ -1,3 +1,8 @@
+<form action="{{ route('cekData') }}" method="post">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger">Hapus</button>
+</form>
 @if (session()->has('message'))
 <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
     {{ session()->get('message') }}
