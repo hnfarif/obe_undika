@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AngketTrans;
 use App\Models\Bap;
+use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
 use App\Models\Krs;
 use App\Models\Mahasiswa;
@@ -33,7 +34,7 @@ class ApiController extends Controller
 
     public function cekData(){
         // $jdwkul = JadwalKuliah::pluck('kary_nik')->toArray()->unique();
-        $mk = AngketTrans::where('smt', '221')->get();
+        $mk = InstrumenNilai::where('smt', '212')->get();
 
         //json
         $data = [
