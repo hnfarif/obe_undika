@@ -68,8 +68,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary" id="btnAddPlo" data-id="{{ $i->id }}"
-                                                    data-kode="{{ $i->kode_plo }}">
+                                                <button class="btn btn-primary" id="btnAddPlo-{{ $loop->iteration }}"
+                                                    data-id="{{ $i->id }}" data-kode="{{ $i->kode_plo }}">
                                                     <i class="fas fa-plus"></i>
                                                     Tambahkan
                                                 </button>
@@ -238,7 +238,7 @@
         });
 
 
-        $('#btnAddPlo').click(function () {
+        $('[id^=btnAddPlo]').click(function () {
             // add plo to listPlo elemen
             var kode = $(this).data('kode');
             var dataId = $(this).attr('data-id');
