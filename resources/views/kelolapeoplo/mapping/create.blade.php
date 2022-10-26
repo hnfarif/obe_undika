@@ -135,7 +135,10 @@
 
         var tablemapping = $('#tableMapCreate').DataTable({
             'autoWidth': false,
-
+            'lengthMenu': [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "All"]
+            ],
 
         });
         var datamk = [];
@@ -155,9 +158,7 @@
 
         });
 
-
-        $('[id^=btnAddPlo]').click(function () {
-            // add plo to listPlo elemen
+        tablemapping.on('click', '[id^=btnAddPlo]', function () {
             var kode = $(this).data('kode');
             var dataId = $(this).attr('data-id');
 
@@ -208,9 +209,8 @@
                 $('.dz-message').hide();
             }
 
-
         })
-        // $('#listPlo').
+
     })
 
 </script>
