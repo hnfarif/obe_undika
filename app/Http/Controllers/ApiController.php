@@ -33,15 +33,15 @@ class ApiController extends Controller
     }
 
     public function cekData(){
-        // $jdwkul = JadwalKuliah::pluck('kary_nik')->toArray()->unique();
+
         $mk = InstrumenNilai::where('klkl_id', '36565')->get();
 
-        //json
-        $data = [
-            'data' => $mk,
-            'count' => $mk->count(),
-        ];
+        $mk->delete();
 
-        return response()->json($data);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data berhasil dihapus',
+            'data' => $mk
+        ], 200);
     }
 }
