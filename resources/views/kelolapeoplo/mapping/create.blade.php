@@ -61,8 +61,7 @@
                                             <td>
                                                 <button class="btn btn-primary" id="btnAddPlo-{{ $loop->iteration }}"
                                                     data-id="{{ $i->id }}" data-kode="{{ $i->kode_plo }}">
-                                                    <i class="fas fa-plus"></i> Tambah
-                                                </button>
+                                                    <i class="fas fa-plus"></i></button>
                                             </td>
                                         </tr>
                                         @endforeach
