@@ -177,6 +177,3 @@ Route::prefix('laporan')->middleware('ensureUserRole:p3ai')->name('laporan.')->g
     Route::resource('brilian', LaporanBrilianController::class);
     Route::resource('angket', LaporanAngketController::class);
 });
-
-Route::get('/testapi', [ApiController::class, 'apiwithoutKey']);
-Route::delete('/cek-data', [ApiController::class, 'cekData'])->name('cekData');
