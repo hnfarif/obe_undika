@@ -28,7 +28,12 @@
 <script>
     $(document).ready(function () {
 
-        $('#tableMap').DataTable();
+        $('#tableMap').DataTable({
+            'lengthMenu': [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "All"]
+            ],
+        });
         $('#tableMatriks').DataTable({
             "scrollX": true,
             "responsive": true,
