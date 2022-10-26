@@ -257,7 +257,7 @@
                 if (datamk.length > 0) {
 
                     for (var i = 0; i < datamk.length; i++) {
-                        if (datamk[i].trim() == dataId.trim()) {
+                        if (datamk[i].trim() == dataId.toString().trim()) {
                             datamk.splice(i, 1);
                         }
                     }
@@ -274,7 +274,7 @@
 
 
                 for (var i = 0; i < datamk.length; i++) {
-                    if (datamk[i].trim() == dataId.trim()) {
+                    if (datamk[i].trim() == dataId.toString().trim()) {
                         isAvail = true;
 
                     }
@@ -283,11 +283,11 @@
                 if (!isAvail) {
 
                     $('#listPlo').append($el);
-                    datamk.push(dataId.trim());
+                    datamk.push(dataId.toString().trim());
 
                 }
             } else {
-                datamk.push(dataId.trim());
+                datamk.push(dataId.toString().trim());
                 $('#listPlo').append($el);
                 $('.dz-message').hide();
             }
