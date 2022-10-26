@@ -244,9 +244,7 @@
             var dataId = $(this).attr('data-id');
 
             var $el = $('<li class="list-group-item drop-item" >' + kode +
-                '</li>'
-
-            );
+                '</li>');
 
             $el.append('<input type="hidden" name="plolist[]" value="' + dataId +
                 '">');
@@ -282,13 +280,13 @@
 
                 if (!isAvail) {
 
-                    $('#listPlo').append($el);
+                    $('#dropzone').append($el);
                     datamk.push(dataId.toString().trim());
 
                 }
             } else {
                 datamk.push(dataId.toString().trim());
-                $('#listPlo').append($el);
+                $('#dropzone').append($el);
                 $('.dz-message').hide();
             }
 
