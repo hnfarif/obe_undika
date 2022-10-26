@@ -34,7 +34,7 @@ class ApiController extends Controller
 
     public function cekData(){
         // $jdwkul = JadwalKuliah::pluck('kary_nik')->toArray()->unique();
-        $mk = InstrumenNilai::where('smt', '212')->get();
+        $mk = InstrumenNilai::where('semester', '212')->get();
 
         //json
         $data = [
