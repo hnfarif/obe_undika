@@ -59,12 +59,16 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button data-mk="{{ $jdw->prodi.$jdw->klkl_id }}" data-nik={{ $jdw->kary_nik }} class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) btn-primary @else btn-warning @endif btn-sm
-                                                        btnUbahNilai" @if (!$instru->where('klkl_id',
-                                    $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) disabled
-                                    @endif>@if ($instru->where('klkl_id',
-                                    $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) Lihat Instrumen
-                                    @else Buat Instrumen @endif
+                                <button data-mk="{{ $jdw->klkl_id }}" data-nik="{{ $jdw->kary_nik }}"
+                                    data-kelas="{{ $jdw->kelas }}" class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->where('kelas', $jdw->kelas)->first())
+                                    btn-primary @else btn-warning @endif btn-sm btnUbahNilai">
+
+                                    @if($instru->where('klkl_id', $jdw->klkl_id)->where('nik',
+                                    $jdw->kary_nik)->where('kelas',
+                                    $jdw->kelas)->first()) Lihat Instrumen
+                                    @else
+                                    Buat Instrumen
+                                    @endif
                                 </button>
                             </div>
                         </div>

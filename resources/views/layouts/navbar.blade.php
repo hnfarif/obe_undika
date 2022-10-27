@@ -63,7 +63,7 @@
                         Monev</span></a>
             </li>
             @endif
-            @if (auth()->user()->role == 'p3ai')
+            @if (auth()->user()->role == 'p3ai' || auth()->user()->role == 'pimpinan')
 
             <li class="nav-item @yield('laporan')">
                 <a href="{{ route('laporan.monev.index') }}" class="nav-link"><i

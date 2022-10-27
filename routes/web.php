@@ -166,7 +166,7 @@ Route::prefix('monev')->name('monev.')->group(function(){
 });
 
 
-Route::prefix('laporan')->middleware('ensureUserRole:p3ai')->name('laporan.')->group(function(){
+Route::prefix('laporan')->middleware('ensureUserRole:p3ai,pimpinan')->name('laporan.')->group(function(){
 
     Route::get('/brilian/export-pdf', [LaporanBrilianController::class, 'exportPdf'])->name('brilian.exportPdf');
     Route::get('/monev/data', [LaporanMonevController::class, 'data'])->name('data');
