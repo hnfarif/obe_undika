@@ -185,11 +185,11 @@ class LaporanBrilianController extends Controller
             }
 
             foreach ($pekan as $week) {
-                $week->brilianDetails->map(function ($item) use ($value, $key, $week) {
-                    if ($item->nik == $value['nik'] && $item->kode_mk == $value['kode_mk'] && $item->kelas == $value['kelas'] && $item->prodi == $value['prodi']) {
-                        $data[$key]['nilai_week_'. $week->minggu_ke] = $item->nilai;
+                foreach ($week->brilianDetails as $detail) {
+                    if ($detail->nik == $value['nik'] && $detail->kode_mk == $value['kode_mk'] && $detail->kelas == $value['kelas'] && $detail->prodi == $value['prodi']) {
+                        $data[$key]['nilai_minggu_ke_'.$week->minggu_ke] = $detail->nilai;
                     }
-                });
+                }
             }
         }
 
