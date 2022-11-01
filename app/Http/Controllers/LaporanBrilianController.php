@@ -187,7 +187,7 @@ class LaporanBrilianController extends Controller
             foreach ($pekan as $week) {
                 $week->brilianDetails->map(function ($item) use ($value, $key, $week) {
                     if ($item->nik == $value['nik'] && $item->kode_mk == $value['kode_mk'] && $item->kelas == $value['kelas'] && $item->prodi == $value['prodi']) {
-                        $data[$key]['nilai_week_'. $week->id] = $item->nilai;
+                        $data[$key]['nilai_week_'. $week->minggu_ke] = $item->nilai;
                     }
                 });
             }
