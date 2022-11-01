@@ -12,4 +12,8 @@ class BrilianDetail extends Model
     protected $table = 'brilian_detail';
     protected $guarded = ['id'];
 
+    public function brilian()
+    {
+        return $this->belongsTo(BrilianWeek::class, 'brilian_week_id', 'id');
+    }
 }

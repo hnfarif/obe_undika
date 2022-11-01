@@ -76,7 +76,7 @@
                                                 @endforeach
                                                 <th rowspan="2">Skor Total</th>
 
-                                                @foreach ($pekan as $w)
+                                                @foreach ($pekan->sortBy('id') as $w)
 
                                                 <th rowspan="2">{{ 'Nilai Minggu ke '.$w->minggu_ke }}</th>
                                                 @endforeach
@@ -116,7 +116,7 @@
                                                 @foreach ($pekan->sortBy('id') as $w)
 
                                                 <td>
-                                                    {{ $dtlBri->where('brilian_week_id', $w->id)->where('nik', $d['nik'])->where('kode_mk', $d['kode_mk'])->where('kelas', $d['kelas'])->where('prodi', $d['prodi'])->first()->nilai }}
+                                                    {{ $pekan->brilianDetail->where('nik', $d['nik'])->where('kode_mk', $d['kode_mk'])->where('kelas', $d['kelas'])->where('prodi', $d['prodi'])->first()->nilai }}
                                                 </td>
                                                 @endforeach
                                                 <td>

@@ -84,9 +84,9 @@ class LaporanBrilianController extends Controller
             });
         }
 
-        $pekan = BrilianWeek::where('semester', $smt)->get();
+        $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetail')->get();
         $weekId = $pekan->pluck('id')->toArray();
-        $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->get();
+        $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->with('brilian')->get();
 
 
         return view('laporan.brilian.index', compact('data','indikator', 'smt', 'dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));

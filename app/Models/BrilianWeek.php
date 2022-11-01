@@ -12,4 +12,8 @@ class BrilianWeek extends Model
     protected $table = 'brilian_week';
     protected $guarded = ['id'];
 
+    public function brilianDetail()
+    {
+        return $this->hasMany(BrilianDetail::class);
+    }
 }
