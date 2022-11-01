@@ -462,6 +462,7 @@ class LaporanBrilianController extends Controller
     public function cekData(){
         $manipulate = $this->manipulateDataApi();
         $data = $manipulate['data'];
-        return ['data' => $data, 'count' => count($data)];
+        $cek = BrilianDetail::where('nik', '229161')->get();
+        return ['data' => $data, 'count' => count($data), 'cek' => $cek];
     }
 }
