@@ -19,11 +19,13 @@
                 <th>Kelas</th>
                 <th>Nama Dosen</th>
                 @foreach ($kri as $k)
-                @if ($loop->last)
 
-                <th>{{ 'Kriteria 3' }}</th>
-                @endif
+                <th>{{ $loop->iteration }}</th>
+
                 @endforeach
+                <th>
+                    Nilai Akhir
+                </th>
             </tr>
         </thead>
         <tbody>
