@@ -86,8 +86,6 @@ class LaporanBrilianController extends Controller
 
 
         $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetails')->get();
-        $weekId = $pekan->pluck('id')->toArray();
-        $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->with('brilian')->get();
 
 
         return view('laporan.brilian.index', compact('data','indikator', 'smt', 'dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
@@ -139,7 +137,6 @@ class LaporanBrilianController extends Controller
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
         $arrFak = $fak->pluck('id')->toArray();
         $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
-        $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetails')->get();
 
         $badges = [
             [
@@ -184,13 +181,6 @@ class LaporanBrilianController extends Controller
                 $data[$key]['badge'] = 'Diamond';
             }
 
-            foreach ($pekan as $week) {
-                foreach ($week->brilianDetails as $detail) {
-                    if ($detail->nik == $value['nik'] && $detail->kode_mk == $value['kode_mk'] && $detail->kelas == $value['kelas'] && $detail->prodi == $value['prodi']) {
-                        $data[$key]['nilai_minggu_ke_'.$week->minggu_ke] = $detail->nilai;
-                    }
-                }
-            }
         }
 
         //count when when badge include each data badge
@@ -459,10 +449,5 @@ class LaporanBrilianController extends Controller
         }, 'laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf');
     }
 
-    public function cekData(){
-        $manipulate = $this->manipulateDataApi();
-        $data = $manipulate['data'];
-        $pekan = BrilianWeek::where('semester', '221')->with('brilianDetails')->get();
-        return ['data' => $data, 'count' => count($data), 'pekan' => $pekan];
-    }
+
 }

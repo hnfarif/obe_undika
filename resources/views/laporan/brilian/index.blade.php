@@ -116,7 +116,7 @@
                                                 @foreach ($pekan->sortBy('id') as $w)
 
                                                 <td>
-                                                    {{ $w->brilianDetails->where('nik', $d['nik'])->where('kode_mk', $d['kode_mk'])->where('kelas', $d['kelas'])->where('prodi', $d['prodi'])->first()->nilai ?? 'tidak ada' }}
+                                                    {{ $w->brilianDetails->where('nik', $d['nik'])->where('kode_mk', $d['kode_mk'])->where('kelas', $d['kelas'])->where('prodi', $d['prodi'])->first()->nilai ?? $d['skor_total'] }}
                                                 </td>
                                                 @endforeach
                                                 <td>
