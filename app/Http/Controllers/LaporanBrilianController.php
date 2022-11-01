@@ -266,7 +266,7 @@ class LaporanBrilianController extends Controller
 
             // if data includes prodi
             foreach ($data as $key => $value) {
-                $explode = array_unique(explode(',', $value->prodi));
+                $explode = array_unique(explode(',', $value['prodi']));
                 foreach ($prodis as $pro) {
                     foreach ($explode as $exp) {
 
@@ -353,7 +353,7 @@ class LaporanBrilianController extends Controller
             ];
 
             foreach($data as $value){
-                if(stripos($value->prodi, $p->id) !== false){
+                if(stripos($value['prodi'], $p->id) !== false){
                     $rataProdi[$p->id]['kategori'][0]['jumlah'] += $value['badge'] == 'Bronze' ? 1 : 0;
                     $rataProdi[$p->id]['kategori'][1]['jumlah'] += $value['badge'] == 'Silver' ? 1 : 0;
                     $rataProdi[$p->id]['kategori'][2]['jumlah'] += $value['badge'] == 'Gold' ? 1 : 0;
