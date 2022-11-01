@@ -84,7 +84,7 @@ class LaporanBrilianController extends Controller
             });
         }
 
-        $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetail')->get();
+        $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetails')->get();
         $weekId = $pekan->pluck('id')->toArray();
         $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->with('brilian')->get();
 
@@ -451,7 +451,7 @@ class LaporanBrilianController extends Controller
     }
 
     public function cekData(){
-        $data = BrilianWeek::where('semester', '221')->with('brilianDetail')->get();
+        $data = BrilianWeek::where('semester', '221')->with('brilianDetails')->get();
 
         return ['data' => $data, 'count' => $data->count()];
     }
