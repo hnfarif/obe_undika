@@ -134,7 +134,6 @@ class LaporanBrilianController extends Controller
         })->wait();
 
 
-        dd($response);
         $badges = [
             [
 
@@ -163,8 +162,8 @@ class LaporanBrilianController extends Controller
             ],
         ];
 
-        // $decode = json_decode($response->getBody());
-        $data = $decode->data;
+
+        $data = $response->data;
 
         foreach ($data as $key => $value) {
 
@@ -397,7 +396,7 @@ class LaporanBrilianController extends Controller
 
         }
 
-        $indikator = $decode->indikator_penilaian;
+        $indikator = $response->indikator_penilaian;
 
         $pekan = BrilianWeek::where('semester', $smt)->get();
         $weekId = $pekan->pluck('id')->toArray();
