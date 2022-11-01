@@ -84,7 +84,7 @@ class LaporanBrilianController extends Controller
             });
         }
 
-        dd($data);
+
         $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetails')->get();
         $weekId = $pekan->pluck('id')->toArray();
         $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->with('brilian')->get();
