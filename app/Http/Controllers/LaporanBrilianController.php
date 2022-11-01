@@ -88,7 +88,7 @@ class LaporanBrilianController extends Controller
         $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetails')->get();
 
 
-        return view('laporan.brilian.index', compact('data','indikator', 'smt', 'dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
+        return view('laporan.brilian.index', compact('data','indikator', 'smt', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
     }
 
     public function store(Request $request)
