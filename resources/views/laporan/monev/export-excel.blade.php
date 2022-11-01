@@ -18,9 +18,9 @@
                 <th>Nama MK</th>
                 <th>Kelas</th>
                 <th>Nama Dosen</th>
-                @foreach ($kri as $k)
+                @foreach ($kri->sortBy('id') as $k)
 
-                <th>{{ $loop->iteration }}</th>
+                <th>{{ 'Kriteria Ke-'.$loop->iteration }}</th>
 
                 @endforeach
                 <th>
