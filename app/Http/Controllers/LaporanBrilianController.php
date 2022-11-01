@@ -84,6 +84,7 @@ class LaporanBrilianController extends Controller
             });
         }
 
+        dd($data);
         $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetails')->get();
         $weekId = $pekan->pluck('id')->toArray();
         $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->with('brilian')->get();
@@ -138,6 +139,7 @@ class LaporanBrilianController extends Controller
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
         $arrFak = $fak->pluck('id')->toArray();
         $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
+        $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetails')->get();
 
         $badges = [
             [
@@ -182,6 +184,13 @@ class LaporanBrilianController extends Controller
                 $data[$key]['badge'] = 'Diamond';
             }
 
+            foreach ($pekan as $week) {
+                $week->brilianDetails->map(function ($item) use ($value, $key, $week) {
+                    if ($item->nik == $value['nik'] && $item->kode_mk == $value['kode_mk'] && $item->kelas == $value['kelas'] && $item->prodi == $value['prodi']) {
+                        $data[$key]['nilai_week_'. $week->id] = $item->nilai;
+                    }
+                });
+            }
         }
 
         //count when when badge include each data badge
