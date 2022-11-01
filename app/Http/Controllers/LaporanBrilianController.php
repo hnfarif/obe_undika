@@ -134,7 +134,7 @@ class LaporanBrilianController extends Controller
         })->wait();
 
 
-
+        dd($response);
         $badges = [
             [
 
@@ -163,7 +163,7 @@ class LaporanBrilianController extends Controller
             ],
         ];
 
-        $decode = json_decode($response->getBody());
+        // $decode = json_decode($response->getBody());
         $data = $decode->data;
 
         foreach ($data as $key => $value) {
