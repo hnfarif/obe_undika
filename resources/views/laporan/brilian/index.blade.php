@@ -85,7 +85,7 @@
                                             </tr>
                                             <tr>
                                                 @foreach ($indikator as $i)
-                                                <th>{{ $i->nama }}</th>
+                                                <th>{{ $i['nama'] }}</th>
                                                 <th>Skor</th>
                                                 @endforeach
                                             </tr>
