@@ -414,8 +414,9 @@ class LaporanBrilianController extends Controller
         $rataFak = $manipulate['rataFak'];
         $rataProdi = $manipulate['rataProdi'];
         $indikator = $manipulate['indikator'];
-        $pekan = $manipulate['pekan'];
-        $dtlBri = $manipulate['dtlBri'];
+        $smt = $manipulate['smt'];
+
+        $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetails')->get();
 
         if (request()->has('prodi')) {
             $filProdi = Prodi::whereIn('id', request('prodi'))->get();
@@ -436,7 +437,6 @@ class LaporanBrilianController extends Controller
         $pdf2 = PDF::loadView('laporan.brilian.export-pdf-2', ['data' => $data,
         'indikator' => $indikator,
         'week' => $pekan,
-        'dtlBri' => $dtlBri,
         'prodi' => $filProdi,
         ])->setPaper('a4', 'landscape');
 

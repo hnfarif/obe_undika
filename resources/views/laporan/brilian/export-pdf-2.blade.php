@@ -85,7 +85,7 @@
                 </tr>
                 <tr>
                     @foreach ($indikator as $i)
-                    <th>{{ $i->nama }}</th>
+                    <th>{{ $i['nama'] }}</th>
                     <th>Skor</th>
                     @endforeach
                 </tr>
@@ -96,34 +96,34 @@
                 <tr>
                     <td>
 
-                        {{ $d->nama_dosen }}
+                        {{ $d['nama_dosen'] }}
                     </td>
-                    <td>{{ $d->nama_course }}</td>
-                    <td>{{ $d->kode_mk }}</td>
-                    <td>{{ $d->kelas }}</td>
-                    <td>{{ $d->prodi }}</td>
-                    @foreach ($d->jml_modul as $j)
+                    <td>{{ $d['nama_course'] }}</td>
+                    <td>{{ $d['kode_mk'] }}</td>
+                    <td>{{ $d['kelas'] }}</td>
+                    <td>{{ $d['prodi'] }}</td>
+                    @foreach ($d['jml_modul'] as $j)
                     <td>
                         {{ $j }}
                     </td>
                     <td>
-                        {{ $d->skor[$loop->index] }}
+                        {{ $d['skor'][$loop->index] }}
                     </td>
                     @endforeach
                     <td>
-                        {{ $d->skor_total }}
+                        {{ $d['skor_total'] }}
                     </td>
                     @if ($week)
                     @foreach ($week as $w)
 
                     <td>
-                        {{ number_format(collect($dtlBri)->where('brilian_week_id', $w['id'])->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()['nilai'], 2) ?? '' }}
+                        {{ $w->brilianDetails->where('nik', $d['nik'])->where('kode_mk', $d['kode_mk'])->where('kelas', $d['kelas'])->where('prodi', $d['prodi'])->first()->nilai ?? $d['skor_total'] }}
                     </td>
                     @endforeach
                     @endif
 
                     <td>
-                        {{ $d->badge }}
+                        {{ $d['badge'] }}
                     </td>
                 </tr>
                 @endforeach
@@ -159,7 +159,7 @@
                 </tr>
                 <tr>
                     @foreach ($indikator as $i)
-                    <th>{{ $i->nama }}</th>
+                    <th>{{ $i['nama'] }}</th>
                     <th>Skor</th>
                     @endforeach
                 </tr>
@@ -170,33 +170,33 @@
                 <tr>
                     <td>
 
-                        {{ $d->nama_dosen }}
+                        {{ $d['nama_dosen'] }}
                     </td>
-                    <td>{{ $d->nama_course }}</td>
-                    <td>{{ $d->kode_mk }}</td>
-                    <td>{{ $d->kelas }}</td>
-                    <td>{{ $d->prodi }}</td>
-                    @foreach ($d->jml_modul as $j)
+                    <td>{{ $d['nama_course'] }}</td>
+                    <td>{{ $d['kode_mk'] }}</td>
+                    <td>{{ $d['kelas'] }}</td>
+                    <td>{{ $d['prodi'] }}</td>
+                    @foreach ($d['jml_modul'] as $j)
                     <td>
                         {{ $j }}
                     </td>
                     <td>
-                        {{ $d->skor[$loop->index] }}
+                        {{ $d['skor'][$loop->index] }}
                     </td>
                     @endforeach
                     <td>
-                        {{ $d->skor_total }}
+                        {{ $d['skor_total'] }}
                     </td>
                     @if ($week)
                     @foreach ($week as $w)
 
                     <td>
-                        {{ number_format(collect($dtlBri)->where('brilian_week_id', $w['id'])->where('nik', $d->nik)->where('kode_mk', $d->kode_mk)->where('kelas', $d->kelas)->where('prodi', $d->prodi)->first()['nilai'], 2) ?? '' }}
+                        {{ $w->brilianDetails->where('nik', $d['nik'])->where('kode_mk', $d['kode_mk'])->where('kelas', $d['kelas'])->where('prodi', $d['prodi'])->first()->nilai ?? $d['skor_total'] }}
                     </td>
                     @endforeach
                     @endif
                     <td>
-                        {{ $d->badge }}
+                        {{ $d['badge'] }}
                     </td>
                 </tr>
                 @endforeach
