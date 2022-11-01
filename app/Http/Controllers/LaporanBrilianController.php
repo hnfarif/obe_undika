@@ -451,7 +451,7 @@ class LaporanBrilianController extends Controller
     }
 
     public function cekData(){
-        $bri = BrilianWeek::wher('semester', '221')->pluck('id')->toArray();
+        $bri = BrilianWeek::where('semester', '221')->pluck('id')->toArray();
         $data = BrilianDetail::whereIn('brilian_week_id', $bri)->get();
 
         return ['data' => $data, 'count' => $data->count()];
