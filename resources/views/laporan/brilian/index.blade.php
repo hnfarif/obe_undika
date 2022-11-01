@@ -113,7 +113,7 @@
                                                 <td>
                                                     {{ $d['skor_total'] }}
                                                 </td>
-                                                @foreach ($pekan as $w)
+                                                @foreach ($pekan->sortBy('id') as $w)
 
                                                 <td>
                                                     {{ $dtlBri->where('brilian_week_id', $w->id)->where('nik', $d['nik'])->where('kode_mk', $d['kode_mk'])->where('kelas', $d['kelas'])->where('prodi', $d['prodi'])->first()->nilai }}
