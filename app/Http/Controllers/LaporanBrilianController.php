@@ -33,13 +33,12 @@ class LaporanBrilianController extends Controller
         $data = $manipulate['data'];
         $indikator = $manipulate['indikator'];
         $smt = $manipulate['smt'];
-        $dtlBri = $manipulate['dtlBri'];
         $prodi = $manipulate['prodi'];
         $rangBadge = $manipulate['rangBadge'];
         $badges = $manipulate['badges'];
         $rataFak = $manipulate['rataFak'];
         $rataProdi = $manipulate['rataProdi'];
-        $pekan = $manipulate['pekan'];
+
 
         if (isset($filter['fakultas'])) {
             $filProdi = Prodi::whereIn('id_fakultas', $filter['fakultas'])->pluck('id')->toArray();
@@ -84,6 +83,10 @@ class LaporanBrilianController extends Controller
 
             });
         }
+
+        $pekan = BrilianWeek::where('semester', $smt)->get();
+        $weekId = $pekan->pluck('id')->toArray();
+        $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->get();
 
         return view('laporan.brilian.index', compact('data','indikator', 'smt','dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
     }
@@ -399,11 +402,7 @@ class LaporanBrilianController extends Controller
 
         $indikator = $response['indikator_penilaian'];
 
-        $pekan = BrilianWeek::where('semester', $smt)->get();
-        $weekId = $pekan->pluck('id')->toArray();
-        $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->get();
-
-        return ['data' => $data, 'indikator' => $indikator, 'smt' => $smt, 'prodi' => $prodi, 'rangBadge' => $rangBadge, 'badges' => $badges, 'rataFak' => $rataFak, 'rataProdi' => $rataProdi, 'dtlBri' => $dtlBri, 'pekan' => $pekan ];
+        return ['data' => $data, 'indikator' => $indikator, 'smt' => $smt, 'prodi' => $prodi, 'rangBadge' => $rangBadge, 'badges' => $badges, 'rataFak' => $rataFak, 'rataProdi' => $rataProdi];
     }
 
     public function exportPdf()
