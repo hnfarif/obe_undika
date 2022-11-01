@@ -167,13 +167,13 @@ class LaporanBrilianController extends Controller
 
         foreach ($data as $key => $value) {
 
-            if ($value->skor_total >= 0 && $value->skor_total <= 2.49) {
+            if ($value['skor_total'] >= 0 && $value['skor_total'] <= 2.49) {
                 $data[$key]->badge = 'Bronze';
-            } elseif ($value->skor_total >= 2.5 && $value->skor_total <= 2.99) {
+            } elseif ($value['skor_total'] >= 2.5 && $value['skor_total'] <= 2.99) {
                 $data[$key]->badge = 'Silver';
-            } elseif ($value->skor_total >= 3 && $value->skor_total <= 3.49) {
+            } elseif ($value['skor_total'] >= 3 && $value['skor_total'] <= 3.49) {
                 $data[$key]->badge = 'Gold';
-            } elseif ($value->skor_total >= 3.5 && $value->skor_total <= 4) {
+            } elseif ($value['skor_total'] >= 3.5 && $value['skor_total'] <= 4) {
                 $data[$key]->badge = 'Diamond';
             }
 
@@ -280,13 +280,13 @@ class LaporanBrilianController extends Controller
 
 
                             // average skor_total each fakultas
-                            $rataFak[$f->id]['kategori'][0]['nilai'] += $rataFak[$f->id]['kategori'][0]['jumlah'] == 0 ? 0 : ($value->badge == 'Bronze' ? $value->skor_total : 0);
+                            $rataFak[$f->id]['kategori'][0]['nilai'] += $rataFak[$f->id]['kategori'][0]['jumlah'] == 0 ? 0 : ($value->badge == 'Bronze' ? $value['skor_total'] : 0);
 
-                            $rataFak[$f->id]['kategori'][1]['nilai'] += $rataFak[$f->id]['kategori'][1]['jumlah'] == 0 ? 0 : ($value->badge == 'Silver' ? $value->skor_total : 0);
+                            $rataFak[$f->id]['kategori'][1]['nilai'] += $rataFak[$f->id]['kategori'][1]['jumlah'] == 0 ? 0 : ($value->badge == 'Silver' ? $value['skor_total'] : 0);
 
-                            $rataFak[$f->id]['kategori'][2]['nilai'] += $rataFak[$f->id]['kategori'][2]['jumlah'] == 0 ? 0 : ($value->badge == 'Gold' ? $value->skor_total : 0);
+                            $rataFak[$f->id]['kategori'][2]['nilai'] += $rataFak[$f->id]['kategori'][2]['jumlah'] == 0 ? 0 : ($value->badge == 'Gold' ? $value['skor_total'] : 0);
 
-                            $rataFak[$f->id]['kategori'][3]['nilai'] += $rataFak[$f->id]['kategori'][3]['jumlah'] == 0 ? 0 : ($value->badge == 'Diamond' ? $value->skor_total : 0);
+                            $rataFak[$f->id]['kategori'][3]['nilai'] += $rataFak[$f->id]['kategori'][3]['jumlah'] == 0 ? 0 : ($value->badge == 'Diamond' ? $value['skor_total'] : 0);
 
 
                         }
@@ -359,13 +359,13 @@ class LaporanBrilianController extends Controller
                     $rataProdi[$p->id]['kategori'][2]['jumlah'] += $value->badge == 'Gold' ? 1 : 0;
                     $rataProdi[$p->id]['kategori'][3]['jumlah'] += $value->badge == 'Diamond' ? 1 : 0;
 
-                    $rataProdi[$p->id]['kategori'][0]['nilai'] += $rataProdi[$p->id]['kategori'][0]['jumlah'] == 0 ? 0 : ($value->badge == 'Bronze' ? $value->skor_total : 0);
+                    $rataProdi[$p->id]['kategori'][0]['nilai'] += $rataProdi[$p->id]['kategori'][0]['jumlah'] == 0 ? 0 : ($value->badge == 'Bronze' ? $value['skor_total'] : 0);
 
-                    $rataProdi[$p->id]['kategori'][1]['nilai'] += $rataProdi[$p->id]['kategori'][1]['jumlah'] == 0 ? 0 : ($value->badge == 'Silver' ? $value->skor_total : 0);
+                    $rataProdi[$p->id]['kategori'][1]['nilai'] += $rataProdi[$p->id]['kategori'][1]['jumlah'] == 0 ? 0 : ($value->badge == 'Silver' ? $value['skor_total'] : 0);
 
-                    $rataProdi[$p->id]['kategori'][2]['nilai'] += $rataProdi[$p->id]['kategori'][2]['jumlah'] == 0 ? 0 : ($value->badge == 'Gold' ? $value->skor_total : 0);
+                    $rataProdi[$p->id]['kategori'][2]['nilai'] += $rataProdi[$p->id]['kategori'][2]['jumlah'] == 0 ? 0 : ($value->badge == 'Gold' ? $value['skor_total'] : 0);
 
-                    $rataProdi[$p->id]['kategori'][3]['nilai'] += $rataProdi[$p->id]['kategori'][3]['jumlah'] == 0 ? 0 : ($value->badge == 'Diamond' ? $value->skor_total : 0);
+                    $rataProdi[$p->id]['kategori'][3]['nilai'] += $rataProdi[$p->id]['kategori'][3]['jumlah'] == 0 ? 0 : ($value->badge == 'Diamond' ? $value['skor_total'] : 0);
 
                 }
             }
