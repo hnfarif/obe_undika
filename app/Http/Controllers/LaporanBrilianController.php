@@ -163,7 +163,7 @@ class LaporanBrilianController extends Controller
         ];
 
 
-        $data = $response->data;
+        $data = $response['data'];
 
         foreach ($data as $key => $value) {
 
@@ -396,7 +396,7 @@ class LaporanBrilianController extends Controller
 
         }
 
-        $indikator = $response->indikator_penilaian;
+        $indikator = $response['indikator_penilaian'];
 
         $pekan = BrilianWeek::where('semester', $smt)->get();
         $weekId = $pekan->pluck('id')->toArray();
