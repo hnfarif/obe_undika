@@ -35,27 +35,43 @@
                 <td>{{ $j->getNameMataKuliah($j->klkl_id) }}</td>
                 <td>{{ $j->kelas }}</td>
                 <td>{{ $j->getNameKary($j->kary_nik) }}</td>
-
                 @foreach ($kri as $k)
-                @if ($loop->last)
+
                 @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) == 'insMon')
 
-                <td class="text-warning text-center">
+                @if ($loop->iteration == '1')
+                <td class="text-warning text-center" colspan="4">
                     <b>Instrumen Monev belum dibuat</b>
                 </td>
+                @endif
                 @elseif ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) == 'plot')
-                <td class="text-danger text-center">
+                @if ($loop->iteration == '1')
+                <td class="text-danger text-center" colspan="4">
                     <b>Plotting belum dibuat</b>
                 </td>
+                @endif
                 @else
+                @if($loop->iteration == '1')
+                <td data-bbt="{{ $k->bobot }}">
+                    {{ $j->getNilaiKri1($j->kary_nik,$j->klkl_id, $j->prodi, $k->id, $j->kelas) }}
+                </td>
+                @elseif($loop->iteration == '2')
+                <td data-bbt="{{ $k->bobot }}">
+                    {{ $j->getNilaiKri2($j->kary_nik,$j->klkl_id, $j->prodi, $k->id, $j->kelas) }}
+                </td>
+                @elseif($loop->iteration == '3')
                 <td data-bbt="{{ $k->bobot }}" data-prodi="{{ $j->prodi }}">
-                    {{ $j->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) }}
+                    {{ $j->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->kelas) }}
                 </td>
                 @endif
                 @endif
-
                 @endforeach
-
+                @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) != 'insMon' &&
+                $j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) != 'plot')
+                <td>
+                    {{ $j->getNilaiAkhir($j->kary_nik, $j->klkl_id, $j->prodi, $j->kelas) }}
+                </td>
+                @endif
             </tr>
             @endforeach
         </tbody>
