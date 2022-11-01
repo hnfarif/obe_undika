@@ -460,8 +460,8 @@ class LaporanBrilianController extends Controller
     }
 
     public function cekData(){
-        $data = BrilianWeek::where('semester', '221')->with('brilianDetails')->get();
-
+        $manipulate = $this->manipulateDataApi();
+        $data = $manipulate['data'];
         return ['data' => $data, 'count' => $data->count()];
     }
 }
