@@ -101,7 +101,7 @@
                                                 <td>{{ $d['nama_course'] }}</td>
                                                 <td>{{ $d['kode_mk'] }}</td>
                                                 <td>{{ $d['kelas'] }}</td>
-                                                <td>{{ $d['kelas'] }}</td>
+                                                <td>{{ $d['prodi'] }}</td>
                                                 @foreach ($d['jml_modul'] as $j)
                                                 <td>
                                                     {{ $j }}

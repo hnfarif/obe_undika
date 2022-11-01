@@ -448,4 +448,10 @@ class LaporanBrilianController extends Controller
             echo $pdfMerge;
         }, 'laporan_penggunaan_brilian_'.date('Y-m-d_H-i-s').'.pdf');
     }
+
+    public function cekData(){
+        $data = BrilianDetail::all();
+
+        return ['data' => $data, 'count' => $data->count()];
+    }
 }

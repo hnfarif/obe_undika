@@ -177,3 +177,5 @@ Route::prefix('laporan')->middleware('ensureUserRole:p3ai,pimpinan')->name('lapo
     Route::resource('brilian', LaporanBrilianController::class);
     Route::resource('angket', LaporanAngketController::class);
 });
+
+Route::get('cek-data', [LaporanBrilianController::class, 'cekData'])->name('cekData');
