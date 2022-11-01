@@ -462,6 +462,6 @@ class LaporanBrilianController extends Controller
     public function cekData(){
         $manipulate = $this->manipulateDataApi();
         $data = $manipulate['data'];
-        return ['data' => $data, 'count' => $data->count()];
+        return ['data' => $data, 'count' => count($data)];
     }
 }
