@@ -88,7 +88,8 @@ class LaporanBrilianController extends Controller
         $weekId = $pekan->pluck('id')->toArray();
         $dtlBri = BrilianDetail::whereIn('brilian_week_id', $weekId)->get();
 
-        return view('laporan.brilian.index', compact('data','indikator', 'smt','dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
+        dd($dtlBri);
+        return view('laporan.brilian.index', compact('data','indikator', 'smt', 'dtlBri', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
     }
 
     public function store(Request $request)
