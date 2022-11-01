@@ -123,7 +123,7 @@ class LaporanBrilianController extends Controller
 
 
         $smt = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
-        $response = Http::get($url, [
+        $response = Http::async()->get($url, [
             'semester' => $smt,
             'json' => true,
         ]);
