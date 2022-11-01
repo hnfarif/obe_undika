@@ -96,22 +96,22 @@
                                             <tr>
                                                 <td>
 
-                                                    {{ $d->nama_dosen }}
+                                                    {{ $d['nama_dosen'] }}
                                                 </td>
-                                                <td>{{ $d->nama_course }}</td>
-                                                <td>{{ $d->kode_mk }}</td>
-                                                <td>{{ $d->kelas }}</td>
-                                                <td>{{ $d->prodi }}</td>
-                                                @foreach ($d->jml_modul as $j)
+                                                <td>{{ $d['nama_course'] }}</td>
+                                                <td>{{ $d['kode_mk'] }}</td>
+                                                <td>{{ $d['kelas'] }}</td>
+                                                <td>{{ $d['kelas'] }}</td>
+                                                @foreach ($d['jml_modul'] as $j)
                                                 <td>
                                                     {{ $j }}
                                                 </td>
                                                 <td>
-                                                    {{ $d->skor[$loop->index] }}
+                                                    {{ $d['skor'][$loop->index] }}
                                                 </td>
                                                 @endforeach
                                                 <td>
-                                                    {{ $d->skor_total }}
+                                                    {{ $d['skor_total'] }}
                                                 </td>
                                                 @foreach ($pekan as $w)
 
@@ -120,7 +120,7 @@
                                                 </td>
                                                 @endforeach
                                                 <td>
-                                                    {{ $d->badge }}
+                                                    {{ $d['badge'] }}
                                                 </td>
                                             </tr>
                                             @endforeach
