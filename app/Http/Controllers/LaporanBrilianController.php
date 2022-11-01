@@ -121,16 +121,19 @@ class LaporanBrilianController extends Controller
 
         $url = "https://mybrilian.dinamika.ac.id/undika/report/P3AI_-_klasemen_kelas_matakuliah.php?";
 
+        $fak = Fakultas::where('sts_aktif', 'Y')->get();
+        $arrFak = $fak->pluck('id')->toArray();
+        $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
 
         $smt = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
         $response = Http::async()->get($url, [
             'semester' => $smt,
             'json' => true,
-        ]);
+        ])->then(function ($res) {
+            return $res->json();
+        })->wait();
 
-        $fak = Fakultas::where('sts_aktif', 'Y')->get();
-        $arrFak = $fak->pluck('id')->toArray();
-        $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
+
 
         $badges = [
             [
