@@ -16,7 +16,6 @@ class BerandaController extends Controller
         $nik = auth()->user()->nik;
         $roles = [];
         $kary = KaryawanDosen::with('bagianKary')->where('nik', $nik)->first();
-        $chkDosen = $kary->fakul_id;
         $chkKaprodi = Prodi::where('mngr_id', $nik)->first(); // cek kaprodi atau bukan
         $chkDekan = Fakultas::where('mngr_id', $nik)->first(); // cek dekan atau bukan
 
@@ -33,7 +32,7 @@ class BerandaController extends Controller
 
 
 
-        if ($chkDosen) {
+        if (stripos($kary->kary_type, 'D') !== false) {
             $roles[] = 'dosen';
         }
 
