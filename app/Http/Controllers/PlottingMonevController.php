@@ -46,25 +46,14 @@ class PlottingMonevController extends Controller
     public function create()
     {
 
-        $rpsKl = [];
-        $rps = Rps::all();
-        foreach ($rps as $r) {
-            $smt = Semester::orderBy('smt_yad', 'desc')->first();
-            if($r->semester == $smt->smt_yad){
-                $rpsKl[] = $r->kurlkl_id;
-            }
-        }
+        $smt = Semester::orderBy('smt_yad', 'desc')->first();
+
+        $jdwkul = JadwalKuliah::all();
+
         $arrJdwkul = [];
-        $arrKurlkl = [];
-
-        foreach ($rpsKl as $i) {
-            $arrKurlkl[] = $i;
-        }
-
-        $jdwkul = JadwalKuliah::whereIn('klkl_id', $arrKurlkl)->get();
 
         foreach ($jdwkul as $i) {
-           $cek = PlottingMonev::where('klkl_id', $i->klkl_id)->where('nik_pengajar', $i->kary_nik)->first();
+           $cek = PlottingMonev::where('klkl_id', $i->klkl_id)->where('nik_pengajar', $i->kary_nik)->where('semester', $smt->smt_yad)->first();
               if(!$cek){
                 $arrJdwkul[] = $i;
               }
