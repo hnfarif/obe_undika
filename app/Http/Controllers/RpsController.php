@@ -38,7 +38,8 @@ class RpsController extends Controller
         $role = auth()->user()->role;
         $nik = auth()->user()->nik;
         $dosens = KaryawanDosen::with('emailStaf')->where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->get();
-        $mailStaf = MailStaf::all();
+
+        $mailStaf = MailStaf::whereIn('nik', $dosens->pluck('nik')->toArray())->get();
 
         if ($role == 'dosen') {
             $smt = Semester::orderBy('smt_yad', 'desc')->first();
