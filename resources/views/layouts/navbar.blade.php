@@ -71,11 +71,11 @@
             </li>
             @endif
 
-            <p class="my-auto ml-auto">
-                <b>Semester : {{ $smt ?? '' }}</b>
-            </p>
 
         </ul>
+        <p class="my-auto ml-auto">
+            <b>Semester : {{ $smt ?? '' }}</b>
+        </p>
     </div>
 </nav>
 
