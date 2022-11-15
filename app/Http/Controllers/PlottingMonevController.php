@@ -174,16 +174,23 @@ class PlottingMonevController extends Controller
             'bobot' => 'required',
             'deskripsi' => 'required',
         ]);
+        $cnKriMon = KriteriaMonev::count('bobot');
 
-        KriteriaMonev::create([
-            'kategori' => $request->kategori,
-            'kri_penilaian' => $request->kriteria_penilaian,
-            'deskripsi' => $request->deskripsi,
-            'bobot' => $request->bobot,
-        ]);
+        if($cnKriMon < 100 && ($cnKriMon + $request->bobot <= 100)){
+            KriteriaMonev::create([
+                'kategori' => $request->kategori,
+                'kri_penilaian' => $request->kriteria_penilaian,
+                'deskripsi' => $request->deskripsi,
+                'bobot' => $request->bobot,
+            ]);
 
-        Session::flash('message', 'Data berhasil ditambahkan!');
-        Session::flash('alert-class', 'alert-success');
+            Session::flash('message', 'Data berhasil ditambahkan!');
+            Session::flash('alert-class', 'alert-success');
+        }else{
+            Session::flash('message', 'Data Gagal ditambahkan karena jumlah bobot melebihi 100%!');
+            Session::flash('alert-class', 'alert-danger');
+        }
+
         return redirect()->route('monev.plotting.index');
     }
 
