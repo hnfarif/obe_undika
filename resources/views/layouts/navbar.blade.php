@@ -71,7 +71,7 @@
             </li>
             @endif
 
-            <p class="ml-auto">
+            <p class="ml-auto my-auto">
                 <b>Semester : {{ $smt ?? '' }}</b>
             </p>
         </ul>
