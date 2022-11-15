@@ -73,7 +73,9 @@ class RpsController extends Controller
      */
     public function create()
     {
-        $jdw = JadwalKuliah::distinct('klkl_id')->pluck('klkl_id')->toArray();
+        $user = auth()->user();
+        $prodi = Prodi::where('mngr_id', $user->nik)->first();
+        $jdw = JadwalKuliah::whereProdi($prodi->id)->distinct('klkl_id')->pluck('klkl_id')->toArray();
         $mk = MataKuliah::whereIn('id', $jdw)->get();
         $filMk = [];
 

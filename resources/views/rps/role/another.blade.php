@@ -8,7 +8,7 @@
 @endif
 
 <div class="my-3 d-flex">
-    @if (auth()->user()->role == 'p3ai')
+    @if (auth()->user()->role == 'kaprodi')
 
     <a href="{{ route('rps.create') }}" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Entri RPS</a>
     @endif
