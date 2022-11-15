@@ -60,13 +60,17 @@
                                                 <th rowspan="2">Kelas</th>
                                                 <th rowspan="2">Nama Dosen</th>
                                                 @foreach ($kri as $k)
+                                                @if ($loop->iteration < 3)
                                                 <th>{{ 'Kriteria '.$loop->iteration }}</th>
+                                                @endif
                                                 @endforeach
                                                 <th rowspan="2">Nilai Akhir</th>
                                             </tr>
                                             <tr>
                                                 @foreach ($kri as $k)
+                                                @if ($loop->iteration < 3)
                                                 <th>{{ $k->bobot.'%' }}</th>
+                                                @endif
                                                 @endforeach
                                             </tr>
                                         </thead>
@@ -80,7 +84,7 @@
                                                 <td>{{ $j->kelas }}</td>
                                                 <td>{{ $j->getNameKary($j->kary_nik) }}</td>
                                                 @foreach ($kri as $k)
-
+                                                @if ($loop->iteration < 3)
                                                 @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas) ==
                                                 'insMon')
 
@@ -117,6 +121,7 @@
                                                 <td data-bbt="{{ $k->bobot }}" data-prodi="{{ $j->prodi }}">
                                                     {{ $j->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->kelas) }}
                                                 </td>
+                                                @endif
                                                 @endif
                                                 @endif
                                                 @endforeach
