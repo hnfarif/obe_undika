@@ -174,7 +174,9 @@ class PlottingMonevController extends Controller
             'bobot' => 'required',
             'deskripsi' => 'required',
         ]);
-        $cnKriMon = KriteriaMonev::count('bobot');
+        //count bobot kriteria monev
+
+        $cnKriMon = KriteriaMonev::sum('bobot');
 
         if($cnKriMon < 100 && ($cnKriMon + $request->bobot <= 100)){
             KriteriaMonev::create([
