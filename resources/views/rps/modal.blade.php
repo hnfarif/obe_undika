@@ -52,15 +52,6 @@
                                 <label class="custom-control-label" for="status-0">To Do</label>
                             </div>
                             <div class="mb-3"></div>
-                            <h6>Semester</h6>
-                            <div class="custom-control custom-checkbox checkbox-xl">
-                                <input type="checkbox" name="semester[]" value="{{ $smt->smt_aktif }}"
-                                    class="custom-control-input" @if(is_array(request('semester')) && in_array(
-                                    $smt->smt_aktif,
-                                request('semester'))) checked @endif id="semester-2">
-                                <label class="custom-control-label" for="semester-2">{{ $smt->smt_aktif }}</label>
-                            </div>
-                            <div class="mb-3"></div>
                             <h6>Penyusun</h6>
                             <div class="form-group m-0">
                                 <div class="custom-switches-stacked ">
