@@ -7,6 +7,7 @@ use App\Models\KaryawanDosen;
 use App\Models\Peo;
 use App\Models\PeoPlo;
 use App\Models\Prodi;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -21,6 +22,7 @@ class PeoController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $smt = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
         if($user->role == 'kaprodi'){
 
             $chkrole = Prodi::where('mngr_id', $user->nik)->first();
@@ -36,19 +38,19 @@ class PeoController extends Controller
 
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
             $peo = Peo::where('fakul_id', $chkrole->fakul_id)->with('plos')->get();
-            return view('kelolapeoplo.kelolapeo', compact('peo'));
+            return view('kelolapeoplo.kelolapeo', compact('peo', 'smt'));
 
         }else if ($user->role == 'dekan'){
             $fak = Fakultas::where('mngr_id', $user->nik)->first();
             $prodi = Prodi::where('sts_aktif', 'Y')->where('id_fakultas', $fak->id)->get();
-            return view('kelolapeoplo.kelolapeo', compact('prodi'));
+            return view('kelolapeoplo.kelolapeo', compact('prodi', 'smt'));
         }else{
             $prodi = Prodi::where('sts_aktif', 'Y')->get();
-            return view('kelolapeoplo.kelolapeo', compact('prodi'));
+            return view('kelolapeoplo.kelolapeo', compact('prodi', 'smt'));
         }
 
 
-        return view('kelolapeoplo.kelolapeo', compact('ite_padded', 'peo', 'iteration'));
+        return view('kelolapeoplo.kelolapeo', compact('ite_padded', 'peo', 'iteration', 'smt'));
     }
 
     /**
