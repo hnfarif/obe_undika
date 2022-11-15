@@ -71,8 +71,8 @@
             </li>
             @endif
 
-            <li class="nav-item ml-auto">
-                <p>
+            <li class="nav-item mr-auto">
+                <p class="my-auto">
                     <b>Semester : {{ $smt ?? '' }}</b>
                 </p>
             </li>
