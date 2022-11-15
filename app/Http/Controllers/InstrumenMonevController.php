@@ -33,10 +33,18 @@ class InstrumenMonevController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
+
     public function index(Request $request)
     {
         // dd($request->get('id'));
-
+        $smt = $this->semester;
         $plot = PlottingMonev::where('id', $request->get('id'))->first();
         $cekInsNilai = InstrumenNilai::where('klkl_id', $plot->klkl_id)->where('nik', $plot->nik_pengajar)->where('semester', $plot->semester)->first();
         if ($cekInsNilai) {
@@ -124,7 +132,6 @@ class InstrumenMonevController extends Controller
             // data BAP
             $jdw = JadwalKuliah::where('klkl_id', $cekInsNilai->klkl_id)->where('kary_nik', $cekInsNilai->nik)->where('sts_kul', '1')->first();
 
-            $smt = Semester::where('fak_id', $jdw->prodi)->first();
             $krs = Krs::where('jkul_klkl_id', $cekInsNilai->klkl_id)->where('jkul_kelas', $jdw->kelas)->with('mahasiswa')->get();
             $jmlMhs = $krs->count();
             $jmlPre = $krs->where('sts_pre', '1')->count();
@@ -136,7 +143,7 @@ class InstrumenMonevController extends Controller
 
 
 
-            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bap', 'rps', 'agenda', 'clo', 'penilaian', 'llo', 'plot', 'week'));
+            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bap', 'rps', 'agenda', 'clo', 'penilaian', 'llo', 'plot', 'week','smt'));
         }else{
             Session::flash('message', 'Buat instrumen monev gagal, karena dosen belum membuat instrumen penilaian CLO!');
             Session::flash('alert-class', 'alert-danger');
@@ -232,11 +239,11 @@ class InstrumenMonevController extends Controller
         $kary = KaryawanDosen::all();
 
         $kar = KaryawanDosen::where('nik', $nik)->first();
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $pltMnv = PlottingMonev::with('programstudi')->where('nik_pemonev', $nik)->where('semester', $smt->smt_yad)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
+        $smt = $this->semester;
+        $pltMnv = PlottingMonev::with('programstudi')->where('nik_pemonev', $nik)->where('semester', $smt)->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
         $arrPlot = $pltMnv->pluck('id')->toArray();
         $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();
 
-        return view('instrumen-monev.list-monev', compact('pltMnv','insMon', 'fak', 'prodi', 'kary'));
+        return view('instrumen-monev.list-monev', compact('pltMnv','insMon', 'fak', 'prodi', 'kary', 'smt'));
     }
 }

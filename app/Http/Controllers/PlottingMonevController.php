@@ -24,6 +24,15 @@ class PlottingMonevController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
+
     public function index()
     {
         // data filters
@@ -32,10 +41,10 @@ class PlottingMonevController extends Controller
         $kary = KaryawanDosen::all();
 
         $getFtPro = $prodi->first();
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $pltMnv = PlottingMonev::where('semester', $smt->smt_yad)->fakultas()->prodi()->dosen()->name()->get();
+        $smt = $this->semester;
+        $pltMnv = PlottingMonev::where('semester', $smt)->fakultas()->prodi()->dosen()->name()->get();
         $kri = KriteriaMonev::all();
-        return view('plotting-monev.index', compact('pltMnv', 'kri', 'fak', 'prodi', 'kary'));
+        return view('plotting-monev.index', compact('pltMnv', 'kri', 'fak', 'prodi', 'kary', 'smt'));
     }
 
     /**
@@ -46,14 +55,14 @@ class PlottingMonevController extends Controller
     public function create()
     {
 
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
+        $smt = $this->semester;
 
         $jdwkul = JadwalKuliah::all();
 
         $arrJdwkul = [];
 
         foreach ($jdwkul as $i) {
-           $cek = PlottingMonev::where('klkl_id', $i->klkl_id)->where('nik_pengajar', $i->kary_nik)->where('semester', $smt->smt_yad)->first();
+           $cek = PlottingMonev::where('klkl_id', $i->klkl_id)->where('nik_pengajar', $i->kary_nik)->where('semester', $smt)->first();
               if(!$cek){
                 $arrJdwkul[] = $i;
               }
@@ -62,7 +71,7 @@ class PlottingMonevController extends Controller
         $jdwkul = $arrJdwkul;
         $kary = KaryawanDosen::where('fakul_id', '<>', null)->get();
 
-        return view('plotting-monev.create', compact('jdwkul', 'kary'));
+        return view('plotting-monev.create', compact('jdwkul', 'kary', 'smt'));
     }
 
     /**
@@ -147,8 +156,8 @@ class PlottingMonevController extends Controller
 
     public function createCriteria()
     {
-
-        return view('plotting-monev.create-criteria');
+        $smt = $this->semester;
+        return view('plotting-monev.create-criteria', compact('smt'));
     }
 
     public function showCriteria(Request $request)
@@ -221,7 +230,10 @@ class PlottingMonevController extends Controller
         $kary = KaryawanDosen::where('nik',$request->get('nik') )->first();
         $arrPlot = $pltMnv->pluck('id')->toArray();
         $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();
-        return view('plotting-monev.detail', compact('pltMnv', 'insMon', 'kary'));
+
+        $smt = $this->semester;
+
+        return view('plotting-monev.detail', compact('pltMnv', 'insMon', 'kary', 'smt'));
     }
 
 }

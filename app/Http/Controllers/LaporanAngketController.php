@@ -15,6 +15,13 @@ use Illuminate\Http\Request;
 
 class LaporanAngketController extends Controller
 {
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
+
     public function index()
     {
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
@@ -28,14 +35,16 @@ class LaporanAngketController extends Controller
 
         $rataFak = $this->manipulateDataAngket($prodi, $fak)['rataFakultas'];
 
-        return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary', 'rataProdi', 'rataFak'));
+        $smt = $this->semester;
+
+        return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary', 'rataProdi', 'rataFak', 'smt'));
     }
 
     public function manipulateDataAngket($prodi, $fak){
 
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $plot = PlottingMonev::where('semester', $smt->smt_yad)->prodi()->get();
-        $angket = AngketTrans::where('smt', $smt->smt_yad)->whereIn('prodi', $plot->pluck('prodi')->toArray())->get();
+        $smt = $this->semester;
+        $plot = PlottingMonev::where('semester', $smt)->prodi()->get();
+        $angket = AngketTrans::where('smt', $smt)->whereIn('prodi', $plot->pluck('prodi')->toArray())->get();
         $ratamk = $angket;
 
         $data = [];

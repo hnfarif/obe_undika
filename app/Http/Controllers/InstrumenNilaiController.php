@@ -38,6 +38,14 @@ class InstrumenNilaiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
+
     public function index()
     {
         $nik_kary = auth()->user()->nik;
@@ -48,12 +56,12 @@ class InstrumenNilaiController extends Controller
         //Data Filter
         $fak = Fakultas::all();
         $prodi = Prodi::where('sts_aktif', 'Y')->get();
+        $smt = $this->semester;
 
         if ($role == 'dosen') {
             $kary = KaryawanDosen::where('nik',$nik_kary)->first();
-            $smt = Semester::orderBy('smt_yad', 'desc')->first();
             $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
-            ->where('semester', $smt->smt_yad)
+            ->where('semester', $smt)
             ->pluck('kurlkl_id')->toArray();
 
             $arrKlkl = [];
@@ -69,12 +77,11 @@ class InstrumenNilaiController extends Controller
             $kary = KaryawanDosen::whereIn('fakul_id', $arrProdi)->where('kary_type', 'like', '%D%')->prodi()->get();
             $arrKary = $kary->pluck('nik')->toArray();
             $jdwkul = JadwalKuliah::whereIn('kary_nik', $arrKary)->where('sts_kul', '1')->get();
-            $smt = Semester::orderBy('smt_yad', 'desc')->first();
+
         }else{
 
             $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->fakultas()->prodi()->get();
             $jdwkul = JadwalKuliah::all();
-            $smt = Semester::orderBy('smt_yad', 'desc')->first();
 
         }
 
@@ -93,7 +100,7 @@ class InstrumenNilaiController extends Controller
         $isRead = false;
         $idIns = $request->get('ins');
         $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
-
+        $smt = $this->semester;
         $weekEigth = [];
         $weekSixteen = [];
 
@@ -178,7 +185,7 @@ class InstrumenNilaiController extends Controller
 
 
 
-        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary', 'week', 'getPekan', 'now', 'startFill', 'endFill', 'isRead'));
+        return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary', 'week', 'getPekan', 'now', 'startFill', 'endFill', 'isRead', 'smt'));
     }
 
     /**
@@ -517,9 +524,9 @@ class InstrumenNilaiController extends Controller
     public function detailInstrumen()
     {
         $kary = KaryawanDosen::where('nik', request('nik'))->first();
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
+        $smt = $this->semester;
         $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
-        ->where('semester', $smt->smt_yad)
+        ->where('semester', $smt)
         ->pluck('kurlkl_id')->toArray();
 
         $arrKlkl = [];
@@ -531,7 +538,7 @@ class InstrumenNilaiController extends Controller
         $instru = InstrumenNilai::all();
 
 
-        return view('instrumen-nilai.detail', compact('jdwkul', 'kary', 'instru'));
+        return view('instrumen-nilai.detail', compact('jdwkul', 'kary', 'instru', 'smt'));
 
     }
 }

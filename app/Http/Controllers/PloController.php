@@ -6,6 +6,7 @@ use App\Models\KaryawanDosen;
 use App\Models\PeoPlo;
 use App\Models\Plo;
 use App\Models\Prodi;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -17,9 +18,19 @@ class PloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
+
     public function index()
     {
         $user = Auth::user();
+        $smt = $this->semester;
+
         if($user->role == 'kaprodi'){
 
             $chkrole = Prodi::where('mngr_id', $user->nik)->first();
@@ -36,12 +47,12 @@ class PloController extends Controller
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
             $plo = Plo::where('fakul_id', $chkrole->fakul_id)->with('peos')->get();
 
-            return view('kelolapeoplo.kelolaplo', compact('plo'));
+            return view('kelolapeoplo.kelolaplo', compact('plo', 'smt'));
         }
 
 
 
-        return view('kelolapeoplo.kelolaplo', ["ite_padded" => $ite_padded ?? '', "plo" => $plo, "iteration" => $iteration ?? '']);
+        return view('kelolapeoplo.kelolaplo', ["ite_padded" => $ite_padded ?? '', "plo" => $plo, "iteration" => $iteration ?? '', "smt" => $smt]);
     }
 
     /**
@@ -147,6 +158,7 @@ class PloController extends Controller
 
     public function detail(){
         $plo = Plo::where('fakul_id',  request('id'))->with('peos')->get();
-        return view('kelolapeoplo.role.plo.detail', compact('plo'));
+        $smt = $this->semester;
+        return view('kelolapeoplo.role.plo.detail', compact('plo', 'smt'));
     }
 }

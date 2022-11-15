@@ -11,6 +11,7 @@ use App\Models\MateriKuliah;
 use App\Models\MingguKuliah;
 use App\Models\Penilaian;
 use App\Models\Rps;
+use App\Models\Semester;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -24,6 +25,14 @@ class AgendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
+
     public function index(Rps $rps)
     {
         $agenda = DetailAgenda::whereHas('agendaBelajar', function($q) use ($rps){
@@ -37,9 +46,9 @@ class AgendaController extends Controller
         $penilaian = Penilaian::where('rps_id', $rps->id)->get();
         $llo = Llo::where('rps_id', $rps->id)->orderBy('id','asc')->get();
         // $agenda = AgendaBelajar::where('rps_id', $rps->id)->with('detailAgendas')->get();
-
+        $smt = $this->semester;
         // dd($agenda);
-        return view('rps.agenda.index', compact('rps','agenda','clo','llo', 'penilaian'));
+        return view('rps.agenda.index', compact('rps','agenda','clo','llo', 'penilaian', 'smt'));
     }
 
     /**
@@ -49,7 +58,7 @@ class AgendaController extends Controller
      */
     public function create(Request $request, Rps $rps)
     {
-
+        $smt = $this->semester;
         $penilaian = Penilaian::where('rps_id', $rps->id)->orderBy('id','asc')->get();
 
         $clo = Clo::where('rps_id', $rps->id)->orderBy('id','asc')->get();
@@ -147,7 +156,7 @@ class AgendaController extends Controller
             })->rawColumns(['capai_llo','btk_penilaian','pbm','materi','metode','aksi'])
             ->make(true);
         }
-        return view('rps.agenda.create', compact('rps','clo','llo', 'listLlo', 'penilaian'));
+        return view('rps.agenda.create', compact('rps','clo','llo', 'listLlo', 'penilaian', 'smt'));
     }
 
     /**

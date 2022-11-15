@@ -19,10 +19,18 @@ class PeoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
+
     public function index()
     {
         $user = Auth::user();
-        $smt = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+        $smt = $this->semester;
         if($user->role == 'kaprodi'){
 
             $chkrole = Prodi::where('mngr_id', $user->nik)->first();
@@ -158,6 +166,7 @@ class PeoController extends Controller
     public function detail()
     {
         $peo = Peo::where('fakul_id', request('id'))->with('plos')->get();
-        return view('kelolapeoplo.role.peo.detail', compact('peo'));
+        $smt = $this->semester;
+        return view('kelolapeoplo.role.peo.detail', compact('peo', 'smt'));
     }
 }

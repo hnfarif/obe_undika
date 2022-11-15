@@ -11,12 +11,18 @@ use Illuminate\Http\Request;
 
 class BerandaController extends Controller
 {
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
 
     public function index()
     {
         $nik = auth()->user()->nik;
         $roles = [];
-        $smt = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+        $smt = $this->semester;
         $kary = KaryawanDosen::with('bagianKary')->where('nik', $nik)->first();
         $chkKaprodi = Prodi::where('mngr_id', $nik)->first(); // cek kaprodi atau bukan
         $chkDekan = Fakultas::where('mngr_id', $nik)->first(); // cek dekan atau bukan

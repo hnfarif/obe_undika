@@ -29,6 +29,14 @@ class RpsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
+
     public function index()
     {
         // Data Filters
@@ -40,20 +48,19 @@ class RpsController extends Controller
         $dosens = KaryawanDosen::with('emailStaf')->where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->get();
 
         $mailStaf = MailStaf::whereIn('nik', $dosens->pluck('nik')->toArray())->get();
-
+        $smt = $this->semester;
         if ($role == 'dosen') {
-            $smt = Semester::orderBy('smt_yad', 'desc')->first();
-            $rps = Rps::where('penyusun', $nik)->whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
+
+            $rps = Rps::where('penyusun', $nik)->whereSemester($smt)->latest()->fakultas()->prodi()->name()->status()->paginate(6)->withQueryString();
         }else if($role == 'dekan'){
-            $smt = Semester::orderBy('smt_yad', 'desc')->first();
+
             $fakDekan = $fak->where('mngr_id', $nik)->first();
             $prodi = $prodi->where('id_fakultas', $fakDekan->id);
             $prodiDekan = $prodi->pluck('id')->toArray();
             $mk = MataKuliah::whereIn('fakul_id', $prodiDekan)->pluck('id')->toArray();
-            $rps = Rps::whereIn('kurlkl_id', $mk)->whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
+            $rps = Rps::whereIn('kurlkl_id', $mk)->whereSemester($smt)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }else{
-            $smt = Semester::orderBy('smt_yad', 'desc')->first();
-            $rps = Rps::whereSemester($smt->smt_yad)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
+            $rps = Rps::whereSemester($smt)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }
 
         return view('rps.index', compact('rps','fak','prodi', 'dosens', 'smt', 'mailStaf'));
@@ -70,10 +77,10 @@ class RpsController extends Controller
         $mk = MataKuliah::whereIn('id', $jdw)->get();
         $filMk = [];
 
+        $smt = $this->semester;
         foreach ($mk as $i) {
-            $smt = Semester::orderBy('smt_yad', 'desc')->first();
 
-            $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt->smt_yad)->first();
+            $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt)->first();
 
             if(!$findRps){
                 $filMk[] = $i;
@@ -83,7 +90,7 @@ class RpsController extends Controller
         $mk = $filMk;
         $dosens = KaryawanDosen::all();
 
-        return view('rps.create', compact('mk','dosens'));
+        return view('rps.create', compact('mk','dosens', 'smt'));
     }
 
     /**
@@ -229,7 +236,7 @@ class RpsController extends Controller
     {
 
         $dataRps = Rps::where('id', $rps->id)->get();
-
+        $smt = $this->semester;
         $kultot = DetailAgenda::whereHas('agendaBelajar', function($q) use ($rps){
             $q->where('rps_id', $rps->id);
         })
@@ -254,7 +261,7 @@ class RpsController extends Controller
             });
         })->select('deskripsi_pbm')->where('status', 'pbm')->distinct()->get();
 
-        return view('rps.rangkuman', compact('dataRps','rps','kultot','med','pus','pbm'));
+        return view('rps.rangkuman', compact('dataRps','rps','kultot','med','pus','pbm', 'smt'));
     }
 
     public function saveFileRps(Request $request)

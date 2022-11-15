@@ -16,6 +16,12 @@ use PDF;
 
 class LaporanMonevController extends Controller
 {
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
 
     public function index()
     {
@@ -28,10 +34,10 @@ class LaporanMonevController extends Controller
         // dd(request()->all());
         $fakul = Fakultas::with('prodis')->get();
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $plot = PlottingMonev::whereSemester($smt->smt_yad)->pluck('klkl_id')->toArray();
+        $smt = $this->semester;
+        $plot = PlottingMonev::whereSemester($smt)->pluck('klkl_id')->toArray();
         $jdw = JadwalKuliah::whereIn('klkl_id', $plot)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get();
-        return view('laporan.monev.index', compact('kri', 'jdw', 'fak', 'prodi', 'kary', 'fakul'));
+        return view('laporan.monev.index', compact('kri', 'jdw', 'fak', 'prodi', 'kary', 'fakul', 'smt'));
     }
 
     public function exportExcel()

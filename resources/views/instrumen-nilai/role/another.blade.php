@@ -44,7 +44,7 @@
                                 </td>
                                 <td>
 
-                                    {{ $instru->where('nik', $k->nik)->where('semester', $smt->smt_yad)->count() }}
+                                    {{ $instru->where('nik', $k->nik)->where('semester', $smt)->count() }}
 
                                 </td>
                                 <td><a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->nik]) }}"

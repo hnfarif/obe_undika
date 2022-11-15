@@ -8,6 +8,7 @@ use App\Models\Penilaian;
 use App\Models\Plo;
 use App\Models\PloClo;
 use App\Models\Rps;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -18,16 +19,24 @@ class CloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
+
     public function index(Rps $rps)
     {
-
+        $smt = $this->semester;
         $mk = MataKuliah::all();
         $prasyarat = MataKuliah::where('id',$rps->kurlkl_id)->pluck('prasyarat')->first();
         $exPra = explode(' ', $prasyarat);
         $clo = Clo::where('rps_id',$rps->id)->with('plos')->orderBy('id','asc')->get();
         $iteration = Clo::latest()->select('kode_clo')->where('rps_id',$rps->id)->pluck('kode_clo')->first();
         // dd($rps);
-        return view('rps.clo.index', compact('rps', 'mk', 'exPra', 'clo', 'iteration'));
+        return view('rps.clo.index', compact('rps', 'mk', 'exPra', 'clo', 'iteration', 'smt'));
     }
 
     /**
@@ -37,6 +46,7 @@ class CloController extends Controller
      */
     public function create(Rps $rps)
     {
+        $smt = $this->semester;
         $prodi = MataKuliah::where('id',$rps->kurlkl_id)->first()->fakul_id;
         $plo = Plo::where('fakul_id', $prodi)->get();
         $iteration = Clo::where('rps_id', $rps->id)->latest()->select('kode_clo')->pluck('kode_clo')->first();
@@ -44,7 +54,7 @@ class CloController extends Controller
         $num++;
         $ite_padded = sprintf("%02d", $num);
 
-        return view('rps.clo.create', compact('rps','plo','ite_padded'));
+        return view('rps.clo.create', compact('rps','plo','ite_padded','smt'));
     }
 
     /**

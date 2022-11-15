@@ -7,6 +7,7 @@ use App\Models\Peo;
 use App\Models\PeoPlo;
 use App\Models\Plo;
 use App\Models\Prodi;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -18,10 +19,20 @@ class PeoPloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
+
     public function index()
     {
 
-       $user = Auth::user();
+        $user = Auth::user();
+        $smt = $this->semester;
+
         if($user->role == 'kaprodi'){
 
             $chkrole = Prodi::where('mngr_id', $user->nik)->first();
@@ -42,7 +53,7 @@ class PeoPloController extends Controller
         }
 
 
-       return view('kelolapeoplo.mapping.index', compact('peo', 'plo', 'mapping'));
+       return view('kelolapeoplo.mapping.index', compact('peo', 'plo', 'mapping', 'smt'));
     }
 
     /**
@@ -57,7 +68,10 @@ class PeoPloController extends Controller
 
         $plo =  Plo::where('fakul_id', $getProdi->id)->get();
         $peo = Peo::where('fakul_id', $getProdi->id)->orderBy('kode_peo', 'asc')->get();
-        return view('kelolapeoplo.mapping.create' , ['plo' => $plo, 'peo' => $peo,]);
+
+        $smt = $this->semester;
+
+        return view('kelolapeoplo.mapping.create' , compact('plo', 'peo', 'smt'));
     }
 
     /**
@@ -154,6 +168,9 @@ class PeoPloController extends Controller
         $plo = Plo::where('fakul_id', request('id'))->with('peos')->orderBy('id','asc')->get();
         $filPeo = $peo->pluck('id')->toArray();
         $mapping = PeoPlo::whereIn('peo_id', $filPeo)->get();
-        return view('kelolapeoplo.role.mapping.detail', compact('peo','plo', 'mapping'));
+
+        $smt = $this->semester;
+
+        return view('kelolapeoplo.role.mapping.detail', compact('peo','plo', 'mapping', 'smt'));
     }
 }

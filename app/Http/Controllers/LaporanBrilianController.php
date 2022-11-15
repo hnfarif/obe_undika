@@ -16,6 +16,12 @@ use iio\libmergepdf\Merger;
 
 class LaporanBrilianController extends Controller
 {
+    private $semester;
+
+    public function __construct()
+    {
+        $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+    }
 
     public function index()
     {
@@ -32,7 +38,7 @@ class LaporanBrilianController extends Controller
 
         $data = $manipulate['data'];
         $indikator = $manipulate['indikator'];
-        $smt = $manipulate['smt'];
+        $smt = $this->semester;
         $prodi = $manipulate['prodi'];
         $rangBadge = $manipulate['rangBadge'];
         $badges = $manipulate['badges'];
@@ -126,7 +132,7 @@ class LaporanBrilianController extends Controller
 
 
 
-        $smt = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+        $smt = $this->semester;
         $response = Http::async()->get($url, [
             'semester' => $smt,
             'json' => true,
