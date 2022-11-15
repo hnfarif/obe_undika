@@ -6,6 +6,7 @@ use App\Models\Bagian;
 use App\Models\Fakultas;
 use App\Models\KaryawanDosen;
 use App\Models\Prodi;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 
 class BerandaController extends Controller
@@ -15,6 +16,7 @@ class BerandaController extends Controller
     {
         $nik = auth()->user()->nik;
         $roles = [];
+        $smt = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
         $kary = KaryawanDosen::with('bagianKary')->where('nik', $nik)->first();
         $chkKaprodi = Prodi::where('mngr_id', $nik)->first(); // cek kaprodi atau bukan
         $chkDekan = Fakultas::where('mngr_id', $nik)->first(); // cek dekan atau bukan
@@ -44,6 +46,6 @@ class BerandaController extends Controller
             $roles[] = 'dekan';
         }
         // dd($roles);
-        return view('beranda.index', compact('roles'));
+        return view('beranda.index', compact('roles', 'smt'));
     }
 }

@@ -71,6 +71,9 @@
             </li>
             @endif
 
+            <p>
+                <b>Semester : {{ $smt ?? '' }}</b>
+            </p>
         </ul>
     </div>
 </nav>
