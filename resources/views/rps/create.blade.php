@@ -61,7 +61,7 @@
                                                 <tr>
                                                     <td>{{ $i->getNameProdi($i->prodi) }}</td>
                                                     <td>{{ $i->klkl_id }}</td>
-                                                    <td>{{ $i->matakuliahs->nama }}</td>
+                                                    <td>{{ $i->getNameMataKuliah($i->klkl_id) }}</td>
                                                     <td>
                                                         <div class="custom-control custom-checkbox checkbox-xl">
                                                             <input type="checkbox" name="mklist[]"
