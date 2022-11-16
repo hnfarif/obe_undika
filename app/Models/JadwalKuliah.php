@@ -44,7 +44,6 @@ class JadwalKuliah extends Model
 
     }
 
-
     public function getNameProdi($prodi)
     {
         $prodi = Prodi::where('id', $prodi)->first();

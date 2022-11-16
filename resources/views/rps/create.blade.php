@@ -59,7 +59,7 @@
                                             <tbody>
                                                 @foreach ($mk as $i)
                                                 <tr>
-                                                    <td>{{ $i->prodi->nama }}</td>
+                                                    <td>{{ $i->getNameProdi($i->prodi) }}</td>
                                                     <td>{{ $i->klkl_id }}</td>
                                                     <td>{{ $i->matakuliahs->nama }}</td>
                                                     <td>
