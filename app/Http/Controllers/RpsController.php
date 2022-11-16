@@ -84,7 +84,11 @@ class RpsController extends Controller
             $findRps = Rps::where('kurlkl_id', $i->klkl_id)->where('semester',$smt)->first();
 
             if(!$findRps){
-                if (!$i->contains('klkl_id', $i->klkl_id)) {
+                $uniqueMk = current(array_filter($filMk, function($item) use ($i){
+                    return $item['klkl_id'] == $i->klkl_id;
+                }));
+
+                if (!$uniqueMk) {
                     $filMk[] = $i;
                 }
             }
