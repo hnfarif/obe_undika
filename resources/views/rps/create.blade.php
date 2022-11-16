@@ -59,9 +59,9 @@
                                             <tbody>
                                                 @foreach ($mk as $i)
                                                 <tr>
-                                                    <td>{{ $i->getProdiName($i->fakul_id) }}</td>
-                                                    <td>{{ $i->id }}</td>
-                                                    <td>{{ $i->nama }}</td>
+                                                    <td>{{ $i->prodi->nama }}</td>
+                                                    <td>{{ $i->klkl_id }}</td>
+                                                    <td>{{ $i->matakuliahs->nama }}</td>
                                                     <td>
                                                         <div class="custom-control custom-checkbox checkbox-xl">
                                                             <input type="checkbox" name="mklist[]" value="{{ $i->id }}"

@@ -75,14 +75,13 @@ class RpsController extends Controller
     {
         $user = auth()->user();
         $prodi = Prodi::where('mngr_id', $user->nik)->first();
-        $jdw = JadwalKuliah::whereProdi($prodi->id)->distinct('klkl_id')->pluck('klkl_id')->toArray();
-        $mk = MataKuliah::whereIn('id', $jdw)->get();
+        $jdw = JadwalKuliah::whereProdi($prodi->id)->get();
         $filMk = [];
 
         $smt = $this->semester;
-        foreach ($mk as $i) {
+        foreach ($jdw as $i) {
 
-            $findRps = Rps::where('kurlkl_id', $i->id)->where('semester',$smt)->first();
+            $findRps = Rps::where('kurlkl_id', $i->klkl_id)->where('semester',$smt)->first();
 
             if(!$findRps){
                 $filMk[] = $i;

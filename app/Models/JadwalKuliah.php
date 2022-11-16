@@ -28,6 +28,10 @@ class JadwalKuliah extends Model
         return $this->belongsTo(KaryawanDosen::class, 'nik', 'kary_nik');
     }
 
+    public function prodi(){
+        return $this->belongsTo(Prodi::class, 'id', 'prodi');
+    }
+
     public function getNameMataKuliah($kdMk)
     {
         $maku = MataKuliah::where('id', $kdMk)->first();
