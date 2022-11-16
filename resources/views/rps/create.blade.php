@@ -64,8 +64,8 @@
                                                     <td>{{ $i->matakuliahs->nama }}</td>
                                                     <td>
                                                         <div class="custom-control custom-checkbox checkbox-xl">
-                                                            <input type="checkbox" name="mklist[]" value="{{ $i->id }}"
-                                                                class="custom-control-input"
+                                                            <input type="checkbox" name="mklist[]"
+                                                                value="{{ $i->klkl_id }}" class="custom-control-input"
                                                                 id="listMk-{{ $loop->iteration }}">
                                                             <label class="custom-control-label"
                                                                 for="listMk-{{ $loop->iteration }}"></label>
