@@ -29,7 +29,7 @@ class JadwalKuliah extends Model
     }
 
     public function prodi(){
-        return $this->belongsTo(Prodi::class, 'id', 'prodi');
+        return $this->belongsTo(Prodi::class, 'prodi', 'id');
     }
 
     public function getNameMataKuliah($kdMk)
