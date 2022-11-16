@@ -75,7 +75,7 @@ class RpsController extends Controller
     {
         $user = auth()->user();
         $prodi = Prodi::where('mngr_id', $user->nik)->first();
-        $jdw = JadwalKuliah::whereProdi($prodi->id)->get();
+        $jdw = JadwalKuliah::whereProdi($prodi->id)->distinct('klkl_id')->get();
         $filMk = [];
 
         $smt = $this->semester;
@@ -115,7 +115,7 @@ class RpsController extends Controller
 
             $mk = MataKuliah::where('id',$i)->first();
             $findRps = Rps::where('kurlkl_id', $i)->where('semester',$request->semester)->first();
-            $smt = Semester::max('smt_yad');
+            $smt = $this->semester;
 
             if ($findRps) {
                 continue;
