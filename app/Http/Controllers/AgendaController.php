@@ -448,7 +448,7 @@ class AgendaController extends Controller
                 $query->where('rps_id', $request->rps_id);
             })->sum('bobot');
 
-            $totalBtk = $sumBtk + $request->bbt_penilaian;
+            $totalBtk = ($sumBtk - $cekDa->bobot) + $request->bbt_penilaian;
             $totalMnt = $request->tm + $request->sl + $request->asl + $request->asm;
 
             if($totalBtk <= 100){
