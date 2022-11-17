@@ -116,4 +116,18 @@ class LaporanAngketController extends Controller
 
         return $pdf->stream('laporan_angket_'.date('Y-m-d_H-i-s').'.pdf');
     }
+
+    public function cekData()
+    {
+        $smt = $this->semester;
+        $plot = PlottingMonev::where('semester', $smt)->prodi()->get();
+        $angket = AngketTrans::where('smt', $smt)->whereIn('prodi', $plot->pluck('prodi')->toArray())->get();
+
+        return [
+            'angket' => $angket,
+            'plot' => $plot,
+            'countAngket' => $angket->count(),
+
+        ];
+    }
 }
