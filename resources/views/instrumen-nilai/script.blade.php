@@ -42,64 +42,67 @@
             }
         })
 
-        window.onload() = $.ajax({
-            url: "{{ route('penilaian.rangkumCapaiClo') }}",
-            type: 'GET',
-            dataType: 'json',
-            beforeSend: function () {
-                $('.rangCapaiClo').html(
-                    '<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> Harap tunggu sebentar ....</div>'
-                );
-            },
-            success: function (data) {
-                if ($.isEmptyObject(data.error)) {
-                    $('.rangCapaiClo').html('');
-                    var ctx = document.getElementById('grangclo').getContext('2d');
-                    ctx.fillRect(25, 25, 100, 100)
-                    ctx.clearRect(45, 45, 60, 60)
-                    ctx.strokeRect(50, 50, 50, 50)
-                    const myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ["Total MK tercapai",
-                                "Total MK belum tercapai"
-                            ],
-                            datasets: [{
-                                label: 'Ketercapaian CLO',
-                                data: [data.jmlInsLulus, data
-                                    .jmlInsTdkLulus
+        function grafikCapaiClo() {
+            $.ajax({
+                url: "{{ route('penilaian.rangkumCapaiClo') }}",
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('.rangCapaiClo').html(
+                        '<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> Harap tunggu sebentar ....</div>'
+                    );
+                },
+                success: function (data) {
+                    if ($.isEmptyObject(data.error)) {
+                        $('.rangCapaiClo').html('');
+                        var ctx = document.getElementById('grangclo').getContext('2d');
+                        ctx.fillRect(25, 25, 100, 100)
+                        ctx.clearRect(45, 45, 60, 60)
+                        ctx.strokeRect(50, 50, 50, 50)
+                        const myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ["Total MK tercapai",
+                                    "Total MK belum tercapai"
                                 ],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                ],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
+                                datasets: [{
+                                    label: 'Ketercapaian CLO',
+                                    data: [data.jmlInsLulus, data
+                                        .jmlInsTdkLulus
+                                    ],
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
                                 }
                             }
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops, Ada yang salah!',
-                        text: 'Terjadi kesalahan saat mengambil data',
-                    })
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops, Ada yang salah!',
+                            text: 'Terjadi kesalahan saat mengambil data',
+                        })
 
-                }
-            },
+                    }
+                },
 
 
-        })
+            })
+        }
+
 
 
     })
