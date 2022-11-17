@@ -43,8 +43,8 @@ class LaporanAngketController extends Controller
     public function manipulateDataAngket($prodi, $fak){
 
         $smt = $this->semester;
-        $plot = PlottingMonev::where('semester', $smt)->prodi()->get();
-        $angket = AngketTrans::where('smt', $smt)->whereIn('kode_mk', $plot->distinct('klkl_id')->pluck('klkl_id')->toArray())->get();
+        $plot = PlottingMonev::where('semester', $smt)->prodi()->distinct('klkl_id')->get();
+        $angket = AngketTrans::where('smt', $smt)->whereIn('kode_mk', $plot->pluck('klkl_id')->toArray())->get();
         $ratamk = $angket;
 
         $data = [];
