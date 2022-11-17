@@ -42,7 +42,7 @@
             }
         })
 
-        window.onload = $.ajax({
+        window.onload() = $.ajax({
             url: "{{ route('penilaian.rangkumCapaiClo') }}",
             type: 'GET',
             dataType: 'json',
