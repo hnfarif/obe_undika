@@ -15,7 +15,7 @@
             success: function (data) {
                 if ($.isEmptyObject(data.error)) {
                     $('.rangCapaiClo').html('');
-                    let ctx = document.getElementById("grangclo").getContext("2d");
+                    const ctx = document.getElementById("grangclo").getContext("2d");
                     const myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
