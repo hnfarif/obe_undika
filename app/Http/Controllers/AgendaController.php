@@ -456,38 +456,55 @@ class AgendaController extends Controller
 
                     $filLlo = LLo::where('rps_id', $request->rps_id)->where('id', $request->kode_llo)->first();
 
+                    if ($filLlo) {
+                        if($request->prak){
 
-                    if($request->prak){
+                            LLo::where('rps_id', $request->rps_id)->where('id', $request->kode_llo)->update([
+                                    'deskripsi_prak' => $request->des_llo,
+                            ]);
 
-                        LLo::where('rps_id', $request->rps_id)->where('id', $request->kode_llo)->update([
-                                'deskripsi_prak' => $request->des_llo,
+
+                        }else{
+
+                            LLo::where('rps_id', $request->rps_id)->where('id', $request->kode_llo)->update([
+                                'deskripsi' => $request->des_llo,
+                            ]);
+
+                        }
+
+                        DetailAgenda::where('id', $request->idDtl)->update([
+                            'clo_id' => $request->clo_id,
+                            'llo_id' => $filLlo->id,
+                            'penilaian_id' => $request->btk_penilaian,
+                            'bobot' => $request->bbt_penilaian,
+                            'deskripsi_penilaian' => $request->des_penilaian,
+                            'tm' => $request->tm,
+                            'sl' => $request->sl,
+                            'asl' => $request->asl,
+                            'asm' => $request->asm,
+                            'res_tutor' => $request->responsi,
+                            'bljr_mandiri' => $request->belajarMandiri,
+                            'praktikum' => $request->prak,
+                            'capaian_llo' => $request->capai_llo,
+
                         ]);
-
-
                     }else{
+                        DetailAgenda::where('id', $request->idDtl)->update([
+                            'clo_id' => $request->clo_id,
+                            'penilaian_id' => $request->btk_penilaian,
+                            'bobot' => $request->bbt_penilaian,
+                            'deskripsi_penilaian' => $request->des_penilaian,
+                            'tm' => $request->tm,
+                            'sl' => $request->sl,
+                            'asl' => $request->asl,
+                            'asm' => $request->asm,
+                            'res_tutor' => $request->responsi,
+                            'bljr_mandiri' => $request->belajarMandiri,
+                            'praktikum' => $request->prak,
 
-                        LLo::where('rps_id', $request->rps_id)->where('id', $request->kode_llo)->update([
-                            'deskripsi' => $request->des_llo,
                         ]);
-
                     }
 
-                    DetailAgenda::where('id', $request->idDtl)->update([
-                        'clo_id' => $request->clo_id,
-                        'llo_id' => $filLlo->id,
-                        'penilaian_id' => $request->btk_penilaian,
-                        'bobot' => $request->bbt_penilaian,
-                        'deskripsi_penilaian' => $request->des_penilaian,
-                        'tm' => $request->tm,
-                        'sl' => $request->sl,
-                        'asl' => $request->asl,
-                        'asm' => $request->asm,
-                        'res_tutor' => $request->responsi,
-                        'bljr_mandiri' => $request->belajarMandiri,
-                        'praktikum' => $request->prak,
-                        'capaian_llo' => $request->capai_llo,
-
-                    ]);
                     return response()->json(['success' => 'Data berhasil Ditambahkan']);
                 }else{
                     return response()->json(['errMnt' => 'Maaf total menit perkuliahan yang anda masukkan melebihi '.$request->responsi.' menit, Harap perbaiki data anda']);
