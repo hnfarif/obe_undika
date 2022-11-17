@@ -41,9 +41,6 @@
                     url: "{{ route('penilaian.rangkumCapaiClo') }}",
                     type: 'GET',
                     dataType: 'json',
-                    data: {
-                        'smt': "{{ $smt }}",
-                    },
                     beforeSend: function () {
                         $('.rangCapaiClo').html(
                             '<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> Harap tunggu sebentar ....</div>'
@@ -51,6 +48,7 @@
                     },
                     success: function (data) {
                         if ($.isEmptyObject(data.error)) {
+                            $('.rangCapaiClo').html('');
                             var ctx = $('#grRangClo').getContext('2d');
                             var myChart = new Chart(ctx, {
                                 type: 'bar',
@@ -91,9 +89,6 @@
 
                         }
                     },
-                    afterSend: function () {
-                        $('.rangCapaiClo').html('');
-                    }
 
 
                 })
