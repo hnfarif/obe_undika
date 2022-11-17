@@ -76,7 +76,7 @@ class InstrumenNilaiController extends Controller
             $arrProdi = $prodi->pluck('id')->toArray();
             $kary = KaryawanDosen::whereIn('fakul_id', $arrProdi)->where('kary_type', 'like', '%D%')->prodi()->get();
             $arrKary = $kary->pluck('nik')->toArray();
-            $jdwkul = JadwalKuliah::whereIn('kary_nik', $arrKary)->where('sts_kul', '1')->get();
+            $jdwkul = JadwalKuliah::whereIn('prodi', $arrProdi)->where('sts_kul', '1')->get();
 
         }else if ($role == 'kaprodi'){
             $idProdi = $prodi->where('mngr_id', $nik_kary)->first();
