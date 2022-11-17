@@ -44,7 +44,7 @@ class LaporanAngketController extends Controller
 
         $smt = $this->semester;
         $plot = PlottingMonev::where('semester', $smt)->prodi()->get();
-        $angket = AngketTrans::where('smt', $smt)->whereIn('prodi', $plot->pluck('prodi')->toArray())->get();
+        $angket = AngketTrans::where('smt', $smt)->whereIn('kode_mk', $plot->distinct('klkl_id')->pluck('klkl_id')->toArray())->get();
         $ratamk = $angket;
 
         $data = [];
