@@ -81,13 +81,13 @@
 </div>
 
 <div class="row rangCapaiClo d-none">
-    <div class="col-12 col-lg-6 col-md-12 mx-auto">
+    <div class="col-12 col-lg-6 col-md-12">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Grafik Ketercapaian CLO</h4>
             </div>
             <div class="card-body">
-                <canvas id="grRangClo" width="20" height="20"></canvas>
+                <canvas id="grRangClo"></canvas>
             </div>
         </div>
     </div>

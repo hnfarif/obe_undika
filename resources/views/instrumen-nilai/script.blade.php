@@ -50,7 +50,8 @@
                     success: function (data) {
                         if ($.isEmptyObject(data.error)) {
                             $('.rangCapaiClo').html('');
-                            var myChart = new Chart($('#grRangClo'), {
+                            var ctx = document.getElementById('grRangClo').getContext('2d');
+                            var myChart = new Chart(ctx, {
                                 type: 'bar',
                                 data: {
                                     labels: ["Total MK tercapai",
