@@ -54,7 +54,10 @@
             success: function (data) {
                 if ($.isEmptyObject(data.error)) {
                     $('.rangCapaiClo').html('');
-                    const ctx = document.getElementById('grangclo');
+                    var ctx = document.getElementById('grangclo').getContext('2d');
+                    ctx.fillRect(25, 25, 100, 100)
+                    ctx.clearRect(45, 45, 60, 60)
+                    ctx.strokeRect(50, 50, 50, 50)
                     const myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
