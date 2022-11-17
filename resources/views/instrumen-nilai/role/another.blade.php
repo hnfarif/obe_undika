@@ -3,7 +3,23 @@
         <i class="fas fa-filter"></i> Filter
     </button>
 </div>
-<div class="row">
+
+<div class="d-flex align-items-center">
+    <div class="ml-auto">
+        <div class="selectgroup w-100">
+            <label class="selectgroup-item">
+                <input type="radio" name="optrangclo" value="dafIns" class="selectgroup-input">
+                <span class="selectgroup-button">Daftar Instrumen</span>
+            </label>
+            <label class="selectgroup-item">
+                <input type="radio" name="optrangclo" value="rangCapaiClo" class="selectgroup-input" checked="">
+                <span class="selectgroup-button">Grafik Ketercapaian CLO</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="row dafIns">
 
     <div class="col-12">
         <div class="card">
@@ -61,5 +77,18 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<div class="row rangCapaiClo d-none">
+    <div class="col-12 col-lg-6 col-md-12 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Grafik Ketercapaian CLO</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="grRangClo" width="20" height="20"></canvas>
+            </div>
+        </div>
     </div>
 </div>

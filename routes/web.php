@@ -142,6 +142,8 @@ Route::prefix('penilaian')->name('penilaian.')->group(function (){
 
     Route::get('/clo/detail', [InstrumenNilaiController::class, 'detailInstrumen'])->name('detailInstrumen')->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dekan');
 
+    Route::get('/clo/rangkuman-capaian-clo', [InstrumenNilaiController::class, 'rangkumanCapaianClo'])->name('rangkumCapaiClo')->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dekan');
+
     Route::resource('clo', InstrumenNilaiController::class)->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dosen,dekan');
 });
 
