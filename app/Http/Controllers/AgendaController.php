@@ -400,6 +400,7 @@ class AgendaController extends Controller
      */
     public function update(Request $request)
     {
+        dd($request->all());
         $validatedData =  Validator::make($request->all(), [
             'clo_id' => 'required',
             'kode_llo' => 'required',
