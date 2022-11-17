@@ -64,7 +64,7 @@ class LaporanAngketController extends Controller
             $sum = array_sum(array_column($data[$p->nik_pengajar]['matakuliah'][$p->klkl_id], 'rata_mk'));
             // average per nik_pengajar
 
-            dd($count);
+            // dd($count);
             // foreach ($data[$p->nik_pengajar]['matakuliah'] as $mk) {
             //     $sum += $mk[$p->kelas]['rata_mk'];
             // }
