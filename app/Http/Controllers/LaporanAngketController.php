@@ -65,7 +65,7 @@ class LaporanAngketController extends Controller
 
             // dd($data);
             foreach ($data[$p->nik_pengajar]['matakuliah'] as $mk) {
-                $sum += $mk[$p->klkl_id][$p->kelas]['rata_mk'];
+                $sum += $mk[$p->kelas]['rata_mk'];
             }
 
             $avgDosen = $sum / $count == 0 ? 0 : number_format($sum / $count, 2);
@@ -122,7 +122,7 @@ class LaporanAngketController extends Controller
     {
         $smt = $this->semester;
         $plot = PlottingMonev::where('semester', $smt)->prodi()->get();
-        $angket = AngketTrans::where('smt', $smt)->whereIn('prodi', $plot->pluck('prodi')->toArray())->where('kelas', null)->get();
+        $angket = AngketTrans::where('smt', $smt)->whereIn('prodi', $plot->pluck('prodi')->toArray())->get();
 
         return [
             'angket' => $angket,
