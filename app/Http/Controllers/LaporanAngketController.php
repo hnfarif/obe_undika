@@ -56,14 +56,14 @@ class LaporanAngketController extends Controller
             $rata_mk = $ratamk->where('nik', $p->nik_pengajar)->where('kode_mk', $p->klkl_id)->where('prodi', $p->prodi)->avg('nilai');
 
             $data[$p->nik_pengajar]['nama'] = $p->karyawan->nama;
-            $data[$p->nik_pengajar]['matakuliah'][`$p->klkl_id`][$p->kelas]['nama'] = $p->matakuliah->nama;
-            $data[$p->nik_pengajar]['matakuliah'][`$p->klkl_id`][$p->kelas]['prodi'] = $p->prodi;
-            $data[$p->nik_pengajar]['matakuliah'][`$p->klkl_id`][$p->kelas]['rata_mk'] = number_format($rata_mk, 2);
+            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['nama'] = $p->matakuliah->nama;
+            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['prodi'] = $p->prodi;
+            $data[$p->nik_pengajar]['matakuliah'][$p->klkl_id][$p->kelas]['rata_mk'] = number_format($rata_mk, 2);
 
             $count = count($data[$p->nik_pengajar]['matakuliah']);
             $sum = 0;
 
-            dd($data);
+            // dd($data);
             foreach ($data[$p->nik_pengajar]['matakuliah'] as $mk) {
                 $sum += $mk[$p->klkl_id][$p->kelas]['rata_mk'];
             }
@@ -122,7 +122,7 @@ class LaporanAngketController extends Controller
     {
         $smt = $this->semester;
         $plot = PlottingMonev::where('semester', $smt)->prodi()->get();
-        $angket = AngketTrans::where('smt', $smt)->whereIn('prodi', $plot->pluck('prodi')->toArray())->get();
+        $angket = AngketTrans::where('smt', $smt)->whereIn('prodi', $plot->pluck('prodi')->toArray())->where('kelas', null)->get();
 
         return [
             'angket' => $angket,
