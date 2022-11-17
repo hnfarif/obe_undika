@@ -16,7 +16,7 @@
                 if ($.isEmptyObject(data.error)) {
                     $('.rangCapaiClo').html('');
                     let ctx = document.getElementById("grangclo").getContext("2d");
-                    var myChart = new Chart(ctx, {
+                    const myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
                             labels: ["Total MK tercapai",
