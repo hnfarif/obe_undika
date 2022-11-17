@@ -42,7 +42,7 @@
             }
         })
 
-        function grafikCapaiClo() {
+        window.onload = function grafikCapaiClo() {
             $.ajax({
                 url: "{{ route('penilaian.rangkumCapaiClo') }}",
                 type: 'GET',
@@ -64,7 +64,8 @@
                                 ],
                                 datasets: [{
                                     label: 'Ketercapaian CLO',
-                                    data: [data.jmlInsLulus, data.jmlInsTdkLulus],
+                                    data: [data.jmlInsLulus, data
+                                        .jmlInsTdkLulus],
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.2)',
                                         'rgba(54, 162, 235, 0.2)',
