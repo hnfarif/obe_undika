@@ -87,7 +87,7 @@
                 <h4 class="card-title">Grafik Ketercapaian CLO</h4>
             </div>
             <div class="card-body">
-                <canvas id="grangclo" width="100px" height="700px"></canvas>
+                <canvas id="grangclo" width="700px" height="700px"></canvas>
             </div>
         </div>
     </div>
