@@ -81,13 +81,16 @@
 </div>
 
 <div class="row rangCapaiClo d-none">
-    <div class="col-12 col-lg-12 col-md-6">
-        <div class="card" onload="grafikCapaiClo();">
+    <div class="col-12 col-lg-12 col-md-6" onload="grafikCapaiClo();">
+        <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Grafik Ketercapaian CLO</h4>
             </div>
             <div class="card-body">
-                <canvas id="grangclo" width="700" height="700"></canvas>
+                <div>
+
+                    <canvas id="grangclo" width="700" height="700"></canvas>
+                </div>
             </div>
         </div>
     </div>

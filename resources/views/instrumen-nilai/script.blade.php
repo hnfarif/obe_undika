@@ -1,4 +1,4 @@
-<script src="{{ asset('assets/js/chart.js') }}"></script>
+<script src="{{ asset('assets/js/chart.js') }}" type="text/javascript"></script>
 <script>
     $("#tableJdw").DataTable();
 
@@ -56,9 +56,6 @@
                     if ($.isEmptyObject(data.error)) {
                         $('.rangCapaiClo').html('');
                         var ctx = document.getElementById('grangclo').getContext('2d');
-                        ctx.fillRect(25, 25, 100, 100)
-                        ctx.clearRect(45, 45, 60, 60)
-                        ctx.strokeRect(50, 50, 50, 50)
                         const myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
@@ -67,9 +64,7 @@
                                 ],
                                 datasets: [{
                                     label: 'Ketercapaian CLO',
-                                    data: [data.jmlInsLulus, data
-                                        .jmlInsTdkLulus
-                                    ],
+                                    data: [data.jmlInsLulus, data.jmlInsTdkLulus],
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.2)',
                                         'rgba(54, 162, 235, 0.2)',
