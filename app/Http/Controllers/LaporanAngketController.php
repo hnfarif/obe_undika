@@ -70,10 +70,11 @@ class LaporanAngketController extends Controller
             // }
 
             $avgDosen = $sum / $count == 0 ? 0 : number_format($sum / $count, 2);
-            $data[$p->nik_pengajar]['rata_dosen'] = $avgDosen;
+            $data[$p->nik_pengajar]['rata_dosen'] = $count;
 
         }
 
+        dd($data);
         foreach ($prodi as $value) {
             $rataProdi[$value->id]['nama'] = $value->nama;
             $rataProdi[$value->id]['rata_prodi'] = number_format($angket->where('prodi', $value->id)->avg('nilai'), 2);
