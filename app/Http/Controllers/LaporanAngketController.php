@@ -74,6 +74,7 @@ class LaporanAngketController extends Controller
 
         }
 
+        dd($data);
 
         foreach ($prodi as $value) {
             $rataProdi[$value->id]['nama'] = $value->nama;
