@@ -63,7 +63,7 @@ class LaporanAngketController extends Controller
             $count = count($data[$p->nik_pengajar]['matakuliah']);
             $sum = 0;
 
-            dd($data);
+            // dd($data);
             foreach ($data[$p->nik_pengajar]['matakuliah'] as $mk) {
                 $sum += $mk[`'$p->klkl_id'`][`'$p->kelas'`]['rata_mk'];
             }
