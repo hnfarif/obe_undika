@@ -67,7 +67,7 @@ class LaporanAngketController extends Controller
             // foreach ($data[$p->nik_pengajar]['matakuliah'] as $mk) {
             //     $sum += $mk[$p->kelas]['rata_mk'];
             // }
-
+            dd($sum);
             $avgDosen = $sum / $count == 0 ? 0 : number_format($sum / $count, 2);
             $data[$p->nik_pengajar]['rata_dosen'] = $avgDosen;
 
