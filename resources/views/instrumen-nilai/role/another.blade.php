@@ -8,11 +8,11 @@
     <div class="ml-auto">
         <div class="selectgroup w-100">
             <label class="selectgroup-item">
-                <input type="radio" name="optrangclo" value="dafIns" class="selectgroup-input">
+                <input type="radio" name="optrangclo" value="dafIns" class="selectgroup-input" checked="">
                 <span class="selectgroup-button">Daftar Instrumen</span>
             </label>
             <label class="selectgroup-item">
-                <input type="radio" name="optrangclo" value="rangCapaiClo" class="selectgroup-input" checked="">
+                <input type="radio" name="optrangclo" value="rangCapaiClo" class="selectgroup-input">
                 <span class="selectgroup-button">Grafik Ketercapaian CLO</span>
             </label>
         </div>
