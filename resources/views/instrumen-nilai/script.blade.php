@@ -59,7 +59,7 @@
                 success: function (data) {
                     if ($.isEmptyObject(data.error)) {
                         $('.rangCapaiClo').html('');
-                        const ctx = document.getElementById('grangclo').getContext('2d');
+                        const ctx = document.getElementById('grangclo');
                         const myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
