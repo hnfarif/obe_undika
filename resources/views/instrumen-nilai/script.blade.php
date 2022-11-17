@@ -2,7 +2,7 @@
 <script>
     $("#tableJdw").DataTable();
 
-    function createGrafik() {
+    window.onload = function () {
         $.ajax({
             url: "{{ route('penilaian.rangkumCapaiClo') }}",
             type: 'GET',
@@ -15,7 +15,7 @@
             success: function (data) {
                 if ($.isEmptyObject(data.error)) {
                     $('.rangCapaiClo').html('');
-                    const ctx = document.getElementById("grangclo").getContext("2d");
+                    const ctx = $("#grangclo").getContext("2d");
                     const myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
