@@ -400,24 +400,47 @@ class AgendaController extends Controller
      */
     public function update(Request $request)
     {
-        dd($request->all());
-        $validatedData =  Validator::make($request->all(), [
-            'clo_id' => 'required',
-            'kode_llo' => 'required',
-            'des_llo' => 'required',
-            'capai_llo' => 'required',
-            'btk_penilaian' => 'required_with:bbt_penilaian,des_penilaian',
-            'bbt_penilaian' => 'required_with:btk_penilaian',
-            'des_penilaian' => 'required_with:btk_penilaian',
-            'tm' => 'required_without_all:sl,asl,asm,prak',
-            'sl' => 'required_without_all:tm,asl,asm,prak',
-            'asl' => 'required_without_all:tm,sl,asm,prak',
-            'asm' => 'required_without_all:tm,sl,asl,prak',
-            'responsi' => 'nullable',
-            'belajarMandiri' => 'nullable',
-            'prak' => 'required_if:isPrak,"1"',
+        $cekDa = DetailAgenda::where('id', $request->idDtl)->first();
+        $cekPekan = AgendaBelajar::where('id', $cekDa->agd_id)->first()->pekan;
 
-        ]);
+        if($cekPekan == '8' || $cekPekan == '16'){
+            $validatedData =  Validator::make($request->all(), [
+                'clo_id' => 'required',
+                'kode_llo' => 'nullable',
+                'des_llo' => 'nullable',
+                'capai_llo' => 'nullable',
+                'btk_penilaian' => 'required_with:bbt_penilaian,des_penilaian',
+                'bbt_penilaian' => 'required_with:btk_penilaian',
+                'des_penilaian' => 'required_with:btk_penilaian',
+                'tm' => 'required_without_all:sl,asl,asm,prak',
+                'sl' => 'required_without_all:tm,asl,asm,prak',
+                'asl' => 'required_without_all:tm,sl,asm,prak',
+                'asm' => 'required_without_all:tm,sl,asl,prak',
+                'responsi' => 'nullable',
+                'belajarMandiri' => 'nullable',
+                'prak' => 'required_if:isPrak,"1"',
+
+            ]);
+        }else{
+            $validatedData =  Validator::make($request->all(), [
+                'clo_id' => 'required',
+                'kode_llo' => 'required',
+                'des_llo' => 'required',
+                'capai_llo' => 'required',
+                'btk_penilaian' => 'required_with:bbt_penilaian,des_penilaian',
+                'bbt_penilaian' => 'required_with:btk_penilaian',
+                'des_penilaian' => 'required_with:btk_penilaian',
+                'tm' => 'required_without_all:sl,asl,asm,prak',
+                'sl' => 'required_without_all:tm,asl,asm,prak',
+                'asl' => 'required_without_all:tm,sl,asm,prak',
+                'asm' => 'required_without_all:tm,sl,asl,prak',
+                'responsi' => 'nullable',
+                'belajarMandiri' => 'nullable',
+                'prak' => 'required_if:isPrak,"1"',
+
+            ]);
+        }
+
 
         if ($validatedData->passes()) {
 
