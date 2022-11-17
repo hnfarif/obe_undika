@@ -74,7 +74,7 @@ class LaporanAngketController extends Controller
 
         }
 
-        dd($data);
+
         foreach ($prodi as $value) {
             $rataProdi[$value->id]['nama'] = $value->nama;
             $rataProdi[$value->id]['rata_prodi'] = number_format($angket->where('prodi', $value->id)->avg('nilai'), 2);
