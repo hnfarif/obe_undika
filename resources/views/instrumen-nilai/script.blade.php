@@ -1,3 +1,4 @@
+<script src="{{ asset('assets/js/chart.js') }}"></script>
 <script>
     $("#tableJdw").DataTable();
     $(document).ready(function () {
