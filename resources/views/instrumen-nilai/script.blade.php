@@ -2,7 +2,7 @@
 <script>
     $("#tableJdw").DataTable();
 
-    $(document).ready(function () {
+    $(function () {
 
         $(".btnUbahNilai").on('click', function () {
 
@@ -42,7 +42,7 @@
             }
         })
 
-        window.onload = function grafikCapaiClo() {
+        window.onload = function () {
             $.ajax({
                 url: "{{ route('penilaian.rangkumCapaiClo') }}",
                 type: 'GET',
@@ -65,7 +65,8 @@
                                 datasets: [{
                                     label: 'Ketercapaian CLO',
                                     data: [data.jmlInsLulus, data
-                                        .jmlInsTdkLulus],
+                                        .jmlInsTdkLulus
+                                    ],
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.2)',
                                         'rgba(54, 162, 235, 0.2)',
@@ -101,6 +102,6 @@
 
 
 
-    })
+    });
 
 </script>
