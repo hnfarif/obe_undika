@@ -2,6 +2,17 @@
 <script>
     $("#tableJdw").DataTable();
 
+    $('input[type=radio][name=optrangclo]').change(function () {
+        if ($(this).val() == 'dafIns') {
+            $('.dafIns').removeClass('d-none');
+            $('.rangCapaiClo').addClass('d-none');
+        } else if ($(this).val() == 'rangCapaiClo') {
+            $('.dafIns').addClass('d-none');
+            $('.rangCapaiClo').removeClass('d-none');
+
+        }
+    })
+
     window.onload = function () {
         $.ajax({
             url: "{{ route('penilaian.rangkumCapaiClo') }}",
@@ -59,17 +70,6 @@
 
         })
     }
-
-    $('input[type=radio][name=optrangclo]').change(function () {
-        if ($(this).val() == 'dafIns') {
-            $('.dafIns').removeClass('d-none');
-            $('.rangCapaiClo').addClass('d-none');
-        } else if ($(this).val() == 'rangCapaiClo') {
-            $('.dafIns').addClass('d-none');
-            $('.rangCapaiClo').removeClass('d-none');
-
-        }
-    })
 
     $(document).ready(function () {
 
