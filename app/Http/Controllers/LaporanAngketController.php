@@ -70,7 +70,7 @@ class LaporanAngketController extends Controller
             // }
 
             $avgDosen = number_format($sum / $count, 2);
-            $data[$p->nik_pengajar]['rata_dosen'] = $avgDosen;
+            $data[$p->nik_pengajar]['rata_dosen'] = $sum;
 
         }
 
