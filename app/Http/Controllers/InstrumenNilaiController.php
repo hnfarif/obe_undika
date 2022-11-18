@@ -540,7 +540,7 @@ class InstrumenNilaiController extends Controller
             $arrKlkl[] = $i;
         }
 
-        $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('sts_kul', '1')->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
+        $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
         $instru = InstrumenNilai::all();
 
 
@@ -558,7 +558,7 @@ class InstrumenNilaiController extends Controller
             $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
             $countJdw = $jdw->count();
             $jmlInsLulus = 0;
-            $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
+
             foreach ($jdw as $j) {
 
                 $cekIns = InstrumenNilai::where('klkl_id', $j->klkl_id)->where('semester', $this->semester)->whereNik($j->kary_nik)->whereKelas($j->kelas)->first();
@@ -604,8 +604,8 @@ class InstrumenNilaiController extends Controller
 
                 }
             }
-
-            return response()->json(['success' => 'Data Berhasil Disimpan', 'jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus]);
+            $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
+            return response()->json(['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus]);
         }
     }
 }
