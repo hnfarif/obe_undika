@@ -581,9 +581,10 @@ class InstrumenNilaiController extends Controller
                             $sumBobot = $dtlAgd->sum('bobot');
 
                             foreach($dtlAgd as $da){
-                                $nilai = $dtlIns->where('mhs_nim', $k->mhs_nim)->where('dtl_agd_id', $da->id)->first()->nilai;
+                                $nilai = $dtlIns->where('mhs_nim', $k->mhs_nim)->where('dtl_agd_id', $da->id)->first();
 
                                 if ($nilai){
+                                    $nilai = $nilai->nilai;
                                     $bobot = $da->bobot/100;
 
                                     $nilaiClo =+ $nilai * $bobot;
