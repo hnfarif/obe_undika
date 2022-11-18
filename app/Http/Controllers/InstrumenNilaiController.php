@@ -574,6 +574,7 @@ class InstrumenNilaiController extends Controller
                     $countClo = $clo->count();
                     $totalMkLulus = $countKrs * $countClo;
                     $cnCloMhs = 0;
+                    dd($totalMkLulus);
                     foreach($clo as $c){
                         foreach($krs as $k){
                             $dtlAgd = DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', '<>' , null)->get();
