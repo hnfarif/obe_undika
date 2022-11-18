@@ -21,7 +21,6 @@
     @include('layouts.footer')
 </div>
 
-@include('instrumen-nilai.modal')
 @endsection
 
 @push('script')

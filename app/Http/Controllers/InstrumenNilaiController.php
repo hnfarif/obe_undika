@@ -50,48 +50,14 @@ class InstrumenNilaiController extends Controller
     {
         $nik_kary = auth()->user()->nik;
         $role = auth()->user()->role;
-
-        $instru = InstrumenNilai::all();
-
-        //Data Filter
-        $fak = Fakultas::all();
-        $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $smt = $this->semester;
 
         if ($role == 'dosen') {
-            $kary = KaryawanDosen::where('nik',$nik_kary)->first();
-            $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
-            ->where('semester', $smt)
-            ->pluck('kurlkl_id')->toArray();
-
-            $arrKlkl = [];
-            foreach ($rps as $i) {
-                $arrKlkl[] = $i;
-            }
-
-            $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->fakultas()->prodi()->dosen()->name()->paginate(6)->withQueryString();
-        }else if ($role == 'dekan'){
-            $fakDekan = $fak->where('mngr_id', $nik_kary)->first();
-            $prodi = $prodi->where('id_fakultas', $fakDekan->id);
-            $arrProdi = $prodi->pluck('id')->toArray();
-            $kary = KaryawanDosen::whereIn('fakul_id', $arrProdi)->where('kary_type', 'like', '%D%')->prodi()->get();
-            $arrKary = $kary->pluck('nik')->toArray();
-            $jdwkul = JadwalKuliah::whereIn('prodi', $arrProdi)->where('sts_kul', '1')->get();
-
-        }else if ($role == 'kaprodi'){
-            $idProdi = $prodi->where('mngr_id', $nik_kary)->first();
-            $kary = KaryawanDosen::where('fakul_id', $idProdi->id)->where('kary_type', 'like', '%D%')->get();
-            $arrKary = $kary->pluck('nik')->toArray();
-
-            $jdwkul = JadwalKuliah::where('prodi', $idProdi->id)->where('sts_kul', '1')->get();
-        }else{
-
-            $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->fakultas()->prodi()->get();
-            $jdwkul = JadwalKuliah::all();
-
+            $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
+            $instru = InstrumenNilai::whereNik($nik_kary)->get();
         }
 
-        return view('instrumen-nilai.index', compact('jdwkul', 'instru', 'fak', 'prodi', 'kary', 'smt'));
+        return view('instrumen-nilai.index', compact('jdwkul', 'instru', 'smt'));
     }
 
     /**

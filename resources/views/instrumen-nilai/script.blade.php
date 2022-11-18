@@ -32,12 +32,12 @@
         })
 
         $('input[type=radio][name=optrangclo]').change(function () {
-            if ($(this).val() == 'dafIns') {
-                $('.dafIns').removeClass('d-none');
-                $('.rangCapaiClo').addClass('d-none');
-            } else if ($(this).val() == 'rangCapaiClo') {
-                $('.dafIns').addClass('d-none');
-                $('.rangCapaiClo').removeClass('d-none');
+            if ($(this).val() == 'insTdkTercapai') {
+                $('.insTdkTercapai').removeClass('d-none');
+                $('.insTercapai').addClass('d-none');
+            } else if ($(this).val() == 'insTercapai') {
+                $('.insTercapai').removeClass('d-none');
+                $('.insTdkTercapai').addClass('d-none');
 
             }
         })

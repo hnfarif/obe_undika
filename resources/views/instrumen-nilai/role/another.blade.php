@@ -1,9 +1,3 @@
-<div class="my-3 d-flex">
-    <button class="btn btn-light ml-auto" data-toggle="modal" data-target="#filInsClo">
-        <i class="fas fa-filter"></i> Filter
-    </button>
-</div>
-
 <div class="row">
     <div class="loadGrafik">
 
