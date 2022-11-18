@@ -83,7 +83,7 @@ class InstrumenNilaiController extends Controller
             $kary = KaryawanDosen::where('fakul_id', $idProdi->id)->where('kary_type', 'like', '%D%')->get();
             $arrKary = $kary->pluck('nik')->toArray();
             $jdwkul = JadwalKuliah::where('prodi', $idProdi->id)->where('sts_kul', '1')->get();
-
+            dd($jdwkul->count());
         }else{
 
             $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->fakultas()->prodi()->get();
@@ -557,7 +557,6 @@ class InstrumenNilaiController extends Controller
             $prodi = Prodi::where('mngr_id', $user->nik)->first();
             $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
             $countJdw = $jdw->count();
-            dd($countJdw);
             $jmlInsLulus = 0;
             $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
             foreach ($jdw as $j) {
