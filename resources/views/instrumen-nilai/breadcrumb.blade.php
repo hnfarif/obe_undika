@@ -2,7 +2,7 @@
     <ol class="breadcrumb">
         <?php $link = "" ?>
         @for($i = 1; $i <= count(Request::segments()); $i++) @if($i < count(Request::segments()) & $i> 0)
-            <?php $link .= "/public/" . Request::segment($i); ?>
+            <?php $link .= {{ URL::to('/') }} . Request::segment($i); ?>
 
             <li class="breadcrumb-item">
                 <a href="<?= $link ?>">{{ucwords(str_replace('-',' ',Request::segment($i)))}}</a>
