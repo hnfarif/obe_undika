@@ -60,30 +60,18 @@
                         data: {
                             labels: ["Total MK tidak tercapai", "Total MK tercapai"],
                             datasets: [{
-                                    label: ['Total Mata Kuliah tidak tercapai'],
-                                    data: [data.jmlInsTdkLulus],
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-
-                                    ],
-                                    borderWidth: 1
-                                },
-                                {
-                                    label: 'Total Mata Kuliah tercapai',
-                                    data: [90],
-                                    backgroundColor: [
-                                        'rgba(54, 162, 235, 0.2)',
-                                    ],
-                                    borderColor: [
-                                        'rgba(54, 162, 235, 1)',
-                                    ],
-                                    borderWidth: 1
-                                }
-                            ]
+                                label: 'Total Mata Kuliah',
+                                data: [data.jmlInsTdkLulus, data.jmlInsLulus],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                ],
+                                borderWidth: 1
+                            }]
                         },
                         options: {
                             scales: {
