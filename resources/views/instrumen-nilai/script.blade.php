@@ -44,13 +44,13 @@
                     type: 'GET',
                     dataType: 'json',
                     beforeSend: function () {
-                        $('.rangCapaiClo').html(
+                        $('.loadGrafik').html(
                             '<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> Harap tunggu sebentar ....</div>'
                         );
                     },
                     success: function (data) {
                         if ($.isEmptyObject(data.error)) {
-                            $('.rangCapaiClo').html('');
+                            $('.loadGrafik').html('');
                             const myChart = new Chart(ctx, {
                                 type: 'bar',
                                 data: {

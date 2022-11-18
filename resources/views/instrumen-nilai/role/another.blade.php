@@ -81,6 +81,9 @@
 </div>
 
 <div class="row rangCapaiClo d-none">
+    <div class="loadGrafik">
+
+    </div>
     <div class="col-12 col-lg-12 col-md-6">
         <div class="card">
             <div class="card-header">
