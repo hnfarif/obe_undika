@@ -540,7 +540,7 @@ class InstrumenNilaiController extends Controller
             $arrKlkl[] = $i;
         }
 
-        $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
+        $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('prodi', request('prodi'))->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
         $instru = InstrumenNilai::all();
 
 
