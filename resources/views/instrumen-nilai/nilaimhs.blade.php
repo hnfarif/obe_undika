@@ -227,7 +227,7 @@
 
                                             @endif
                                             ">
-                                                {{ $pen->penilaian->btk_penilaian}}
+                                                {{ $pen->penilaian->btk_penilaian.'-'.$pen->agendaBelajar->pekan}}
                                             </th>
                                             @endforeach
                                             @endforeach
