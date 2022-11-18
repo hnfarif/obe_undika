@@ -582,60 +582,60 @@ class InstrumenNilaiController extends Controller
     public function getCapaiClo($jdw)
     {
         $countJdw = $jdw->count();
-            $jmlInsLulus = 0;
+        $jmlInsLulus = 0;
 
-            foreach ($jdw as $j) {
+        foreach ($jdw as $j) {
 
-                $cekIns = InstrumenNilai::where('klkl_id', $j->klkl_id)->where('semester', $this->semester)->whereNik($j->kary_nik)->whereKelas($j->kelas)->first();
-                if ($cekIns) {
-                    $krs = Krs::where('jkul_kelas', $j->kelas)->where('jkul_klkl_id', $j->klkl_id)->get();
+            $cekIns = InstrumenNilai::where('klkl_id', $j->klkl_id)->where('semester', $this->semester)->whereNik($j->kary_nik)->whereKelas($j->kelas)->first();
+            if ($cekIns) {
+                $krs = Krs::where('jkul_kelas', $j->kelas)->where('jkul_klkl_id', $j->klkl_id)->get();
 
-                    $countKrs = $krs->count();
+                $countKrs = $krs->count();
 
-                    $dtlIns = DetailInstrumenNilai::where('ins_nilai_id', $cekIns->id)->orderBy('mhs_nim', 'asc')->get();
+                $dtlIns = DetailInstrumenNilai::where('ins_nilai_id', $cekIns->id)->orderBy('mhs_nim', 'asc')->get();
 
-                    $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
-                    $countClo = $clo->count();
-                    $totalMkLulus = $countKrs * $countClo;
-                    $cnCloMhs = 0;
+                $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
+                $countClo = $clo->count();
+                $totalMkLulus = $countKrs * $countClo;
+                $cnCloMhs = 0;
 
-                    foreach($clo as $c){
-                        foreach($krs as $k){
-                            $dtlAgd = DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', '<>' , null)->get();
-                            $sumBobot = $dtlAgd->sum('bobot');
+                foreach($clo as $c){
+                    foreach($krs as $k){
+                        $dtlAgd = DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', '<>' , null)->get();
+                        $sumBobot = $dtlAgd->sum('bobot');
 
-                            foreach($dtlAgd as $da){
-                                $nilai = $dtlIns->where('mhs_nim', $k->mhs_nim)->where('dtl_agd_id', $da->id)->first();
+                        foreach($dtlAgd as $da){
+                            $nilai = $dtlIns->where('mhs_nim', $k->mhs_nim)->where('dtl_agd_id', $da->id)->first();
 
-                                if ($nilai){
-                                    $nilai = $nilai->nilai;
-                                    $bobot = $da->bobot/100;
+                            if ($nilai){
+                                $nilai = $nilai->nilai;
+                                $bobot = $da->bobot/100;
 
-                                    $nilaiClo =+ $nilai * $bobot;
+                                $nilaiClo =+ $nilai * $bobot;
 
-                                    $nilaiKonv = $sumBobot == 0 ? 0 : $nilaiClo / $sumBobot;
+                                $nilaiKonv = $sumBobot == 0 ? 0 : $nilaiClo / $sumBobot;
 
-                                    $nilaiMinClo = $c->nilai_min;
+                                $nilaiMinClo = $c->nilai_min;
 
-                                    if($nilaiKonv >= $nilaiMinClo){
+                                if($nilaiKonv >= $nilaiMinClo){
                                         $cnCloMhs++;
-                                    }
-                                }else{
-                                    continue;
                                 }
-
-
+                            }else{
+                                continue;
                             }
+
+
                         }
                     }
-
-                    if($cnCloMhs == $totalMkLulus){
-                        $jmlInsLulus++;
-                    }
-
                 }
+
+                if($cnCloMhs == $totalMkLulus){
+                    $jmlInsLulus++;
+                }
+
             }
-            $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
-            return response()->json(['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus]);
+        }
+        $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
+        return ['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus];
     }
 }
