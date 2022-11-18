@@ -557,7 +557,31 @@ class InstrumenNilaiController extends Controller
 
             $prodi = Prodi::where('mngr_id', $user->nik)->first();
             $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
-            $countJdw = $jdw->count();
+
+            $rang = $this->getCapaiClo($jdw);
+
+            return response()->json($rang);
+
+        }else if($user->role == 'dekan'){
+            $chkDekan = Fakultas::where('mngr_id', $user->nik)->first();
+            $prodi = Prodi::where('id_fakultas', $chkDekan->id)->get();
+            $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->get();
+
+            $rang = $this->getCapaiClo($jdw);
+
+            return response()->json($rang);
+        }else{
+            $jdw = JadwalKuliah::where('sts_kul', '1')->get();
+
+            $rang = $this->getCapaiClo($jdw);
+
+            return response()->json($rang);
+        }
+    }
+
+    public function getCapaiClo($jdw)
+    {
+        $countJdw = $jdw->count();
             $jmlInsLulus = 0;
 
             foreach ($jdw as $j) {
@@ -613,6 +637,5 @@ class InstrumenNilaiController extends Controller
             }
             $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
             return response()->json(['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus]);
-        }
     }
 }
