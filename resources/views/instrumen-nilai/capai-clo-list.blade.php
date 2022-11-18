@@ -8,6 +8,7 @@
         <section class="section">
 
             <div class="section-body">
+                @include('instrumen-nilai.breadcrumb')
                 <div class="row insTdkTercapai">
 
                     <div class="col-12">
