@@ -74,7 +74,7 @@
                                 },
                                 {
                                     label: 'Total Mata Kuliah tercapai',
-                                    data: [data.jmlInsLulus],
+                                    data: [90],
                                     backgroundColor: [
                                         'rgba(54, 162, 235, 0.2)',
                                     ],
