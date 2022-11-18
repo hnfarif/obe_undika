@@ -217,7 +217,7 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            @foreach ($dtlAgd->unique('clo_id')->sortBy('agd_id') as $cl)
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null)->sortBy('agd_id') as
                                             $pen)
 
@@ -233,7 +233,7 @@
                                             @endforeach
                                         </tr>
                                         <tr>
-                                            @foreach ($dtlAgd->unique('clo_id')->sortBy('agd_id') as $cl)
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null)->sortBy('agd_id') as
                                             $pen)
 
