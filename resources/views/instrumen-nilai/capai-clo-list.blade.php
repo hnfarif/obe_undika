@@ -144,5 +144,5 @@
 </div>
 @endsection
 @push('script')
-@include('instrumen-nilai.script')
+@include('instrumen-nilai.script-list-capai')
 @endpush
