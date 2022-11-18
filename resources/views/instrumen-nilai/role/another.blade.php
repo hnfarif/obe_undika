@@ -54,7 +54,7 @@
                                     {{ $k->getNameProdi($k->prodi) }}
                                 </td>
                                 <td>
-                                    {{ $jdwkul->where('kary_nik', $k->nik)->count() }}
+                                    {{ $jdwkul->where('kary_nik', $k->kary_nik)->count() }}
                                 </td>
                                 <td>
 
