@@ -49,7 +49,7 @@
             dataType: 'json',
             beforeSend: function () {
                 $('.loadGrafik').html(
-                    '<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> Harap tunggu sebentar ....</div>'
+                    '<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> Harap tunggu sebentar, sedang memuat grafik ...</div>'
                 );
             },
             success: function (data) {

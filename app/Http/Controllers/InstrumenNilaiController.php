@@ -655,22 +655,32 @@ class InstrumenNilaiController extends Controller
 
             $mkTdkLulus = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->whereNotIn('klkl_id', collect($mkLulus)->pluck('klkl_id')->toArray())->get();
 
-            return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus'));
+            $smt = $this->semester;
+
+            return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
 
         }else if($user->role == 'dekan'){
             $chkDekan = Fakultas::where('mngr_id', $user->nik)->first();
             $prodi = Prodi::where('id_fakultas', $chkDekan->id)->get();
             $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->get();
 
-            $rang = $this->getCapaiClo($jdw);
+            $mkLulus = $this->getCapaiClo($jdw)['mkLulus'];
 
-            return response()->json($rang);
+            $mkTdkLulus = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->whereNotIn('klkl_id', collect($mkLulus)->pluck('klkl_id')->toArray())->get();
+
+            $smt = $this->semester;
+
+            return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
         }else{
             $jdw = JadwalKuliah::where('sts_kul', '1')->get();
 
-            $rang = $this->getCapaiClo($jdw);
+            $mkLulus = $this->getCapaiClo($jdw)['mkLulus'];
 
-            return response()->json($rang);
+            $mkTdkLulus = JadwalKuliah::where('sts_kul', '1')->whereNotIn('klkl_id', collect($mkLulus)->pluck('klkl_id')->toArray())->get();
+
+            $smt = $this->semester;
+
+            return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
         }
     }
 }

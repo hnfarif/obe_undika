@@ -9,6 +9,23 @@
 
             <div class="section-body">
                 @include('instrumen-nilai.breadcrumb')
+
+                <div class="d-flex align-items-center">
+                    <div class="ml-auto">
+                        <div class="selectgroup w-100">
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optrangclo" value="dafIns" class="selectgroup-input"
+                                    checked="">
+                                <span class="selectgroup-button">Mata Kuliah Tidak Tercapai</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="optrangclo" value="rangCapaiClo" class="selectgroup-input">
+                                <span class="selectgroup-button">Mata Kuliah Tercapai</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row insTdkTercapai">
 
                     <div class="col-12">

@@ -49,7 +49,7 @@
                         @if (auth()->user()->role == 'dosen')
                         Penilaian CLO
                         @else
-                        Ketercapaian CLO Mata Kuliah
+                        Capaian CLO Mata Kuliah
                         @endif
                     </span></a>
             </li>
