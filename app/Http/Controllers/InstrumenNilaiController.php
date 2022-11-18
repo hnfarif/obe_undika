@@ -618,9 +618,9 @@ class InstrumenNilaiController extends Controller
             $prodi = Prodi::where('mngr_id', $user->nik)->first();
             $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
 
-            $mkLulus = $this->getCapaiClo($jdw)['mkLulus'];
+            $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
 
-            $mkTdkLulus = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->whereNotIn('klkl_id', collect($mkLulus)->pluck('klkl_id')->toArray())->get();
+            $mkTdkLulus = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->whereNotIn('klkl_id', $mkLulus->pluck('klkl_id')->toArray())->get();
 
             $smt = $this->semester;
 
@@ -631,9 +631,9 @@ class InstrumenNilaiController extends Controller
             $prodi = Prodi::where('id_fakultas', $chkDekan->id)->get();
             $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->get();
 
-            $mkLulus = $this->getCapaiClo($jdw)['mkLulus'];
+            $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
 
-            $mkTdkLulus = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->whereNotIn('klkl_id', collect($mkLulus)->pluck('klkl_id')->toArray())->get();
+            $mkTdkLulus = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->whereNotIn('klkl_id', $mkLulus->pluck('klkl_id')->toArray())->get();
 
             $smt = $this->semester;
 
@@ -641,9 +641,10 @@ class InstrumenNilaiController extends Controller
         }else{
             $jdw = JadwalKuliah::where('sts_kul', '1')->get();
 
-            $mkLulus = $this->getCapaiClo($jdw)['mkLulus'];
+            $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
 
-            $mkTdkLulus = JadwalKuliah::where('sts_kul', '1')->whereNotIn('klkl_id', collect($mkLulus)->pluck('klkl_id')->toArray())->get();
+            $mkTdkLulus = JadwalKuliah::where('sts_kul', '1')
+            ->whereNotIn('klkl_id',$mkLulus->pluck('klkl_id')->toArray())->get();
 
             $smt = $this->semester;
 
