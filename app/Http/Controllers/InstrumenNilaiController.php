@@ -532,19 +532,17 @@ class InstrumenNilaiController extends Controller
         $user = auth()->user();
         $kary = KaryawanDosen::where('nik', request('nik'))->first();
         $smt = $this->semester;
-        $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
-        ->where('semester', $smt)
-        ->pluck('kurlkl_id')->toArray();
-
-        $arrKlkl = [];
-        foreach ($rps as $i) {
-            $arrKlkl[] = $i;
-        }
         $instru = InstrumenNilai::all();
 
         if($user->role == 'kaprodi'){
             $prodi = Prodi::where('mngr_id', $user->nik)->first();
             $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('prodi', $prodi->id)->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
+        }else if ($user->role == 'dekan'){
+            $chkDekan = Fakultas::where('mngr_id', $user->nik)->first();
+            $prodi = Prodi::where('id_fakultas', $chkDekan->id)->get();
+            $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
+        }else{
+            $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
         }
 
         return view('instrumen-nilai.detail', compact('jdwkul', 'kary', 'instru', 'smt'));
