@@ -31,7 +31,7 @@
                         <div class="alert-title">Minggu Ke {{ $week }}</div>
                         Harap mengisi nilai mahasiswa pada
                         @foreach ($dtlAgd->where('agd_id',
-                        $getPekan->id)->where('peilaian_id', '<>', null)->unique('clo_id') as $da)
+                        $getPekan->id)->where('penilaian_id', '<>', null)->unique('clo_id') as $da)
                         {{ $da->clo->kode_clo }}
                         @endforeach pada penilaian
                         @foreach ($dtlAgd->where('agd_id',
