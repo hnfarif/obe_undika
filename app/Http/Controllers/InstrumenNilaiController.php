@@ -557,6 +557,7 @@ class InstrumenNilaiController extends Controller
             $prodi = Prodi::where('mngr_id', $user->nik)->first();
             $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
             $countJdw = $jdw->count();
+            dd($countJdw);
             $jmlInsLulus = 0;
             $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
             foreach ($jdw as $j) {
