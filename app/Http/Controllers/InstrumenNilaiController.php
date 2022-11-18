@@ -583,16 +583,20 @@ class InstrumenNilaiController extends Controller
                             foreach($dtlAgd as $da){
                                 $nilai = $dtlIns->where('mhs_nim', $k->mhs_nim)->where('dtl_agd_id', $da->id)->first()->nilai;
 
-                                $bobot = $da->bobot/100;
+                                if ($nilai){
+                                    $bobot = $da->bobot/100;
 
-                                $nilaiClo =+ $nilai * $bobot;
+                                    $nilaiClo =+ $nilai * $bobot;
 
-                                $nilaiKonv = $sumBobot == 0 ? 0 : $nilaiClo / $sumBobot;
+                                    $nilaiKonv = $sumBobot == 0 ? 0 : $nilaiClo / $sumBobot;
 
-                                $nilaiMinClo = $c->nilai_min;
+                                    $nilaiMinClo = $c->nilai_min;
 
-                                if($nilaiKonv >= $nilaiMinClo){
-                                    $cnCloMhs++;
+                                    if($nilaiKonv >= $nilaiMinClo){
+                                        $cnCloMhs++;
+                                    }
+                                }else{
+                                    continue;
                                 }
 
 
