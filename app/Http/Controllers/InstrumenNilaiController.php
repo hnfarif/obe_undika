@@ -543,12 +543,9 @@ class InstrumenNilaiController extends Controller
         $instru = InstrumenNilai::all();
 
         if($user->role == 'kaprodi'){
-
-            $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('prodi', request('prodi'))->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
+            $prodi = Prodi::where('mngr_id', $user->nik)->first();
+            $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('prodi', $prodi->id)->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
         }
-
-
-
 
         return view('instrumen-nilai.detail', compact('jdwkul', 'kary', 'instru', 'smt'));
 
