@@ -96,7 +96,7 @@
                                                 <th>NIK</th>
                                                 <th>Nama Dosen</th>
                                                 <th>Prodi</th>
-                                                <th>Jumlah MK tidak tercapai</th>
+                                                <th>Jumlah MK tercapai</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
