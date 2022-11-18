@@ -555,7 +555,7 @@ class InstrumenNilaiController extends Controller
         if ($user->role == 'kaprodi') {
 
             $prodi = Prodi::where('mngr_id', $user->nik)->first();
-            $jdw = JadwalKuliah::where('prodi', $prodi->id)->get();
+            $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
             $countJdw = $jdw->count();
             $jmlInsLulus = 0;
             $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
