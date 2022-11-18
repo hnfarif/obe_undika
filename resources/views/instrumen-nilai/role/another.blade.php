@@ -85,7 +85,7 @@
     <div class="col-12 col-lg-12 col-md-6">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Grafik Ketercapaian CLO</h4>
+                <h4 class="card-title">Grafik Ketercapaian CLO Mata Kuliah</h4>
             </div>
             <div class="card-body">
                 <canvas id="grangclo" width="700" height="200"></canvas>
