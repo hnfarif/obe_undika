@@ -1,5 +1,4 @@
 <div class="my-3 d-flex">
-    @include('instrumen-nilai.breadcrumb')
     <button class="btn btn-light ml-auto" data-toggle="modal" data-target="#filInsClo">
         <i class="fas fa-filter"></i> Filter
     </button>
