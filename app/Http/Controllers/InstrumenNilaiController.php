@@ -636,6 +636,7 @@ class InstrumenNilaiController extends Controller
             }
         }
         $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
+
         return ['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus];
     }
 }
