@@ -58,13 +58,12 @@
                     const myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ["Total MK tercapai",
-                                "Total MK belum tercapai"
-                            ],
+                            labels: ["Total MK tidak tercapai", "Total MK tercapai"],
                             datasets: [{
-                                data: [data.jmlInsLulus, data
-                                    .jmlInsTdkLulus
+                                label: ['Total Mata Kuliah tercapai',
+                                    'Total Mata Kuliah tidak tercapai'
                                 ],
+                                data: [data.jmlInsTdkLulus, data.jmlInsLulus],
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 0.2)',
                                     'rgba(54, 162, 235, 0.2)',
