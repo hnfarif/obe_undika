@@ -87,10 +87,7 @@
                 <h4 class="card-title">Grafik Ketercapaian CLO</h4>
             </div>
             <div class="card-body">
-                <div onload="grafikCapaiClo();">
-
-                    <canvas id="grangclo" width="700" height="700"></canvas>
-                </div>
+                <canvas id="grangclo" width="700" height="700"></canvas>
             </div>
         </div>
     </div>
