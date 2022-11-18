@@ -1,5 +1,6 @@
 <script>
     $("#tableJdw").DataTable();
+    $("#tableTercapai").DataTable();
     $('input[type=radio][name=optrangclo]').change(function () {
         if ($(this).val() == 'insTdkTercapai') {
             $('.insTdkTercapai').removeClass('d-none');

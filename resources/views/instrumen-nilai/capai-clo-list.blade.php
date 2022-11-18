@@ -90,7 +90,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped" id="tableJdw">
+                                    <table class="table table-striped" id="tableTercapai">
                                         <thead>
                                             <tr class="text-center">
                                                 <th>NIK</th>
