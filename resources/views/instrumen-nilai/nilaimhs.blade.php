@@ -218,7 +218,7 @@
                                         </tr>
                                         <tr>
                                             @foreach ($dtlAgd->unique('clo_id')->sortBy('agd_id') as $cl)
-                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null)->sortBy('agd_id') as
                                             $pen)
 
                                             <th class="
@@ -234,7 +234,7 @@
                                         </tr>
                                         <tr>
                                             @foreach ($dtlAgd->unique('clo_id')->sortBy('agd_id') as $cl)
-                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null)->sortBy('agd_id') as
                                             $pen)
 
                                             <th class=" @if ($pen->agd_id == $getPekan->id)
@@ -245,8 +245,8 @@
 
                                         </tr>
                                         <tr>
-                                            @foreach ($dtlAgd->unique('clo_id')->sortBy('agd_id') as $cl)
-                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null)->sortBy('agd_id') as
                                             $pen)
 
                                             <th class="bbtPen  @if ($pen->agd_id == $getPekan->id)
@@ -268,8 +268,8 @@
 
                                                 {{ $k->mahasiswa->nama }}
                                             </td>
-                                            @foreach ($dtlAgd->unique('clo_id')->sortBy('agd_id') as $cl)
-                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null)->sortBy('agd_id') as
                                             $pen)
 
                                             <td>
