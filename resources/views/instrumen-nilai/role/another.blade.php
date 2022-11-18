@@ -86,6 +86,7 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Grafik Ketercapaian CLO Mata Kuliah</h4>
+                <a href="{{  }}" class="btn btn-secondary ml-auto"> Detail </a>
             </div>
             <div class="card-body">
                 <canvas id="grangclo" width="700" height="200"></canvas>

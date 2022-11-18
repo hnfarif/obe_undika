@@ -583,7 +583,7 @@ class InstrumenNilaiController extends Controller
     {
         $countJdw = $jdw->count();
         $jmlInsLulus = 0;
-
+        $mkLulus = [];
         foreach ($jdw as $j) {
 
             $cekIns = InstrumenNilai::where('klkl_id', $j->klkl_id)->where('semester', $this->semester)->whereNik($j->kary_nik)->whereKelas($j->kelas)->first();
@@ -631,12 +631,46 @@ class InstrumenNilaiController extends Controller
 
                 if($cnCloMhs == $totalMkLulus){
                     $jmlInsLulus++;
+                    $mkLulus[] = $j;
+
                 }
 
             }
         }
         $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
 
-        return ['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus];
+        return ['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus, 'mkLulus' => $mkLulus];
+    }
+
+    public function rangkumCapaiCloList()
+    {
+        $user = auth()->user();
+
+        if ($user->role == 'kaprodi') {
+
+            $prodi = Prodi::where('mngr_id', $user->nik)->first();
+            $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
+
+            $mkLulus = $this->getCapaiClo($jdw)['mkLulus'];
+
+            $mkTdkLulus = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->whereNotIn('klkl_id', collect($mkLulus)->pluck('klkl_id')->toArray())->get();
+
+            return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus'));
+
+        }else if($user->role == 'dekan'){
+            $chkDekan = Fakultas::where('mngr_id', $user->nik)->first();
+            $prodi = Prodi::where('id_fakultas', $chkDekan->id)->get();
+            $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->get();
+
+            $rang = $this->getCapaiClo($jdw);
+
+            return response()->json($rang);
+        }else{
+            $jdw = JadwalKuliah::where('sts_kul', '1')->get();
+
+            $rang = $this->getCapaiClo($jdw);
+
+            return response()->json($rang);
+        }
     }
 }
