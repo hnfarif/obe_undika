@@ -564,7 +564,7 @@ class InstrumenNilaiController extends Controller
 
                 $cekIns = InstrumenNilai::where('klkl_id', $j->klkl_id)->where('semester', $this->semester)->whereNik($j->kary_nik)->whereKelas($j->kelas)->first();
                 if ($cekIns) {
-                    $krs = Krs::where('jkul_kelas', $j->kelas)->where('jkul_klkl_id', $j->klkl_id)->where('kary_nik', $j->kary_nik)->get();
+                    $krs = Krs::where('jkul_kelas', $j->kelas)->where('jkul_klkl_id', $j->klkl_id)->get();
 
                     $countKrs = $krs->count();
 
