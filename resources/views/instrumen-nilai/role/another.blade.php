@@ -41,33 +41,31 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($kary as $k)
-                            @if ($jdwkul->where('kary_nik', $k->nik)->count() == 0)
-                            @continue
-                            @else
+                            @foreach ($jdwkul->unique('kary_nik') as $k)
+
                             <tr class="text-center">
                                 <td>
-                                    {{ $k->nik }}
+                                    {{ $k->kary_nik }}
                                 </td>
                                 <td class="text-left">
-                                    {{ $k->nama }}
+                                    {{ $k->getNameKary($k->kary_nik) }}
                                 </td>
                                 <td class="text-left">
-                                    {{ $k->prodi->nama }}
+                                    {{ $k->getNameProdi($k->prodi) }}
                                 </td>
                                 <td>
                                     {{ $jdwkul->where('kary_nik', $k->nik)->count() }}
                                 </td>
                                 <td>
 
-                                    {{ $instru->where('nik', $k->nik)->where('semester', $smt)->count() }}
+                                    {{ $instru->where('nik', $k->kary_nik)->where('semester', $smt)->count() }}
 
                                 </td>
-                                <td><a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->nik]) }}"
+                                <td><a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->kary_nik]) }}"
                                         class="btn btn-primary btn-sm text-sm">Detail</a>
                                 </td>
                             </tr>
-                            @endif
+
                             @endforeach
 
 
