@@ -132,7 +132,7 @@ Route::prefix('rps')->middleware('ensureUserRole:p3ai,dosen,pimpinan,kaprodi,dek
 
 });
 
-Route::prefix('penilaian')->name('penilaian.')->group(function (){
+Route::prefix('penilaian-clo')->name('penilaian.')->group(function (){
 
     Route::get('/cekrps', [InstrumenNilaiController::class, 'cekRps'])->name('cekrps')->middleware('ensureUserRole:dosen,p3ai,kaprodi,pimpinan,dekan');
 
@@ -146,7 +146,7 @@ Route::prefix('penilaian')->name('penilaian.')->group(function (){
 
     Route::get('/clo/list-capaian-clo', [InstrumenNilaiController::class, 'rangkumCapaiCloList'])->name('rangkumCapaiCloList')->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dekan');
 
-    Route::resource('clo', InstrumenNilaiController::class)->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dosen,dekan');
+    Route::resource('/', InstrumenNilaiController::class)->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dosen,dekan');
 });
 
 Route::prefix('monev')->name('monev.')->group(function(){
