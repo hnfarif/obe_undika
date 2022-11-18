@@ -529,6 +529,7 @@ class InstrumenNilaiController extends Controller
 
     public function detailInstrumen()
     {
+        $user = auth()->user();
         $kary = KaryawanDosen::where('nik', request('nik'))->first();
         $smt = $this->semester;
         $rps = Rps::where('kurlkl_id', 'LIKE', "{$kary->fakul_id}%")
@@ -539,9 +540,14 @@ class InstrumenNilaiController extends Controller
         foreach ($rps as $i) {
             $arrKlkl[] = $i;
         }
-
-        $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('prodi', request('prodi'))->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
         $instru = InstrumenNilai::all();
+
+        if($user->role == 'kaprodi'){
+
+            $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('prodi', request('prodi'))->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
+        }
+
+
 
 
         return view('instrumen-nilai.detail', compact('jdwkul', 'kary', 'instru', 'smt'));
