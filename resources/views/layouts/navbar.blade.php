@@ -45,8 +45,13 @@
             </li>
 
             <li class="nav-item @yield('instrumen-nilai')">
-                <a href="{{ route('penilaian.clo.index') }}" class="nav-link"><i
-                        class="fas fa-table"></i><span>Penilaian CLO</span></a>
+                <a href="{{ route('penilaian.clo.index') }}" class="nav-link"><i class="fas fa-table"></i><span>
+                        @if (auth()->user()->role == 'dosen')
+                        Penilaian CLO
+                        @else
+                        Ketercapaian CLO Mata Kuliah
+                        @endif
+                    </span></a>
             </li>
 
             @if (auth()->user()->role == 'dosen')
