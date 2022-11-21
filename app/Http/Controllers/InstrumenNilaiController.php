@@ -561,7 +561,7 @@ class InstrumenNilaiController extends Controller
                 $countKrs = $krs->count();
 
                 $dtlIns = DetailInstrumenNilai::where('ins_nilai_id', $cekIns->id)->with('detailAgenda')->orderBy('mhs_nim', 'asc')->get();
-
+                dd($dtlIns);
                 $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
                 $countClo = $clo->count();
                 $totalMkLulus = $countKrs * $countClo;
@@ -601,7 +601,7 @@ class InstrumenNilaiController extends Controller
 
             }
         }
-        dd($jmlInsLulus);
+
         $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
 
         return ['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus, 'mkLulus' => $mkLulus];
