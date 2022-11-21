@@ -20,7 +20,7 @@ class DetailInstrumenNilai extends Model
 
     public function detailAgenda()
     {
-        return $this->belongsTo(DetailAgenda::class);
+        return $this->belongsTo(DetailAgenda::class, 'id', 'dtl_agd_id');
     }
 
 }
