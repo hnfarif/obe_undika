@@ -578,11 +578,9 @@ class InstrumenNilaiController extends Controller
                             $nilai = $di->nilai;
 
                             $nilaiMhs = $nilai;
-                            $bobot = $da->bobot/100;
+                            $bobot = ($da->bobot / 100);
 
                             $nilaiClo =+ $nilaiMhs * $bobot;
-
-
 
                         }
                     }
