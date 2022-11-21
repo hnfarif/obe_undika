@@ -538,7 +538,7 @@ class InstrumenNilaiController extends Controller
 
             return response()->json($rang);
         }else{
-            $jdw = JadwalKuliah::where('sts_kul', '1')->orderBy('kary_nik', 'asc')->get();
+            $jdw = JadwalKuliah::where('sts_kul', '1')->get();
 
             $rang = $this->getCapaiClo($jdw);
 
@@ -604,7 +604,7 @@ class InstrumenNilaiController extends Controller
 
             }
         }
-        dd($jmlInsLulus);
+
         $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
 
         return ['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus, 'mkLulus' => $mkLulus];
@@ -621,7 +621,7 @@ class InstrumenNilaiController extends Controller
 
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
 
-            $mkTdkLulus = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->whereNotIn('klkl_id', $mkLulus->pluck('klkl_id')->toArray())->get();
+            $mkTdkLulus = $jdw->diff($mkLulus);
 
             $smt = $this->semester;
 
@@ -644,8 +644,7 @@ class InstrumenNilaiController extends Controller
 
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
 
-            $mkTdkLulus = JadwalKuliah::where('sts_kul', '1')
-            ->whereNotIn('klkl_id',$mkLulus->pluck('klkl_id')->toArray())->get();
+            $mkTdkLulus = $jdw->diff($mkLulus);
 
             $smt = $this->semester;
 
