@@ -584,10 +584,10 @@ class InstrumenNilaiController extends Controller
                                 $nilaiClo += $nilai * $bobot;
                             }
                         }
-                        dd($nilaiClo);
+
                         $nilaiKonv = $sumBobot == 0 ? 0 : ($nilaiClo / $sumBobot) * 100;
                         $nilaiMinClo = $c->nilai_min;
-                        dd($nilaiKonv.' - '.$nilaiMinClo);
+
                         if($nilaiKonv >= $nilaiMinClo){
                             $cnCloMhs++;
                         }
@@ -595,7 +595,6 @@ class InstrumenNilaiController extends Controller
 
                 }
 
-                dd($cnCloMhs.'-'.$totalMkLulus);
                 if($cnCloMhs == $totalMkLulus){
                     $jmlInsLulus++;
                     $mkLulus[] = $j;
