@@ -115,7 +115,7 @@
                                                     {{ $k->getNameProdi($k->prodi) }}
                                                 </td>
                                                 <td>
-                                                    {{ $mkTdkLulus->where('kary_nik', $k->kary_nik)->count() }}
+                                                    {{ $mkLulus->where('kary_nik', $k->kary_nik)->count() }}
                                                 </td>
 
                                                 <td>
