@@ -644,9 +644,9 @@ class InstrumenNilaiController extends Controller
             $getLulus = $this->getCapaiClo($jdw)['mkLulus'];
             $mkLulus = collect($getLulus);
 
-            $diff = $jdw->diff($getLulus);
-
-            $mkTdkLulus = collect($diff->all());
+            $mkTdkLulus = $jdw->filter(function ($value, $key) use ($mkLulus) {
+                return $value->klkl_id != $mkLulus->pluck('klkl_id')->toArray() && $value->kary_nik != $mkLulus->pluck('kary_nik')->toArray() && $value->kelas != $mkLulus->pluck('kelas')->toArray();
+            });
 
             $smt = $this->semester;
 
