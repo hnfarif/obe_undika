@@ -11,7 +11,7 @@ class DetailInstrumenNilai extends Model
 
     protected $table = 'dtl_ins_nilai';
     protected $guarded = ["id"];
-    protected $with = ['insNilai'];
+    protected $with = ['insNilai', 'detailAgenda'];
 
     public function insNilai()
     {
