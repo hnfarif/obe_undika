@@ -564,6 +564,7 @@ class InstrumenNilaiController extends Controller
 
                 $arrDtlIns = $dtlIns->groupBy('mhs_nim');
 
+                dd($arrDtlIns);
                 $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
                 $countClo = $clo->count();
                 $totalMkLulus = $countKrs * $countClo;
@@ -583,7 +584,7 @@ class InstrumenNilaiController extends Controller
                                 $nilaiClo =+ $nilai * $bobot;
                             }
                         }
-                        dd($nilaiClo);
+
                         $nilaiKonv = $sumBobot == 0 ? 0 : ($nilaiClo / $sumBobot) * 100;
                         $nilaiMinClo = $c->nilai_min;
                         dd($nilaiKonv.' - '.$nilaiMinClo);
