@@ -562,7 +562,7 @@ class InstrumenNilaiController extends Controller
 
                 $dtlIns = DetailInstrumenNilai::where('ins_nilai_id', $cekIns->id)->orderBy('mhs_nim', 'asc')->get();
 
-                $arrDtlIns = $dtlIns->distinct('mhs_nim')->pluck('mhs_nim')->toArray();
+                $arrDtlIns = $dtlIns->select('mhs_nim')->distinct()->pluck('mhs_nim')->toArray();
                 dd($arrDtlIns);
                 $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
                 $countClo = $clo->count();
