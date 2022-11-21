@@ -554,12 +554,13 @@ class InstrumenNilaiController extends Controller
         foreach ($jdw as $j) {
 
             $cekIns = InstrumenNilai::where('klkl_id', $j->klkl_id)->where('semester', $this->semester)->whereNik($j->kary_nik)->whereKelas($j->kelas)->first();
+
             if ($cekIns) {
                 $krs = Krs::where('jkul_kelas', $j->kelas)->where('jkul_klkl_id', $j->klkl_id)->get();
 
                 $countKrs = $krs->count();
 
-                $dtlIns = DetailInstrumenNilai::where('ins_nilai_id', $cekIns->id)->orderBy('mhs_nim', 'asc')->get();
+                $dtlIns = DetailInstrumenNilai::where('ins_nilai_id', $cekIns->id)->with('detailAgenda')->orderBy('mhs_nim', 'asc')->get();
 
                 $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
                 $countClo = $clo->count();
@@ -567,32 +568,30 @@ class InstrumenNilaiController extends Controller
                 $cnCloMhs = 0;
 
                 foreach($clo as $c){
-                    foreach($krs as $k){
-                        $dtlAgd = DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', '<>' , null)->get();
-                        $sumBobot = $dtlAgd->sum('bobot');
 
-                        foreach($dtlAgd as $da){
-                            $nilai = $dtlIns->where('mhs_nim', $k->mhs_nim)->where('dtl_agd_id', $da->id)->first();
+                    $dtlAgd = DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', '<>' , null)->get();
+                    $sumBobot = $dtlAgd->sum('bobot');
+                    $nilaiClo = 0;
 
-                            if ($nilai){
-                                $nilai = $nilai->nilai;
-                                $bobot = $da->bobot/100;
+                    foreach($dtlIns as $di){
+                        foreach($di->detailAgenda as $da){
+                            $nilai = $di->nilai;
 
-                                $nilaiClo =+ $nilai * $bobot;
+                            $nilaiMhs = $nilai;
+                            $bobot = $da->bobot/100;
 
-                                $nilaiKonv = $sumBobot == 0 ? 0 : $nilaiClo / $sumBobot;
+                            $nilaiClo =+ $nilaiMhs * $bobot;
 
-                                $nilaiMinClo = $c->nilai_min;
-
-                                if($nilaiKonv >= $nilaiMinClo){
-                                        $cnCloMhs++;
-                                }
-                            }else{
-                                continue;
-                            }
 
 
                         }
+                    }
+                    $nilaiKonv = $sumBobot == 0 ? 0 : $nilaiClo / $sumBobot;
+
+                    $nilaiMinClo = $c->nilai_min;
+
+                    if($nilaiKonv >= $nilaiMinClo){
+                        $cnCloMhs++;
                     }
                 }
 
