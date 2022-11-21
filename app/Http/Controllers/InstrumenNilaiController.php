@@ -645,7 +645,7 @@ class InstrumenNilaiController extends Controller
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
 
             $diff = $jdw->diff($mkLulus);
-            dd($diff);
+
             $mkTdkLulus = collect($diff->all());
 
             $smt = $this->semester;
