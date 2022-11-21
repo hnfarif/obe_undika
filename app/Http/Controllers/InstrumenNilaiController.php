@@ -590,6 +590,7 @@ class InstrumenNilaiController extends Controller
                         if($nilaiKonv >= $nilaiMinClo){
                             $cnCloMhs++;
                         }
+                        dd($nilaiKonv.' - '.$nilaiMinClo);
                     }
 
                 }
