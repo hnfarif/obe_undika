@@ -573,7 +573,7 @@ class InstrumenNilaiController extends Controller
 
                     $dtlAgd = DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', '<>' , null)->get();
                     $sumBobot = $dtlAgd->sum('bobot');
-
+                    dd($sumBobot);
                     foreach($arrDtlIns as $key => $di){
                         $nilaiClo = 0;
                         foreach ($di as $dtl) {
