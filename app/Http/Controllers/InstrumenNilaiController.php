@@ -567,7 +567,7 @@ class InstrumenNilaiController extends Controller
 
                 $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
                 $countClo = $clo->count();
-                dd($countClo);
+
                 $totalMkLulus = $countKrs * $countClo;
                 $cnCloMhs = 0;
 
@@ -604,7 +604,7 @@ class InstrumenNilaiController extends Controller
 
             }
         }
-        dd($mkLulus);
+        dd($jmlInsLulus);
         $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
 
         return ['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus, 'mkLulus' => $mkLulus];
