@@ -563,7 +563,7 @@ class InstrumenNilaiController extends Controller
                 $dtlIns = DetailInstrumenNilai::where('ins_nilai_id', $cekIns->id)->orderBy('mhs_nim', 'asc')->get();
 
                 $arrDtlIns = $dtlIns->groupBy('mhs_nim');
-                dd($arrDtlIns);
+
                 $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
                 $countClo = $clo->count();
                 $totalMkLulus = $countKrs * $countClo;
@@ -573,17 +573,17 @@ class InstrumenNilaiController extends Controller
 
                     $dtlAgd = DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', '<>' , null)->get();
                     $sumBobot = $dtlAgd->sum('bobot');
-                    $nilaiClo = 0;
-                    $arrMhs = [];
 
-                    foreach($dtlIns as $di){
-                        if($di->detailAgenda->clo_id == $c->id){
-
-                            $nilai = $di->nilai;
-                            $bobot = $di->detailAgenda->bobot / 100;
-                            $nilaiClo =+ $nilai * $bobot;
-                            $arrMhs[$c->id][$di->mhs_nim] = $nilaiClo;
+                    foreach($arrDtlIns as $key => $di){
+                        $nilaiClo = 0;
+                        foreach ($di as $dtl) {
+                            if($dtl->detailAgenda->clo_id == $c->id ){
+                                $nilai = $dtl->nilai;
+                                $bobot = $dtl->detailAgenda->bobot / 100;
+                                $nilaiClo =+ $nilai * $bobot;
+                            }
                         }
+
                         $nilaiKonv = $sumBobot == 0 ? 0 : $nilaiClo / $sumBobot;
                         $nilaiMinClo = $c->nilai_min;
 
@@ -591,9 +591,6 @@ class InstrumenNilaiController extends Controller
                             $cnCloMhs++;
                         }
                     }
-
-
-
 
                 }
 
