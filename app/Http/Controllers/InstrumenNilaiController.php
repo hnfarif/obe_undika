@@ -581,7 +581,7 @@ class InstrumenNilaiController extends Controller
                             if($dtl->detailAgenda->clo_id == $c->id ){
                                 $nilai = $dtl->nilai;
                                 $bobot = $dtl->detailAgenda->bobot / 100;
-                                $nilaiClo =+ $nilai * $bobot;
+                                $nilaiClo += $nilai * $bobot;
                             }
                         }
                         dd($nilaiClo);
