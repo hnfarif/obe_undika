@@ -574,16 +574,13 @@ class InstrumenNilaiController extends Controller
                     $nilaiClo = 0;
 
                     foreach($dtlIns as $di){
-                        foreach($di->detailAgenda as $da){
-                            $nilai = $di->nilai;
+                        $nilai = $di->nilai;
+                        $nilaiMhs = $nilai;
+                        $bobot = $di->detailAgenda->bobot / 100;
+                        $nilaiClo =+ $nilaiMhs * $bobot;
 
-                            $nilaiMhs = $nilai;
-                            $bobot = $da->bobot / 100;
-
-                            $nilaiClo =+ $nilaiMhs * $bobot;
-
-                        }
                     }
+
                     $nilaiKonv = $sumBobot == 0 ? 0 : $nilaiClo / $sumBobot;
 
                     $nilaiMinClo = $c->nilai_min;
