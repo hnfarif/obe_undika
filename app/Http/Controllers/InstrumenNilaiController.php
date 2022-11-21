@@ -538,7 +538,7 @@ class InstrumenNilaiController extends Controller
 
             return response()->json($rang);
         }else{
-            $jdw = JadwalKuliah::where('sts_kul', '1')->get();
+            $jdw = JadwalKuliah::where('sts_kul', '1')->orderBy('kary_nik', 'asc')->get();
 
             $rang = $this->getCapaiClo($jdw);
 
