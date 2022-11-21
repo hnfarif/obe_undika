@@ -641,10 +641,10 @@ class InstrumenNilaiController extends Controller
             return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
         }else{
             $jdw = JadwalKuliah::where('sts_kul', '1')->get();
+            $getLulus = $this->getCapaiClo($jdw)['mkLulus'];
+            $mkLulus = collect($getLulus);
 
-            $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
-
-            $diff = $jdw->diff($mkLulus);
+            $diff = $jdw->diff($getLulus);
 
             $mkTdkLulus = collect($diff->all());
 
