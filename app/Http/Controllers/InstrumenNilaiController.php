@@ -595,7 +595,7 @@ class InstrumenNilaiController extends Controller
                     }
 
                 }
-                dd($cnCloMhs.'-'.$totalMkLulus);
+
                 if($cnCloMhs == $totalMkLulus){
                     $jmlInsLulus++;
                     $mkLulus[] = $j;
