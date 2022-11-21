@@ -559,7 +559,7 @@ class InstrumenNilaiController extends Controller
                 $krs = Krs::where('jkul_kelas', $j->kelas)->where('jkul_klkl_id', $j->klkl_id)->get();
 
                 $countKrs = $krs->count();
-
+                dd($countKrs);
                 $dtlIns = DetailInstrumenNilai::where('ins_nilai_id', $cekIns->id)->orderBy('mhs_nim', 'asc')->get();
 
                 $arrDtlIns = $dtlIns->groupBy('mhs_nim');
