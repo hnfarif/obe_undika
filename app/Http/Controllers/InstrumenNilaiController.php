@@ -584,13 +584,12 @@ class InstrumenNilaiController extends Controller
                             }
                         }
 
-                        $nilaiKonv = $sumBobot == 0 ? 0 : $nilaiClo / $sumBobot;
+                        $nilaiKonv = $sumBobot == 0 ? 0 : ($nilaiClo / $sumBobot) * 100;
                         $nilaiMinClo = $c->nilai_min;
 
                         if($nilaiKonv >= $nilaiMinClo){
                             $cnCloMhs++;
                         }
-                        dd($nilaiKonv.' - '.$nilaiMinClo);
                     }
 
                 }
