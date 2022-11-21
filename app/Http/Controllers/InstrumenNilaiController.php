@@ -642,7 +642,7 @@ class InstrumenNilaiController extends Controller
         }else{
             $jdw = JadwalKuliah::where('sts_kul', '1')->get();
 
-            $mkLulus = $this->getCapaiClo($jdw)['mkLulus'];
+            $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
 
             $diff = $jdw->diff($mkLulus);
 
