@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AngketTrans;
+use App\Models\Clo;
 use App\Models\Fakultas;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
@@ -121,14 +122,11 @@ class LaporanAngketController extends Controller
 
     public function cekData()
     {
-        $smt = $this->semester;
-        $plot = PlottingMonev::where('semester', $smt)->prodi()->get();
-        $angket = AngketTrans::where('smt', $smt)->whereIn('prodi', $plot->pluck('prodi')->toArray())->get();
+       $clo = Clo::where('rps_id', '7')->orderBy('id', 'asc')->get();
 
         return [
-            'angket' => $angket,
-            'plot' => $plot,
-            'countAngket' => $angket->count(),
+            'clo' => $clo,
+            'countAngket' => $clo->count(),
 
         ];
     }
