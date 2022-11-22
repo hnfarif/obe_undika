@@ -499,17 +499,14 @@ class InstrumenNilaiController extends Controller
         $user = auth()->user();
         $kary = KaryawanDosen::where('nik', request('nik'))->first();
         $smt = $this->semester;
-        $instru = InstrumenNilai::all();
+        $instru = InstrumenNilai::whereSemester($smt)->whereNik($kary->nik)->get();
 
-        if($user->role == 'kaprodi'){
-            $prodi = Prodi::where('mngr_id', $user->nik)->first();
-            $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('prodi', $prodi->id)->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
-        }else if ($user->role == 'dekan'){
-            $chkDekan = Fakultas::where('mngr_id', $user->nik)->first();
-            $prodi = Prodi::where('id_fakultas', $chkDekan->id)->get();
-            $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
-        }else{
-            $jdwkul = JadwalKuliah::where('kary_nik', $kary->nik)->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
+        if (isset(request('mkLulus'))) {
+            $mkLulus = collect(request('mkLulus'));
+            $jdwkul = JadwalKuliah::whereIn('klkl_id', $mkLulus->pluck('klkl_id')->toArray())->whereIn('kelas', $mkLulus->pluck('kelas')->toArray())->where('kary_nik', $kary->nik)->get();
+        }else if(isset(request('mkTdkLulus'))){
+            $mkTdkLulus = collect(request('mkTdkLulus'));
+            $jdwkul = JadwalKuliah::whereIn('klkl_id', $mkTdkLulus->pluck('klkl_id')->toArray())->whereIn('kelas', $mkTdkLulus->pluck('kelas')->toArray())->where('kary_nik', $kary->nik)->get();
         }
 
         return view('instrumen-nilai.detail', compact('jdwkul', 'kary', 'instru', 'smt'));
