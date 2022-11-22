@@ -505,10 +505,10 @@ class InstrumenNilaiController extends Controller
             $mkLulus = collect(request('mkLulus'));
             $jdwkul = JadwalKuliah::whereIn('klkl_id', $mkLulus->pluck('klkl_id')->toArray())->whereIn('kelas', $mkLulus->pluck('kelas')->toArray())->where('kary_nik', $kary->nik)->paginate(6)->withQueryString();
         }else if(request()->has('mktdklulus')){
-            $mkTdkLulus = collect(request('mkTdkLulus'));
+            $mkTdkLulus = collect(request('mktdklulus'));
+
             $jdwkul = JadwalKuliah::whereIn('klkl_id', $mkTdkLulus->pluck('klkl_id')->toArray())->whereIn('kelas', $mkTdkLulus->pluck('kelas')->toArray())->where('kary_nik', $kary->nik)->paginate(6)->withQueryString();
 
-            dd($jdwkul);
         }
 
         return view('instrumen-nilai.detail', compact('jdwkul', 'kary', 'instru', 'smt'));
