@@ -643,11 +643,16 @@ class InstrumenNilaiController extends Controller
             $jdw = JadwalKuliah::where('sts_kul', '1')->get();
             $getLulus = $this->getCapaiClo($jdw)['mkLulus'];
             $mkLulus = collect($getLulus);
+            $mkTdkLulus = [];
+            foreach ($mkLulus as $mk) {
+                $findJdw = $jdw->where('klkl_id', $mk->klkl_id)->where('kelas', $mk->kelas)->where('kary_nik', $mk->kary_nik)->first();
 
-            $mkTdkLulus = $jdw->filter(function ($value, $key) use ($mkLulus) {
-                return $value->klkl_id != $mkLulus->pluck('klkl_id')->toArray() && $value->kary_nik != $mkLulus->pluck('kary_nik')->toArray() && $value->kelas != $mkLulus->pluck('kelas')->toArray();
-            });
-
+                if($findJdw){
+                    $jdw->forget($findJdw);
+                    array_replace($mkTdkLulus, $jdw);
+                }
+            }
+            $mkTdkLulus = collect($mkTdkLulus);
             $smt = $this->semester;
 
             return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
