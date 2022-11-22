@@ -259,7 +259,7 @@ class JadwalKuliah extends Model
 
     public function getKelulusanMk($mk, $nik)
     {
-        $mkFilter = $mk->where('kary_nik', $nik)->all();
+        $mkFilter = $mk->where('kary_nik', $nik);
         return $mkFilter;
     }
 }
