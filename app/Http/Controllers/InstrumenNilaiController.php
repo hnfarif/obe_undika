@@ -605,6 +605,8 @@ class InstrumenNilaiController extends Controller
                     $mkTdkLulus[] = $j;
                 }
 
+            }else{
+                $mkTdkLulus[] = $j;
             }
         }
 
@@ -644,8 +646,20 @@ class InstrumenNilaiController extends Controller
             return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
         }else{
             $jdw = JadwalKuliah::where('sts_kul', '1')->get();
-            $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
-            $mkTdkLulus = collect($this->getCapaiClo($jdw)['mkTdkLulus']);
+            $getLulus = $this->getCapaiClo($jdw)['mkLulus'];
+            $mkLulus = collect($getLulus);
+            $mkTdkLulus = [];
+            foreach ($mkLulus as $mk) {
+                $findJdw = $jdw->where('klkl_id', $mk->klkl_id)->where('kelas', $mk->kelas)->where('kary_nik', $mk->kary_nik)->first();
+
+                // get index of $findJdw
+
+                if($findJdw){
+                    $jdw->forget($findJdw);
+                    array_replace($mkTdkLulus, $jdw);
+                }
+            }
+            $mkTdkLulus = collect($mkTdkLulus);
             $smt = $this->semester;
 
             return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
