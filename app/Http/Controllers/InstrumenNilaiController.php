@@ -551,6 +551,7 @@ class InstrumenNilaiController extends Controller
         $countJdw = $jdw->count();
         $jmlInsLulus = 0;
         $mkLulus = [];
+        $mkTdkLulus = [];
         foreach ($jdw as $j) {
 
             $cekIns = InstrumenNilai::where('klkl_id', $j->klkl_id)->where('semester', $this->semester)->whereNik($j->kary_nik)->whereKelas($j->kelas)->first();
@@ -600,6 +601,8 @@ class InstrumenNilaiController extends Controller
                     $jmlInsLulus++;
                     $mkLulus[] = $j;
 
+                }else{
+                    $mkTdkLulus[] = $j;
                 }
 
             }
@@ -607,7 +610,7 @@ class InstrumenNilaiController extends Controller
 
         $jmlInsTdkLulus = $countJdw - $jmlInsLulus;
 
-        return ['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus, 'mkLulus' => $mkLulus];
+        return ['jmlInsLulus' => $jmlInsLulus, 'jmlInsTdkLulus' => $jmlInsTdkLulus, 'mkLulus' => $mkLulus, 'mkTdkLulus' => $mkTdkLulus];
     }
 
     public function rangkumCapaiCloList()
@@ -641,18 +644,8 @@ class InstrumenNilaiController extends Controller
             return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
         }else{
             $jdw = JadwalKuliah::where('sts_kul', '1')->get();
-            $getLulus = $this->getCapaiClo($jdw)['mkLulus'];
-            $mkLulus = collect($getLulus);
-            $mkTdkLulus = [];
-            foreach ($mkLulus as $mk) {
-                $findJdw = $jdw->where('klkl_id', $mk->klkl_id)->where('kelas', $mk->kelas)->where('kary_nik', $mk->kary_nik)->first();
-
-                if($findJdw){
-                    $jdw->forget($findJdw);
-                    array_replace($mkTdkLulus, $jdw);
-                }
-            }
-            $mkTdkLulus = collect($mkTdkLulus);
+            $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
+            $mkTdkLulus = collect($this->getCapaiClo($jdw)['mkTdkLulus']);
             $smt = $this->semester;
 
             return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
