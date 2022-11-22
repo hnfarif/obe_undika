@@ -119,7 +119,7 @@
                                                 </td>
 
                                                 <td>
-                                                    <a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->kary_nik, 'mkLulus' => 1]) }}"
+                                                    <a href="{{ route('penilaian.detailInstrumen', ['mkLulus' => 1]) }}"
                                                         class="btn btn-primary btn-sm text-sm">Detail</a>
                                                 </td>
                                             </tr>
