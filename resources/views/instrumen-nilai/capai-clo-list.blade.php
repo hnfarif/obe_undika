@@ -64,7 +64,7 @@
                                                 </td>
 
                                                 <td>
-                                                    <a href="{{ route('penilaian.detailInstrumen', ['mktdklulus' => 1]) }}"
+                                                    <a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->kary_nik, 'mktdklulus' => $mkTdkLulus->where('kary_nik', $k->kary_nik)]) }}"
                                                         class="btn btn-primary btn-sm text-sm">Detail</a>
                                                 </td>
                                             </tr>
@@ -119,7 +119,7 @@
                                                 </td>
 
                                                 <td>
-                                                    <a href="{{ route('penilaian.detailInstrumen', ['mkLulus' => 1]) }}"
+                                                    <a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->kary_nik,'mkLulus' => $mkLulus->where('kary_nik', $k->kary_nik)]) }}"
                                                         class="btn btn-primary btn-sm text-sm">Detail</a>
                                                 </td>
                                             </tr>
