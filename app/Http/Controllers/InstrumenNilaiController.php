@@ -625,8 +625,7 @@ class InstrumenNilaiController extends Controller
             $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
 
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
-
-            $mkTdkLulus = $jdw->diff($mkLulus);
+            $mkTdkLulus = collect($this->getCapaiClo($jdw)['mkTdkLulus']);
 
             $smt = $this->semester;
 
@@ -638,8 +637,7 @@ class InstrumenNilaiController extends Controller
             $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->get();
 
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
-
-            $mkTdkLulus = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->whereNotIn('klkl_id', $mkLulus->pluck('klkl_id')->toArray())->get();
+            $mkTdkLulus = collect($this->getCapaiClo($jdw)['mkTdkLulus']);
 
             $smt = $this->semester;
 
