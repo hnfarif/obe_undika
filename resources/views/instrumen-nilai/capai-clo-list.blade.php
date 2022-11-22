@@ -117,9 +117,8 @@
                                                 <td>
                                                     {{ $mkLulus->where('kary_nik', $k->kary_nik)->count() }}
                                                 </td>
-
                                                 <td>
-                                                    <a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->kary_nik,'mklulus' => $mkLulus->where('kary_nik', $k->kary_nik)]) }}"
+                                                    <a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->kary_nik,'mklulus' => $k->getKelulusanMk($mkLulus, $k->kary_nik)]) }}"
                                                         class="btn btn-primary btn-sm text-sm">Detail</a>
                                                 </td>
                                             </tr>

@@ -501,8 +501,8 @@ class InstrumenNilaiController extends Controller
         $smt = $this->semester;
         $instru = InstrumenNilai::whereSemester($smt)->whereNik($kary->nik)->get();
 
-        if (request()->has('mkLulus')) {
-            $mkLulus = collect(request('mkLulus'));
+        if (request()->has('mklulus')) {
+            $mkLulus = collect(request('mklulus'));
             $jdwkul = JadwalKuliah::whereIn('klkl_id', $mkLulus->pluck('klkl_id')->toArray())->whereIn('kelas', $mkLulus->pluck('kelas')->toArray())->where('kary_nik', $kary->nik)->paginate(6)->withQueryString();
         }else if(request()->has('mktdklulus')){
             $mkTdkLulus = collect(request('mktdklulus'));
