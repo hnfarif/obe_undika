@@ -16,4 +16,8 @@ class InstrumenNilai extends Model
     {
         return $this->belongsTo(KaryawanDosen::class, 'nik', 'nik');
     }
+
+    public function detailNilai(){
+        return $this->hasMany(DetailInstrumenNilai::class, 'ins_nilai_id', 'id');
+    }
 }

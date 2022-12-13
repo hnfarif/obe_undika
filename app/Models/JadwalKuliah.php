@@ -128,9 +128,10 @@ class JadwalKuliah extends Model
             ->where('prodi', $prodi)
             ->where('semester', $smt)
             ->where('kelas', $kelas)
+            ->with('insMonev')
             ->first();
-        $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
-        $dtlMon = DetailInstrumenMonev::where('ins_monev_id', $insMon->id)->where('id_kri', $kriteria)->sum('nilai');
+        $insMon = $plot->insMonev;
+        $dtlMon = $insMon->detailMonev->where('id_kri', $kriteria)->sum('nilai');
         $nilai = number_format($dtlMon / 14 * 100, 2);
 
         $eval = 0;
@@ -154,19 +155,22 @@ class JadwalKuliah extends Model
         return $eval;
 
     }
+
     public function getNilaiKri3($nik, $mk, $kls, $smt)
     {
         $nilaiBbt = [];
         $nilaiperClo = [];
-        $insNilai = InstrumenNilai::where('klkl_id', $mk)->where('semester', $smt)->where('nik', $nik)->first();
+        $insNilai = InstrumenNilai::where('klkl_id', $mk)->where('semester', $smt)->where('nik', $nik)->with('detailNilai')->first();
         $countClo = Clo::where('rps_id', $insNilai->rps_id)->count();
-        $dtlNilai = DetailInstrumenNilai::where('ins_nilai_id', $insNilai->id)->get();
-        $countMhs = Krs::where('jkul_klkl_id', $mk)->where('jkul_kelas', $kls)->count();
-        $countPresensi = Krs::where('jkul_klkl_id', $mk)->where('jkul_kelas', $kls)->where('sts_pre', '1')->count();
+        $dtlNilai = $insNilai->detailNilai->with('detailAgenda');
+        $krs = Krs::where('jkul_klkl_id', $mk)->where('jkul_kelas', $kls)->get();
+
+        $countMhs = $krs->count();
+        $countPresensi = $krs->where('sts_pre', '1')->count();
         $sumLulus = 0;
 
         foreach ($dtlNilai as $dn) {
-            $bbt = DetailAgenda::where('id', $dn->dtl_agd_id)->first();
+            $bbt = $dn->detailAgenda;
             $nbbt = $dn->nilai * ($bbt->bobot / 100);
             $nilaiBbt[$dn->mhs_nim][$bbt->clo_id][$dn->dtl_agd_id] = $nbbt;
         }
