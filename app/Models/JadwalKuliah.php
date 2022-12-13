@@ -115,7 +115,7 @@ class JadwalKuliah extends Model
 
         foreach ($agd as $a) {
             if($a->detailAgendas->penilaian_id){
-                $count += $a->detailAgendas->count();
+                $count++;
             }
         }
 
