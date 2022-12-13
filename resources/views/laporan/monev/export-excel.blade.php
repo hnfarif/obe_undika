@@ -9,10 +9,10 @@
 </head>
 
 <body>
-    <table id="lapMonev" width="100%">
+    <table>
         <thead>
             <tr>
-                <th class="text-center">
+                <th>
                     No
                 </th>
                 <th>Nama MK</th>
@@ -31,7 +31,7 @@
         <tbody>
             @foreach ($jdw as $j)
             <tr>
-                <td class="text-center">
+                <td>
                     {{ $loop->iteration }}
                 </td>
                 <td>{{ $j->getNameMataKuliah($j->klkl_id) }}</td>
@@ -43,7 +43,7 @@
                     'insMon')
 
                     @if ($loop->iteration == '1')
-                    <td class="text-warning text-center" colspan="4">
+                    <td>
                         <b>Instrumen Monev belum dibuat</b>
                     </td>
                     @else
@@ -55,7 +55,7 @@
                     $j->kelas, $smt)
                     == 'plot')
                     @if ($loop->iteration == '1')
-                    <td class="text-danger text-center" colspan="4">
+                    <td>
                         <b>Plotting belum dibuat</b>
                     </td>
                     @else
@@ -91,7 +91,7 @@
 
                     </td>
                     @else
-                    <td id="naMonev">
+                    <td>
                         {{ $j->getNilaiAkhir($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas, $smt) }}
                     </td>
                     @endif
