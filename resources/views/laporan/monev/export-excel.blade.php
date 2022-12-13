@@ -27,12 +27,6 @@
                     Nilai Akhir
                 </th>
             </tr>
-            <tr>
-                @foreach ($kri as $k)
-                @if ($loop->iteration <= 3) <th>{{ $k->bobot.'%' }}</th>
-                    @endif
-                    @endforeach
-            </tr>
         </thead>
         <tbody>
             @foreach ($jdw as $j)
@@ -44,9 +38,8 @@
                 <td>{{ $j->kelas }}</td>
                 <td>{{ $j->getNameKary($j->kary_nik) }}</td>
                 @foreach ($kri as $k)
-                @if ($loop->iteration <= 3) @if ($j->
-                    cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas, $smt) ==
-                    'insMon')
+                @if ($loop->iteration <= 3) @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas, $smt)
+                    == 'insMon')
 
                     @if ($loop->iteration == '1')
                     <td class="text-warning text-center" colspan="4">

@@ -45,7 +45,7 @@ class LaporanMonevController extends Controller
 
     public function exportExcel()
     {
-        $nama_file = 'monev_kriteria_3_'.date('Y-m-d_H-i-s').'.xlsx';
+        $nama_file = 'laporan_monev_'.date('Y-m-d_H-i-s').'.xlsx';
         return Excel::download(new MonevExport, $nama_file);
     }
 
