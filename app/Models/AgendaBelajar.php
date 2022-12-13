@@ -12,7 +12,6 @@ class AgendaBelajar extends Model
 
     protected $table = 'agd_bljr';
     protected $guarded = ["id"];
-    protected $primaryKey = 'id';
 
     public function rps()
     {
@@ -21,7 +20,7 @@ class AgendaBelajar extends Model
 
     public function detailAgendas()
     {
-        return $this->hasMany(DetailAgenda::class, 'agd_id', 'id');
+        return $this->hasMany(DetailAgenda::class);
     }
 
     public function getTglNilaiAttribute($value)

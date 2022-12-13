@@ -109,7 +109,9 @@ class JadwalKuliah extends Model
         // $insNilai = InstrumenNilai::where('id', $insMon->ins_nilai_id)->first();
         $insNilai = $insMon->insNilai;
         // $agd = AgendaBelajar::where('rps_id', $insNilai->rps_id)->with('detailAgendas')->pluck('id')->toArray();
+
         $agd = AgendaBelajar::where('rps_id', $insNilai->rps_id)->with('detailAgendas')->get();
+        // get count detailAgendas
         $count = $agd->detailAgendas->count();
 
 
