@@ -113,9 +113,11 @@ class JadwalKuliah extends Model
             $query->where('penilaian_id', '<>', null);
         })->get();
 
+        $count = 0;
+
         foreach ($agd as $a) {
 
-            $count =+ $a->detailAgendas->count();
+            $count += $a->detailAgendas->count();
         }
 
         return $count == 0 ? 0 : number_format($dtlMon / $count, 2);
