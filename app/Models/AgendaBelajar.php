@@ -20,7 +20,7 @@ class AgendaBelajar extends Model
 
     public function detailAgendas()
     {
-        return $this->hasMany(DetailAgenda::class);
+        return $this->hasMany(DetailAgenda::class, 'agd_id', 'id');
     }
 
     public function getTglNilaiAttribute($value)
