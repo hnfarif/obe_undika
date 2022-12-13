@@ -21,7 +21,7 @@ class MonevExport implements FromView
         return view('laporan.monev.export-excel', [
             'kri' => KriteriaMonev::orderBy('id', 'asc')->get(),
             'jdw' => JadwalKuliah::whereIn('klkl_id', $filKlkl)->where('kary_nik', $filNik)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get(),
-            'smt' => $smt
+            'smt' => $smt->smt_yad,
         ]);
     }
 }
