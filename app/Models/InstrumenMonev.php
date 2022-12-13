@@ -15,4 +15,8 @@ class InstrumenMonev extends Model
     public function insNilai(){
         return $this->belongsTo(InstrumenNilai::class, 'ins_nilai_id', 'id');
     }
+
+    public function plotMonev(){
+        return $this->belongsTo(PlotMonev::class, 'plot_monev_id', 'id');
+    }
 }

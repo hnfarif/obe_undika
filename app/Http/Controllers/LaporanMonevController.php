@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\MonevExport;
 use App\Models\Fakultas;
+use App\Models\InstrumenMonev;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\KriteriaMonev;
@@ -35,7 +36,7 @@ class LaporanMonevController extends Controller
         $fak = $fakul;
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         $smt = $this->semester;
-        $plot = PlottingMonev::whereSemester($smt)->get();
+        $plot = PlottingMonev::whereSemester($smt)->whereHas('insMonev')->get();
         $filKlkl = $plot->pluck('klkl_id')->toArray();
         $filNik = $plot->pluck('nik_pengajar')->toArray();
         $jdw = JadwalKuliah::whereIn('klkl_id', $filKlkl)->whereIn('kary_nik', $filNik)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get();

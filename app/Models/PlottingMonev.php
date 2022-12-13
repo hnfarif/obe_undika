@@ -33,12 +33,18 @@ class PlottingMonev extends Model
     {
         return $this->belongsTo(Prodi::class, 'prodi', 'id');
     }
+
+    public function insMonev(){
+        return $this->hasOne(InstrumenMonev::class, 'plot_monev_id', 'id');
+    }
+
     public function getKelasRuang($mk, $nik)
     {
         $maku = JadwalKuliah::where('klkl_id', $mk)->where('kary_nik', $nik)->first();
 
         return ['kelas' => $maku->kelas, 'ruang' => $maku->ruang_id];
     }
+
 
     public function getNameKary($nik)
     {
