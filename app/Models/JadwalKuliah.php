@@ -109,19 +109,19 @@ class JadwalKuliah extends Model
         // $insNilai = InstrumenNilai::where('id', $insMon->ins_nilai_id)->first();
         $insNilai = $insMon->insNilai;
         // $agd = AgendaBelajar::where('rps_id', $insNilai->rps_id)->with('detailAgendas')->pluck('id')->toArray();
-        $agd = AgendaBelajar::where('rps_id', $insNilai->rps_id)->whereHas('detailAgendas', function ($query){
-            $query->where('penilaian_id', '<>', null);
-        })->get();
+        $agd = AgendaBelajar::where('rps_id', $insNilai->rps_id)->with('detailAgendas')->get();
 
         $count = 0;
 
         foreach ($agd as $a) {
-
-            $count += $a->detailAgendas->count();
+            if($a->detailAgendas->penilaian_id){
+                $count += $a->detailAgendas->count();
+            }
         }
 
         return $count == 0 ? 0 : number_format($dtlMon / $count, 2);
     }
+
     public function getNilaiKri2($nik, $mk, $prodi, $kriteria, $kelas)
     {
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
