@@ -54,19 +54,20 @@ class LaporanMonevController extends Controller
         if (request()->has('prodi')) {
             $filProdi = Prodi::whereIn('id', request('prodi'))->get();
         } else {
-            $filProdi = null;
+            $filProdi = Prodi::where('sts_aktif', 'Y')->get();
         }
 
         $smt = $this->semester;
-        $plot = PlottingMonev::whereSemester($smt)->pluck('klkl_id')->toArray();
+        $plot = PlottingMonev::whereSemester($smt)->whereHas('insMonev')->get();
+        $filKlkl = $plot->pluck('klkl_id')->toArray();
+        $filNik = $plot->pluck('nik_pengajar')->toArray();
 
         $pdf = PDF::loadView('laporan.monev.export-pdf', ['fakul' => Fakultas::with('prodis')->get(),
         'kri' => KriteriaMonev::orderBy('id', 'asc')->get(),
-        'jdw' => JadwalKuliah::whereIn('klkl_id', $plot)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get(),
-        'prodi' => $filProdi
+        'jdw' => JadwalKuliah::whereIn('klkl_id', $filKlkl)->whereIn('kary_nik', $filNik)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get(),
+        'prodi' => $filProdi,
+        'smt' => $smt
         ]);
-
-
 
         return $pdf->stream('laporan_monev_'.date('Y-m-d_H-i-s').'.pdf');
     }
