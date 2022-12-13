@@ -185,7 +185,7 @@
                                                 <td>
                                                     @foreach ($f->prodis as $p )
                                                     <div class="avgMonev text-center my-3" data-prodi="{{ $p->id }}">
-                                                        {{ $p->getAvgMonev($p->id) }}
+                                                        {{ $p->getAvgMonev($p->id, $smt) }}
                                                     </div>
                                                     @endforeach
                                                 </td>

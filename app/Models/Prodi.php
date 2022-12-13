@@ -40,16 +40,16 @@ class Prodi extends Model
         }
     }
 
-    public function getAvgMonev($prodi)
+    public function getAvgMonev($prodi, $smt)
     {
 
         $jdw = JadwalKuliah::with('matakuliahs', 'karyawans')->where('prodi', $prodi)->get();
         $count = 0;
         $sum = 0;
         foreach ($jdw as $j) {
-            if ($j->cekKriteria($j->kary_nik, $j->klkl_id, $j->prodi, $j->kelas) == 'ada') {
+            if ($j->cekKriteria($j->kary_nik, $j->klkl_id, $j->prodi, $j->kelas, $smt) == 'ada') {
                 $count++;
-                $sum += $j->getNilaiAkhir($j->kary_nik, $j->klkl_id, $j->prodi, $j->kelas);
+                $sum += $j->getNilaiAkhir($j->kary_nik, $j->klkl_id, $j->prodi, $j->kelas, $smt);
             }
         }
 
