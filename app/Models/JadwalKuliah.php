@@ -73,13 +73,12 @@ class JadwalKuliah extends Model
         return $denominator == 0 ? 0 : ($numerator / $denominator);
     }
 
-    public function cekKriteria($nik, $mk, $prodi, $kelas)
+    public function cekKriteria($nik, $mk, $prodi, $kelas, $smt)
     {
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $plot = PlottingMonev::where('nik_pengajar', $nik)
             ->where('klkl_id', $mk)
             ->where('prodi', $prodi)
-            ->where('semester', $smt->smt_yad)
+            ->where('semester', $smt)
             ->where('kelas', $kelas)
             ->first();
         if ($plot) {
@@ -95,13 +94,12 @@ class JadwalKuliah extends Model
         }
     }
 
-    public function getNilaiKri1($nik, $mk, $prodi, $kriteria, $kelas)
+    public function getNilaiKri1($nik, $mk, $prodi, $kriteria, $kelas, $smt)
     {
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $plot = PlottingMonev::where('nik_pengajar', $nik)
             ->where('klkl_id', $mk)
             ->where('prodi', $prodi)
-            ->where('semester', $smt->smt_yad)
+            ->where('semester', $smt)
             ->where('kelas', $kelas)
             ->first();
         $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->with('insNilai')->first();
@@ -122,13 +120,12 @@ class JadwalKuliah extends Model
         return $count == 0 ? 0 : number_format($dtlMon / $count, 2);
     }
 
-    public function getNilaiKri2($nik, $mk, $prodi, $kriteria, $kelas)
+    public function getNilaiKri2($nik, $mk, $prodi, $kriteria, $kelas, $smt)
     {
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
         $plot = PlottingMonev::where('nik_pengajar', $nik)
             ->where('klkl_id', $mk)
             ->where('prodi', $prodi)
-            ->where('semester', $smt->smt_yad)
+            ->where('semester', $smt)
             ->where('kelas', $kelas)
             ->first();
         $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
@@ -156,12 +153,11 @@ class JadwalKuliah extends Model
         return $eval;
 
     }
-    public function getNilaiKri3($nik, $mk, $kls)
+    public function getNilaiKri3($nik, $mk, $kls, $smt)
     {
         $nilaiBbt = [];
         $nilaiperClo = [];
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $insNilai = InstrumenNilai::where('klkl_id', $mk)->where('semester', $smt->smt_yad)->where('nik', $nik)->first();
+        $insNilai = InstrumenNilai::where('klkl_id', $mk)->where('semester', $smt)->where('nik', $nik)->first();
         $countClo = Clo::where('rps_id', $insNilai->rps_id)->count();
         $dtlNilai = DetailInstrumenNilai::where('ins_nilai_id', $insNilai->id)->get();
         $countMhs = Krs::where('jkul_klkl_id', $mk)->where('jkul_kelas', $kls)->count();
@@ -207,19 +203,19 @@ class JadwalKuliah extends Model
 
     }
 
-    public function getNilaiAkhir($nik, $mk, $prodi, $kls)
+    public function getNilaiAkhir($nik, $mk, $prodi, $kls, $smt)
     {
         $na = 0;
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         foreach ($kri as $key => $k) {
             if($key == 0){
-                $na += $this->getNilaiKri1($nik, $mk, $prodi, $k->id, $kls) * ($k->bobot/100);
+                $na += $this->getNilaiKri1($nik, $mk, $prodi, $k->id, $kls, $smt) * ($k->bobot/100);
             }elseif($key == 1){
 
-                $na += $this->getNilaiKri2($nik, $mk, $prodi, $k->id, $kls) * ($k->bobot/100);
+                $na += $this->getNilaiKri2($nik, $mk, $prodi, $k->id, $kls, $smt) * ($k->bobot/100);
             }elseif($key == 2){
 
-                $na += $this->getNilaiKri3($nik, $mk, $kls) * ($k->bobot/100);
+                $na += $this->getNilaiKri3($nik, $mk, $kls, $smt) * ($k->bobot/100);
             }
         }
 
