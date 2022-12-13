@@ -19,4 +19,8 @@ class InstrumenMonev extends Model
     public function plotMonev(){
         return $this->belongsTo(PlotMonev::class, 'plot_monev_id', 'id');
     }
+
+    public function detailMonev(){
+        return $this->hasMany(DetailInstrumenMonev::class, 'ins_monev_id', 'id');
+    }
 }

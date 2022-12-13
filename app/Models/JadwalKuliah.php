@@ -80,10 +80,10 @@ class JadwalKuliah extends Model
             ->where('prodi', $prodi)
             ->where('semester', $smt)
             ->where('kelas', $kelas)
+            ->with('insMonev')
             ->first();
         if ($plot) {
-            $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->first();
-            if ($insMon) {
+            if ($plot->insMonev) {
                 return 'ada';
             }else{
                 return 'insMon';
@@ -101,9 +101,10 @@ class JadwalKuliah extends Model
             ->where('prodi', $prodi)
             ->where('semester', $smt)
             ->where('kelas', $kelas)
+            ->with('insMonev')
             ->first();
-        $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->with('insNilai')->first();
-        $dtlMon = DetailInstrumenMonev::where('ins_monev_id', $insMon->id)->where('id_kri', $kriteria)->sum('nilai');
+        $insMon = $plot->insMonev;
+        $dtlMon = $insMon->detailMonev->where('id_kri', $kriteria)->sum('nilai');
         $insNilai = $insMon->insNilai;
         $agd = AgendaBelajar::where('rps_id', $insNilai->rps_id)->with('detailAgendas')->get();
 
