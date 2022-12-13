@@ -190,7 +190,7 @@
                                                     @endforeach
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $f->getAvgMonevFakul($f->id) }}
+                                                    {{ $f->getAvgMonevFakul($f->id, $smt) }}
                                                 </td>
                                             </tr>
                                             @endforeach

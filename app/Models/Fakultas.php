@@ -17,13 +17,13 @@ class Fakultas extends Model
         return $this->hasMany(Prodi::class, 'id_fakultas', 'id');
     }
 
-    public function getAvgMonevFakul($id)
+    public function getAvgMonevFakul($id, $smt)
     {
         $prodi = Prodi::where('id_fakultas', $id)->get();
         $sum = 0;
         $count = $prodi->count();
         foreach ($prodi as $p) {
-            $sum += $p->getAvgMonev($p->id);
+            $sum += $p->getAvgMonev($p->id, $smt);
         }
 
         $njdw = new JadwalKuliah();
