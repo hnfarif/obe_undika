@@ -106,9 +106,7 @@ class JadwalKuliah extends Model
             ->first();
         $insMon = InstrumenMonev::where('plot_monev_id', $plot->id)->with('insNilai')->first();
         $dtlMon = DetailInstrumenMonev::where('ins_monev_id', $insMon->id)->where('id_kri', $kriteria)->sum('nilai');
-        // $insNilai = InstrumenNilai::where('id', $insMon->ins_nilai_id)->first();
         $insNilai = $insMon->insNilai;
-        // $agd = AgendaBelajar::where('rps_id', $insNilai->rps_id)->with('detailAgendas')->pluck('id')->toArray();
         $agd = AgendaBelajar::where('rps_id', $insNilai->rps_id)->with('detailAgendas')->get();
 
         $count = 0;
@@ -215,14 +213,13 @@ class JadwalKuliah extends Model
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         foreach ($kri as $key => $k) {
             if($key == 0){
-
                 $na += $this->getNilaiKri1($nik, $mk, $prodi, $k->id, $kls) * ($k->bobot/100);
             }elseif($key == 1){
 
                 $na += $this->getNilaiKri2($nik, $mk, $prodi, $k->id, $kls) * ($k->bobot/100);
             }elseif($key == 2){
 
-                $na += $this->getNilaiKri3($nik, $mk, $prodi, $kls) * ($k->bobot/100);
+                $na += $this->getNilaiKri3($nik, $mk, $kls) * ($k->bobot/100);
             }
         }
 
