@@ -162,7 +162,7 @@ class JadwalKuliah extends Model
         $nilaiperClo = [];
         $insNilai = InstrumenNilai::where('klkl_id', $mk)->where('semester', $smt)->where('nik', $nik)->with('detailNilai')->first();
         $countClo = Clo::where('rps_id', $insNilai->rps_id)->count();
-        $dtlNilai = $insNilai->detailNilai->with('detailAgenda');
+        $dtlNilai = $insNilai->detailNilai;
         $krs = Krs::where('jkul_klkl_id', $mk)->where('jkul_kelas', $kls)->get();
 
         $countMhs = $krs->count();
