@@ -48,46 +48,47 @@
                                                 <b>Kelas</b>
                                                 <p>{{ $m->kelas }}</p>
                                             </div>
-                                            <div>
+                                            {{-- <div>
                                                 <b>Ruang</b>
-                                                <p>{{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar, $m->kelas) }}</p>
-                                            </div>
-                                        </div>
+                                                <p>{{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar, $m->kelas) }}
+                                            </p>
+                                        </div> --}}
                                     </div>
-
                                 </div>
+
                             </div>
-                            <div class="card-footer">
-                                <a href="{{ route('monev.instrumen.index', ['id' => $m->id]) }}" class="btn @if ($insMon->where('plot_monev_id', $m->id)->first())
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ route('monev.instrumen.index', ['id' => $m->id]) }}" class="btn @if ($insMon->where('plot_monev_id', $m->id)->first())
 
                                     btn-primary
                                     @else
                                     btn-warning
                                     @endif  btn-sm text-sm">
-                                    @if ($insMon->where('plot_monev_id', $m->id)->first())
-                                    Lihat Instrumen Monev
-                                    @else
-                                    Buat Instrumen Monev
-                                    @endif
-                                </a>
-                            </div>
+                                @if ($insMon->where('plot_monev_id', $m->id)->first())
+                                Lihat Instrumen Monev
+                                @else
+                                Buat Instrumen Monev
+                                @endif
+                            </a>
                         </div>
                     </div>
-                    @endforeach
-
                 </div>
-                @if ($pltMnv->hasPages())
-                <div class="pagination-wrapper d-flex justify-content-end">
-                    {{ $pltMnv->links() }}
-                </div>
+                @endforeach
 
-                @endif
+            </div>
+            @if ($pltMnv->hasPages())
+            <div class="pagination-wrapper d-flex justify-content-end">
+                {{ $pltMnv->links() }}
             </div>
 
-
-        </section>
+            @endif
     </div>
-    @include('layouts.footer')
+
+
+    </section>
+</div>
+@include('layouts.footer')
 </div>
 @endsection
 @push('script')
