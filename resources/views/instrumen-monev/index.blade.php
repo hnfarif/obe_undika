@@ -158,7 +158,7 @@
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                                 $pen)
 
-                                                <td class="border nilai-kri-1">
+                                                <td class="border">
                                                     {{ $dtlInsMon->where('dtl_agd_id', $pen->id)->first() ? $dtlInsMon->where('dtl_agd_id', $pen->id)->first()->created_at->format('d-m-Y') : ''  }}
                                                 </td>
 
