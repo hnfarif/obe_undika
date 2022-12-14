@@ -63,7 +63,7 @@ class InstrumenMonevController extends Controller
             // data untuk penilaian CLO
             $now = Carbon::now()->format('Y-m-d');
             $kri = KriteriaMonev::all();
-            $agd = AgendaBelajar::where('rps_id', $cekInsNilai->rps_id)->get();
+            $agd = AgendaBelajar::where('rps_id', $cekInsNilai->rps_id)->with('detailAgendas')->orderBy('pekan', 'asc')->get();
             $dtlAgd = DetailAgenda::whereIn('agd_id', $agd->pluck('id')->toArray())->with('penilaian','clo','detailInstrumenNilai','agendaBelajar', 'detailInstrumenMonev')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
             $dtlInsMon = $cekInsMon->detailMonev;
 
@@ -121,10 +121,6 @@ class InstrumenMonevController extends Controller
             $startFill = Carbon::parse($getPekan->tgl_nilai);
             $endFill = Carbon::parse($startFill)->addDays(14);
 
-
-            $agenda = AgendaBelajar::where('rps_id', $cekInsNilai->rps_id)->with('detailAgendas')
-            ->orderBy('pekan', 'asc')->get();
-
             $clo = Clo::where('rps_id', $rps->id)->orderBy('id')->get();
             $penilaian = Penilaian::where('rps_id', $rps->id)->get();
             $llo = Llo::where('rps_id', $rps->id)->orderBy('id','asc')->get();
@@ -139,7 +135,7 @@ class InstrumenMonevController extends Controller
             $plDtlBap = $dtlBap->pluck('kode_bap')->toArray();
             $bap = Bap::whereIn('kode_bap', $plDtlBap)->where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->get();
 
-            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bap', 'rps', 'agenda', 'clo', 'penilaian', 'llo', 'plot', 'week','smt'));
+            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bap', 'rps', 'clo', 'penilaian', 'llo', 'plot', 'week','smt'));
         }else{
             Session::flash('message', 'Buat instrumen monev gagal, karena dosen belum membuat instrumen penilaian CLO!');
             Session::flash('alert-class', 'alert-danger');

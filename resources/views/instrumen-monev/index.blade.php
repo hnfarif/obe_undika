@@ -518,7 +518,7 @@
                                         </thead>
                                         <tbody>
 
-                                            @foreach ($agenda as $key => $i)
+                                            @foreach ($agd as $key => $i)
 
                                             <tr>
                                                 <td class="text-center">
@@ -580,7 +580,7 @@
                                                         $nilai = $dtlInsMon->where('agd_id', $i->id)->first()->nilai ?? null;
                                                     @endphp
                                                     @if (!($i->pekan == '8' || $i->pekan == '16'))
-                                                        @if ($nilai == '1' || $nilai == '0')
+                                                        @if ($nilai)
                                                             @if($nilai == '1')
                                                                 <span class="badge badge-primary">Sesuai</span>
                                                             @else
@@ -595,7 +595,8 @@
 
                                                                     <button data-agd="{{ $i->id }}" id="btnTidakSesuai" data-nilai="0" class="btn btn-danger"><i class="fas fa-times"></i> Tidak</button>
                                                                 </div>
-
+                                                                @else
+                                                                <span class="badge badge-warning">Belum di monitoring</span>
                                                                 @endif
 
                                                             @else
