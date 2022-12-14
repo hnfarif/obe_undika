@@ -50,7 +50,7 @@
                                             </div>
                                             <div>
                                                 <b>Ruang</b>
-                                                <p>{{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar)['ruang'] }}</p>
+                                                <p>{{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar, $m->kelas) }}</p>
                                             </div>
                                         </div>
                                     </div>

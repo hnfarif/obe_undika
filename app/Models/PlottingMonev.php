@@ -43,11 +43,11 @@ class PlottingMonev extends Model
         return $this->hasOne(InstrumenMonev::class, 'plot_monev_id', 'id');
     }
 
-    public function getKelasRuang($mk, $nik)
+    public function getKelasRuang($mk, $nik, $kelas)
     {
-        $maku = JadwalKuliah::where('klkl_id', $mk)->where('kary_nik', $nik)->first();
+        $maku = JadwalKuliah::where('klkl_id', $mk)->where('kary_nik', $nik)->where('kelas', $kelas)->first();
 
-        return ['kelas' => $maku->kelas, 'ruang' => $maku->ruang_id];
+        return $maku->ruang_id;
     }
 
 
