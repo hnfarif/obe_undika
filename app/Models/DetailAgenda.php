@@ -43,7 +43,7 @@ class DetailAgenda extends Model
     }
 
     public function detailInstrumenMonev(){
-        return $this->hasMany(DetailInstrumenMonev::class, 'dtl_agd_id', 'id');
+        return $this->hasMany(DetailInstrumenMonev::class, 'agd_id', 'agd_id');
     }
 
     public function getTotalClo($data)
