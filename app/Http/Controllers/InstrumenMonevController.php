@@ -16,6 +16,7 @@ use App\Models\KaryawanDosen;
 use App\Models\KriteriaMonev;
 use App\Models\Krs;
 use App\Models\Llo;
+use App\Models\MataKuliah;
 use App\Models\MingguKuliah;
 use App\Models\Penilaian;
 use App\Models\PlottingMonev;
@@ -45,8 +46,8 @@ class InstrumenMonevController extends Controller
     {
         // dd($request->get('id'));
         $smt = $this->semester;
-        $plot = PlottingMonev::where('id', $request->get('id'))->with('matakuliah')->first();
-        $matakuliah = $plot->matakuliah;
+        $plot = PlottingMonev::where('id', $request->get('id'))->first();
+        $matakuliah = MataKuliah::whereId($plot->klkl_id)->first();
         $cekInsNilai = InstrumenNilai::where('klkl_id', $plot->klkl_id)->where('nik', $plot->nik_pengajar)->where('semester', $plot->semester)->first();
         if ($cekInsNilai) {
 
