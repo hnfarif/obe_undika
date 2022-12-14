@@ -108,7 +108,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td style="min-width: 200px;" rowspan="2" class="">
+                                            <td style="min-width: 200px;" rowspan="3" class="">
 
                                                 {{ $k->kri_penilaian }}
                                             </td>
@@ -152,14 +152,14 @@
                                         </tr>
 
                                         <tr>
-                                            <td class="align-middle text-center border">Tanggal Entry</td>
+                                            <td class="align-middle text-center border" colspan="2">Tanggal Entry</td>
 
                                             @foreach ($dtlAgd->unique('clo_id') as $cl)
                                             @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
                                                 $pen)
 
                                                 <td class="border nilai-kri-1">
-                                                    {{ $dtlInsMon->where('dtl_agd_id', $pen->id)->first()->created_at ?? '' }}
+                                                    {{ $dtlInsMon->where('dtl_agd_id', $pen->id)->first()->created_at->format('d-m-Y') ?? ''  }}
                                                 </td>
 
                                             @endforeach
