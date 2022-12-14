@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('instrumen-monev', 'active')
+@section('plottingmonev', 'active')
 @section('', 'active')
 @section('content')
 
@@ -25,7 +25,7 @@
 
                         @else
                         <h2 class="section-title">
-                            {{ $matakuliah->nama }} - {{ $plot->kelas }}
+                            Instrumen Monev
                         </h2>
                         @endif
                         <p class="section-lead">

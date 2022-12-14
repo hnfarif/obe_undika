@@ -46,7 +46,7 @@
                                         <div class="col-12 d-flex justify-content-start">
                                             <div class="mr-5">
                                                 <b>Kelas</b>
-                                                <p>{{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar)['kelas'] }}</p>
+                                                <p>{{ $m->kelas }}</p>
                                             </div>
                                             <div>
                                                 <b>Ruang</b>

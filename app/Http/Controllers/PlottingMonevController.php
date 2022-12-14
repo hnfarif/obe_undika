@@ -62,14 +62,14 @@ class PlottingMonevController extends Controller
         $arrJdwkul = [];
 
         foreach ($jdwkul as $i) {
-           $cek = PlottingMonev::where('klkl_id', $i->klkl_id)->where('nik_pengajar', $i->kary_nik)->where('semester', $smt)->first();
+           $cek = PlottingMonev::where('klkl_id', $i->klkl_id)->where('nik_pengajar', $i->kary_nik)->where('kelas', $i->kelas)->where('semester', $smt)->first();
               if(!$cek){
                 $arrJdwkul[] = $i;
               }
         }
 
         $jdwkul = $arrJdwkul;
-        $kary = KaryawanDosen::where('fakul_id', '<>', null)->get();
+        $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->get();
 
         return view('plotting-monev.create', compact('jdwkul', 'kary', 'smt'));
     }
