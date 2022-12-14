@@ -43,8 +43,8 @@
                                     <b>Nama Dosen</b>
                                     <p>{{ $m->getNameKary($m->nik_pengajar) .' ('.$m->nik_pengajar.')' }}</p>
                                     <div class="row">
-                                        <div class="col-12 d-flex justify-content-between">
-                                            <div>
+                                        <div class="col-12 d-flex justify-content-start">
+                                            <div class="mr-5">
                                                 <b>Kelas</b>
                                                 <p>{{ $m->kelas }}</p>
                                             </div>
@@ -52,16 +52,6 @@
                                                 <b>Ruang</b>
                                                 <p>{{ $m->getKelasRuang($m->klkl_id, $m->nik_pengajar, $m->kelas) }}
                                                 </p>
-                                            </div>
-                                            <div>
-                                                <form action="{{ route('monev.plotting.destroy', $m->id) }}"
-                                                    method="POST">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-danger btn-sm text-sm"
-                                                        onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">
-                                                        <i class="fas fa-trash"></i>
-                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -81,6 +71,17 @@
                                     Buat Instrumen Monev
                                     @endif
                                 </a>
+
+                                @if (auth()->user()->role == 'p3ai')
+                                <form class="ml-auto" action="{{ route('monev.plotting.destroy', $m->id) }}"
+                                    method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm text-sm"
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">
+                                        <i class="fas fa-trash"></i>
+                                </form>
+                                @endif
                             </div>
                         </div>
                     </div>
