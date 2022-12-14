@@ -143,7 +143,7 @@
                                                 $pen)
 
                                                 <td class="border nilai-kri-1">
-                                                    {{ $pen->detailInstrumenMonev->nilai ?? '' }}
+                                                    {{ $pen->detailInstrumenMonev ? $pen->detailInstrumenMonev->nilai : '' }}
                                                 </td>
 
                                             @endforeach
@@ -159,7 +159,7 @@
                                                 $pen)
 
                                                 <td class="border nilai-kri-1">
-                                                    {{ $pen->detailInstrumenMonev->created_at ?? '' }}
+                                                    {{ $pen->detailInstrumenMonev ? $pen->detailInstrumenMonev->created_at->format('d-m-Y') : '' }}
                                                 </td>
 
                                             @endforeach
