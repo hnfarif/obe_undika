@@ -45,7 +45,7 @@ class PlottingMonev extends Model
 
     public function getKelasRuang($mk, $nik, $kelas)
     {
-        $maku = JadwalKuliah::where('klkl_id', $mk)->where('kary_nik', $nik)->where('kelas', $kelas)->first();
+        $maku = JadwalKuliah::find([$mk, $nik, $kelas]);
 
         return $maku->ruang_id;
     }
