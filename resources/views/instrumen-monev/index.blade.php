@@ -159,7 +159,7 @@
                                                 $pen)
 
                                                 <td class="border nilai-kri-1">
-                                                    {{ $dtlInsMon->where('dtl_agd_id', $pen->id)->first()->created_at->format('d-m-Y') ?? ''  }}
+                                                    {{ $dtlInsMon->where('dtl_agd_id', $pen->id)->first()->created_at ? $dtlInsMon->where('dtl_agd_id', $pen->id)->first()->created_at->format('d-m-Y') : ''  }}
                                                 </td>
 
                                             @endforeach
