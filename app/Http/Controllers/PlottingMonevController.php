@@ -57,7 +57,7 @@ class PlottingMonevController extends Controller
 
         $smt = $this->semester;
 
-        $jdwkul = JadwalKuliah::all();
+        $jdwkul = JadwalKuliah::where('ruang_id', '<>', null)->get();
 
         $arrJdwkul = [];
 

@@ -47,7 +47,12 @@ class PlottingMonev extends Model
     {
         $maku = JadwalKuliah::where('klkl_id', $mk)->where('kary_nik', $nik)->where('kelas', $kelas)->first();
 
-        return $maku;
+        if ($maku) {
+
+            return $maku->ruang_id;
+        }else{
+            return '-';
+        }
     }
 
 
