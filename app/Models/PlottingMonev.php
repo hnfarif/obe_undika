@@ -17,6 +17,11 @@ class PlottingMonev extends Model
         return $this->belongsTo(KaryawanDosen::class, 'nik_pengajar', 'nik');
     }
 
+    public function dosenPemonev()
+    {
+        return $this->belongsTo(KaryawanDosen::class, 'nik_pemonev', 'nik');
+    }
+
     public function matakuliah()
     {
         return $this->belongsTo(MataKuliah::class, 'klkl_id', 'id');

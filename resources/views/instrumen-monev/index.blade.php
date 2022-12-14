@@ -21,11 +21,15 @@
                 <div class="d-flex align-items-center my-0">
                     <div>
                         @if (auth()->user()->role == 'p3ai' || auth()->user()->role == 'pimpinan')
-                        <h2 class="section-title">Pemonev - {{ auth()->user()->karyawan->nama }}</h2>
+                        <h2 class="section-title">Pemonev - {{ $plot->dosenPemonev->nama }}</h2>
 
+                        @else
+                        <h2 class="section-title">
+                            {{ $matakuliah->nama }} - {{ $plot->kelas }}
+                        </h2>
                         @endif
                         <p class="section-lead">
-                            {{ $matakuliah->nama }} - {{ $plot->kelas }}
+                            {{ $matakuliah->nama }} - {{ $plot->kelas }} - {{ $plot->karyawan->nama }}
                         </p>
                     </div>
                     <div class="ml-auto">
