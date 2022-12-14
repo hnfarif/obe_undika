@@ -51,7 +51,7 @@ class InstrumenMonevController extends Controller
 
             // buat instrumen monev baru
             $insNilai = $cekInsNilai->id;
-            $cekInsMon = InstrumenMonev::where('plot_monev_id', $request->get('id'))->first();
+            $cekInsMon = $plot->insMonev;
 
             if(!$cekInsMon){
                 $insMon = new InstrumenMonev;
@@ -64,8 +64,8 @@ class InstrumenMonevController extends Controller
             $now = Carbon::now()->format('Y-m-d');
             $kri = KriteriaMonev::all();
             $agd = AgendaBelajar::where('rps_id', $cekInsNilai->rps_id)->get();
-            $dtlAgd = DetailAgenda::whereIn('agd_id', $agd->pluck('id')->toArray())->with('penilaian','clo','detailInstrumenNilai','agendaBelajar')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
-            $dtlInsMon = DetailInstrumenMonev::where('ins_monev_id', $cekInsMon->id)->get();
+            $dtlAgd = DetailAgenda::whereIn('agd_id', $agd->pluck('id')->toArray())->with('penilaian','clo','detailInstrumenNilai','agendaBelajar', 'detailInstrumenMonev')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
+            $dtlInsMon = $cekInsMon->detailMonev;
 
             $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $cekInsNilai->semester)->get();
 
@@ -138,10 +138,6 @@ class InstrumenMonevController extends Controller
             $dtlBap = DetailBap::where('nik', $cekInsNilai->nik)->get();
             $plDtlBap = $dtlBap->pluck('kode_bap')->toArray();
             $bap = Bap::whereIn('kode_bap', $plDtlBap)->where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->get();
-
-
-
-
 
             return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bap', 'rps', 'agenda', 'clo', 'penilaian', 'llo', 'plot', 'week','smt'));
         }else{

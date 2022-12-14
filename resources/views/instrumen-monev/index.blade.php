@@ -143,7 +143,7 @@
                                                 $pen)
 
                                                 <td class="border nilai-kri-1">
-                                                    {{ $dtlInsMon->where('dtl_agd_id', $pen->id)->first()->nilai ?? '' }}
+                                                    {{ $pen->detailInstrumenMonev->nilai ?? '' }}
                                                 </td>
 
                                             @endforeach
@@ -151,6 +151,20 @@
 
                                         </tr>
 
+                                        <tr>
+                                            <td class="align-middle text-center border">Tanggal Entry</td>
+
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                                $pen)
+
+                                                <td class="border nilai-kri-1">
+                                                    {{ $pen->detailInstrumenMonev->created_at ?? '' }}
+                                                </td>
+
+                                            @endforeach
+                                            @endforeach
+                                        </tr>
 
                                     </tbody>
                                 </table>

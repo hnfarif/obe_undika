@@ -11,4 +11,14 @@ class DetailInstrumenMonev extends Model
 
     protected $table = 'dtl_ins_monev';
     protected $guarded = ["id"];
+
+    public function instrumenMonev()
+    {
+        return $this->belongsTo(InstrumenMonev::class, 'ins_monev_id', 'id');
+    }
+
+    public function detailAgenda()
+    {
+        return $this->belongsTo(DetailAgenda::class, 'dtl_agd_id','id');
+    }
 }
