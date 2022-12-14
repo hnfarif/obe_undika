@@ -58,7 +58,7 @@
 
                                 </div>
                             </div>
-                            <div class="card-footer">
+                            <div class="card-footer d-flex">
                                 <a href="{{ route('monev.instrumen.index', ['id' => $m->id]) }}" class="btn @if ($insMon->where('plot_monev_id', $m->id)->first())
 
                                     btn-primary
