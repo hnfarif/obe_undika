@@ -45,7 +45,8 @@ class InstrumenMonevController extends Controller
     {
         // dd($request->get('id'));
         $smt = $this->semester;
-        $plot = PlottingMonev::where('id', $request->get('id'))->first();
+        $plot = PlottingMonev::where('id', $request->get('id'))->with('matakuliah')->first();
+        $matakuliah = $plot->matakuliah;
         $cekInsNilai = InstrumenNilai::where('klkl_id', $plot->klkl_id)->where('nik', $plot->nik_pengajar)->where('semester', $plot->semester)->first();
         if ($cekInsNilai) {
 
@@ -135,7 +136,7 @@ class InstrumenMonevController extends Controller
             $plDtlBap = $dtlBap->pluck('kode_bap')->toArray();
             $bap = Bap::whereIn('kode_bap', $plDtlBap)->where('kode_mk', $jdw->klkl_id)->where('prodi', $jdw->prodi)->get();
 
-            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bap', 'rps', 'clo', 'penilaian', 'llo', 'plot', 'week','smt'));
+            return view('instrumen-monev.index', compact('agd','kri','dtlAgd', 'dtlInsMon', 'insNilai', 'startFill', 'now', 'getPekan', 'krs', 'cekInsNilai', 'jmlMhs', 'jmlPre', 'cekInsMon', 'dtlBap', 'bap', 'rps', 'clo', 'penilaian', 'llo', 'plot', 'week','smt', 'matakuliah'));
         }else{
             Session::flash('message', 'Buat instrumen monev gagal, karena dosen belum membuat instrumen penilaian CLO!');
             Session::flash('alert-class', 'alert-danger');

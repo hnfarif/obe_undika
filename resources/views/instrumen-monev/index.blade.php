@@ -19,6 +19,15 @@
                 @endif
 
                 <div class="d-flex align-items-center my-0">
+                    <div>
+                        @if (auth()->user()->role == 'p3ai' || auth()->user()->role == 'pimpinan')
+                        <h2 class="section-title">Pemonev - {{ auth()->user()->karyawan->nama }}</h2>
+
+                        @endif
+                        <p class="section-lead">
+                            {{ $matakuliah->nama }} - {{ $plot->kelas }}
+                        </p>
+                    </div>
                     <div class="ml-auto">
                         <div class="selectgroup w-100">
                             <label class="selectgroup-item">
@@ -596,7 +605,7 @@
                                                                     <button data-agd="{{ $i->id }}" id="btnTidakSesuai" data-nilai="0" class="btn btn-danger"><i class="fas fa-times"></i> Tidak</button>
                                                                 </div>
                                                                 @else
-                                                                <span class="badge badge-warning">Belum di monitoring</span>
+                                                                <span class="badge badge-warning">Belum di sesuaikan</span>
                                                                 @endif
 
                                                             @else
