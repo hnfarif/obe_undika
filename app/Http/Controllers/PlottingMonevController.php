@@ -150,7 +150,13 @@ class PlottingMonevController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete = PlottingMonev::findOrFail($id);
+        $delete->delete();
+
+        Session::flash('message', 'Data berhasil dihapus!');
+        Session::flash('alert-class', 'alert-success');
+
+        return back();
     }
 
 
@@ -239,8 +245,6 @@ class PlottingMonevController extends Controller
         $arrPlot = $pltMnv->pluck('id')->toArray();
         $insMon = InstrumenMonev::whereIn('plot_monev_id', $arrPlot)->get();
 
-        $maku = JadwalKuliah::where('kary_nik', '000290')->get();
-        dd($maku);
         $smt = $this->semester;
 
         return view('plotting-monev.detail', compact('pltMnv', 'insMon', 'kary', 'smt'));
