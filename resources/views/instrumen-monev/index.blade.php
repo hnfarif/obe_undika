@@ -143,7 +143,7 @@
                                                 $pen)
 
                                                 <td class="border nilai-kri-1">
-                                                    {{ $pen->detailInstrumenMonev ? $pen->detailInstrumenMonev->nilai : '' }}
+                                                    {{ $dtlInsMon->where('dtl_agd_id', $pen->id)->first()->nilai ?? '' }}
                                                 </td>
 
                                             @endforeach
@@ -159,7 +159,7 @@
                                                 $pen)
 
                                                 <td class="border nilai-kri-1">
-                                                    {{ $pen->detailInstrumenMonev ? $pen->detailInstrumenMonev->created_at->format('d-m-Y') : '' }}
+                                                    {{ $dtlInsMon->where('dtl_agd_id', $pen->id)->first()->created_at ?? '' }}
                                                 </td>
 
                                             @endforeach
