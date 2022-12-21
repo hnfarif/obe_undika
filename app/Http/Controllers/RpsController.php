@@ -312,11 +312,20 @@ class RpsController extends Controller
     public function transferAgenda(Request $request)
     {
         $rps = Rps::findOrFail($request->get('rps_id'));
-        $rps->update([
-            'is_done' => '1',
-        ]);
+        $sumBobot = DetailAgenda::whereHas('agendaBelajar', function($q) use ($rps){
+            $q->where('rps_id', $rps->id);
+        })->sum('bobot');
 
-        return json_encode(['status' => 'success']);
+        if ($sumBobot == 100) {
+            $rps->update([
+                'is_done' => '1',
+            ]);
+
+            return json_encode(['status' => 'success', 'message' => 'Agenda Pembelajaran selesai!']);
+        }else{
+            return json_encode(['status' => 'error', 'message' => 'Bobot Penilaian belum mencapai 100%, silahkan cek kembali!']);
+        }
+
     }
 
     public function updatePenyusun(Request $request)

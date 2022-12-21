@@ -33,8 +33,7 @@
                             Agenda Pembelajaran sudah selesai</button>
                         @else
                         <button type="button" class="btn btn-info ml-3 transAgd"><i class="fas fa-paper-plane"></i>
-                            Transfer
-                            Penilaian CLO</button>
+                            Tandai Selesai</button>
                         @endif
                     </div>
                     @endif

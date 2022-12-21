@@ -1000,7 +1000,7 @@
         $('.transAgd').on('click', function () {
             Swal.fire({
                 title: 'Perhatian',
-                text: "Pastikan Agenda Pembelajaran sudah sesuai, karena data akan digunakan untuk Penilaian CLO!",
+                text: "Pastikan Agenda Pembelajaran sudah selesai, karena data akan digunakan untuk Penilaian CLO!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -1021,13 +1021,21 @@
                                 Swal.fire({
                                     position: 'top-end',
                                     icon: 'success',
-                                    title: 'Agenda berhasil ditransfer!',
+                                    title: data.message,
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
                                 setTimeout(() => {
                                     location.reload();
                                 }, 1500);
+                            } else {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
                             }
 
                         }
