@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class RpsController extends Controller
@@ -278,15 +279,31 @@ class RpsController extends Controller
         ]);
 
         if ($validatedData->passes()) {
+            $findRps = Rps::findOrFail($request->get('mrps_id'));
 
-            $rps = Rps::findOrFail($request->get('mrps_id'))->update([
-                'file_rps' => $request->file('rps')->store('rps-file'),
-            ]);
+            if ($findRps->file_rps) {
+                Storage::delete($findRps->file_rps);
 
-            if ($rps) {
+                $rpsUpdate = $findRps->update([
+                    'file_rps' => $request->file('rps')->store('rps-file'),
+                ]);
+
+            }else{
+
+                $rpsStore = Rps::findOrFail($request->get('mrps_id'))->update([
+                    'file_rps' => $request->file('rps')->store('rps-file'),
+                ]);
+            }
+
+
+
+            if ($rpsStore) {
                 Session::flash('message', 'File Rps berhasil diupload!');
                 Session::flash('alert-class', 'alert-success');
-            } else {
+            }else if($rpsUpdate){
+                Session::flash('message', 'File Rps berhasil diubah!');
+                Session::flash('alert-class', 'alert-success');
+            }else {
                 Session::flash('message', 'File Rps gagal diupload!');
                 Session::flash('alert-class', 'alert-danger');
             }

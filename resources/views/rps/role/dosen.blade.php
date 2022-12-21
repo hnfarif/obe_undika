@@ -74,12 +74,15 @@
                 @if ($r->file_rps)
                 <a href="{{ asset('storage/'.$r->file_rps) }}" target="_blank" class="btn btn-primary mr-1 "> <i
                         class="fas fa-file-pdf"></i> Lihat PDF</a>
+
+                <button type="button" class="btn btn-info  btn-sm mr-1 saveRps" data-id="{{ $r->id }}"> <i
+                        class="fas fa-edit"></i> Ubah PDF</button>
                 @else
                 <button type="button" class="btn btn-warning mr-1 saveRps" data-id="{{ $r->id }}"><i
                         class="fas fa-file-upload"></i> Upload
                     RPS </button>
                 @endif
-                <a href="{{ route('clo.index', $r->id) }}" class="btn btn-light mr-1 ">Edit Rps</a>
+                <a href="{{ route('clo.index', $r->id) }}" class="btn btn-light ml- ">Kelola Rps</a>
 
             </div>
         </div>

@@ -82,7 +82,7 @@
             var id = $(this).attr('data-id');
             Swal.fire({
                 title: 'Perhatian',
-                text: "Pastikan file yang akan diupload sudah benar, file tidak dapat diubah lagi",
+                text: "Pastikan file yang akan diupload sudah benar!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
