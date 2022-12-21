@@ -284,24 +284,19 @@ class RpsController extends Controller
             if ($findRps->file_rps) {
                 Storage::delete($findRps->file_rps);
 
-                $rpsUpdate = $findRps->update([
+                $rps = $findRps->update([
                     'file_rps' => $request->file('rps')->store('rps-file'),
                 ]);
 
             }else{
 
-                $rpsStore = Rps::findOrFail($request->get('mrps_id'))->update([
+                $rps = Rps::findOrFail($request->get('mrps_id'))->update([
                     'file_rps' => $request->file('rps')->store('rps-file'),
                 ]);
             }
 
-
-
-            if ($rpsStore) {
-                Session::flash('message', 'File Rps berhasil diupload!');
-                Session::flash('alert-class', 'alert-success');
-            }else if($rpsUpdate){
-                Session::flash('message', 'File Rps berhasil diubah!');
+            if ($rps) {
+                Session::flash('message', 'File Rps berhasil disimpan!');
                 Session::flash('alert-class', 'alert-success');
             }else {
                 Session::flash('message', 'File Rps gagal diupload!');
