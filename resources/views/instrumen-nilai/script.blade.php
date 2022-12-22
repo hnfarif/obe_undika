@@ -97,7 +97,7 @@
                     swal.fire({
                         title: 'Mohon Tunggu',
                         html: 'Sedang memuat Grafik',
-                        allowOutsideClick: true,
+                        allowOutsideClick: false,
                         showConfirmButton: false,
                         willOpen: () => {
                             Swal.showLoading()
