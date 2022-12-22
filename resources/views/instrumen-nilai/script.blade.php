@@ -61,7 +61,7 @@
                 success: function (data) {
                     if ($.isEmptyObject(data.error)) {
                         $('.loadGrafik').html('');
-                        const myChart = new Chart(ctx, {
+                        var myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
                                 labels: ["Total MK tidak tercapai", "Total MK tercapai"],
