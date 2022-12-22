@@ -38,6 +38,7 @@
                 "fakultas": $("input[name=fakultas]").val(),
                 "prodi": $("input[name=prodi]").val(),
             }
+            console.log(filter);
             loadGrafik(filter);
         })
 
