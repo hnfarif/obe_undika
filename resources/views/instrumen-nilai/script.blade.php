@@ -96,14 +96,18 @@
                     'prodi': filter ? filter.prodi : '',
                 },
                 beforeSend: function () {
-                    $('.loadGrafik').html(
-                        '<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i> Harap tunggu sebentar, sedang memuat grafik ...</div>'
-                    );
+                    swal.fire({
+                        title: 'Mohon Tunggu',
+                        html: 'Sedang memuat Grafik',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            swal.showLoading()
+                        },
+                    });
                 },
                 success: function (data) {
                     if ($.isEmptyObject(data.error)) {
-                        $('.loadGrafik').html('');
-
+                        swal.close();
                         myChart.data.datasets[0].data = [data.jmlInsTdkLulus, data.jmlInsLulus];
                         myChart.update();
 
