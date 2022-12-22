@@ -36,10 +36,14 @@
             $('#filInsClo').modal('hide');
             var filter = {
                 "fakultas": $("input[name='fakultas[]']").map(function () {
-                    return $(this).val();
+                    if ($(this).is(':checked')) {
+                        return $(this).val();
+                    }
                 }).get(),
                 "prodi": $("input[name='prodi[]']").map(function () {
-                    return $(this).val();
+                    if ($(this).is(':checked')) {
+                        return $(this).val();
+                    }
                 }).get(),
             }
             console.log(filter);
