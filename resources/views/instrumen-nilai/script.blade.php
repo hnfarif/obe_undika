@@ -85,7 +85,7 @@
         })
 
         $('#btnShowListCapai').on('click', function () {
-            var url = "{{ route('penilaian.rangkumCapaiCloList', ':filter') }}";
+            var url = "{{ route('penilaian.rangkumCapaiCloList', :filter) }}";
 
             url = url.replace(':filter', "['fakultas' => " + filter.fakultas + ", 'prodi' => " + filter
                 .prodi + "]");
