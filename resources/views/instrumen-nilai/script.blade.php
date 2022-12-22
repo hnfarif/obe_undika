@@ -104,10 +104,8 @@
                     if ($.isEmptyObject(data.error)) {
                         $('.loadGrafik').html('');
 
-                        if (filter) {
-                            myChart.data = [data.jmlInsTdkLulus, data.jmlInsLulus];
-                            myChart.update();
-                        }
+                        myChart.data = [data.jmlInsTdkLulus, data.jmlInsLulus];
+                        myChart.update();
 
                     } else {
                         Swal.fire({
