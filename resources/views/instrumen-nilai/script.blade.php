@@ -4,6 +4,8 @@
 
     $(document).ready(function () {
 
+        var filter = [];
+
         $(".btnUbahNilai").on('click', function () {
 
             $.ajax({
@@ -67,7 +69,7 @@
 
         $('#filDataCapaiClo').on('click', function () {
             $('#filInsClo').modal('hide');
-            var filter = {
+            filter = {
                 "fakultas": $("input[name='fakultas[]']").map(function () {
                     if ($(this).is(':checked')) {
                         return $(this).val();
@@ -80,6 +82,14 @@
                 }).get(),
             }
             loadGrafik(filter);
+        })
+
+        $('#btnShowListCapai').on('click', function () {
+            var url = "{{ route('penilaian.rangkumCapaiCloList', ':filter') }}";
+
+            url = url.replace(':filter', filter);
+
+            window.location.href = url;
         })
 
         loadGrafik();

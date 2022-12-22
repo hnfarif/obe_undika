@@ -12,7 +12,7 @@
                 </button>
                 @endif
 
-                <a href="{{ route('penilaian.rangkumCapaiCloList') }}" class="btn btn-info"> Lihat Data </a>
+                <button class="btn btn-info" id="btnShowListCapai"> Lihat Data </button>
             </div>
             <div class="card-body">
                 <canvas id="grangclo" width="700" height="200"></canvas>
