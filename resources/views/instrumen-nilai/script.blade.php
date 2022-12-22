@@ -87,7 +87,7 @@
         $('#btnShowListCapai').on('click', function () {
             var url = "{{ route('penilaian.rangkumCapaiCloList', ':filter') }}";
 
-            url = url.replace(':filter', JSON.stringify(filter));
+            url = url.replace(':filter', json_encode(filter));
 
             window.location.href = url;
         })
