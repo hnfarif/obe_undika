@@ -85,13 +85,10 @@
         })
 
         $('#btnShowListCapai').on('click', function () {
-            if (filter) {
+            var url = "{{ route('penilaian.rangkumCapaiCloList', ':filter') }}";
 
-                var url = "{{ url('clo/list-capaian-clo') }}" + "?fakultas=" + filter.fakultas +
-                    "&prodi=" + filter.prodi;
-            } else {
-                var url = "{{ url('clo/list-capaian-clo') }}";
-            }
+            url = url.replace(':filter', "['fakultas' => " + filter.fakultas + ", 'prodi' => " + filter
+                .prodi + "]");
 
             window.location.href = url;
         })
