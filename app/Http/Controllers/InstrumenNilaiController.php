@@ -53,8 +53,8 @@ class InstrumenNilaiController extends Controller
         $smt = $this->semester;
 
         if($role == 'dekan'){
-            $fak = Fakultas::where('mngr_id', $nik_kary )->first();
-            $prodi = Prodi::whereIn('id_fakultas', $fak->pluck('id')->toArray())->where('sts_aktif', 'Y')->get();
+            $fak = Fakultas::where('mngr_id', $nik_kary)->first();
+            $prodi = Prodi::where('id_fakultas', $fak->id)->where('sts_aktif', 'Y')->get();
         }else{
             $fak = Fakultas::where('sts_aktif', '1')->get();
             $prodi = Prodi::whereIn('id_fakultas', $fak->pluck('id')->toArray())->where('sts_aktif', 'Y')->get();
