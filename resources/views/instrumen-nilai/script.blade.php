@@ -4,7 +4,10 @@
 
     $(document).ready(function () {
 
-        var filter = [];
+        var filter = {
+            "fakultas": [],
+            "prodi": [],
+        };
 
         $(".btnUbahNilai").on('click', function () {
 
@@ -87,7 +90,7 @@
         $('#btnShowListCapai').on('click', function () {
             var url = "{{ route('penilaian.rangkumCapaiCloList', ':filter') }}";
 
-            url = url.replace(':filter', filter);
+            url = url.replace(':filter', JSON.stringify(filter));
 
             window.location.href = url;
         })
