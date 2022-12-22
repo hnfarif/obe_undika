@@ -48,6 +48,9 @@ class InstrumenNilaiController extends Controller
 
     public function index()
     {
+        $fak = Fakultas::where('sts_aktif', 'Y')->get();
+        $prodi = Prodi::whereIn('id_fakultas', $fak->pluck('id')->toArray())->where('sts_aktif', 'Y')->get();
+
         $nik_kary = auth()->user()->nik;
         $role = auth()->user()->role;
         $smt = $this->semester;
@@ -58,7 +61,7 @@ class InstrumenNilaiController extends Controller
             return view('instrumen-nilai.index', compact('jdwkul', 'instru', 'smt'));
         }
 
-        return view('instrumen-nilai.index', compact('smt'));
+        return view('instrumen-nilai.index', compact('smt', 'fak', 'prodi'));
     }
 
     /**

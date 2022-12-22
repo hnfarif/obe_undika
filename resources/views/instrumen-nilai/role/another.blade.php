@@ -6,7 +6,11 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Grafik Ketercapaian CLO Mata Kuliah</h4>
-                <a href="{{ route('penilaian.rangkumCapaiCloList') }}" class="btn btn-info ml-auto"> Lihat Data </a>
+                <button class="btn btn-primary ml-auto mr-2" data-toggle="modal" data-target="#filInsClo">
+                    <i class="fas fa-filter"></i> Filter
+                </button>
+
+                <a href="{{ route('penilaian.rangkumCapaiCloList') }}" class="btn btn-info"> Lihat Data </a>
             </div>
             <div class="card-body">
                 <canvas id="grangclo" width="700" height="200"></canvas>
