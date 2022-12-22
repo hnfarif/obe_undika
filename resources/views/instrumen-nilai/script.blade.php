@@ -94,7 +94,7 @@
                         });
 
                         // when filter not null then refresh chart
-                        if (filter != []) {
+                        if (filter.fakultas != [] || filter.prodi != []) {
                             myChart.destroy();
                         }
 
