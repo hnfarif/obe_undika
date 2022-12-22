@@ -6,9 +6,11 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Grafik Ketercapaian CLO Mata Kuliah</h4>
+                @if (auth()->user()->role != 'kaprodi')
                 <button class="btn btn-primary ml-auto mr-2" data-toggle="modal" data-target="#filInsClo">
                     <i class="fas fa-filter"></i> Filter
                 </button>
+                @endif
 
                 <a href="{{ route('penilaian.rangkumCapaiCloList') }}" class="btn btn-info"> Lihat Data </a>
             </div>
