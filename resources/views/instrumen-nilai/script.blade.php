@@ -89,7 +89,6 @@
             $.ajax({
                 url: "{{ route('penilaian.rangkumCapaiClo') }}",
                 type: 'GET',
-                dataType: 'json',
                 data: {
                     'fakultas': filter ? filter.fakultas : '',
                     'prodi': filter ? filter.prodi : '',
