@@ -93,11 +93,6 @@
                             }
                         });
 
-                        // when filter not null then refresh chart
-                        if (filter.fakultas != [] || filter.prodi != []) {
-                            myChart.destroy();
-                        }
-
                     } else {
                         Swal.fire({
                             icon: 'error',
