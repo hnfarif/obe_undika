@@ -32,7 +32,7 @@
         })
         var ctx = document.getElementById('grangclo').getContext('2d');
 
-        var config = {
+        var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ["Total MK tidak tercapai", "Total MK tercapai"],
@@ -63,8 +63,7 @@
                     }
                 }
             }
-        }
-        var myChart = new Chart(ctx, config);
+        });
 
         $('#filDataCapaiClo').on('click', function () {
             $('#filInsClo').modal('hide');
@@ -100,9 +99,10 @@
                         title: 'Mohon Tunggu',
                         html: 'Sedang memuat Grafik',
                         allowOutsideClick: false,
-                        onBeforeOpen: () => {
-                            swal.showLoading()
-                        },
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading()
+                        }
                     });
                 },
                 success: function (data) {
