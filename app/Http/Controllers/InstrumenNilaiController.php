@@ -534,7 +534,7 @@ class InstrumenNilaiController extends Controller
         }else if($user->role == 'dekan'){
             $chkDekan = Fakultas::where('mngr_id', $user->nik)->first();
             $prodi = Prodi::where('id_fakultas', $chkDekan->id)->get();
-            $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->fakultas()->prodi()->get();
+            $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->prodi()->get();
 
             $rang = $this->getCapaiClo($jdw);
 
@@ -636,7 +636,7 @@ class InstrumenNilaiController extends Controller
         }else if($user->role == 'dekan'){
             $chkDekan = Fakultas::where('mngr_id', $user->nik)->first();
             $prodi = Prodi::where('id_fakultas', $chkDekan->id)->get();
-            $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->get();
+            $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->prodi()->get();
 
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
             $mkTdkLulus = collect($this->getCapaiClo($jdw)['mkTdkLulus']);
@@ -645,7 +645,7 @@ class InstrumenNilaiController extends Controller
 
             return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
         }else{
-            $jdw = JadwalKuliah::where('sts_kul', '1')->get();
+            $jdw = JadwalKuliah::where('sts_kul', '1')->fakultas()->prodi()->get();
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
             $mkTdkLulus = collect($this->getCapaiClo($jdw)['mkTdkLulus']);
             $smt = $this->semester;
