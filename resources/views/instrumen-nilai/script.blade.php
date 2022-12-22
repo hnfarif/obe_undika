@@ -4,10 +4,7 @@
 
     $(document).ready(function () {
 
-        var filter = {
-            "fakultas": [],
-            "prodi": [],
-        };
+        var filter = {};
 
         $(".btnUbahNilai").on('click', function () {
 
