@@ -525,7 +525,7 @@ class InstrumenNilaiController extends Controller
         if ($user->role == 'kaprodi') {
 
             $prodi = Prodi::where('mngr_id', $user->nik)->first();
-            $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->fakultas()->prodi()->get();
+            $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
 
             $rang = $this->getCapaiClo($jdw);
 
@@ -540,7 +540,7 @@ class InstrumenNilaiController extends Controller
 
             return response()->json($rang);
         }else{
-            $jdw = JadwalKuliah::where('sts_kul', '1')->get();
+            $jdw = JadwalKuliah::where('sts_kul', '1')->fakultas()->prodi()->get();
 
             $rang = $this->getCapaiClo($jdw);
 
