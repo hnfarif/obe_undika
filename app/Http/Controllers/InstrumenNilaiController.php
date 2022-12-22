@@ -522,6 +522,8 @@ class InstrumenNilaiController extends Controller
     {
         $user = auth()->user();
 
+        dd(request()->all());
+
         if ($user->role == 'kaprodi') {
 
             $prodi = Prodi::where('mngr_id', $user->nik)->first();
