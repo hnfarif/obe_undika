@@ -52,7 +52,7 @@
 
         loadGrafik();
 
-        function loadGrafik(filter = []) {
+        function loadGrafik(filter) {
 
             $.ajax({
                 url: "{{ route('penilaian.rangkumCapaiClo') }}",
