@@ -48,12 +48,17 @@ class InstrumenNilaiController extends Controller
 
     public function index()
     {
-        $fak = Fakultas::where('sts_aktif', 'Y')->get();
-        $prodi = Prodi::whereIn('id_fakultas', $fak->pluck('id')->toArray())->where('sts_aktif', 'Y')->get();
-
         $nik_kary = auth()->user()->nik;
         $role = auth()->user()->role;
         $smt = $this->semester;
+
+        if($role == 'dekan'){
+            $fak = Fakultas::where('mngr_id', $nik_kary )->first();
+            $prodi = Prodi::whereIn('id_fakultas', $fak->pluck('id')->toArray())->where('sts_aktif', 'Y')->get();
+        }else{
+            $fak = Fakultas::where('sts_aktif', '1')->get();
+            $prodi = Prodi::whereIn('id_fakultas', $fak->pluck('id')->toArray())->where('sts_aktif', 'Y')->get();
+        }
 
         if ($role == 'dosen') {
             $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
