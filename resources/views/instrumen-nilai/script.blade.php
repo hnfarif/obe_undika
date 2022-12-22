@@ -105,12 +105,7 @@
                         $('.loadGrafik').html('');
 
                         if (filter) {
-                            myChart.data.labels = ["Total MK tidak tercapai", "Total MK tercapai"];
-                            myChart.data.datasets[0].data = [data.jmlInsTdkLulus, data.jmlInsLulus];
-                            myChart.update();
-                        } else {
-                            myChart.data.labels = ["Total MK tidak tercapai", "Total MK tercapai"];
-                            myChart.data.datasets[0].data = [data.jmlInsTdkLulus, data.jmlInsLulus];
+                            myChart.data = [data.jmlInsTdkLulus, data.jmlInsLulus];
                             myChart.update();
                         }
 
