@@ -84,14 +84,6 @@
             loadGrafik(filter);
         })
 
-        $('#btnShowListCapai').on('click', function () {
-            var url = "{{ route('penilaian.rangkumCapaiCloList', ':filter') }}";
-
-            url = url.replace(':filter', "?fakultas=" + filter.fakultas + "&prodi=" + filter.prodi);
-
-            window.location.href = url;
-        })
-
         loadGrafik();
 
         function loadGrafik(filter) {
