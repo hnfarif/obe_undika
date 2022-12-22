@@ -59,8 +59,8 @@
                 type: 'GET',
                 dataType: 'json',
                 data: {
-                    'fakultas': filter.fakultas ? filter.fakultas : '',
-                    'prodi': filter.prodi ? filter.prodi : '',
+                    'fakultas': filter ? filter.fakultas : '',
+                    'prodi': filter ? filter.prodi : '',
                 },
                 beforeSend: function () {
                     $('.loadGrafik').html(
