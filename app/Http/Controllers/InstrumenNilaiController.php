@@ -522,7 +522,7 @@ class InstrumenNilaiController extends Controller
     {
         $user = auth()->user();
 
-        dd(request()->all());
+        dd(request()->fakultas);
 
         if ($user->role == 'kaprodi') {
 
