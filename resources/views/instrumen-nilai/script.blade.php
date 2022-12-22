@@ -34,10 +34,10 @@
 
         $('#filDataCapaiClo').on('click', function () {
             $('#filInsClo').modal('hide');
-            var filter = [
+            var filter = {
                 "fakultas": $("input[name=fakultas]").val(),
                 "prodi": $("input[name=prodi]").val(),
-            ]
+            }
             loadGrafik(filter);
         })
 
