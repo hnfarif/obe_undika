@@ -46,7 +46,6 @@
                     }
                 }).get(),
             }
-            console.log(filter);
             loadGrafik(filter);
         })
 
@@ -70,12 +69,7 @@
                 success: function (data) {
                     if ($.isEmptyObject(data.error)) {
                         $('.loadGrafik').html('');
-                        // update chart if filter not empty
-                        if (filter) {
-                            myChart.destroy();
-                        }
-
-                        var myChart = new Chart(ctx, {
+                        var config = {
                             type: 'bar',
                             data: {
                                 labels: ["Total MK tidak tercapai", "Total MK tercapai"],
@@ -106,7 +100,14 @@
                                     }
                                 }
                             }
-                        });
+                        }
+
+                        var myChart = new Chart(ctx, config);
+
+                        if (filter) {
+                            myChart.destroy();
+                            myChart = new Chart(ctx, config);
+                        }
 
                     } else {
                         Swal.fire({
