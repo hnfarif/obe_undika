@@ -44,7 +44,6 @@
         loadGrafik();
 
         function loadGrafik(filter = []) {
-
             $.ajax({
                 url: "{{ route('penilaian.rangkumCapaiClo') }}",
                 type: 'GET',
@@ -93,6 +92,12 @@
                                 }
                             }
                         });
+
+                        // when filter not null then refresh chart
+                        if (filter != []) {
+                            myChart.destroy();
+                        }
+
                     } else {
                         Swal.fire({
                             icon: 'error',
