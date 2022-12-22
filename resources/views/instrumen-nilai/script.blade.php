@@ -70,6 +70,11 @@
                 success: function (data) {
                     if ($.isEmptyObject(data.error)) {
                         $('.loadGrafik').html('');
+                        // update chart if filter not empty
+                        if (filter) {
+                            myChart.destroy();
+                        }
+
                         var myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
@@ -103,12 +108,6 @@
                             }
                         });
 
-                        // update chart if filter not empty
-                        if (filter) {
-                            myChart.data.labels = ["Total MK tidak tercapai", "Total MK tercapai"];
-                            myChart.data.datasets[0].data = [data.jmlInsTdkLulus, data.jmlInsLulus];
-                            myChart.update();
-                        }
                     } else {
                         Swal.fire({
                             icon: 'error',
