@@ -35,8 +35,12 @@
         $('#filDataCapaiClo').on('click', function () {
             $('#filInsClo').modal('hide');
             var filter = {
-                "fakultas": $("input[name=fakultas]").val(),
-                "prodi": $("input[name=prodi]").val(),
+                "fakultas": $("input[name='fakultas[]']").map(function () {
+                    return $(this).val();
+                }).get(),
+                "prodi": $("input[name='prodi[]']").map(function () {
+                    return $(this).val();
+                }).get(),
             }
             console.log(filter);
             loadGrafik(filter);
@@ -97,6 +101,8 @@
 
                         // update chart if filter not empty
                         if (filter) {
+                            myChart.data.labels = ["Total MK tidak tercapai", "Total MK tercapai"];
+                            myChart.data.datasets[0].data = [data.jmlInsTdkLulus, data.jmlInsLulus];
                             myChart.update();
                         }
                     } else {
