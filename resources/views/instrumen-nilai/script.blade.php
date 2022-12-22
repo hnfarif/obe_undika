@@ -104,7 +104,7 @@
                     if ($.isEmptyObject(data.error)) {
                         $('.loadGrafik').html('');
 
-                        myChart.data = [data.jmlInsTdkLulus, data.jmlInsLulus];
+                        myChart.data.datasets[0].data = [data.jmlInsTdkLulus, data.jmlInsLulus];
                         myChart.update();
 
                     } else {
