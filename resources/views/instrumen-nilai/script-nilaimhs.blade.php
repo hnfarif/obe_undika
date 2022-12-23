@@ -391,12 +391,12 @@
             ],
             datasets: [{
 
-                    backgroundColor: ['#AAA', '#777'],
+                    backgroundColor: ['#9EA1D4', '#FD8A8A'],
                     data: [sumCapai, sumNoCapai]
                 },
                 {
 
-                    backgroundColor: ['hsl(240, 100%, 75%)', 'hsl(240, 100%, 60%)'],
+                    backgroundColor: ['#86C8BC', '#65647C'],
                     data: [sumMhsCapai, sumMhsNoCapai]
                 }
             ]
