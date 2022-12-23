@@ -115,7 +115,7 @@
                     data-id="{{ $r->id }}"><i class="fas fa-edit"></i>
                 </button>
 
-                <form class="ml-auto" action="{{ route('rps.delete', $i->id) }}" method="POST">
+                <form class="ml-auto" action="{{ route('rps.delete', $r->id) }}" method="POST">
                     @method('DELETE')
                     @csrf
                     <input name="_method" type="hidden" value="DELETE">
