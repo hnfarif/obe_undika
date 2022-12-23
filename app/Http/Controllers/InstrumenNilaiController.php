@@ -531,7 +531,7 @@ class InstrumenNilaiController extends Controller
 
         if ($user->role == 'kaprodi') {
 
-            $prodi = Prodi::where('mngr_id', $user->nik)->where('sts_aktif', 'Y')->first();
+            $prodi = Prodi::where('mngr_id', $user->nik)->where('sts_aktif', 'Y')->orderBy('id', 'asc')->first();
             $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
 
             $rang = $this->getCapaiClo($jdw);
@@ -630,7 +630,7 @@ class InstrumenNilaiController extends Controller
 
         if ($user->role == 'kaprodi') {
 
-            $prodi = Prodi::where('mngr_id', $user->nik)->first();
+            $prodi = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
             $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
 
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);

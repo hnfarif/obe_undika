@@ -61,7 +61,7 @@ class RpsController extends Controller
             $mk = MataKuliah::whereIn('fakul_id', $prodiDekan)->pluck('id')->toArray();
             $rps = Rps::whereIn('kurlkl_id', $mk)->whereSemester($smt)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }else if ($role == 'kaprodi') {
-            $prodiKaprodi = $prodi->where('mngr_id', $nik)->first();
+            $prodiKaprodi = $prodi->where('mngr_id', $nik)->orderBy('id', 'asc')->first();
             $mk = MataKuliah::where('fakul_id', $prodiKaprodi->id)->pluck('id')->toArray();
             $rps = Rps::whereIn('kurlkl_id', $mk)->whereSemester($smt)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }else{
@@ -79,7 +79,7 @@ class RpsController extends Controller
     public function create()
     {
         $user = auth()->user();
-        $prodi = Prodi::where('mngr_id', $user->nik)->first();
+        $prodi = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
         $jdw = JadwalKuliah::whereProdi($prodi->id)->distinct('klkl_id')->get();
         $filMk = [];
 

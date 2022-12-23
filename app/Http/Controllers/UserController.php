@@ -45,7 +45,7 @@ class UserController extends Controller
                 Auth::login($chkUser);
                 return redirect()->route('beranda.index');
             }else{
-                $chkKaprodi = Prodi::where('mngr_id', $chkEmail->nik)->first();
+                $chkKaprodi = Prodi::where('mngr_id', $chkEmail->nik)->orderBy('id', 'asc')->first();
                 $chkStaf = KaryawanDosen::where('nik', $chkEmail->nik)->first();
 
                 if($chkKaprodi){
@@ -116,7 +116,7 @@ class UserController extends Controller
             }
 
         }else{
-            $chkKaprodi = Prodi::where('mngr_id', $request->nik)->where('sts_aktif', 'Y')->first();
+            $chkKaprodi = Prodi::where('mngr_id', $request->nik)->where('sts_aktif', 'Y')->orderBy('id', 'asc')->first();
             $chkDekan = Fakultas::where('mngr_id', $request->nik)->where('sts_aktif', 'Y')->first();
             $chkStaf = KaryawanDosen::where('nik', $request->nik)->first();
 

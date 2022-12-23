@@ -33,7 +33,7 @@ class PloController extends Controller
 
         if($user->role == 'kaprodi'){
 
-            $chkrole = Prodi::where('mngr_id', $user->nik)->first();
+            $chkrole = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
 
             $iteration = Plo::latest()->select('kode_plo')->where('fakul_id', $chkrole->id)->pluck('kode_plo')->first();
             $num = substr($iteration, -2, 2);

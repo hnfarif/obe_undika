@@ -35,7 +35,7 @@ class PeoPloController extends Controller
 
         if($user->role == 'kaprodi'){
 
-            $chkrole = Prodi::where('mngr_id', $user->nik)->first();
+            $chkrole = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
 
             $peo = Peo::where('fakul_id', $chkrole->id)->with('plos')->orderBy('id','asc')->get();
             $plo = Plo::where('fakul_id', $chkrole->id)->with('peos')->orderBy('id','asc')->get();
