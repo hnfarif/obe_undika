@@ -406,7 +406,6 @@ class InstrumenNilaiController extends Controller
     public function cekRps(Request $request)
     {
         $nik_kary = $request->nik;
-        $kary = KaryawanDosen::where('nik',$nik_kary)->first();
         $smt = Semester::orderBy('smt_yad', 'desc')->first();
 
         $rps = Rps::where('kurlkl_id', $request->kode_mk)->where('semester', $smt->smt_yad)->get();
@@ -577,48 +576,42 @@ class InstrumenNilaiController extends Controller
 
                 $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
 
-                if ($clo) {
-                    $countClo = $clo->count();
+                $countClo = $clo->count();
 
-                    $totalMkLulus = $countKrs * $countClo;
-                    $cnCloMhs = 0;
+                $totalMkLulus = $countKrs * $countClo;
+                $cnCloMhs = 0;
+                foreach($clo as $c){
 
-                    foreach($clo as $c){
+                    $dtlAgd = DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', '<>' , null)->get();
+                    $sumBobot = $dtlAgd->sum('bobot');
 
-                        $dtlAgd = DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', '<>' , null)->get();
-                        $sumBobot = $dtlAgd->sum('bobot');
-
-                        foreach($arrDtlIns as $key => $di){
-                            $nilaiClo = 0;
-                            foreach ($di as $dtl) {
-                                if($dtl->detailAgenda->clo_id == $c->id ){
-                                    $nilai = $dtl->nilai;
-                                    $bobot = $dtl->detailAgenda->bobot / 100;
-                                    $nilaiClo += $nilai * $bobot;
-                                }
-                            }
-
-                            $nilaiKonv = $sumBobot == 0 ? 0 : ($nilaiClo / $sumBobot) * 100;
-                            $nilaiMinClo = $c->nilai_min;
-
-                            if($nilaiKonv >= $nilaiMinClo){
-                                $cnCloMhs++;
+                    foreach($arrDtlIns as $key => $di){
+                        $nilaiClo = 0;
+                        foreach ($di as $dtl) {
+                            if($dtl->detailAgenda->clo_id == $c->id ){
+                                $nilai = $dtl->nilai;
+                                $bobot = $dtl->detailAgenda->bobot / 100;
+                                $nilaiClo += $nilai * $bobot;
                             }
                         }
 
+                        $nilaiKonv = $sumBobot == 0 ? 0 : ($nilaiClo / $sumBobot) * 100;
+                        $nilaiMinClo = $c->nilai_min;
+
+                        if($nilaiKonv >= $nilaiMinClo){
+                            $cnCloMhs++;
+                        }
                     }
 
-                    if($cnCloMhs == $totalMkLulus){
-                        $jmlInsLulus++;
-                        $mkLulus[] = $j;
+                }
 
-                    }else{
-                        $mkTdkLulus[] = $j;
-                    }
+                if($cnCloMhs == $totalMkLulus){
+                    $jmlInsLulus++;
+                    $mkLulus[] = $j;
+
                 }else{
                     $mkTdkLulus[] = $j;
                 }
-
 
             }else{
                 $mkTdkLulus[] = $j;
