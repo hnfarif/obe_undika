@@ -80,7 +80,7 @@ class PeoController extends Controller
     public function store(Request $request)
     {
         $validation = $request->validate([
-            'kode_peo' => 'required|unique:peo|max:6',
+            'kode_peo' => 'required|max:6',
             'desc_peo' => 'required',
         ]);
 
