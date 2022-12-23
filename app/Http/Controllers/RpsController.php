@@ -42,7 +42,7 @@ class RpsController extends Controller
     {
         // Data Filters
         $fak = Fakultas::all();
-        $prodi = Prodi::where('sts_aktif', 'Y')->get();
+        $prodi = Prodi::where('sts_aktif', 'Y')->orderBy('id', 'asc')->get();
 
         $role = auth()->user()->role;
         $nik = auth()->user()->nik;
@@ -61,7 +61,7 @@ class RpsController extends Controller
             $mk = MataKuliah::whereIn('fakul_id', $prodiDekan)->pluck('id')->toArray();
             $rps = Rps::whereIn('kurlkl_id', $mk)->whereSemester($smt)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }else if ($role == 'kaprodi') {
-            $prodiKaprodi = $prodi->where('mngr_id', $nik)->orderBy('id', 'asc')->first();
+            $prodiKaprodi = $prodi->where('mngr_id', $nik)->first();
             $mk = MataKuliah::where('fakul_id', $prodiKaprodi->id)->pluck('id')->toArray();
             $rps = Rps::whereIn('kurlkl_id', $mk)->whereSemester($smt)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }else{
