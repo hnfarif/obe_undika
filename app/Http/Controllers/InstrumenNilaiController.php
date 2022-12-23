@@ -144,7 +144,7 @@ class InstrumenNilaiController extends Controller
         if (!$getPekan) {
             Session::flash('message', 'Minggu Kuliah Belum Ditentukan');
             Session::flash('alert-class', 'alert-danger');
-            return redirect()->route('penilaian.clo.index');
+            return back();
         }
 
         // dd($week);
