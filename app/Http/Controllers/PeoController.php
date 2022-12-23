@@ -85,7 +85,7 @@ class PeoController extends Controller
         ]);
 
         $user = Auth::user();
-        $getProdi = Prodi::where('mngr_id', $user->nik)->first();
+        $getProdi = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
 
         $peo = new Peo;
 

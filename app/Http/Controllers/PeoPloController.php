@@ -64,7 +64,7 @@ class PeoPloController extends Controller
     public function create()
     {
         $user = Auth::user();
-        $getProdi = Prodi::where('mngr_id', $user->nik)->first();
+        $getProdi = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
 
         $plo =  Plo::where('fakul_id', $getProdi->id)->get();
         $peo = Peo::where('fakul_id', $getProdi->id)->orderBy('kode_peo', 'asc')->get();

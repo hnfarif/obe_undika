@@ -79,7 +79,7 @@ class PloController extends Controller
         ]);
 
         $user = Auth::user();
-        $getProdi = Prodi::where('mngr_id', $user->nik)->first();
+        $getProdi = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
 
        $plo = new Plo;
        $plo->fakul_id = $getProdi->id;
