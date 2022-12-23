@@ -239,9 +239,18 @@ class RpsController extends Controller
      * @param  \App\Models\Rps  $rps
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rps $rps)
+    public function destroy($id)
     {
-        //
+        $rps = Rps::destroy($id);
+
+        if ($rps) {
+            Session::flash('message', 'File Rps berhasil dihapus!');
+            Session::flash('alert-class', 'alert-success');
+        }else{
+            Session::flash('message', 'File Rps gagal dihapus!');
+            Session::flash('alert-class', 'alert-danger');
+        }
+        return back();
     }
 
     public function rangkuman(Rps $rps)

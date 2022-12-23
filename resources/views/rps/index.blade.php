@@ -96,6 +96,26 @@
             })
         })
 
+        $('.deleteRps').on('click', function (e) {
+            var form = $(this).closest('form');
+            var name = $(this).data('name');
+            e.preventDefault();
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Kamu tidak dapat mengembalikan data yang sudah dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#6777ef',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.value) {
+                    form.submit();
+                }
+
+            })
+
+        })
 
     });
 

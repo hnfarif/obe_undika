@@ -109,10 +109,20 @@
                 @endif
                 @endif
                 <a href="{{ route('clo.index', $r->id) }}" class="btn btn-light btn-sm mr-1 ">lihat Rps</a>
-                @if (auth()->user()->role == 'p3ai')
+                @if (auth()->user()->role == 'kaprodi')
 
                 <button class="btn btn-info btn-sm mr-1 editRps" data-toggle="modal" data-target="#editRps"
-                    data-id="{{ $r->id }}"><i class="fas fa-edit"></i></button>
+                    data-id="{{ $r->id }}"><i class="fas fa-edit"></i>
+                </button>
+
+                <form class="ml-auto" action="{{ route('rps.delete', $i->id) }}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <input name="_method" type="hidden" value="DELETE">
+                    <a href="#" class="btn btn-danger btn-sm deleteRps"><i class="fas fa-trash"></i>
+
+                    </a>
+                </form>
                 @endif
 
             </div>

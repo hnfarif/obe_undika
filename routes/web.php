@@ -86,6 +86,7 @@ Route::prefix('rps')->middleware('ensureUserRole:p3ai,dosen,pimpinan,kaprodi,dek
     Route::get('/edit', [RpsController::class,'edit'])->name('rps.edit');
     Route::put('/update/penyusun', [RpsController::class,'updatePenyusun'])->name('rps.penyusun');
     Route::put('/update/{rps?}', [RpsController::class,'update'])->name('rps.update');
+    Route::delete('/delete/{id}', [RpsController::class,'destroy'])->name('rps.delete');
     Route::put('/file/store', [RpsController::class,'saveFileRps'])->name('rps.file.store');
     Route::put('/trfAgd', [RpsController::class,'transferAgenda'])->name('rps.transferAgenda');
 
