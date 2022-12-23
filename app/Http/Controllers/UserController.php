@@ -116,8 +116,8 @@ class UserController extends Controller
             }
 
         }else{
-            $chkKaprodi = Prodi::where('mngr_id', $request->nik)->first();
-            $chkDekan = Fakultas::where('mngr_id', $request->nik)->first();
+            $chkKaprodi = Prodi::where('mngr_id', $request->nik)->where('sts_aktif', 'Y')->first();
+            $chkDekan = Fakultas::where('mngr_id', $request->nik)->where('sts_aktif', 'Y')->first();
             $chkStaf = KaryawanDosen::where('nik', $request->nik)->first();
 
             if($chkKaprodi){
