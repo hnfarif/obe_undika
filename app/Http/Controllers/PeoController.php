@@ -33,7 +33,7 @@ class PeoController extends Controller
         $smt = $this->semester;
         if($user->role == 'kaprodi'){
 
-            $chkrole = Prodi::where('mngr_id', $user->nik)->where('sts_aktif', 'Y')->first();
+            $chkrole = Prodi::where('mngr_id', $user->nik)->where('sts_aktif', 'Y')->orderBy('id', 'asc')->first();
             $iteration = Peo::latest()->select('kode_peo')->where('fakul_id', $chkrole->id)->pluck('kode_peo')->first();
 
             $num = substr($iteration, -2, 2);
