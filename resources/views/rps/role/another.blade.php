@@ -96,7 +96,7 @@
 
                 </div>
             </div>
-            <div class="card-footer">
+            <div class="card-footer d-flex">
                 @if ($r->file_rps)
                 <a href="{{ asset('storage/'.$r->file_rps) }}" target="_blank" class="btn btn-primary btn-sm mr-1 "> <i
                         class="fas fa-file-pdf"></i> Lihat PDF</a>
