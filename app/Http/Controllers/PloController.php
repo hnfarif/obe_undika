@@ -74,7 +74,7 @@ class PloController extends Controller
     public function store(Request $request)
     {
         $validation = $request->validate([
-            'kode_plo' => 'required|unique:plo|max:6',
+            'kode_plo' => 'required|max:6',
             'desc_plo' => 'required',
         ]);
 
