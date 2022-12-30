@@ -659,4 +659,11 @@ class InstrumenNilaiController extends Controller
             return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
         }
     }
+
+    public function passDataJs(){
+
+        return response()->json([
+            'url' => route('penilaian.rangkumCapaiCloList', ['fakultas' => request()->fakultas, 'prodi' => request()->prodi]),
+        ]);
+    }
 }

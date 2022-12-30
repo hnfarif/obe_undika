@@ -13,7 +13,8 @@
                     </button>
                     @endif
 
-                    <a href="{{ route('penilaian.rangkumCapaiCloList') }}" class="btn btn-info"> Lihat Data </a>
+                    <a href="{{ route('penilaian.rangkumCapaiCloList') }}" class="btn btn-info showData"> Lihat Data
+                    </a>
                 </div>
 
             </div>

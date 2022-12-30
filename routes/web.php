@@ -147,6 +147,8 @@ Route::name('penilaian.')->group(function (){
 
     Route::get('/clo/list-capaian-clo', [InstrumenNilaiController::class, 'rangkumCapaiCloList'])->name('rangkumCapaiCloList')->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dekan');
 
+    Route::get('/clo/pass-data-js', [InstrumenNilaiController::class, 'passDataJs'])->name('passDataJs')->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dekan');
+
     Route::resource('clo', InstrumenNilaiController::class)->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dosen,dekan');
 });
 

@@ -32,6 +32,24 @@
 
             })
         })
+
+        $(".showData").on('click', function () {
+
+            $.ajax({
+                url: "{{  route('penilaian.passDataJs') }}",
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    'fakultas': filter ? filter.fakultas : '',
+                    'prodi': filter ? filter.prodi : '',
+                },
+                success: function (data) {
+                    window.location.href = data.url;
+                }
+
+            })
+        })
+
         var ctx = document.getElementById('grangclo').getContext('2d');
 
         var myChart = new Chart(ctx, {
