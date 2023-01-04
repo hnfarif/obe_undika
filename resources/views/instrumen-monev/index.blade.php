@@ -13,7 +13,7 @@
                     <ol class="breadcrumb">
 
                         <li class="breadcrumb-item">
-                            <a href="{{ route('monev.instrumen.index') }}">Daftar Instrumen Monev</a>
+                            <a href="{{ back() }}">Daftar Instrumen Monev</a>
                         </li>
 
                         <li class="breadcrumb-item active" aria-current="page">
