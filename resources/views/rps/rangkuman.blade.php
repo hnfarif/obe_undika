@@ -9,6 +9,19 @@
 
             @include('rps.section-header')
             <div class="section-body">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('rps.index') }}">RPS</a>
+                        </li>
+
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Kelola RPS
+                        </li>
+                    </ol>
+                </nav>
+
                 @if ($errors->any())
 
                 @foreach ($errors->all() as $error)
