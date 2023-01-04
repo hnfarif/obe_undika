@@ -16,6 +16,19 @@
     <div class="main-content">
         <section class="section">
             <div class="section-body">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('penilaian.clo.index') }}">Daftar Penilaian CLO</a>
+                        </li>
+
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Kelola Nilai CLO
+                        </li>
+                    </ol>
+                </nav>
+
                 @if (session()->has('message'))
                 <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
                     {{ session()->get('message') }}

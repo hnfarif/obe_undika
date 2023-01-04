@@ -7,6 +7,10 @@
     <div class="main-content">
         <section class="section">
             <div class="section-body">
+                <a href="{{ route('.index') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+
                 @if (session()->has('message'))
                 <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
                     {{ session()->get('message') }}

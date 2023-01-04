@@ -30,10 +30,10 @@
 
                         @if ($rps->is_done == '1')
                         <button type="button" class="btn btn-info ml-3" disabled><i class="fas fa-check"></i>
-                            Agenda Pembelajaran sudah selesai</button>
+                            RPS telah diselesaikan</button>
                         @else
                         <button type="button" class="btn btn-info ml-3 transAgd"><i class="fas fa-paper-plane"></i>
-                            Tandai Selesai</button>
+                            Selesaikan RPS</button>
                         @endif
                     </div>
                     @endif
