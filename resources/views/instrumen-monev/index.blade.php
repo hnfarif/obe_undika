@@ -13,7 +13,7 @@
                     <ol class="breadcrumb">
 
                         <li class="breadcrumb-item">
-                            <a href="{{ back() }}">Daftar Instrumen Monev</a>
+                            <a href="{{ URL::previous() }}">Daftar Instrumen Monev</a>
                         </li>
 
                         <li class="breadcrumb-item active" aria-current="page">
