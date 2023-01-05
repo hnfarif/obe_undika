@@ -48,10 +48,6 @@
                     <div class="row">
                         <div class="col-12 d-flex justify-content-between">
                             <div>
-                                <b>Semester</b>
-                                <p>{{ $r->semester }}</p>
-                            </div>
-                            <div>
                                 <b>SKS</b>
                                 <p>{{ $r->matakuliah->sks }}</p>
                             </div>

@@ -46,7 +46,7 @@ class RpsController extends Controller
 
         $role = auth()->user()->role;
         $nik = auth()->user()->nik;
-        $dosens = KaryawanDosen::with('emailStaf')->where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->get();
+        $dosens = KaryawanDosen::with('emailStaf')->where('fakul_id', '<>', null)->where('kary_type', 'like', '%TD%')->get();
 
         $mailStaf = MailStaf::whereIn('nik', $dosens->pluck('nik')->toArray())->get();
         $smt = $this->semester;
@@ -182,21 +182,22 @@ class RpsController extends Controller
      */
     public function update(Request $request, Rps $rps)
     {
-        // dd($request->all());
 
         if (isset($request->rps_id)) {
 
             $validation = $request->validate([
                 'rumpun_mk' => 'required',
                 'ketua_rumpun' => 'required',
-                'semester' => 'required',
+                'penyusun' => 'required',
+                'emailPenyusun' => 'required',
             ]);
 
             $updateRps = Rps::where('id', $request->rps_id)->update(
                 [
                     'rumpun_mk' => $request->rumpun_mk,
                     'nik' => $request->ketua_rumpun,
-                    'semester' => $request->semester,
+                    'penyusun' => $request->penyusun,
+                    'email_penyusun' => $request->emailPenyusun,
 
                 ]
             );

@@ -47,7 +47,6 @@
                             );
                         }
                     });
-                    $("#semester").val(data.semester);
                     $('#sts_aktif').children("option").each(function () {
                         if ($(this).val() == data.is_active) {
                             $(this).remove();
@@ -62,7 +61,7 @@
                             }
                         }
                     });
-                    // $("#deskripsi").val(data.deskripsi);
+
                 }
             })
         })
