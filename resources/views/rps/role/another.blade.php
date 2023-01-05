@@ -56,17 +56,7 @@
                             <div>
                                 <b>Penyusun</b>
                                 <div>
-                                    @if ($r->penyusun)
-                                    {{ $r->dosenPenyusun->nama }}
-                                    @else
-                                    @if (auth()->user()->role == 'p3ai')
-                                    <button class="btn btn-primary btn-sm btnPenyusun" data-rps="{{ $r->id }}"
-                                        data-toggle="modal" data-target="#modalPenyusun"><i
-                                            class="fas fa-user-edit"></i> Penyusun</button>
-                                    @else
-                                    Belum ada penyusun
-                                    @endif
-                                    @endif
+                                    {{ $r->dosenPenyusun->nama ?? 'Belum ada Penyusun' }}
                                 </div>
                             </div>
                         </div>

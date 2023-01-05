@@ -68,10 +68,6 @@
         $('.selpenyusun').on('change', function () {
             var email = $(this).find(':selected').data('email');
             $('#emailPenyusun').val(email);
-            console.log($('#emailPenyusun').val());
-            console.log($('#rumpun_mk').val());
-            console.log($('#ketua_rumpun').val());
-            console.log($('#selpenyusun').val());
         })
 
         $('.saveRps').on('click', function () {
