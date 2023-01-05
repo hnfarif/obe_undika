@@ -48,10 +48,10 @@
                         }
                     });
                     $('#selpenyusun').children("option").each(function () {
-                        if ($(this).val() == data.nik) {
+                        if ($(this).val() == data.penyusun) {
                             $(this).remove();
                             $('#selpenyusun').prepend(
-                                `<option selected value="${data.nik}">${data.karyawan.nama}</option>`
+                                `<option selected value="${data.penyusun}">${data.dosenPenyusun.nama}</option>`
                             );
                         }
                     });

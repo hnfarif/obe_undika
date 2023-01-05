@@ -169,7 +169,7 @@ class RpsController extends Controller
      */
     public function edit(Request $request)
     {
-        $rps = Rps::with('karyawan')->findOrFail($request->get('id'));
+        $rps = Rps::with('karyawan','dosenPenyusun')->findOrFail($request->get('id'));
         return response()->json($rps);
     }
 
