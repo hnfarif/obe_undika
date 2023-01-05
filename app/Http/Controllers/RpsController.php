@@ -86,7 +86,7 @@ class RpsController extends Controller
         $smt = $this->semester;
         foreach ($jdw as $i) {
 
-            $findRps = Rps::where('kurlkl_id', $i->klkl_id)->where('semester',$smt)->first();
+            $findRps = Rps::where('kurlkl_id', $i->klkl_id)->first();
 
             if(!$findRps){
                 $uniqueMk = current(array_filter($filMk, function($item) use ($i){
@@ -100,7 +100,7 @@ class RpsController extends Controller
 
         }
         $mk = $filMk;
-        $dosens = KaryawanDosen::where('fakul_id', $prodi->id)->where('kary_type', 'like', '%D%')->get();
+        $dosens = KaryawanDosen::where('fakul_id', $prodi->id)->where('kary_type', 'like', '%TD%')->get();
 
         return view('rps.create', compact('mk','dosens', 'smt'));
     }
