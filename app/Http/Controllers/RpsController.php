@@ -80,17 +80,17 @@ class RpsController extends Controller
     {
         $user = auth()->user();
         $prodi = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
-        $jdw = JadwalKuliah::whereProdi($prodi->id)->distinct('klkl_id')->get();
+        $jdw = MataKuliah::where('fakul_id', $prodi->id)->distinct('id')->get();
         $filMk = [];
 
         $smt = $this->semester;
         foreach ($jdw as $i) {
 
-            $findRps = Rps::where('kurlkl_id', $i->klkl_id)->first();
+            $findRps = Rps::where('kurlkl_id', $i->id)->first();
 
             if(!$findRps){
                 $uniqueMk = current(array_filter($filMk, function($item) use ($i){
-                    return $item['klkl_id'] == $i->klkl_id;
+                    return $item['klkl_id'] == $i->id;
                 }));
 
                 if (!$uniqueMk) {
