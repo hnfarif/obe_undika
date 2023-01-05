@@ -47,18 +47,12 @@
                             );
                         }
                     });
-                    $('#sts_aktif').children("option").each(function () {
-                        if ($(this).val() == data.is_active) {
+                    $('#selpenyusun').children("option").each(function () {
+                        if ($(this).val() == data.nik) {
                             $(this).remove();
-                            if (data.is_active == 1) {
-                                $('#sts_aktif').prepend(
-                                    `<option selected value="${data.is_active}">Ya</option>`
-                                );
-                            } else {
-                                $('#sts_aktif').prepend(
-                                    `<option selected value="${data.is_active}">Tidak</option>`
-                                );
-                            }
+                            $('#selpenyusun').prepend(
+                                `<option selected value="${data.nik}">${data.karyawan.nama}</option>`
+                            );
                         }
                     });
 
