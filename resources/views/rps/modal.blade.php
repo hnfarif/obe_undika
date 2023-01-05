@@ -101,45 +101,6 @@
     </div>
 </div>
 
-{{-- modal set email --}}
-<div class=" modal fade" role="dialog" id="modalPenyusun">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Pilih Dosen Penyusun</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('rps.penyusun') }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" name="rps_id" id="rpsId">
-                    <input type="hidden" name="emailPenyusun" id="emailPenyusun">
-                    <div class="form-group">
-                        <label>Nama Dosen</label>
-                        <select class="form-control select2 selpenyusun" name="penyusun" id="selpenyusun">
-                            <option value="" disabled selected>Pilih Dosen Penyusun RPS</option>
-                            @foreach ($dosens as $d)
-                            @if ($mailStaf->where('nik', $d->nik)->first())
-                            <option value="{{ $d->nik }}"
-                                data-email="{{ $mailStaf->where('nik', $d->nik)->first()['email'] }}">
-                                {{ $d->nama }}
-                            </option>
-                            @endif
-                            @endforeach
-                        </select>
-                    </div>
-            </div>
-            <div class="modal-footer bg-whitesmoke br">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
 {{-- modal edit data RPS --}}
 <div class="modal fade" role="dialog" id="editRps">
     <div class="modal-dialog modal-md" role="document">
