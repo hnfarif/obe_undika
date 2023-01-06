@@ -81,11 +81,12 @@ class RpsController extends Controller
     {
         $user = auth()->user();
         $prodi = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
-        $jdw = MataKuliah::where('fakul_id', $prodi->id)->whereRaw('LENGTH(id) <= 6')->distinct('id')->get();
+        $jdw = JadwalKuliah::where('prodi', $prodi->id)->distinct('klkl_id')->pluck('klkl_id')->toArray();
+        $kurlkl = MataKuliah::whereIn('id', $jdw)->distinct('id')->get();
         $filMk = [];
 
         $smt = $this->semester;
-        foreach ($jdw as $i) {
+        foreach ($kurlkl as $i) {
 
             $findRps = Rps::where('kurlkl_id', $i->id)->first();
 
