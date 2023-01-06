@@ -178,8 +178,12 @@ class UserController extends Controller
 
     }
 
-    public function updateRole()
+    public function updateRole(Request $request)
     {
+        $validate = $request->validate([
+            'role' => 'required',
+        ]);
+
         $chkNik = User::where('nik', Auth::user()->nik)->first();
         if($chkNik){
             $update = User::where('nik', Auth::user()->nik)->update([
