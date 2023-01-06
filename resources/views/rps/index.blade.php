@@ -53,9 +53,9 @@
                             var email = $(this).data('email');
                             $(this).remove();
                             $('.selpenyusun').prepend(
-                                `<option selected value="${data.penyusun}" data-email="${email}">${data.dosenPenyusun.nama}</option>`
+                                `<option selected value="${data.penyusun}" data-email="${email}">${data.dosen_penyusun.nama}</option>`
                             );
-                        }
+                        } else
                     });
 
                     console.log(data);
