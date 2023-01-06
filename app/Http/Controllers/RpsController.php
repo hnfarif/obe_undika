@@ -81,8 +81,7 @@ class RpsController extends Controller
     {
         $user = auth()->user();
         $prodi = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
-        $jdw = JadwalKuliah::where('prodi', $prodi->id)->distinct('klkl_id')->pluck('klkl_id')->toArray();
-        $kurlkl = MataKuliah::whereIn('id', $jdw)->distinct('id')->get();
+        $kurlkl = MataKuliah::where('fakul_id', $prodi->id)->whereRaw('LENGTH(id) <= 6')->distinct('id')->get();
         $filMk = [];
 
         $smt = $this->semester;
