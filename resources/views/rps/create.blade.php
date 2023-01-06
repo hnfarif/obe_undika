@@ -16,7 +16,7 @@
                                 <h4>Form Plotting RPS</h4>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('rps.store') }}" method="POST">
+                                <form action="{{ route('rps.store') }}" method="POST" id="formMk">
                                     @csrf
                                     <div class="form-group">
                                         <label>Nama Rumpun Mata Kuliah</label>
@@ -77,7 +77,7 @@
                                         </table>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="submit" class="btn btn-primary btnSave">Simpan</button>
                                     </div>
                                 </form>
 
@@ -103,6 +103,17 @@
             responsive: true,
 
         })
+
+        $('.btnSave').on('click', function (e) {
+            e.preventDefault();
+            tableMk.rows().nodes().to$().find('input[type="checkbox"]').each(function () {
+                if (this.checked) {
+                    $('#formMk').append('<input type="hidden" name="mklist[]" value="' +
+                        this.value + '">');
+                }
+            });
+            $('#formMk').submit();
+        });
     })
 
 </script>

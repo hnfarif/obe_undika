@@ -27,6 +27,7 @@
 <script>
     $(document).ready(function () {
         $('#table').DataTable();
+
         $('.editRps').on('click', function () {
             var id = $(this).attr('data-id');
 
@@ -108,6 +109,8 @@
             })
 
         })
+
+
 
     });
 
