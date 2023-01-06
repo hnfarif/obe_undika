@@ -38,7 +38,7 @@ class Rps extends Model
     }
 
     public function dosenPenyusun(){
-        return $this->belongsTo(KaryawanDosen::class, 'nik', 'penyusun');
+        return $this->belongsTo(KaryawanDosen::class, 'penyusun', 'nik');
     }
 
     public function scopeFakultas($query)
