@@ -148,7 +148,8 @@
                     <input type="hidden" name="emailPenyusun" id="emailPenyusun">
                     <div class="form-group">
                         <label>Ubah Penyusun</label>
-                        <select class="form-control select2 selpenyusun" name="penyusun" id="selpenyusun">
+                        <select class="form-control select2 @error('penyusun') is-invalid @enderror selpenyusun"
+                            name="penyusun" id="selpenyusun">
                             @foreach ($dosens as $d)
                             @if ($mailStaf->where('nik', $d->nik)->first())
                             <option value="{{ $d->nik }}"

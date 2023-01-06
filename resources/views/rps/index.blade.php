@@ -48,11 +48,12 @@
                             );
                         }
                     });
-                    $('#selpenyusun').children("option").each(function () {
+                    $('.selpenyusun').children("option").each(function () {
                         if ($(this).val() == data.penyusun) {
+                            var email = $(this).data('email');
                             $(this).remove();
-                            $('#selpenyusun').prepend(
-                                `<option selected value="${data.penyusun}">${data.dosenPenyusun.nama}</option>`
+                            $('.selpenyusun').prepend(
+                                `<option selected value="${data.penyusun}" data-email="${email}">${data.dosenPenyusun.nama}</option>`
                             );
                         }
                     });
