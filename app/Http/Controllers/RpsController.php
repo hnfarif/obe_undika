@@ -101,7 +101,7 @@ class RpsController extends Controller
 
         }
         $mk = $filMk;
-        $dosens = KaryawanDosen::where('fakul_id', $prodi->id)->where('kary_type', 'like', '%D%')->get();
+        $dosens = KaryawanDosen::where('fakul_id', $prodi->id)->orWhere('bagian', $prodi->id)->where('kary_type', 'like', '%D%')->get();
 
         return view('rps.create', compact('mk','dosens', 'smt'));
     }
