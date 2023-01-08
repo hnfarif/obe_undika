@@ -101,7 +101,7 @@ class RpsController extends Controller
 
         }
         $mk = $filMk;
-        $dosens = KaryawanDosen::where('fakul_id', $prodi->id)->orWhere('bagian', $prodi->fakultas->id)->where('kary_type', 'like', '%D%')->get();
+        $dosens = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
 
         return view('rps.create', compact('mk','dosens', 'smt'));
     }
@@ -189,8 +189,8 @@ class RpsController extends Controller
             $validation = $request->validate([
                 'rumpun_mk' => 'required',
                 'ketua_rumpun' => 'required',
-                'penyusun' => 'required',
-                'emailPenyusun' => 'required',
+                'penyusun' => 'nullable',
+                'emailPenyusun' => 'nullable|email',
             ]);
 
             $updateRps = Rps::where('id', $request->rps_id)->update(
