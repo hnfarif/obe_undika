@@ -57,7 +57,7 @@ class PlottingMonevController extends Controller
 
         $smt = $this->semester;
 
-        $jdwkul = JadwalKuliah::where('sts_kul', '1')->get();
+        $jdwkul = JadwalKuliah::get();
 
         $arrJdwkul = [];
 
@@ -71,7 +71,7 @@ class PlottingMonevController extends Controller
         $jdwkul = $arrJdwkul;
 
         // status dosen harus dosen tetap aktif
-        $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
+        $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->where('status', '1')->get();
 
         return view('plotting-monev.create', compact('jdwkul', 'kary', 'smt'));
     }
