@@ -62,9 +62,10 @@ class RpsController extends Controller
             $mk = MataKuliah::whereIn('fakul_id', $prodiDekan)->pluck('id')->toArray();
             $rps = Rps::whereIn('kurlkl_id', $mk)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }else if ($role == 'kaprodi') {
-            $prodiKaprodi = $prodi->where('mngr_id', $nik)->first();
-            $mk = MataKuliah::where('fakul_id', $prodiKaprodi->id)->pluck('id')->toArray();
+            $kaprodi = $prodi->where('mngr_id', $nik)->first();
+            $mk = MataKuliah::where('fakul_id', $kaprodi->id)->pluck('id')->toArray();
             $rps = Rps::whereIn('kurlkl_id', $mk)->latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
+
         }else{
             $rps = Rps::latest()->fakultas()->prodi()->name()->status()->penyusun()->file()->semester()->paginate(6)->withQueryString();
         }

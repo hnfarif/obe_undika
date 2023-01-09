@@ -96,7 +96,7 @@
                 @endif
                 <a href="{{ route('clo.index', $r->id) }}" class="btn btn-light btn-sm mr-1 ">lihat Rps</a>
                 @if (auth()->user()->role == 'kaprodi' && $r->matakuliah->fakul_id ==
-                auth()->user()->karyawan->prodi->id)
+                auth()->user()->karyawan->kaprodi->id)
 
                 <button class="btn btn-info btn-sm mr-1 editRps" data-toggle="modal" data-target="#editRps"
                     data-id="{{ $r->id }}"><i class="fas fa-edit"></i>

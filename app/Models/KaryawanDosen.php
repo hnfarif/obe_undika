@@ -18,6 +18,11 @@ class KaryawanDosen extends Model
         return $this->belongsTo(Prodi::class, 'fakul_id', 'id');
     }
 
+    public function kaprodi()
+    {
+        return $this->belongsTo(Prodi::class, 'nik', 'mngr_id');
+    }
+
     public function bagianKary()
     {
         return $this->belongsTo(Bagian::class, 'bagian', 'kode');
