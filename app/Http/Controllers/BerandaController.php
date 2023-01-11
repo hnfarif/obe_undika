@@ -38,9 +38,7 @@ class BerandaController extends Controller
             $roles[] = 'p3ai';
         }
 
-
-
-        if (stripos($kary->kary_type, 'D') !== false) {
+        if ($kary->fakul_id) {
             $roles[] = 'dosen';
         }
 

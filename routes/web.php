@@ -185,4 +185,4 @@ Route::prefix('laporan')->middleware('ensureUserRole:p3ai,pimpinan')->name('lapo
     Route::resource('angket', LaporanAngketController::class);
 });
 
-Route::get('cek-data', [LaporanAngketController::class, 'cekData'])->name('cekData');
+Route::get('update-fifin-role', [UserController::class, 'updateFifinRole'])->name('updateFifinRole');
