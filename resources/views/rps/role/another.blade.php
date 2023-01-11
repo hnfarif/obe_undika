@@ -34,7 +34,7 @@
             <div class="card-header" style="height: 100px;">
                 <div class="d-block">
                     <h4 class="text-dark">{{ $r->nama_mk }} ({{ $r->kurlkl_id }})</h4>
-                    <p class="m-0">{{ $r->matakuliah->prodi->nama }}</p>
+                    <p class="m-0">{{ $r->matakuliah->prodi->nama.' ('. $r->matakuliah->prodi->id .')' }}</p>
                 </div>
                 <div class="card-header-action ml-auto">
                     <a data-collapse="#{{ $r->id }}" class="btn btn-icon btn-info" href="#"><i
