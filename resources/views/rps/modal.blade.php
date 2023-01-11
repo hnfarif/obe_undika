@@ -151,9 +151,8 @@
                         <select class="form-control select2 selpenyusun" name="penyusun" id="selpenyusun">
                             <option value="" disabled selected>Pilih Dosen Penyusun RPS</option>
                             @foreach ($dosens as $d)
-                            @if ($mailStaf->where('nik', $d->nik)->first())
-                            <option value="{{ $d->nik }}"
-                                data-email="{{ $mailStaf->where('nik', $d->nik)->first()['email'] }}">
+                            @if ($d->emailStaf)
+                            <option value="{{ $d->nik }}" data-email="{{ $d->emailStaf->email }}">
                                 {{ $d->nama }}
                             </option>
                             @endif
