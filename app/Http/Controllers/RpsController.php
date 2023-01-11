@@ -47,7 +47,7 @@ class RpsController extends Controller
         $role = auth()->user()->role;
         $nik = auth()->user()->nik;
         $user = auth()->user()->karyawan;
-        $dosens = KaryawanDosen::with('emailStaf')->where('kary_type', 'like', '%D%')->get();
+        $dosens = KaryawanDosen::with('emailStaf')->where('fakul_id', '<>', null)->get();
 
         $mailStaf = MailStaf::whereIn('nik', $dosens->pluck('nik')->toArray())->get();
         $smt = $this->semester;
@@ -102,7 +102,7 @@ class RpsController extends Controller
 
         }
         $mk = $filMk;
-        $dosens = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
+        $dosens = KaryawanDosen::where('fakul_id', '<>', null)->get();
 
         return view('rps.create', compact('mk','dosens', 'smt'));
     }
