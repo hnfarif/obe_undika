@@ -193,12 +193,4 @@ class UserController extends Controller
         return redirect()->route('beranda.index');
     }
 
-    public function updateFifinRole()
-    {
-        $update = User::where('nik', Auth::user()->nik)->update([
-            'role' => 'dosen',
-        ]);
-
-        return back();
-    }
 }
