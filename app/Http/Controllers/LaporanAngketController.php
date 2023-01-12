@@ -8,6 +8,7 @@ use App\Models\Fakultas;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\MataKuliah;
+use App\Models\MingguKuliah;
 use App\Models\PlottingMonev;
 use App\Models\Prodi;
 use App\Models\Semester;
@@ -122,8 +123,9 @@ class LaporanAngketController extends Controller
 
     public function cekData()
     {
-       $clo = Clo::where('rps_id', '7')->orderBy('id', 'asc')->get();
+       $clo = MingguKuliah::get();
 
+       dd($clo);
         return [
             'clo' => $clo,
             'countAngket' => $clo->count(),
