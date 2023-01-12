@@ -86,7 +86,7 @@ class InstrumenMonevController extends Controller
                 }
 
             }
-
+            dd($kul);
             $wSeven = $kul->where('minggu_ke', '7')->first();
             $wNine = $kul->where('minggu_ke', '9')->first();
             $wFifth = $kul->where('minggu_ke', '15')->first();
