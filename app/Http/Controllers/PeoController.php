@@ -46,7 +46,8 @@ class PeoController extends Controller
 
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
             $peo = Peo::where('fakul_id', $chkrole->fakul_id)->with('plos')->get();
-            return view('kelolapeoplo.kelolapeo', compact('peo', 'smt'));
+            $namaProdi = $chkrole->prodi->nama;
+            return view('kelolapeoplo.kelolapeo', compact('peo', 'smt', 'namaProdi'));
 
         }else if ($user->role == 'dekan'){
             $fak = Fakultas::where('mngr_id', $user->nik)->first();

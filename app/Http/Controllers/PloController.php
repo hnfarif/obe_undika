@@ -46,8 +46,8 @@ class PloController extends Controller
 
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
             $plo = Plo::where('fakul_id', $chkrole->fakul_id)->with('peos')->get();
-
-            return view('kelolapeoplo.kelolaplo', compact('plo', 'smt'));
+            $namaProdi = $chkrole->prodi->nama;
+            return view('kelolapeoplo.kelolaplo', compact('plo', 'smt', 'namaProdi'));
         }
 
 

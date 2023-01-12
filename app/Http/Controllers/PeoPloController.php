@@ -49,11 +49,12 @@ class PeoPloController extends Controller
             $plo = Plo::where('fakul_id', $chkrole->fakul_id)->with('peos')->orderBy('id','asc')->get();
             $filPeo = $peo->pluck('id')->toArray();
             $mapping = PeoPlo::whereIn('peo_id', $filPeo)->get();
+            $namaProdi = $chkrole->prodi->nama;
 
         }
 
 
-       return view('kelolapeoplo.mapping.index', compact('peo', 'plo', 'mapping', 'smt'));
+       return view('kelolapeoplo.mapping.index', compact('peo', 'plo', 'mapping', 'smt', 'namaProdi'));
     }
 
     /**

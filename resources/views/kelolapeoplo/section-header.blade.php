@@ -1,5 +1,5 @@
 <div class="section-header">
-    <h1>PEO-PLO</h1>
+    <h1>PEO-PLO {{ $namaProdi }}</h1>
     <div class="btn-group ml-auto">
 
         <a href="{{ route('peoplo.peo') }}" type="button" class="btn btn-primary @yield('step1')"> PEO</a>
