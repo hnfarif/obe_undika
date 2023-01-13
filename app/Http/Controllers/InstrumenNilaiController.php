@@ -538,7 +538,7 @@ class InstrumenNilaiController extends Controller
         if ($user->role == 'kaprodi') {
 
             $prodi = Prodi::where('mngr_id', $user->nik)->where('sts_aktif', 'Y')->orderBy('id', 'asc')->first();
-            $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
+            $jdw = JadwalKuliah::where('prodi', $prodi->id)->get();
 
             $rang = $this->getCapaiClo($jdw);
 
