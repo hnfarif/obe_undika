@@ -41,7 +41,7 @@ class PloController extends Controller
             $ite_padded = sprintf("%02d", $num);
 
             $plo = Plo::where('fakul_id', $chkrole->id)->with('peos')->get();
-            $namaProdi = $chkrole->prodi->nama;
+            $namaProdi = $chkrole->nama;
 
             return view('kelolapeoplo.kelolaplo', ["ite_padded" => $ite_padded ?? '', "plo" => $plo, "iteration" => $iteration ?? '', "smt" => $smt]);
         }else if($user->role == 'dosen'){
