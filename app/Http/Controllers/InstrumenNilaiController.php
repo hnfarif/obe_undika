@@ -63,7 +63,7 @@ class InstrumenNilaiController extends Controller
         }
 
         if ($role == 'dosen') {
-            $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->where('sts_kul', '1')->name()->paginate(6)->withQueryString();
+            $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->name()->paginate(6)->withQueryString();
             $instru = InstrumenNilai::whereNik($nik_kary)->get();
             return view('instrumen-nilai.index', compact('jdwkul', 'instru', 'smt', 'fak', 'prodi'));
         }
