@@ -421,9 +421,16 @@ class InstrumenNilaiController extends Controller
         }else{
             $rps = $rps->first();
             if ($rps->is_done == '0') {
-                return response()->json([
-                    'error' => 'RPS belum diselesaikan, silahkan hubungi '. $rps->dosenPenyusun->nama.' selaku penyusun RPS',
-                ]);
+                if($rps->penyusun){
+
+                    return response()->json([
+                        'error' => 'RPS belum diselesaikan, silahkan hubungi '. $rps->dosenPenyusun->nama.' selaku penyusun RPS',
+                    ]);
+                }else{
+                    return response()->json([
+                        'error' => 'RPS belum ada penyusunnya',
+                    ]);
+                }
             }
             $instru = InstrumenNilai::where('rps_id', $rps->id)->where('klkl_id', $request->kode_mk)
             ->where('nik', $nik_kary)
