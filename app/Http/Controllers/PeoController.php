@@ -41,6 +41,8 @@ class PeoController extends Controller
             $ite_padded = sprintf("%02d", $num);
 
             $peo = Peo::where('fakul_id', $chkrole->id)->with('plos')->get();
+            $namaProdi = $chkrole->prodi->nama;
+            return view('kelolapeoplo.kelolapeo', compact('ite_padded', 'peo', 'iteration', 'smt', 'namaProdi'));
 
         }else if($user->role == 'dosen'){
 
@@ -58,8 +60,6 @@ class PeoController extends Controller
             return view('kelolapeoplo.kelolapeo', compact('prodi', 'smt'));
         }
 
-
-        return view('kelolapeoplo.kelolapeo', compact('ite_padded', 'peo', 'iteration', 'smt'));
     }
 
     /**

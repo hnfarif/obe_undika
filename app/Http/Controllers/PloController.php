@@ -41,7 +41,9 @@ class PloController extends Controller
             $ite_padded = sprintf("%02d", $num);
 
             $plo = Plo::where('fakul_id', $chkrole->id)->with('peos')->get();
+            $namaProdi = $chkrole->prodi->nama;
 
+            return view('kelolapeoplo.kelolaplo', ["ite_padded" => $ite_padded ?? '', "plo" => $plo, "iteration" => $iteration ?? '', "smt" => $smt]);
         }else if($user->role == 'dosen'){
 
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();
@@ -50,9 +52,6 @@ class PloController extends Controller
             return view('kelolapeoplo.kelolaplo', compact('plo', 'smt', 'namaProdi'));
         }
 
-
-
-        return view('kelolapeoplo.kelolaplo', ["ite_padded" => $ite_padded ?? '', "plo" => $plo, "iteration" => $iteration ?? '', "smt" => $smt]);
     }
 
     /**

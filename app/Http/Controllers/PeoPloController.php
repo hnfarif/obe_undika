@@ -41,6 +41,7 @@ class PeoPloController extends Controller
             $plo = Plo::where('fakul_id', $chkrole->id)->with('peos')->orderBy('id','asc')->get();
             $filPeo = $peo->pluck('id')->toArray();
             $mapping = PeoPlo::whereIn('peo_id', $filPeo)->get();
+            $namaProdi = $chkrole->prodi->nama;
 
         }else if($user->role == 'dosen'){
 
