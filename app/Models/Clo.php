@@ -39,25 +39,4 @@ class Clo extends Model
         return $total;
     }
 
-    // public function getLulusNilai($id)
-    // {
-    //     $ln =  Clo::where('id',$id)->first();
-
-    //     return [
-    //         'lulus' => $ln->tgt_lulus,
-    //         'nilai' => $ln->nilai_min,
-    //     ];
-    // }
-
-    // public function getTotalClo($id){
-
-    //     $bbt = BobotPenilaian::where('clo_id',$id)->get();
-    //     $total = 0;
-    //     foreach ($bbt as $b){
-    //         $total += $b->bobot;
-    //     }
-    //     return $total;
-    // }
-
-
 }

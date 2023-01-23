@@ -12,7 +12,4 @@ class KriteriaMonev extends Model
     protected $table = 'kri_monev';
     protected $guarded = ['id'];
 
-
-
-
 }

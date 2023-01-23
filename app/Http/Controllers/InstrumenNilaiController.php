@@ -14,20 +14,15 @@ use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\KriteriaMonev;
 use App\Models\Krs;
-use App\Models\Kuliah;
 use App\Models\MataKuliah;
 use App\Models\MingguKuliah;
-use App\Models\Penilaian;
 use App\Models\PlottingMonev;
 use App\Models\Prodi;
 use App\Models\RangkumanClo;
 use App\Models\Rps;
 use App\Models\Semester;
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,8 +46,6 @@ class InstrumenNilaiController extends Controller
         $nik_kary = auth()->user()->nik;
         $role = auth()->user()->role;
         $smt = $this->semester;
-
-
 
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
         $prodi = Prodi::whereIn('id_fakultas', $fak->pluck('id')->toArray())->where('sts_aktif', 'Y')->get();
@@ -547,13 +540,13 @@ class InstrumenNilaiController extends Controller
         }else if($user->role == 'dekan'){
             $chkDekan = Fakultas::where('mngr_id', $user->nik)->first();
             $prodi = Prodi::where('id_fakultas', $chkDekan->id)->get();
-            $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->prodi()->get();
+            $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->prodi()->get();
 
             $rang = $this->getCapaiClo($jdw);
 
             return response()->json($rang);
         }else{
-            $jdw = JadwalKuliah::where('sts_kul', '1')->fakultas()->prodi()->get();
+            $jdw = JadwalKuliah::fakultas()->prodi()->get();
 
             $rang = $this->getCapaiClo($jdw);
 
@@ -637,7 +630,7 @@ class InstrumenNilaiController extends Controller
         if ($user->role == 'kaprodi') {
 
             $prodi = Prodi::where('mngr_id', $user->nik)->orderBy('id', 'asc')->first();
-            $jdw = JadwalKuliah::where('prodi', $prodi->id)->where('sts_kul', '1')->get();
+            $jdw = JadwalKuliah::where('prodi', $prodi->id)->get();
 
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
             $mkTdkLulus = collect($this->getCapaiClo($jdw)['mkTdkLulus']);
@@ -649,7 +642,7 @@ class InstrumenNilaiController extends Controller
         }else if($user->role == 'dekan'){
             $chkDekan = Fakultas::where('mngr_id', $user->nik)->first();
             $prodi = Prodi::where('id_fakultas', $chkDekan->id)->get();
-            $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->where('sts_kul', '1')->prodi()->get();
+            $jdw = JadwalKuliah::whereIn('prodi', $prodi->pluck('id')->toArray())->prodi()->get();
 
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
             $mkTdkLulus = collect($this->getCapaiClo($jdw)['mkTdkLulus']);
@@ -658,7 +651,7 @@ class InstrumenNilaiController extends Controller
 
             return view('instrumen-nilai.capai-clo-list', compact('mkLulus', 'mkTdkLulus', 'smt'));
         }else{
-            $jdw = JadwalKuliah::where('sts_kul', '1')->fakultas()->prodi()->get();
+            $jdw = JadwalKuliah::fakultas()->prodi()->get();
             $mkLulus = collect($this->getCapaiClo($jdw)['mkLulus']);
             $mkTdkLulus = collect($this->getCapaiClo($jdw)['mkTdkLulus']);
             $smt = $this->semester;

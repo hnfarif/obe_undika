@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Clo;
 use App\Models\MataKuliah;
-use App\Models\Penilaian;
 use App\Models\Plo;
 use App\Models\PloClo;
 use App\Models\Rps;
