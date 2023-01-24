@@ -3,17 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\AngketTrans;
-use App\Models\Clo;
 use App\Models\Fakultas;
-use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
-use App\Models\MataKuliah;
 use App\Models\MingguKuliah;
 use App\Models\PlottingMonev;
 use App\Models\Prodi;
 use App\Models\Semester;
 use PDF;
-use Illuminate\Http\Request;
+
 
 class LaporanAngketController extends Controller
 {

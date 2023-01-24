@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\KaryawanDosen;
-use App\Models\PeoPlo;
 use App\Models\Plo;
 use App\Models\Prodi;
 use App\Models\Semester;
@@ -13,11 +12,6 @@ use Illuminate\Support\Facades\Session;
 
 class PloController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     private $semester;
 
@@ -43,7 +37,8 @@ class PloController extends Controller
             $plo = Plo::where('fakul_id', $chkrole->id)->with('peos')->get();
             $namaProdi = $chkrole->nama;
 
-            return view('kelolapeoplo.kelolaplo', ["ite_padded" => $ite_padded ?? '', "plo" => $plo, "iteration" => $iteration ?? '', "smt" => $smt, "namaProdi" => $namaProdi]);
+            return view('kelolapeoplo.kelolaplo', ["ite_padded" => $ite_padded ?? '', "plo" => $plo,
+            "iteration" => $iteration ?? '', "smt" => $smt, "namaProdi" => $namaProdi]);
         }else if($user->role == 'dosen'){
 
             $chkrole = KaryawanDosen::where('nik', $user->nik)->first();

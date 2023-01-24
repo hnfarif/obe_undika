@@ -345,9 +345,6 @@ class InstrumenNilaiController extends Controller
 
         }
 
-
-
-
         return response()->json(['success' => 'Data Berhasil Disimpan']);
     }
 

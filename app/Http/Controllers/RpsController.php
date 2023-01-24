@@ -3,20 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DosenPenyusun;
-use App\Models\AgendaBelajar;
 use App\Models\DetailAgenda;
 use App\Models\Fakultas;
-use App\Models\InstrumenNilai;
-use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
-use App\Models\MailStaf;
 use App\Models\MataKuliah;
 use App\Models\MateriKuliah;
 use App\Models\Prodi;
 use App\Models\Rps;
 use App\Models\Semester;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
