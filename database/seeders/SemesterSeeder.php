@@ -19,9 +19,9 @@ class SemesterSeeder extends Seeder
         foreach ($prodi as $p ) {
             Semester::create([
                 'fak_id' => $p->id,
-                'smt_aktif' => '202',
-                'smt_yad' => '211',
-                'smt_lain' => '201',
+                'smt_aktif' => '212',
+                'smt_yad' => '221',
+                'smt_lain' => '222',
             ]);
         }
 

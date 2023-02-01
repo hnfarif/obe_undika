@@ -369,5 +369,17 @@ class DatabaseSeeder extends Seeder
 
         // \App\Models\User::factory(10)->create();
         \App\Models\MataKuliah::factory(10)->create();
+
+        $this->call([
+            AngketSeeder::class,
+            DetailBapSeeder::class,
+            JadwalKuliahSeeder::class,
+            KrsSeeder::class,
+            KuliahSeeder::class,
+            MahasiswaSeeder::class,
+            MailStafSeeder::class,
+            MingguKuliahSeeder::class,
+            SemesterSeeder::class,
+        ]);
     }
 }
