@@ -14,7 +14,7 @@ class CreateBagian1Table extends Migration
     public function up()
     {
         Schema::create('bagian1', function (Blueprint $table) {
-            $table->integer('kode')->primary();
+            $table->integer('kode')->primary()->unsigned();
             $table->string('nick', 8)->nullable();
             $table->string('nama', 35);
             $table->string('manager_id', 6)->nullable();
