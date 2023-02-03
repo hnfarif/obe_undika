@@ -139,8 +139,14 @@ class LaporanBrilianController extends Controller
             'semester' => $smt,
             'json' => true,
         ]);
-        $response = $promise->wait();
-        $dataBrilian = json_decode($response->body());
+
+        $response = $promise->then(function ($response) {
+            return $response->json();
+        })->wait();
+
+
+        dd($response);
+
 
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
         $arrFak = $fak->pluck('id')->toArray();
@@ -175,7 +181,7 @@ class LaporanBrilianController extends Controller
         ];
 
 
-        $data = $dataBrilian['data'];
+        $data = $response['data'];
 
         foreach ($data as $key => $value) {
 
@@ -408,7 +414,7 @@ class LaporanBrilianController extends Controller
 
         }
 
-        $indikator = $dataBrilian['indikator_penilaian'];
+        $indikator = $response['indikator_penilaian'];
 
         return ['data' => $data, 'indikator' => $indikator, 'smt' => $smt, 'prodi' => $prodi, 'rangBadge' => $rangBadge, 'badges' => $badges, 'rataFak' => $rataFak, 'rataProdi' => $rataProdi];
     }
