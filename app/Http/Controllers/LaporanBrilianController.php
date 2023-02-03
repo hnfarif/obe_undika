@@ -133,6 +133,9 @@ class LaporanBrilianController extends Controller
 
 
         $smt = $this->semester;
+        //get api data
+
+
         $response = Http::async()->get($url, [
             'semester' => $smt,
             'json' => true,

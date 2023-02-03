@@ -120,7 +120,7 @@ class LaporanAngketController extends Controller
 
     public function cekData()
     {
-       $clo = AngketTrans::get();
+       $clo = AngketTrans::where('smt', '221')->get();
 
 
         return [
