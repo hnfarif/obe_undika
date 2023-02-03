@@ -135,18 +135,12 @@ class LaporanBrilianController extends Controller
         $smt = $this->semester;
         //get api data
 
-        $promise = Http::async($url, [
+        $response = Http::async()->get($url, [
             'semester' => $smt,
             'json' => true,
-        ]);
-
-        $response = $promise->then(function ($response) {
-            return $response->json();
+        ])->then(function ($res) {
+            return $res->acceptsJson();
         })->wait();
-
-
-        dd($response);
-
 
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
         $arrFak = $fak->pluck('id')->toArray();
