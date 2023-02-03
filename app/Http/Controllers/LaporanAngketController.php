@@ -28,10 +28,7 @@ class LaporanAngketController extends Controller
         $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
 
-        // $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
-        $ddAngket = $this->manipulateDataAngket($prodi, $fak)['angket'];
-
-        dd($ddAngket);
+        $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
 
         $rataProdi = $this->manipulateDataAngket($prodi, $fak)['rataProdi'];
 
@@ -46,7 +43,7 @@ class LaporanAngketController extends Controller
 
         $smt = $this->semester;
         $plot = PlottingMonev::where('semester', $smt)->prodi()->get();
-        $angket = AngketTrans::where('smt', $smt)->get()->groupBy('nik');
+        $angket = AngketTrans::where('smt', $smt)->whereIn('prodi', $plot->pluck('prodi')->toArray())->get()->groupBy('nik');
         $ratamk = $angket;
 
         $data = [];
@@ -90,7 +87,6 @@ class LaporanAngketController extends Controller
             'data' => $data,
             'rataProdi' => $rataProdi,
             'rataFakultas' => $rataFakultas,
-            'angket' => $angket
         ];
     }
 
