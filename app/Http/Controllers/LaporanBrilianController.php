@@ -135,13 +135,12 @@ class LaporanBrilianController extends Controller
         $smt = $this->semester;
         //get api data
 
-
-        $response = Http::async()->get($url, [
+        $promise = Http::getAsync($url, [
             'semester' => $smt,
             'json' => true,
-        ])->then(function ($res) {
-            return $res->json();
-        })->wait();
+        ]);
+        $response = $promise->wait();
+        $dataBrilian = json_decode($response->body());
 
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
         $arrFak = $fak->pluck('id')->toArray();
@@ -176,7 +175,7 @@ class LaporanBrilianController extends Controller
         ];
 
 
-        $data = $response['data'];
+        $data = $dataBrilian['data'];
 
         foreach ($data as $key => $value) {
 
@@ -409,7 +408,7 @@ class LaporanBrilianController extends Controller
 
         }
 
-        $indikator = $response['indikator_penilaian'];
+        $indikator = $dataBrilian['indikator_penilaian'];
 
         return ['data' => $data, 'indikator' => $indikator, 'smt' => $smt, 'prodi' => $prodi, 'rangBadge' => $rangBadge, 'badges' => $badges, 'rataFak' => $rataFak, 'rataProdi' => $rataProdi];
     }
