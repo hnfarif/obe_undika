@@ -139,7 +139,7 @@ class LaporanBrilianController extends Controller
             'semester' => $smt,
             'json' => true,
         ])->then(function ($res) {
-            return $res->acceptJson();
+            return $res->json();
         })->wait();
 
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
