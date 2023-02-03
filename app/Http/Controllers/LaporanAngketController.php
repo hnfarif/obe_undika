@@ -120,9 +120,9 @@ class LaporanAngketController extends Controller
 
     public function cekData()
     {
-       $clo = MingguKuliah::get();
+       $clo = AngketTrans::get();
 
-       dd($clo);
+
         return [
             'clo' => $clo,
             'countAngket' => $clo->count(),
