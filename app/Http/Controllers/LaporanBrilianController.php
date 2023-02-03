@@ -135,7 +135,7 @@ class LaporanBrilianController extends Controller
         $smt = $this->semester;
         //get api data
 
-        $promise = Http::getAsync($url, [
+        $promise = Http::async($url, [
             'semester' => $smt,
             'json' => true,
         ]);
