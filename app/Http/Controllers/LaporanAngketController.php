@@ -120,12 +120,11 @@ class LaporanAngketController extends Controller
 
     public function cekData()
     {
-       $clo = AngketTrans::where('smt', '221')->get()->groupBy('nik');
+        $clo = AngketTrans::selectRaw('nik, kode_mk, kelas, avg(nilai) as avg_nilai')->where('smt', '221')->get()->groupBy('nik');
 
         return [
             'clo' => $clo,
             'countAngket' => $clo->count(),
-
         ];
     }
 }
