@@ -120,10 +120,10 @@ class LaporanAngketController extends Controller
 
     public function cekData()
     {
-       $clo = AngketTrans::where('smt', '221')->get()->groupBy('nik');
-       $json = json_encode($clo);
+       $clo = AngketTrans::where('smt', '221')->get();
+
         return [
-            'clo' => $json,
+            'clo' => $clo,
             'countAngket' => $clo->count(),
 
         ];
