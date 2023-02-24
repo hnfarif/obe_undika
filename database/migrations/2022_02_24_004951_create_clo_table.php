@@ -22,6 +22,7 @@ class CreateCloTable extends Migration
             $table->string('lvl_bloom');
             $table->integer('tgt_lulus')->nullable();
             $table->integer('nilai_min')->nullable();
+            $table->string('status',1)->nullable();
 
             $table->foreign('rps_id')->references('id')->on('rps')->onDelete('cascade');
             $table->timestamps();
