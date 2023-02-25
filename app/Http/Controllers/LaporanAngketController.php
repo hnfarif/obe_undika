@@ -28,7 +28,7 @@ class LaporanAngketController extends Controller
         $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
 
-        $angket = AngketTrans::where('smt', '221')->with('karyawan', 'matakuliah')->get()->groupBy('nik');
+        $angket = AngketTrans::where('smt', '221')->get()->groupBy('nik');
 
         // $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
 
