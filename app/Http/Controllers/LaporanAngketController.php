@@ -124,12 +124,11 @@ class LaporanAngketController extends Controller
     public function cekData()
     {
 
-        $clo = AngketTrans::where('smt', '221')->get()->groupBy('nik');
-        // $collect = collect($clo);
-        dd($clo);
-        // return [
-        //     'clo' => $collect,
-        //     'countAngket' => $clo->count(),
-        // ];
+        $clo = AngketTrans::where('smt', '221')->with('karyawan')->get()->groupBy('nik');
+
+        return [
+            'clo' => $clo,
+            'countAngket' => $clo->count(),
+        ];
     }
 }
