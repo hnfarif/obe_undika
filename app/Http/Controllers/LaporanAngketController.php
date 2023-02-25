@@ -23,22 +23,22 @@ class LaporanAngketController extends Controller
 
     public function index()
     {
-        $fak = Fakultas::where('sts_aktif', 'Y')->get();
-        $arrFak = $fak->pluck('id')->toArray();
-        $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
-        $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
+        // $fak = Fakultas::where('sts_aktif', 'Y')->get();
+        // $arrFak = $fak->pluck('id')->toArray();
+        // $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
+        // $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
 
         $angket = AngketTrans::where('smt', '221')->with('karyawan')->get()->groupBy('nik');
 
         // $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
 
-        $rataProdi = [];
+        $rataProdi = [$this->manipulateDataAngket($prodi, $fak)['rataProdi'];]
 
-        $rataFak = [];
+        $rataFak = $this->manipulateDataAngket($prodi, $fak)['rataFakultas'];
 
         $smt = $this->semester;
 
-        return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary', 'rataProdi', 'rataFak', 'smt'));
+        return view('laporan.angket.index', compact('angket','smt'));
     }
 
     public function manipulateDataAngket($prodi, $fak){
