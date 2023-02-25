@@ -65,8 +65,8 @@
                                             @foreach ($angket as $key => $a)
                                             <tr>
                                                 <td>{{ $key }}</td>
-                                                <td>{{ $a->karyawan->nama}}</td>
                                                 @foreach ($a->groupBy('kode_mk') as $keymk => $mk)
+                                                <td>{{ $a->karyawan->nama}}</td>
                                                 <td>{{ $keymk }}</td>
                                                 <td>{{ $mk->getMatakuliahName($keymk) }}</td>
                                                 <td>{{ $mk->kelas }}</td>
