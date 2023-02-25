@@ -62,16 +62,14 @@
 
                                         </thead>
                                         <tbody>
-                                            @foreach ($angket as $a)
+                                            @foreach ($angket as $key => $a)
                                             <tr>
-                                                <td>{{ $a->nik }}</td>
+                                                <td>{{ $key }}</td>
                                                 <td>{{ $a->karyawan->nama }}</td>
-                                                @foreach ($a->nik->groupBy('kode_mk') as $mk)
-                                                <td>{{ $mk->kode_mk }}</td>
+                                                @foreach ($a->groupBy('kode_mk') as $keymk => $mk)
+                                                <td>{{ $keymk }}</td>
                                                 <td>{{ $mk->matakuliah->nama }}</td>
-                                                @foreach ($mk->kode_mk as $kls)
-                                                <td>{{ $kls->kelas }}</td>
-                                                @endforeach
+                                                <td>{{ $mk->kelas }}</td>
                                                 <td>{{ $mk->avg('nilai') }}</td>
                                                 @endforeach
                                                 <td>{{ $mk->avg('nilai') }}</td>
