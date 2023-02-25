@@ -32,9 +32,9 @@ class LaporanAngketController extends Controller
 
         // $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
 
-        $rataProdi = [$this->manipulateDataAngket($prodi, $fak)['rataProdi'];]
+        // $rataProdi = [$this->manipulateDataAngket($prodi, $fak)['rataProdi'];
 
-        $rataFak = $this->manipulateDataAngket($prodi, $fak)['rataFakultas'];
+        // $rataFak = $this->manipulateDataAngket($prodi, $fak)['rataFakultas'];
 
         $smt = $this->semester;
 
