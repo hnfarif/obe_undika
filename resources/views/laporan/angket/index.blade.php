@@ -59,7 +59,6 @@
                                                 <th>Rata-rata</th>
                                                 <th>Rata-rata Dosen</th>
                                             </tr>
-
                                         </thead>
                                         <tbody>
                                             @foreach ($angket as $key => $a)

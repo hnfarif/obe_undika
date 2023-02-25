@@ -23,19 +23,29 @@ class LaporanAngketController extends Controller
 
     public function index()
     {
+        // $fak = Fakultas::where('sts_aktif', 'Y')->get();
+        // $arrFak = $fak->pluck('id')->toArray();
+        // $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
+        // $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
 
-        $angket = AngketTrans::where('smt', '221')->with('karyawan')->get()->groupBy('nik');
+        $angket = AngketTrans::where('smt', '221')->get()->groupBy('nik');
+
+        // $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
+
+        // $rataProdi = $this->manipulateDataAngket($prodi, $fak)['rataProdi'];
+
+        // $rataFak = $this->manipulateDataAngket($prodi, $fak)['rataFakultas'];
 
         $smt = $this->semester;
 
-        return view('laporan.angket.index', compact('angket','smt'));
+        return view('laporan.angket.index', compact('angket', 'smt'));
     }
 
     public function manipulateDataAngket($prodi, $fak){
 
         $smt = $this->semester;
-        $plot = PlottingMonev::where('semester', $smt)->prodi()->get();
-        $angket = AngketTrans::where('smt', $smt)->whereIn('prodi', $plot->pluck('prodi')->toArray())->get()->groupBy('nik');
+        $plot = PlottingMonev::where('semester', '221')->prodi()->get();
+        $angket = AngketTrans::where('smt', '221')->whereIn('prodi', $plot->pluck('prodi')->toArray())->get()->groupBy('nik');
         $ratamk = $angket;
 
         $data = [];
@@ -113,7 +123,7 @@ class LaporanAngketController extends Controller
     public function cekData()
     {
 
-        $clo = AngketTrans::where('smt', '221')->with('karyawan')->get()->groupBy('nik');
+        $clo = AngketTrans::where('smt', '221')->get()->groupBy('nik');
 
         return [
             'clo' => $clo,
