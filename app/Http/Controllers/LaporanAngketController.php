@@ -124,9 +124,9 @@ class LaporanAngketController extends Controller
     {
 
         $clo = AngketTrans::where('smt', '221')->get()->groupBy('nik');
-
+        $collect = collect($clo);
         return [
-            'clo' => $clo,
+            'clo' => $collect,
             'countAngket' => $clo->count(),
         ];
     }
