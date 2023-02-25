@@ -11,15 +11,6 @@ class AngketTrans extends Model
 
     protected $table = 'angket_tf';
 
-    public function karyawan()
-    {
-        return $this->belongsTo(KaryawanDosen::class, 'nik', 'nik');
-    }
-
-    public function matakuliah(){
-        return $this->belongsTo(MataKuliah::class, 'kode_mk', 'id');
-    }
-
     public function getKaryawan($nik)
     {
         $kary = KaryawanDosen::where('nik', $nik)->first();
