@@ -66,7 +66,7 @@
                                             <tr>
                                                 <td>{{ $key }}</td>
                                                 @foreach ($a as $keymk => $mk)
-                                                <td>{{ $a->karyawan->nama}}</td>
+                                                <td>{{ $a['karyawan']['nama'] }}</td>
                                                 <td>{{ $keymk }}</td>
                                                 <td>{{ $mk->getMatakuliahName($keymk) }}</td>
                                                 <td>{{ $mk->kelas }}</td>
