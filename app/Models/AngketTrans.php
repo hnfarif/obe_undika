@@ -13,7 +13,7 @@ class AngketTrans extends Model
 
     public function karyawan()
     {
-        return $this->belongsTo(KaryawanDosen::class);
+        return $this->belongsToMany(KaryawanDosen::class, 'nik', 'nik');
     }
 
     public function matakuliah(){
