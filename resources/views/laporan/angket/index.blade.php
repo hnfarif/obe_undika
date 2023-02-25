@@ -129,7 +129,7 @@
                     </div>
                 </div>
 
-                <div class="row rangkuman d-none">
+                {{-- <div class="row rangkuman d-none">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -152,47 +152,47 @@
                                             <tr>
 
                                                 <td>{{ $f->nama }}</td>
-                                                <td>
-                                                    @foreach ($f->prodis as $p )
-                                                    <div class="my-3">
+                <td>
+                    @foreach ($f->prodis as $p )
+                    <div class="my-3">
 
-                                                        {{ $p->nama.' ('.$p->id.')' }}
-                                                    </div>
-                                                    @endforeach
-                                                </td>
-                                                <td>
-                                                    @foreach ($f->prodis as $p )
-                                                    <div class="text-center my-3">
-
-                                                        @if (isset($rataProdi[$p->id]))
-
-                                                        {{ $rataProdi[$p->id]['rata_prodi'] }}
-
-                                                        @endif
-                                                    </div>
-                                                    @endforeach
-                                                </td>
-                                                <td class="text-center">
-                                                    @if (isset($rataFak[$f->id]))
-
-                                                    {{ $rataFak[$f->id]['rata_fakultas'] }}
-
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        {{ $p->nama.' ('.$p->id.')' }}
                     </div>
-                </div>
+                    @endforeach
+                </td>
+                <td>
+                    @foreach ($f->prodis as $p )
+                    <div class="text-center my-3">
 
+                        @if (isset($rataProdi[$p->id]))
+
+                        {{ $rataProdi[$p->id]['rata_prodi'] }}
+
+                        @endif
+                    </div>
+                    @endforeach
+                </td>
+                <td class="text-center">
+                    @if (isset($rataFak[$f->id]))
+
+                    {{ $rataFak[$f->id]['rata_fakultas'] }}
+
+                    @endif
+                </td>
+                </tr>
+                @endforeach
+                </tbody>
+                </table>
             </div>
-        </section>
     </div>
-    @include('layouts.footer')
+</div>
+</div>
+</div> --}}
+
+</div>
+</section>
+</div>
+@include('layouts.footer')
 </div>
 @include('laporan.angket.modal-angket')
 @endsection
