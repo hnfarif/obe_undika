@@ -30,6 +30,7 @@ class LaporanAngketController extends Controller
 
         $angket = AngketTrans::where('smt', '221')->with('karyawan')->get()->groupBy('nik');
 
+        dd($angket);
         // $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
 
         $rataProdi = $this->manipulateDataAngket($prodi, $fak)['rataProdi'];
