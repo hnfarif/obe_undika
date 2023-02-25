@@ -123,7 +123,7 @@ class LaporanAngketController extends Controller
     public function cekData()
     {
 
-        $clo = AngketTrans::with('karyawan')->where('smt', '221')->get()->groupBy('nik');
+        $clo = AngketTrans::where('smt', '221')->with('karyawan')->get()->groupBy('nik');
 
         return [
             'clo' => $clo,
