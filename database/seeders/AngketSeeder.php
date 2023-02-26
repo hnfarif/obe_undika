@@ -38,9 +38,9 @@ class AngketSeeder extends Seeder
                 'nik' => $val->kary_nik,
                 'kode_mk' => $val->klkl_id,
                 'kelas' => $val->kelas,
-                'smt' => $smt->smt_aktif,
+                'smt' => $smt->smt_yad,
                 'smt_mk' => $smt->smt_aktif,
-                'nilai' => $this->faker->randomFloat(2, 0, 4),
+                'nilai' => $this->faker->numberBetween(0, 4),
                 'prodi' => $val->prodi,
           ]);
         }

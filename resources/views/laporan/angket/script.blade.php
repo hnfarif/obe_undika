@@ -3,6 +3,11 @@
         const tabelAngket = $('#lapAngket').DataTable({
             responsive: true,
             autoWidth: false,
+            columnDefs: [{
+                targets: [0, 1, 3],
+                className: 'text-center'
+            }],
+
         });
 
         $('input[type=radio][name=optlaporan]').change(function () {

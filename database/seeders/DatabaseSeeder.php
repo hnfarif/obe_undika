@@ -371,15 +371,15 @@ class DatabaseSeeder extends Seeder
         \App\Models\MataKuliah::factory(10)->create();
 
         $this->call([
+            JadwalKuliahSeeder::class,
+            SemesterSeeder::class,
             AngketSeeder::class,
             DetailBapSeeder::class,
-            JadwalKuliahSeeder::class,
             KrsSeeder::class,
             KuliahSeeder::class,
             MahasiswaSeeder::class,
             MailStafSeeder::class,
             MingguKuliahSeeder::class,
-            SemesterSeeder::class,
         ]);
     }
 }

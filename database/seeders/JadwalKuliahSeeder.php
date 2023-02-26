@@ -187,7 +187,7 @@ class JadwalKuliahSeeder extends Seeder
                 if ($m->fakul_id == '41010') {
                     JadwalKuliah::create([
                         'kary_nik' => $k['nik'],
-                        'klkl_id' => substr($m->id, 5),
+                        'klkl_id' => $m->id,
                         'kelas' => 'P1',
                         'hari' => 1,
                         'mulai' => date('Y-m-d H:i:s'),

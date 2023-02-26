@@ -18,6 +18,7 @@ class CreatePenilaianTable extends Migration
             $table->bigInteger('rps_id')->unsigned();
             $table->string('btk_penilaian', 100);
             $table->string('jenis', 3);
+            $table->string('status',1)->nullable();
 
             $table->foreign('rps_id')->references('id')->on('rps')->onDelete('cascade');
             $table->timestamps();

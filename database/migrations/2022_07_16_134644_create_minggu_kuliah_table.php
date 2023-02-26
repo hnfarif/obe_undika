@@ -19,6 +19,8 @@ class CreateMingguKuliahTable extends Migration
             $table->integer('minggu_ke')->nullable();
             $table->date('tgl_awal')->nullable();
             $table->date('tgl_akhir')->nullable();
+
+            $table->timestamps();
         });
     }
 

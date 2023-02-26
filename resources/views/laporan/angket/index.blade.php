@@ -47,151 +47,48 @@
                                 </button>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="lapAngket" width="100%">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th>NIK</th>
-                                                <th>Nama Dosen</th>
-                                                <th>Kode MK</th>
-                                                <th>Nama MK</th>
-                                                <th>Kelas</th>
-                                                <th>Rata-rata</th>
-                                                <th>Rata-rata Dosen</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($angket as $key => $a)
-                                            <tr>
-                                                <td>{{ $key }}</td>
-                                                @foreach ($a as $keymk => $mk)
-                                                <td>{{ $mk->karyawan->nama }}</td>
-                                                <td>{{ $keymk }}</td>
-                                                <td>{{ $mk->getMatakuliahName($keymk) }}</td>
-                                                <td>{{ $mk->kelas }}</td>
-                                                <td>{{ $mk->avg('nilai') }}</td>
-                                                @endforeach
-                                                <td>{{ $mk->avg('nilai') }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                        {{-- <tbody>
-                                            @foreach ($angket as $key => $fa)
-                                            <tr>
-                                                <td>{{ $key }}</td>
-                                        <td>{{ $fa['nama'] }}</td>
-                                        <td>
-                                            @foreach ($fa['matakuliah'] as $keymk => $mk)
-                                            {!! $keymk.'<br>' !!}
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            @foreach ($fa['matakuliah'] as $keymk => $mk)
+                                <table class="table table-striped" id="lapAngket" width="100%">
+                                    <thead>
+                                        <tr class="tex">
+                                            <th>NIK</th>
+                                            <th>Nama Dosen</th>
+                                            <th>Nama MK dan rata-rata</th>
+                                            <th>Rata-rata Dosen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($angket as $key => $a)
+                                        <tr>
+                                            <td>{{ $a->nik }}</td>
+                                            <td>{{ $a->karyawan->nama }}</td>
+                                            <td>
+                                                <ul>
+                                                    @foreach ($a->detail as $keymk => $mk)
+                                                    <li>
+                                                        {{ $mk->getMatakuliahName($mk->kode_mk).' ('. $mk->kode_mk.') '. $mk->kelas. ' : '. number_format($mk->rata_mk, 2)
+                                                    }}
+                                                    </li>
+                                                    @endforeach
+                                                </ul>
 
-                                            @foreach ($mk as $keykelas => $kelas )
+                                            </td>
 
-                                            {!! $kelas['nama'].'<br>' !!}
-
-                                            @endforeach
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            @foreach ($fa['matakuliah'] as $keymk => $mk)
-
-                                            @foreach ($mk as $keykelas => $kelas )
-
-                                            {!! $keykelas.'<br>' !!}
-
-                                            @endforeach
-                                            @endforeach
-                                        </td>
-                                        <td>
-
-                                            @foreach ($fa['matakuliah'] as $keymk => $mk)
-
-                                            @foreach ($mk as $keykelas => $kelas )
-
-                                            {!! number_format($kelas['rata_mk'],2).'<br>' !!}
-
-                                            @endforeach
-                                            @endforeach
-
-                                        </td>
-                                        <td>{{ $fa['rata_dosen'] }}</td>
+                                            <td>
+                                                {{ number_format($a->rata_dosen, 2) }}
+                                            </td>
                                         </tr>
                                         @endforeach
-                                        </tbody> --}}
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- <div class="row rangkuman d-none">
-                    <div class="col-12 col-md-6 col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Rata-Rata Angket Dosen</h4>
-
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" width="100%">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th>Fakultas</th>
-                                                <th>Program Studi</th>
-                                                <th>Rata-Rata Prodi</th>
-                                                <th>Rata-Rata Fakultas</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($fak as $f)
-                                            <tr>
-
-                                                <td>{{ $f->nama }}</td>
-                <td>
-                    @foreach ($f->prodis as $p )
-                    <div class="my-3">
-
-                        {{ $p->nama.' ('.$p->id.')' }}
-                    </div>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach ($f->prodis as $p )
-                    <div class="text-center my-3">
-
-                        @if (isset($rataProdi[$p->id]))
-
-                        {{ $rataProdi[$p->id]['rata_prodi'] }}
-
-                        @endif
-                    </div>
-                    @endforeach
-                </td>
-                <td class="text-center">
-                    @if (isset($rataFak[$f->id]))
-
-                    {{ $rataFak[$f->id]['rata_fakultas'] }}
-
-                    @endif
-                </td>
-                </tr>
-                @endforeach
-                </tbody>
-                </table>
             </div>
+        </section>
     </div>
-</div>
-</div>
-</div> --}}
-
-</div>
-</section>
-</div>
-@include('layouts.footer')
+    @include('layouts.footer')
 </div>
 @include('laporan.angket.modal-angket')
 @endsection
