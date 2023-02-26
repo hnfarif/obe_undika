@@ -359,6 +359,7 @@ class DatabaseSeeder extends Seeder
 
             KaryawanDosen::create([
                 'nik' => $i['nik'],
+                'kary_type' => 'TD',
                 'nama' => $i['nama'],
                 'fakul_id' => $i['fakul_id'],
                 'bagian' => $i['bagian'],

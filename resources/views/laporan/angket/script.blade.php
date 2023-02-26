@@ -28,10 +28,10 @@
         var chartProdi = new Chart(ctx_pro, {
             type: 'bar',
             data: {
-                labels: JSON.parse('@json($rata_prodi->pluck("nama")->toArray())'),
+                labels: JSON.parse('@json($labelProdi)'),
                 datasets: [{
                     label: 'Total Mata Kuliah',
-                    data: JSON.parse('@json($rata_prodi->pluck("rata")->toArray())'),
+                    data: JSON.parse('@json($rataProdi)'),
                     backgroundColor: [
                         'rgba(54, 162, 235, 0.2)',
                     ],
@@ -59,10 +59,10 @@
         var chartFak = new Chart(ctx_fak, {
             type: 'bar',
             data: {
-                labels: JSON.parse('@json($rata_fak->pluck("nama")->toArray())'),
+                labels: JSON.parse('@json($rata->pluck("nama")->toArray())'),
                 datasets: [{
                     label: 'Total Mata Kuliah',
-                    data: JSON.parse('@json($rata_fak->pluck("rata")->toArray())'),
+                    data: JSON.parse('@json($rata->pluck("rata")->toArray())'),
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                     ],
