@@ -49,7 +49,7 @@
                             <div class="card-body">
                                 <table class="table table-striped" id="lapAngket" width="100%">
                                     <thead>
-                                        <tr class="tex">
+                                        <tr class="text-center">
                                             <th>NIK</th>
                                             <th>Nama Dosen</th>
                                             <th>Nama MK dan rata-rata</th>
@@ -82,6 +82,17 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row rangkuman d-none">
+                    <div class="section-title mt-0">Rata Angket Tiap Prodi</div>
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <canvas id="rata_prodi" width="700" height="200"></canvas>
+                    </div>
+                    <div class="section-title mt-5">Rata Angket Tiap Fakultas</div>
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <canvas id="rata_fak" width="700" height="200"></canvas>
                     </div>
                 </div>
 

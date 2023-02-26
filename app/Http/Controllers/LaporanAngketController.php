@@ -28,13 +28,24 @@ class LaporanAngketController extends Controller
         $prodi = Prodi::whereIn('id_fakultas', $arrFak)->where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
 
-        $angket = AngketTrans::select('nik')->distinct('nik')->get();
+        $angket = AngketTrans::select('nik')->with('karyawan')->distinct('nik')->get();
 
         $angket = tap($angket)->transform(function($data){
             $data->detail = AngketTrans::selectRaw('kode_mk, kelas, avg(nilai) as rata_mk')->join('kurlkl_mf','angket_tf.kode_mk','kurlkl_mf.id')->where('nik',$data->nik)->where('smt','221')->groupBy('kode_mk','kelas')->get();
             $data->rata_dosen = AngketTrans::where('nik',$data->nik)->where('smt','221')->avg('nilai');
             return $data;
         });
+
+        $rata_prodi = tap($prodi)->transform(function($data){
+            $data->rata = AngketTrans::where('prodi',$data->id)->where('smt','221')->avg('nilai');
+            return $data;
+        });
+
+        $rata_fak = tap($fak)->transform(function($data){
+            $data->rata = AngketTrans::join('fak_mf','angket_tf.prodi','fak_mf.id')->where('id_fakultas',$data->id)->where('smt','221')->avg('nilai');
+            return $data;
+        });
+
         // $angket = $this->manipulateDataAngket($prodi, $fak)['data'];
 
         // $rataProdi = $this->manipulateDataAngket($prodi, $fak)['rataProdi'];
@@ -43,7 +54,7 @@ class LaporanAngketController extends Controller
 
         $smt = $this->semester;
 
-        return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary','smt'));
+        return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary','smt', 'rata_prodi', 'rata_fak'));
     }
 
     public function manipulateDataAngket($prodi, $fak){
