@@ -132,38 +132,27 @@
                     </div>
                 </div>
 
-                <div class="row rangkuman d-none mt-3">
-                    <div class="col-12 col-md-6 col-lg-12">
+                <div class="row rangkuman d-none mt-3 d-flex">
+                    <div class="col-6 col-lg-6 col-md-12 mx-auto">
                         <div class="card">
+                            <div class="card-header">
+                                <h4>Jumlah Badges</h4>
+                            </div>
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Badges</th>
-                                                <th>Jumlah</th>
-                                                <th>%</th>
-                                                <th>Nilai</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($rangBadge as $b)
-
-                                            <tr>
-                                                <td>{{ $b['nama'] }}</td>
-                                                <td>{{ $b['jumlah'] }}</td>
-                                                <td>{{ $b['persen'] }}</td>
-                                                <td>{{ $b['avg'] }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <canvas id="bdgSumPro" width="50%"></canvas>
                             </div>
                         </div>
                     </div>
-                    <div class="section-title mt-0">Rata-Rata Penggunaan Brilian</div>
+                    <div class="col-12">
+                        <div class="section-title mt-0">Nilai Badges</div>
+                        <div class="card">
+                            <div class="card-body">
+                                <canvas id="bdgNilai" width="700" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12 col-lg-12">
+                        <div class="section-title mt-0">Rata-Rata Penggunaan Brilian</div>
                         <div class="card">
                             <div class="card-header">
                                 <h4>Fakultas</h4>
