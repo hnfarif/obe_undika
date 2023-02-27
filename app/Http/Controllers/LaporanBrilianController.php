@@ -394,10 +394,13 @@ class LaporanBrilianController extends Controller
         }else{
             $data = [];
             $indikator = [];
+            $rangBadge = [];
+            $rataFak = [];
+            $rataProdi = [];
         }
 
-
         return ['data' => $data, 'indikator' => $indikator, 'smt' => $smt, 'prodi' => $prodi, 'rangBadge' => $rangBadge, 'badges' => $badges, 'rataFak' => $rataFak, 'rataProdi' => $rataProdi];
+
     }
 
     public function exportPdf()
