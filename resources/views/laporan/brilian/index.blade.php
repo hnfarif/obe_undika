@@ -132,7 +132,7 @@
                     </div>
                 </div>
 
-                <div class="row rangkuman d-none mt-3 d-flex">
+                <div class="row rangkuman d-none mt-3">
                     <div class="col-6 col-lg-6 col-md-12 mx-auto">
                         <div class="card">
                             <div class="card-header">
