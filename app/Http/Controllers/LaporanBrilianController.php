@@ -33,17 +33,15 @@ class LaporanBrilianController extends Controller
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::all();
 
-        // run function manipulateDataApi
-        $manipulate = $this->manipulateDataApi();
 
-        $data = $manipulate['data'];
-        $indikator = $manipulate['indikator'];
+        $data = $this->manipulateDataApi()['data'];
+        $indikator = $this->manipulateDataApi()['indikator'];
         $smt = $this->semester;
-        $prodi = $manipulate['prodi'];
-        $rangBadge = $manipulate['rangBadge'];
-        $badges = $manipulate['badges'];
-        $rataFak = $manipulate['rataFak'];
-        $rataProdi = $manipulate['rataProdi'];
+        $prodi = $this->manipulateDataApi()['prodi'];
+        $rangBadge = $this->manipulateDataApi()['rangBadge'];
+        $badges = $this->manipulateDataApi()['badges'];
+        $rataFak = $this->manipulateDataApi()['rataFak'];
+        $rataProdi = $this->manipulateDataApi()['rataProdi'];
 
 
         if (isset($filter['fakultas'])) {
