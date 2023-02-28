@@ -53,7 +53,7 @@ class LaporanAngketController extends Controller
                     }
                 }
             }
-            $data->rata = number_format($data->rata / $jmlPro, 2);
+            $data->rata = $jmlPro == 0 ? 0 : number_format($data->rata / $jmlPro, 2);
             tap($data->prodis)->transform(function($prodi) use ($angket){
                 $jmlMk = 0;
                 foreach ($angket as $a) {
