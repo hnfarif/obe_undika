@@ -64,7 +64,7 @@ class LaporanAngketController extends Controller
                         }
                     }
                 }
-                $prodi->rata = $jmlMk = 0 ? 0 : number_format($prodi->rata / $jmlMk, 2);
+                $prodi->rata = $jmlMk == 0 ? 0 : number_format($prodi->rata / $jmlMk, 2);
                 return $prodi;
             });
             return $data;
