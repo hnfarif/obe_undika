@@ -60,7 +60,15 @@
                                         @foreach ($angket as $key => $a)
                                         <tr>
                                             <td>{{ $key }}</td>
-                                            <td>{{ $a[0]->karyawan->nama }}</td>
+                                            <td>
+                                                @if ($a[0]->karyawan)
+
+                                                {{ $a[0]->karyawan->nama }}
+                                                @else
+                                                -
+                                                @endif
+
+                                            </td>
                                             <td>
                                                 <ul>
                                                     @foreach ($a->unique('kode_mk') as $keymk => $mk)
