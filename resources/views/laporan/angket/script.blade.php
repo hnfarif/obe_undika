@@ -25,13 +25,15 @@
         var ctx_pro = document.getElementById('rata_prodi').getContext('2d');
         var ctx_fak = document.getElementById('rata_fak').getContext('2d');
 
+        var rata = @json($rata);
+
         var chartProdi = new Chart(ctx_pro, {
             type: 'bar',
             data: {
-                labels: JSON.parse('@json($labelProdi)'),
+                labels: rata.map(item => item.prodis.map(data => data.nama)).flat(),
                 datasets: [{
                     label: 'Total Mata Kuliah',
-                    data: JSON.parse('@json($rataProdi)'),
+                    data: rata.map(item => item.prodis.map(data => data.rata)).flat(),
                     backgroundColor: [
                         'rgba(54, 162, 235, 0.2)',
                     ],
@@ -59,10 +61,10 @@
         var chartFak = new Chart(ctx_fak, {
             type: 'bar',
             data: {
-                labels: JSON.parse('@json($rata->pluck("nama")->toArray())'),
+                labels: rata.map(item => item.nama).flat(),
                 datasets: [{
                     label: 'Total Mata Kuliah',
-                    data: JSON.parse('@json($rata->pluck("rata")->toArray())'),
+                    data: rata.map(item => item.rata).flat(),
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                     ],

@@ -21,7 +21,7 @@ class AngketTrans extends Model
         return $this->belongsTo(MataKuliah::class, 'kode_mk', 'id');
     }
 
-    public function prodi()
+    public function prodii()
     {
         return $this->belongsTo(Prodi::class, 'prodi', 'id');
     }

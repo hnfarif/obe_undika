@@ -59,13 +59,13 @@
                                     <tbody>
                                         @foreach ($angket as $key => $a)
                                         <tr>
-                                            <td>{{ $a->nik }}</td>
-                                            <td>{{ $a->karyawan->nama }}</td>
+                                            <td>{{ $key }}</td>
+                                            <td>{{ $a[0]->karyawan->nama }}</td>
                                             <td>
                                                 <ul>
-                                                    @foreach ($a->detail as $keymk => $mk)
+                                                    @foreach ($a->unique('kode_mk') as $keymk => $mk)
                                                     <li>
-                                                        {{ $mk->getMatakuliahName($mk->kode_mk).' ('. $mk->kode_mk.') '. $mk->kelas. ' : '. number_format($mk->rata_mk, 2)
+                                                        {{ $mk->matakuliah->nama.' ('. $mk->kode_mk.') '. $mk->kelas. ' : '. number_format($a->where('kode_mk', $mk->kode_mk)->avg('nilai'), 2)
                                                     }}
                                                     </li>
                                                     @endforeach
@@ -74,7 +74,7 @@
                                             </td>
 
                                             <td>
-                                                {{ number_format($a->rata_dosen, 2) }}
+                                                {{ number_format($a->avg('nilai'), 2) }}
                                             </td>
                                         </tr>
                                         @endforeach

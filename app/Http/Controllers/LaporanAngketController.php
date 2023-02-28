@@ -24,7 +24,7 @@ class LaporanAngketController extends Controller
         $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
         $this->fakultas = Fakultas::where('sts_aktif', 'Y')->with('prodis')->get();
         $this->prodi = Prodi::whereIn('id_fakultas', $this->fakultas->pluck('id')->toArray())->where('sts_aktif', 'Y')->get();
-        $this->angket = AngketTrans::select('nik')->with('karyawan')->distinct('nik')->fakultas()->prodi()->dosen()->get();
+        $this->angket = AngketTrans::where('smt', '221')->with('karyawan', 'matakuliah', 'prodii')->fakultas()->prodi()->dosen()->get()->groupBy('nik');
     }
 
     public function index()
@@ -32,62 +32,53 @@ class LaporanAngketController extends Controller
         $fak = $this->fakultas;
         $kary = KaryawanDosen::where('kary_type', 'like', '%D%')->get();
         $prodi = $this->prodi;
+        $angket = $this->angket;
 
-        $angket = $this->manipulateDataAngket('angket', $this->angket);
-
-        $rata = $this->manipulateDataAngket('rata', $fak);
-
-        $labelProdi = [];
-        $rataProdi = [];
-
-        foreach($rata as $r){
-            foreach($r->prodis as $p){
-                $labelProdi[] = $p->nama;
-                $rataProdi[] = $p->rata;
-            }
-        }
+        $rata = $this->manipulateDataAngket($angket, $fak);
 
         $smt = $this->semester;
 
-        return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary','smt', 'rata', 'labelProdi', 'rataProdi'));
+        return view('laporan.angket.index', compact('angket', 'fak', 'prodi', 'kary','smt', 'rata'));
     }
 
-    public function manipulateDataAngket($sts, $data){
-        $result = '';
+    public function manipulateDataAngket($angket, $fak){
 
-        if($sts == 'angket'){
-            $ang = $data;
-
-            $angket = tap($ang)->transform(function($data) use ($ang){
-                $data->detail = $ang->selectRaw('kode_mk, kelas, avg(nilai) as rata_mk')->join('kurlkl_mf','angket_tf.kode_mk','kurlkl_mf.id')->where('nik',$data->nik)->where('smt','221')->groupBy('kode_mk','kelas')->get();
-                $data->rata_dosen = $ang->where('nik',$data->nik)->where('smt','221')->avg('nilai');
-                return $data;
+        $rata_fak = tap($fak)->transform(function($data) use ($angket){
+            $jmlPro = 0;
+            foreach ($angket as $a) {
+                foreach ($a as $p) {
+                    if ($data->id == $p->prodii->id_fakultas) {
+                        $data->rata += $p->nilai;
+                        $jmlPro += 1;
+                    }
+                }
+            }
+            $data->rata = number_format($data->rata / $jmlPro, 2);
+            tap($data->prodis)->transform(function($prodi) use ($angket){
+                $jmlMk = 0;
+                foreach ($angket as $a) {
+                    foreach ($a as $p) {
+                        if ($prodi->id == $p->prodi) {
+                            $prodi->rata += $p->nilai;
+                            $jmlMk += 1;
+                        }
+                    }
+                }
+                $prodi->rata = number_format($prodi->rata / $jmlMk, 2);
+                return $prodi;
             });
-            $result = $angket;
-        }
+            return $data;
+        });
 
-        if($sts == 'rata'){
-            $fak = $data;
-            $rata_fak = tap($fak)->transform(function($data) use ($fak){
-                $data->rata = $fak->join('fak_mf', 'angket_tf.prodi', 'fak_mf.id')->where('smt','221')->where('id_fakultas', $data->id)->avg('nilai');
-                tap($data->prodis)->transform(function($data) {
-                    $data->rata = $data->where('prodi',$data->id)->where('smt','221')->avg('nilai');
-                    return $data;
-                });
-                return $data;
-            });
-            $result = $rata_fak;
-        }
-
-        return $result;
+        return $rata_fak;
     }
 
     public function exportPdf()
     {
         $fak = $this->fakultas;
 
-        $angket = $this->manipulateDataAngket('angket', $this->angket);
-        $rata = $this->manipulateDataAngket('rata', $fak);
+        $angket = $this->angket;
+        $rata = $this->manipulateDataAngket($angket, $fak);
 
         $pdf = PDF::loadView('laporan.angket.export-pdf', ['fak' => $fak,
         'angket' => $angket,
