@@ -118,7 +118,7 @@
                         <ul>
                             @foreach ($a->unique('kode_mk') as $keymk => $mk)
                             <li>
-                                {{ $mk->matakuliah->nama.' ('. $mk->kode_mk.') '. $mk->kelas. ' : '. number_format($a->where('kode_mk', $mk->kode_mk)->avg('nilai'), 2)
+                                {{ $mk->getMatakuliahName($mk->kode_mk).' ('. $mk->kode_mk.') '. $mk->kelas. ' : '. number_format($a->where('kode_mk', $mk->kode_mk)->avg('nilai'), 2)
                             }}
                             </li>
                             @endforeach
