@@ -57,9 +57,10 @@ class LaporanAngketController extends Controller
 
         if($sts == 'angket'){
             $ang = $data;
-            $angket = tap($ang)->transform(function($data){
-                $data->detail = AngketTrans::selectRaw('kode_mk, kelas, avg(nilai) as rata_mk')->join('kurlkl_mf','angket_tf.kode_mk','kurlkl_mf.id')->where('nik',$data->nik)->where('smt','221')->groupBy('kode_mk','kelas')->get();
-                $data->rata_dosen = AngketTrans::where('nik',$data->nik)->where('smt','221')->avg('nilai');
+
+            $angket = tap($ang)->transform(function($data) use ($ang){
+                $data->detail = $ang->selectRaw('kode_mk, kelas, avg(nilai) as rata_mk')->join('kurlkl_mf','angket_tf.kode_mk','kurlkl_mf.id')->where('nik',$data->nik)->where('smt','221')->groupBy('kode_mk','kelas')->get();
+                $data->rata_dosen = $ang->where('nik',$data->nik)->where('smt','221')->avg('nilai');
                 return $data;
             });
             $result = $angket;
@@ -67,10 +68,10 @@ class LaporanAngketController extends Controller
 
         if($sts == 'rata'){
             $fak = $data;
-            $rata_fak = tap($fak)->transform(function($data){
-                $data->rata = AngketTrans::join('fak_mf', 'angket_tf.prodi', 'fak_mf.id')->where('smt','221')->where('id_fakultas', $data->id)->avg('nilai');
-                tap($data->prodis)->transform(function($data){
-                    $data->rata = AngketTrans::where('prodi',$data->id)->where('smt','221')->avg('nilai');
+            $rata_fak = tap($fak)->transform(function($data) use ($fak){
+                $data->rata = $fak->join('fak_mf', 'angket_tf.prodi', 'fak_mf.id')->where('smt','221')->where('id_fakultas', $data->id)->avg('nilai');
+                tap($data->prodis)->transform(function($data) {
+                    $data->rata = $data->where('prodi',$data->id)->where('smt','221')->avg('nilai');
                     return $data;
                 });
                 return $data;

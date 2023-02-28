@@ -14,7 +14,7 @@ class CreateAngketTfTable extends Migration
     public function up()
     {
         Schema::create('angket_tf', function (Blueprint $table) {
-            $table->string('nik', 11);
+            $table->string('nik', 6);
             $table->string('kode_mk', 10);
             $table->string('kelas', 6);
             $table->char('smt', 3);
