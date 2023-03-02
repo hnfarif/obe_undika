@@ -80,7 +80,7 @@
                                                 </td>
                                                 <td>{{ $j->getNameMataKuliah($j->klkl_id) }}</td>
                                                 <td>{{ $j->kelas }}</td>
-                                                <td>{{ $j->getNameKary($j->kary_nik) }}</td>
+                                                <td>{{ $j->karyawan->nama }}</td>
                                                 @foreach ($kri as $k)
                                                 @if ($loop->iteration <= 3) @if ($j->
                                                     cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas, $smt) ==

@@ -13,7 +13,7 @@ class JadwalKuliah extends Model
 
     protected $table = 'jdwkul_mf';
 
-    public function matakuliahs()
+    public function matakuliah()
     {
         return $this->belongsTo(MataKuliah::class, 'id', 'klkl_id');
     }
@@ -23,9 +23,9 @@ class JadwalKuliah extends Model
         return $this->belongsTo(Semester::class, 'fak_id', 'prodi');
     }
 
-    public function karyawans()
+    public function karyawan()
     {
-        return $this->belongsTo(KaryawanDosen::class, 'nik', 'kary_nik');
+        return $this->belongsTo(KaryawanDosen::class, 'kary_nik', 'nik');
     }
 
     public function prodi(){

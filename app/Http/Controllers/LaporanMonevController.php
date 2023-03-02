@@ -24,20 +24,17 @@ class LaporanMonevController extends Controller
 
     public function index()
     {
-
-        // data filters
         $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->get();
 
-        // dd(request()->all());
         $fakul = Fakultas::with('prodis')->get();
         $fak = $fakul;
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         $smt = $this->semester;
-        $plot = PlottingMonev::whereSemester($smt)->whereHas('insMonev')->get();
+        $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->get();
         $filKlkl = $plot->pluck('klkl_id')->toArray();
         $filNik = $plot->pluck('nik_pengajar')->toArray();
-        $jdw = JadwalKuliah::whereIn('klkl_id', $filKlkl)->whereIn('kary_nik', $filNik)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get();
+        $jdw = JadwalKuliah::whereIn('klkl_id', $filKlkl)->whereIn('kary_nik', $filNik)->with( 'karyawan')->fakultas()->prodi()->dosen()->get();
         return view('laporan.monev.index', compact('kri', 'jdw', 'fak', 'prodi', 'kary', 'fakul', 'smt'));
     }
 

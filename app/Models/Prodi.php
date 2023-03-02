@@ -43,7 +43,7 @@ class Prodi extends Model
     public function getAvgMonev($prodi, $smt)
     {
 
-        $jdw = JadwalKuliah::with('matakuliahs', 'karyawans')->where('prodi', $prodi)->get();
+        $jdw = JadwalKuliah::with('karyawan')->where('prodi', $prodi)->get();
         $count = 0;
         $sum = 0;
         foreach ($jdw as $j) {
