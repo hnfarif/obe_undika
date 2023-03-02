@@ -42,33 +42,43 @@ class LaporanAngketController extends Controller
     }
 
     public function manipulateDataAngket($angket, $fak){
-
-        $rata_fak = tap($fak)->transform(function($data) use ($angket){
-            $jmlPro = 0;
-            foreach ($angket as $a) {
-                foreach ($a as $p) {
-                    if ($data->id == $p->prodii->id_fakultas) {
-                        $data->rata += $p->nilai;
-                        $jmlPro += 1;
-                    }
-                }
-            }
-            $data->rata = $jmlPro == 0 ? 0 : number_format($data->rata / $jmlPro, 2);
-            tap($data->prodis)->transform(function($prodi) use ($angket){
-                $jmlMk = 0;
+        if($angket){
+            $rata_fak = tap($fak)->transform(function($data) use ($angket){
+                $jmlPro = 0;
                 foreach ($angket as $a) {
                     foreach ($a as $p) {
-                        if ($prodi->id == $p->prodi) {
-                            $prodi->rata += $p->nilai;
-                            $jmlMk += 1;
+                        if ($data->id == $p->prodii->id_fakultas) {
+                            $data->rata += $p->nilai;
+                            $jmlPro += 1;
                         }
                     }
                 }
-                $prodi->rata = $jmlMk == 0 ? 0 : number_format($prodi->rata / $jmlMk, 2);
-                return $prodi;
+                $data->rata = $jmlPro == 0 ? 0 : number_format($data->rata / $jmlPro, 2);
+                tap($data->prodis)->transform(function($prodi) use ($angket){
+                    $jmlMk = 0;
+                    foreach ($angket as $a) {
+                        foreach ($a as $p) {
+                            if ($prodi->id == $p->prodi) {
+                                $prodi->rata += $p->nilai;
+                                $jmlMk += 1;
+                            }
+                        }
+                    }
+                    $prodi->rata = $jmlMk == 0 ? 0 : number_format($prodi->rata / $jmlMk, 2);
+                    return $prodi;
+                });
+                return $data;
             });
-            return $data;
-        });
+        }else{
+            $rata_fak = tap($fak)->transform(function($data){
+                $data->rata = 0;
+                tap($data->prodis)->transform(function($prodi){
+                    $prodi->rata = 0;
+                    return $prodi;
+                });
+                return $data;
+            });
+        }
 
         return $rata_fak;
     }
