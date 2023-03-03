@@ -31,11 +31,11 @@ class LaporanMonevController extends Controller
 
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         $smt = $this->semester;
-        $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->get();
-        $filKlkl = $plot->pluck('klkl_id')->toArray();
-        $filNik = $plot->pluck('nik_pengajar')->toArray();
-        $jdw = JadwalKuliah::whereIn('klkl_id', $filKlkl)->whereIn('kary_nik', $filNik)->with( 'karyawan')->fakultas()->prodi()->dosen()->get();
-        return view('laporan.monev.index', compact('kri', 'jdw', 'fak', 'prodi', 'kary', 'fakul', 'smt'));
+        $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev')->get();
+        // $filKlkl = $plot->pluck('klkl_id')->toArray();
+        // $filNik = $plot->pluck('nik_pengajar')->toArray();
+        // $jdw = JadwalKuliah::whereIn('klkl_id', $filKlkl)->whereIn('kary_nik', $filNik)->with( 'karyawan')->fakultas()->prodi()->dosen()->get();
+        return view('laporan.monev.index', compact('kri', 'fak', 'prodi', 'kary', 'fakul', 'smt'));
     }
 
     public function exportExcel()
@@ -67,18 +67,31 @@ class LaporanMonevController extends Controller
         return $pdf->stream('laporan_monev_'.date('Y-m-d_H-i-s').'.pdf');
     }
 
-    public function manipulateMonev($jdw, $kri){
+    public function manipulateMonev($plot, $kri){
 
+        $plot = tap($plot)->transform(function($data) use ($kri){
+            foreach ($kri as $k) {
+                $data->kri.'_'.$k->id = $data->insMonev->detailMonev->where('kri_id', $k->id)->sum('nilai');
+            }
+        });
     }
 
     public function cekData()
     {
 
-        $plot = PlottingMonev::where('semester', '221')->whereHas('insMonev')->get();
+        $plot = PlottingMonev::where('semester', '221')->whereHas('insMonev')->with('insMonev')->get();
+
+        $manipulate = tap($plot)->transform(function($data){
+            tap($data->insMonev)->transform(function($data){
+                $data->detailMonev = $data->detailMonev;
+                return $data;
+            });
+            return $data;
+        });
 
         return [
-            'clo' => $plot,
-            'countPlot' => $plot->count(),
+            'manipulate' => $manipulate,
+            'count' => $manipulate->count(),
         ];
     }
 }
