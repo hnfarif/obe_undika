@@ -79,10 +79,14 @@ class LaporanMonevController extends Controller
     public function cekData()
     {
 
-        $plot = PlottingMonev::where('semester', '221')->whereHas('insMonev')->with('insMonev')->get();
+        $plot = PlottingMonev::where('semester', '221')->whereHas('insMonev')->with('insMonev', 'matakuliah')->get();
 
         $manipulate = tap($plot)->transform(function($data){
             $data->detail = $data->insMonev->detailMonev;
+            $data->rps = $data->matakuliah->rps;
+            foreach($data->matakuliah->rps->agendabelajars as $ab){
+                $data->jumlah_penilaian += $ab->detailAgendas->where('penilaian_id', '<>', null)->count();
+            }
             return $data;
         });
 
