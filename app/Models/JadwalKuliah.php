@@ -88,7 +88,6 @@ class JadwalKuliah extends Model
             }else{
                 return 'insMon';
             }
-
         }else{
             return 'plot';
         }
