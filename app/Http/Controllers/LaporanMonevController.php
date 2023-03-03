@@ -74,7 +74,7 @@ class LaporanMonevController extends Controller
     public function cekData()
     {
 
-        $plot = PlottingMonev::where('smt', '221')->with('insMonev')->get();
+        $plot = PlottingMonev::where('semester', '221')->whereHas('insMonev')->get();
 
         return [
             'clo' => $plot,
