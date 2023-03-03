@@ -83,7 +83,7 @@ class LaporanMonevController extends Controller
 
         $manipulate = tap($plot)->transform(function($data){
             tap($data->insMonev)->transform(function($data){
-                $data->detailMonev = $data->detailMonev;
+                $data->detail = $data->detailMonev;
                 return $data;
             });
             return $data;
