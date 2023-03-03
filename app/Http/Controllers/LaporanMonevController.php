@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\MonevExport;
+use App\Models\AngketTrans;
 use App\Models\Fakultas;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
@@ -11,6 +12,7 @@ use App\Models\PlottingMonev;
 use App\Models\Prodi;
 use App\Models\Semester;
 use Excel;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class LaporanMonevController extends Controller
@@ -79,20 +81,25 @@ class LaporanMonevController extends Controller
     public function cekData()
     {
 
-        $plot = PlottingMonev::where('semester', '221')->whereHas('insMonev')->with('insMonev', 'matakuliah')->get();
+        // $plot = PlottingMonev::where('semester', '221')->whereHas('insMonev')->with('insMonev', 'matakuliah')->get();
 
-        $manipulate = tap($plot)->transform(function($data){
-            $data->detail = $data->insMonev->detailMonev;
-            $data->rps = $data->matakuliah->rps;
-            foreach($data->matakuliah->rps->agendabelajars as $ab){
-                $data->jumlah_penilaian += $ab->detailAgendas->where('penilaian_id', '<>', null)->count();
-            }
-            return $data;
-        });
+        // $manipulate = tap($plot)->transform(function($data){
+        //     $data->detail = $data->insMonev->detailMonev;
+        //     $data->rps = $data->matakuliah->rps;
+        //     foreach($data->matakuliah->rps->agendabelajars as $ab){
+        //         $data->jumlah_penilaian += $ab->detailAgendas->where('penilaian_id', '<>', null)->count();
+        //     }
+        //     return $data;
+        // });
 
+        $manipulate = $results = DB::select( DB::raw("SHOW FIELDS FROM angket_tf") );
+
+        // $manipulate = tap($manipulate)->transform(function($data){
+        //     $data->type = $data->Type;
+        // });
         return [
             'manipulate' => $manipulate,
-            'count' => $manipulate->count(),
+            // 'count' => $manipulate->count(),
         ];
     }
 }
