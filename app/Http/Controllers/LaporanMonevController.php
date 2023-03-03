@@ -32,7 +32,6 @@ class LaporanMonevController extends Controller
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         $smt = $this->semester;
         $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->get();
-        dd($plot);
         $filKlkl = $plot->pluck('klkl_id')->toArray();
         $filNik = $plot->pluck('nik_pengajar')->toArray();
         $jdw = JadwalKuliah::whereIn('klkl_id', $filKlkl)->whereIn('kary_nik', $filNik)->with( 'karyawan')->fakultas()->prodi()->dosen()->get();
@@ -70,5 +69,16 @@ class LaporanMonevController extends Controller
 
     public function manipulateMonev($jdw, $kri){
 
+    }
+
+    public function cekData()
+    {
+
+        $plot = PlottingMonev::where('smt', '221')->whereHas('insMonev')->get();
+
+        return [
+            'clo' => $plot,
+            'countPlot' => $plot->count(),
+        ];
     }
 }

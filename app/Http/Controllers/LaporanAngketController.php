@@ -101,14 +101,5 @@ class LaporanAngketController extends Controller
         return $pdf->stream('laporan_angket_'.date('Y-m-d_H-i-s').'.pdf');
     }
 
-    public function cekData()
-    {
 
-        $clo = AngketTrans::where('smt', '221')->get()->groupBy('nik');
-
-        return [
-            'clo' => $clo,
-            'countAngket' => $clo->count(),
-        ];
-    }
 }
