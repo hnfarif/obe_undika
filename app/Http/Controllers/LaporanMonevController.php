@@ -82,10 +82,7 @@ class LaporanMonevController extends Controller
         $plot = PlottingMonev::where('semester', '221')->whereHas('insMonev')->with('insMonev')->get();
 
         $manipulate = tap($plot)->transform(function($data){
-            tap($data->insMonev)->transform(function($data){
-                $data->detail = $data->detailMonev;
-                return $data;
-            });
+            $data->detail = $data->insMonev->detailMonev;
             return $data;
         });
 
