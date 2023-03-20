@@ -102,7 +102,7 @@ class LaporanMonevController extends Controller
             foreach ($kri as $key => $k) {
                if ($key == 0) {
 
-                    $data->kri_1 = $data->jumlah_penilaian == 0 ? 0 : number_format($data->insMonev->detailMonev->where('kri_id', $k->id)->sum('nilai') / $data->jumlah_penilaian, 2);
+                    $data->kri_1 = ($data->jumlah_penilaian == 0) ? 0 : number_format($data->insMonev->detailMonev->where('kri_id', $k->id)->sum('nilai') / $data->jumlah_penilaian, 2);
 
                 } else if ($key == 1) {
                     $nilai = number_format(($data->insMonev->detailMonev->where('kri_id', $k->id)->sum('nilai') / 14) * 100, 2);
