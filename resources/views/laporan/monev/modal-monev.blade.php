@@ -38,7 +38,7 @@
                         <div class="col-8">
                             <h6>Semester</h6>
                             <div>
-                                <input type="number" name="semester" maxlength="3">
+                                <input type="number" name="semester" maxlength="3" value="{{ old('semester') }}">
                             </div>
                         </div>
                     </div>

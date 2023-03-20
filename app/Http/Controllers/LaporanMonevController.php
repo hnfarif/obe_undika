@@ -21,25 +21,28 @@ use PDF;
 
 class LaporanMonevController extends Controller
 {
-    private $semester;
+    private $semester, $kri, $fakul;
 
     public function __construct()
     {
         $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
+        $this->kri =  KriteriaMonev::orderBy('id', 'asc')->get();
+        $this->fakul = Fakultas::where('sts_aktif', 'Y')->with('prodis')->get();
     }
 
     public function index()
     {
         $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->get();
-        $fakul = Fakultas::with('prodis')->get();
-        $fak = $fakul;
+        $fak = $this->fakul;
 
-        $kri = KriteriaMonev::orderBy('id', 'asc')->get();
+        $kri = $this->kri;
         $smt = $this->semester;
 
         $dataMonev = $this->manipulateMonev($kri);
+        $rata_fak = $this->manipulateSummary($dataMonev, $fak);
 
+        dd($rata_fak);
         return view('laporan.monev.index', compact('kri', 'fak', 'prodi', 'kary', 'fakul', 'dataMonev', 'smt'));
     }
 
@@ -51,21 +54,13 @@ class LaporanMonevController extends Controller
 
     public function exportPdf()
     {
-        if (request()->has('prodi')) {
-            $filProdi = Prodi::whereIn('id', request('prodi'))->get();
-        } else {
-            $filProdi = Prodi::where('sts_aktif', 'Y')->get();
-        }
 
         $smt = $this->semester;
-        $plot = PlottingMonev::whereSemester($smt)->whereHas('insMonev')->get();
-        $filKlkl = $plot->pluck('klkl_id')->toArray();
-        $filNik = $plot->pluck('nik_pengajar')->toArray();
+        $monev = $this->manipulateMonev($this->kri);
 
         $pdf = PDF::loadView('laporan.monev.export-pdf', ['fakul' => Fakultas::with('prodis')->get(),
-        'kri' => KriteriaMonev::orderBy('id', 'asc')->get(),
-        'jdw' => JadwalKuliah::whereIn('klkl_id', $filKlkl)->whereIn('kary_nik', $filNik)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get(),
-        'prodi' => $filProdi,
+        'kri' => $this->kri,
+        'monev' => $monev,
         'smt' => $smt
         ]);
 
@@ -74,7 +69,7 @@ class LaporanMonevController extends Controller
 
     public function manipulateMonev($kri){
 
-        $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev','karyawan', 'dosenPemonev')->fakultas()->prodi()->semester()->get();
+        $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev','karyawan', 'dosenPemonev','programstudi')->fakultas()->prodi()->semester()->get();
         $rps = Rps::whereIn('kurlkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->with('clos')->get();
         $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->get();
         $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester('221')->with('detailNilai')->first();
@@ -177,6 +172,51 @@ class LaporanMonevController extends Controller
         });
 
         return $manipulate;
+    }
+
+    public function manipulateSummary($plot, $fak){
+
+        if ($plot) {
+            $rata_fak = tap($fak)->transform(function($data) use ($plot){
+                $jmlPro = 0;
+                foreach ($plot as $a) {
+                    foreach ($a as $p) {
+                        if ($data->id == $p->programstudi->id_fakultas) {
+                            $data->rata += $p->na;
+                            $jmlPro += 1;
+                        }
+                    }
+                }
+
+                $data->rata = $jmlPro == 0 ? 0 : number_format($data->rata / $jmlPro, 2);
+
+                tap($data->programstudi)->transform(function($prodi) use ($plot){
+                    $jmlMk = 0;
+                    foreach ($plot as $a) {
+                        foreach ($a as $p) {
+                            if ($prodi->id == $p->prodi) {
+                                $prodi->rata += $p->na;
+                                $jmlMk += 1;
+                            }
+                        }
+                    }
+                    $prodi->rata = $jmlMk == 0 ? 0 : number_format($prodi->rata / $jmlMk, 2);
+                    return $prodi;
+                });
+                return $data;
+            });
+        }else{
+            $rata_fak = tap($fak)->transform(function($data){
+                $data->rata = 0;
+                tap($data->programstudi)->transform(function($prodi){
+                    $prodi->rata = 0;
+                    return $prodi;
+                });
+                return $data;
+            });
+        }
+
+        return $rata_fak;
     }
 
     public function cekData()

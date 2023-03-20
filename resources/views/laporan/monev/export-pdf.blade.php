@@ -47,7 +47,7 @@
 <body>
     <div style="margin-bottom: 20px;">
         <p>Dan Rata – Rata monitoring evaluasi OBE setiap Prodi adalah sebagai berikut:</p>
-        <table border="1" width="100%">
+        {{-- <table border="1" width="100%">
             <thead>
                 <tr>
                     <th>Fakultas</th>
@@ -61,28 +61,28 @@
                 <tr>
 
                     <td>{{ $f->nama }}</td>
-                    <td>
-                        @foreach ($f->prodis as $p )
-                        <div class="my-3">
+        <td>
+            @foreach ($f->prodis as $p )
+            <div class="my-3">
 
-                            {{ $p->nama.' ('.$p->id.')' }}
-                        </div>
-                        @endforeach
-                    </td>
-                    <td>
-                        @foreach ($f->prodis as $p )
-                        <div class="avgMonev text-center my-3" data-prodi="{{ $p->id }}">
-                            {{ $p->getAvgMonev($p->id, $smt) }}
-                        </div>
-                        @endforeach
-                    </td>
-                    <td class="text-center">
-                        {{ $f->getAvgMonevFakul($f->id, $smt) }}
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                {{ $p->nama.' ('.$p->id.')' }}
+            </div>
+            @endforeach
+        </td>
+        <td>
+            @foreach ($f->prodis as $p )
+            <div class="avgMonev text-center my-3" data-prodi="{{ $p->id }}">
+                {{ $p->getAvgMonev($p->id, $smt) }}
+            </div>
+            @endforeach
+        </td>
+        <td class="text-center">
+            {{ $f->getAvgMonevFakul($f->id, $smt) }}
+        </td>
+        </tr>
+        @endforeach
+        </tbody>
+        </table> --}}
     </div>
     <div>
         <h5>LAMPIRAN HASIL MONITORING KETERCAPAIAN PENILAIAN DENGAN VERSI OBE</h5>
