@@ -42,7 +42,7 @@ class LaporanMonevController extends Controller
         $dataMonev = $this->manipulateMonev($kri);
         $rata_fak = $this->manipulateSummary($dataMonev, $fak);
 
-        dd($rata_fak);
+
         return view('laporan.monev.index', compact('kri', 'fak', 'prodi', 'kary', 'fakul', 'dataMonev', 'smt'));
     }
 
