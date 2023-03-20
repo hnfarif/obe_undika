@@ -90,7 +90,7 @@ class LaporanMonevController extends Controller
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->where('jkul_kelas', $plot->unique('kelas')->pluck('kelas')->toArray())->get();
         $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester('221')->with('detailNilai')->first();
-        $dtlAgd = DetailAgenda::whereIn('clo_id', $rps->pluck('clos.*.id')->toArray())->get();
+        $dtlAgd = DetailAgenda::whereIn('clo_id', $rps->pluck('clos.*.id')->flatten()->toArray())->get();
 
         $manipulate = tap($plot)->transform(function($data) use ($rps, $kri, $krs, $insNilai, $dtlAgd){
             $data->detail = $data->insMonev->detailMonev;
