@@ -88,7 +88,7 @@ class LaporanMonevController extends Controller
         $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev')->get();
         $rps = Rps::whereIn('kurlkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->with('clos')->get();
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
-        $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->where('jkul_kelas', $plot->unique('kelas')->pluck('kelas')->toArray())->get();
+        $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->get();
         $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester('221')->with('detailNilai')->first();
         $dtlAgd = DetailAgenda::whereIn('clo_id', $rps->pluck('clos.*.id')->flatten()->toArray())->get();
 
@@ -130,7 +130,7 @@ class LaporanMonevController extends Controller
             $countMhs = $getKrs->count();
             $countPre = $getKrs->where('sts_pre', '1')->count();
 
-            $data->krs = $getRps;
+            $data->krs = $getKrs;
             $data->countMhs = $countMhs;
             $data->countPre = $countPre;
 
