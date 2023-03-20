@@ -69,7 +69,7 @@ class InstrumenMonevController extends Controller
             $dtlAgd = DetailAgenda::whereIn('agd_id', $agd->pluck('id')->toArray())->with('penilaian','clo','detailInstrumenNilai','agendaBelajar', 'detailInstrumenMonev')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
             $dtlInsMon = $cekInsMon->detailMonev;
 
-            $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $this->semester)->get();
+            $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', '221')->get();
 
             $weekEigth = [];
             $weekSixteen = [];
