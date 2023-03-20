@@ -116,5 +116,11 @@ class PlottingMonev extends Model
         }
     }
 
+    public function scopeSemester($query){
+        if (request()->semester) {
+            return $query->where('semester', request('semester'));
+        }
+    }
+
 
 }
