@@ -179,12 +179,10 @@ class LaporanMonevController extends Controller
         if ($plot) {
             $rata_fak = tap($fak)->transform(function($data) use ($plot){
                 $jmlPro = 0;
-                foreach ($plot as $a) {
-                    foreach ($a->programstudi as $p) {
-                        if ($data->id == $p->id_fakultas) {
-                            $data->rata += $p->na;
-                            $jmlPro += 1;
-                        }
+                foreach ($plot as $p) {
+                    if ($data->id == $p->programstudi->id_fakultas) {
+                        $data->rata += $p->na;
+                        $jmlPro += 1;
                     }
                 }
 
