@@ -15,7 +15,7 @@ class Rps extends Model
 
     public function clos()
     {
-        return $this->hasMany(Clo::class)->orderBy('id');
+        return $this->hasMany(Clo::class, 'rps_id', 'id')->orderBy('id');
     }
 
     public function matakuliah()
