@@ -104,7 +104,7 @@ class LaporanMonevController extends Controller
                     $data->kri_1 = ($data->jumlah_penilaian == 0) ? 0 : number_format($data->insMonev->detailMonev->where('id_kri', $k->id)->sum('nilai') / $data->jumlah_penilaian, 2);
 
                 } else if ($key == 1) {
-                    $nilai = number_format(($data->insMonev->detailMonev->where('kri_id', $k->id)->sum('nilai') / 14) * 100, 2);
+                    $nilai = number_format(($data->insMonev->detailMonev->where('id_kri', $k->id)->sum('nilai') / 14) * 100, 2);
 
                     if ($nilai > 80) {
                         $data->kri_2 = 4;
@@ -144,14 +144,10 @@ class LaporanMonevController extends Controller
             foreach ($nilaiBbt as $mhs => $clos) {
                 foreach ($clos as $clo => $nilaiClo) {
                     $sumBobot = $dtlAgd->where('clo_id', $clo)->sum('bobot');
-                    $getClo = $dtlAgd->where('clo_id', $clo)->first();
+                    $getClo = $dtlAgd->where('clo_id', $clo);
                     $nilaiMin = $getClo->clo->nilai_min;
 
-                    if($sumBobot == 0){
-                        $sumBobot = 1;
-                    }
-
-                    $nilaiKonv = (array_sum($nilaiClo) / $sumBobot)*100;
+                    $nilaiKonv = ($sumBobot == 0) ? 0 : (array_sum($nilaiClo) / $sumBobot)*100;
 
                     if (round($nilaiKonv) >= $nilaiMin) {
 
@@ -173,7 +169,7 @@ class LaporanMonevController extends Controller
             $ilc = ($countMhs - $countPre == 0) ? 0 : $sumLulus / ($countMhs - $countPre);
             $eval = number_format($ilc * 4, 2);
 
-            $data->kri_3 = $eval;
+            $data->kri_3 = $sumLulus;
             return $data;
         });
 
