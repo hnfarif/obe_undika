@@ -127,7 +127,7 @@ class LaporanMonevController extends Controller
             $getRps = $rps->where('kurlkl_id', $data->klkl_id)->first();
             $countClo = $getRps->clos->count();
 
-            $getKrs = $krs->where('jkul_klkl_id', $data->klkl_id)->where('jkul_kelas', $data->kelas)->get();
+            $getKrs = $krs->where('jkul_klkl_id', $data->klkl_id)->where('jkul_kelas', $data->kelas)->first();
             $countMhs = $getKrs->count();
             $countPre = $getKrs->where('sts_pre', '1')->count();
 
