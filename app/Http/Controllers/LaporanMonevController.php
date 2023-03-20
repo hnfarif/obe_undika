@@ -87,6 +87,8 @@ class LaporanMonevController extends Controller
 
         $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev')->get();
         $rps = Rps::whereIn('kurlkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->with('clos')->get();
+
+        dd($rps);
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->where('jkul_kelas', $plot->unique('kelas')->pluck('kelas')->toArray())->get();
         $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester('221')->with('detailNilai')->first();
