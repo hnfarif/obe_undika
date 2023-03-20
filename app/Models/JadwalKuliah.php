@@ -131,7 +131,7 @@ class JadwalKuliah extends Model
             ->first();
         $insMon = $plot->insMonev;
         $dtlMon = $insMon->detailMonev->where('id_kri', $kriteria)->sum('nilai');
-        $nilai = number_format($dtlMon / 14 * 100, 2);
+        $nilai = number_format(($dtlMon / 14) * 100, 2);
 
         $eval = 0;
         if ($nilai > 80) {
