@@ -130,6 +130,10 @@ class LaporanMonevController extends Controller
             $countMhs = $getKrs->count();
             $countPre = $getKrs->where('sts_pre', '1')->count();
 
+            $data->krs = $getRps;
+            $data->countMhs = $countMhs;
+            $data->countPre = $countPre;
+
             $getInsNilai = $insNilai->where('klkl_id', $data->klkl_id)->whereNik($data->nik_pengajar)->first();
 
             $nilaiBbt = [];
