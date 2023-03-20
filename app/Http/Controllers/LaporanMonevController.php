@@ -93,7 +93,6 @@ class LaporanMonevController extends Controller
         $dtlAgd = DetailAgenda::whereIn('clo_id', $rps->pluck('clos.*.id')->flatten()->toArray())->get();
 
         $manipulate = tap($plot)->transform(function($data) use ($rps, $kri, $krs, $insNilai, $dtlAgd){
-            $data->detail = $data->insMonev->detailMonev;
             foreach($rps as $r){
                 foreach($r->agendabelajars as $ag){
                     $data->jumlah_penilaian += $ag->detailAgendas->where('penilaian_id', '<>', null)->count();
@@ -102,7 +101,7 @@ class LaporanMonevController extends Controller
             foreach ($kri as $key => $k) {
                if ($key == 0) {
 
-                    $data->kri_1 = ($data->jumlah_penilaian == 0) ? 0 : number_format($data->insMonev->detailMonev->where('kri_id', $k->id)->sum('nilai') / $data->jumlah_penilaian, 2);
+                    $data->kri_1 = ($data->jumlah_penilaian == 0) ? 0 : number_format($data->insMonev->detailMonev->where('id_kri', $k->id)->sum('nilai') / $data->jumlah_penilaian, 2);
 
                 } else if ($key == 1) {
                     $nilai = number_format(($data->insMonev->detailMonev->where('kri_id', $k->id)->sum('nilai') / 14) * 100, 2);
