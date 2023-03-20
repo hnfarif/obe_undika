@@ -73,73 +73,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($jdw as $j)
+                                            @foreach ($dataMonev as $dm)
                                             <tr>
                                                 <td class="text-center">
                                                     {{ $loop->iteration }}
                                                 </td>
-                                                <td>{{ $j->getNameMataKuliah($j->klkl_id) }}</td>
-                                                <td>{{ $j->kelas }}</td>
-                                                <td>{{ $j->karyawan->nama }}</td>
-                                                @foreach ($kri as $k)
-                                                @if ($loop->iteration <= 3) @if ($j->
-                                                    cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas, $smt) ==
-                                                    'insMon')
-
-                                                    @if ($loop->iteration == '1')
-                                                    <td class="text-warning text-center" colspan="4">
-                                                        <b>Instrumen Monev belum dibuat</b>
-                                                    </td>
-                                                    @else
-                                                    <td class="d-none">
-
-                                                    </td>
-                                                    @endif
-                                                    @elseif ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi,
-                                                    $j->kelas, $smt)
-                                                    == 'plot')
-                                                    @if ($loop->iteration == '1')
-                                                    <td class="text-danger text-center" colspan="4">
-                                                        <b>Plotting belum dibuat</b>
-                                                    </td>
-                                                    @else
-                                                    <td class="d-none">
-
-                                                    </td>
-                                                    @endif
-                                                    @else
-                                                    @if($loop->iteration == '1')
-                                                    <td data-bbt="{{ $k->bobot }}">
-                                                        {{ $j->getNilaiKri1($j->kary_nik,$j->klkl_id, $j->prodi, $k->id,$j->kelas, $smt) }}
-                                                    </td>
-                                                    @elseif($loop->iteration == '2')
-                                                    <td data-bbt="{{ $k->bobot }}">
-                                                        {{ $j->getNilaiKri2($j->kary_nik,$j->klkl_id, $j->prodi, $k->id, $j->kelas, $smt) }}
-                                                    </td>
-                                                    @elseif($loop->iteration == '3')
-                                                    <td data-bbt="{{ $k->bobot }}" data-prodi="{{ $j->prodi }}">
-                                                        {{ $j->getNilaiKri3($j->kary_nik,$j->klkl_id, $j->kelas, $smt) }}
-                                                    </td>
-                                                    @endif
-                                                    @endif
-                                                    @endif
-                                                    @endforeach
-                                                    @if ($j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas,
-                                                    $smt)
-                                                    ==
-                                                    'insMon' ||
-                                                    $j->cekKriteria($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas,
-                                                    $smt) ==
-                                                    'plot')
-                                                    <td class="d-none">
-
-                                                    </td>
-                                                    @else
-                                                    <td id="naMonev">
-                                                        {{ $j->getNilaiAkhir($j->kary_nik,$j->klkl_id, $j->prodi, $j->kelas, $smt) }}
-                                                    </td>
-                                                    @endif
-
+                                                <td>{{ $dm->getNameMataKuliah($j->klkl_id) }}</td>
+                                                <td>{{ $dm->kelas }}</td>
+                                                <td>{{ $dm->karyawan->nama }}</td>
+                                                <td>{{ $dm->kri_1 }}</td>
+                                                <td>{{ $dm->kri_2 }}</td>
+                                                <td>{{ $dm->kri_3 }}</td>
+                                                <td>{{ $dm->na }}</td>
 
                                             </tr>
                                             @endforeach

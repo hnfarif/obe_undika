@@ -37,11 +37,10 @@ class LaporanMonevController extends Controller
 
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         $smt = $this->semester;
-        $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev')->get();
-        // $filKlkl = $plot->pluck('klkl_id')->toArray();
-        // $filNik = $plot->pluck('nik_pengajar')->toArray();
-        // $jdw = JadwalKuliah::whereIn('klkl_id', $filKlkl)->whereIn('kary_nik', $filNik)->with( 'karyawan')->fakultas()->prodi()->dosen()->get();
-        return view('laporan.monev.index', compact('kri', 'fak', 'prodi', 'kary', 'fakul', 'smt'));
+
+        $dataMonev = $this->manipulateMonev($kri);
+
+        return view('laporan.monev.index', compact('kri', 'fak', 'prodi', 'kary', 'fakul', 'dataMonev', 'smt'));
     }
 
     public function exportExcel()
@@ -73,13 +72,111 @@ class LaporanMonevController extends Controller
         return $pdf->stream('laporan_monev_'.date('Y-m-d_H-i-s').'.pdf');
     }
 
-    public function manipulateMonev($plot, $kri){
+    public function manipulateMonev($kri){
 
-        $plot = tap($plot)->transform(function($data) use ($kri){
-            foreach ($kri as $k) {
-                $data->kri.'_'.$k->id = $data->insMonev->detailMonev->where('kri_id', $k->id)->sum('nilai');
+        $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev')->get();
+        $rps = Rps::whereIn('kurlkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->with('clos')->get();
+        $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->get();
+        $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester('221')->with('detailNilai')->first();
+        $dtlAgd = DetailAgenda::whereIn('clo_id', $rps->pluck('clos.*.id')->flatten()->toArray())->get();
+
+        $manipulate = tap($plot)->transform(function($data) use ($rps, $kri, $krs, $insNilai, $dtlAgd){
+            foreach($rps as $r){
+                foreach($r->agendabelajars as $ag){
+                    $data->jumlah_penilaian += $ag->detailAgendas->where('penilaian_id', '<>', null)->count();
+                }
             }
+            foreach ($kri as $key => $k) {
+               if ($key == 0) {
+
+                    $data->kri_1 = ($data->jumlah_penilaian == 0) ? 0 : number_format($data->insMonev->detailMonev->where('id_kri', $k->id)->sum('nilai') / $data->jumlah_penilaian, 2);
+
+                } else if ($key == 1) {
+                    $nilai = number_format(($data->insMonev->detailMonev->where('id_kri', $k->id)->sum('nilai') / 14) * 100, 2);
+
+                    if ($nilai > 80) {
+                        $data->kri_2 = 4;
+
+                    } else if ($nilai <= 80 && $nilai > 70) {
+                        $data->kri_2 = 3;
+
+                    } else if ($nilai <= 70 && $nilai > 60) {
+                        $data->kri_2 = 2;
+
+                    } else if ($nilai <= 60 && $nilai > 50) {
+                        $data->kri_2 = 1;
+
+                    } else if ($nilai <= 50) {
+                        $data->kri_2 = 0;
+                    }
+               }
+            }
+            $getRps = $rps->where('kurlkl_id', $data->klkl_id)->first();
+            $countClo = $getRps->clos->count();
+
+            $getKrs = $krs->where('jkul_klkl_id', $data->klkl_id)->where('jkul_kelas', $data->kelas);
+            $countMhs = $getKrs->count();
+            $countPre = $getKrs->where('sts_pre', '1')->count();
+
+            $getInsNilai = $insNilai->where('klkl_id', $data->klkl_id)->whereNik($data->nik_pengajar)->first();
+
+            $nilaiBbt = [];
+            $nilaiperClo = [];
+            $sumLulus = 0;
+
+            foreach($getInsNilai->detailNilai as $dn){
+                $nbbt = $dn->nilai * ($dn->detailAgenda->bobot / 100);
+                $nilaiBbt[$dn->mhs_nim][$dn->detailAgenda->clo_id][$dn->dtl_agd_id] = $nbbt;
+            }
+
+            foreach ($nilaiBbt as $mhs => $clos) {
+                foreach ($clos as $clo => $nilaiClo) {
+                    $sumBobot = $dtlAgd->where('clo_id', $clo)->sum('bobot');
+                    $getClo = $dtlAgd->where('clo_id', $clo)->first();
+                    $nilaiMin = $getClo->clo->nilai_min;
+
+                    $nilaiKonv = ($sumBobot == 0) ? 0 : (array_sum($nilaiClo) / $sumBobot)*100;
+
+                    if (round($nilaiKonv) >= $nilaiMin) {
+
+                        $nilaiperClo[$mhs][$clo] = 'L';
+                    }else{
+                        $nilaiperClo[$mhs][$clo] = 'TL';
+                    }
+                }
+            }
+
+            foreach ($nilaiperClo as $clo) {
+                if (count($clo) == $countClo) {
+                    if(count(array_filter($clo, function ($value) { return $value === 'L'; })) == $countClo){
+                        $sumLulus++;
+                    }
+                }
+            }
+
+            $ilc = ($countMhs - $countPre == 0) ? 0 : $sumLulus / ($countMhs - $countPre);
+            $eval = number_format($ilc * 4, 2);
+
+            $data->kri_3 = $eval;
+
+            $na = 0;
+            foreach ($kri as $key => $k) {
+                if($key == 0){
+                    $na += $data->kri_1 * ($k->bobot/100);
+                }elseif($key == 1){
+
+                    $na += $data->kri_2 * ($k->bobot/100);
+                }elseif($key == 2){
+
+                    $na += $data->kri_3 * ($k->bobot/100);
+                }
+            }
+
+            $data->na = $na;
+            return $data;
         });
+
+        return $manipulate;
     }
 
     public function cekData()
