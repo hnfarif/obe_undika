@@ -11,7 +11,6 @@ class Clo extends Model
 
     protected $table = 'clo';
     protected $guarded = ["id"];
-    protected $primaryKey = 'id';
 
 
     public function plos()
