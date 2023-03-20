@@ -180,8 +180,8 @@ class LaporanMonevController extends Controller
             $rata_fak = tap($fak)->transform(function($data) use ($plot){
                 $jmlPro = 0;
                 foreach ($plot as $a) {
-                    foreach ($a as $p) {
-                        if ($data->id == $p->programstudi->id_fakultas) {
+                    foreach ($a->programstudi as $p) {
+                        if ($data->id == $p->id_fakultas) {
                             $data->rata += $p->na;
                             $jmlPro += 1;
                         }
@@ -193,8 +193,8 @@ class LaporanMonevController extends Controller
                 tap($data->programstudi)->transform(function($prodi) use ($plot){
                     $jmlMk = 0;
                     foreach ($plot as $a) {
-                        foreach ($a as $p) {
-                            if ($prodi->id == $p->prodi) {
+                        foreach ($a->programstudi as $p) {
+                            if ($prodi->id == $p->id) {
                                 $prodi->rata += $p->na;
                                 $jmlMk += 1;
                             }
