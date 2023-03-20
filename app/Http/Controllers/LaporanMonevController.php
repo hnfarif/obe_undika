@@ -169,7 +169,7 @@ class LaporanMonevController extends Controller
             $ilc = ($countMhs - $countPre == 0) ? 0 : $sumLulus / ($countMhs - $countPre);
             $eval = number_format($ilc * 4, 2);
 
-            $data->kri_3 = $sumLulus;
+            $data->kri_3 = $eval;
             return $data;
         });
 
