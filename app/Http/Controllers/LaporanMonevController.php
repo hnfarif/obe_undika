@@ -34,6 +34,7 @@ class LaporanMonevController extends Controller
     {
         $prodi = Prodi::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::where('fakul_id', '<>', null)->where('kary_type', 'like', '%D%')->get();
+        $fakul = $this->fakul;
         $fak = $this->fakul;
 
         $kri = $this->kri;
