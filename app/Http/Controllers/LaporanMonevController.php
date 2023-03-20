@@ -94,8 +94,10 @@ class LaporanMonevController extends Controller
 
         $manipulate = tap($plot)->transform(function($data) use ($rps, $kri, $krs, $insNilai, $dtlAgd){
             $data->detail = $data->insMonev->detailMonev;
-            foreach($rps->agendabelajars as $ag){
-                $data->jumlah_penilaian += $ag->detailAgendas->where('penilaian_id', '<>', null)->count();
+            foreach($rps as $r){
+                foreach($r->agendabelajars as $ag){
+                    $data->jumlah_penilaian += $ag->detailAgendas->where('penilaian_id', '<>', null)->count();
+                }
             }
             foreach ($kri as $key => $k) {
                if ($key == 0) {
