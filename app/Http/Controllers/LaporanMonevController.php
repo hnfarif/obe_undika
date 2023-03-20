@@ -188,7 +188,7 @@ class LaporanMonevController extends Controller
 
                 $data->rata = $jmlPro == 0 ? 0 : number_format($data->rata / $jmlPro, 2);
 
-                tap($data->prodii)->transform(function($prodi) use ($plot){
+                tap($data->prodis)->transform(function($prodi) use ($plot){
                     $jmlMk = 0;
                     foreach ($plot as $a) {
                         if ($prodi->id == $a->id) {
