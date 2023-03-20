@@ -38,7 +38,7 @@ class PlottingMonevController extends Controller
 
         $getFtPro = $prodi->first();
         $smt = $this->semester;
-        $pltMnv = PlottingMonev::where('semester', $smt)->fakultas()->prodi()->dosen()->name()->get();
+        $pltMnv = PlottingMonev::where('semester', '221')->fakultas()->prodi()->dosen()->name()->get();
         $kri = KriteriaMonev::all();
         return view('plotting-monev.index', compact('pltMnv', 'kri', 'fak', 'prodi', 'kary', 'smt'));
     }
