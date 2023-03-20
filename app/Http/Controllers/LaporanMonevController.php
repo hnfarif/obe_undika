@@ -196,7 +196,7 @@ class LaporanMonevController extends Controller
                             $jmlMonev += 1;
                         }
                     }
-                    $prodi->rata = $jmlMk == 0 ? 0 : number_format($prodi->rata / $jmlMk, 2);
+                    $prodi->rata = $jmlMonev == 0 ? 0 : number_format($prodi->rata / $jmlMonev, 2);
                     return $prodi;
                 });
                 return $data;
