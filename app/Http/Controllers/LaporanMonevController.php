@@ -87,7 +87,7 @@ class LaporanMonevController extends Controller
 
         $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev')->get();
         $rps = Rps::whereIn('kurlkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->with('clos')->get();
-        dd($rps->clos->pluck('clos.id')->toArray());
+        dd($rps);
         $kri = KriteriaMonev::orderBy('id', 'asc')->get();
         $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->where('jkul_kelas', $plot->unique('kelas')->pluck('kelas')->toArray())->get();
         $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester('221')->with('detailNilai')->first();
@@ -132,7 +132,7 @@ class LaporanMonevController extends Controller
 
             $getInsNilai = $insNilai->where('klkl_id', $data->klkl_id)->whereNik($data->nik_pengajar)->first();
 
-            $nilaiBbt = [];
+            $nilaiBbt = null;
             $nilaiperClo = [];
             $sumLulus = 0;
 
