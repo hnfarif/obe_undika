@@ -59,6 +59,7 @@
                                                 <th rowspan="2">Nama MK</th>
                                                 <th rowspan="2">Kelas</th>
                                                 <th rowspan="2">Nama Dosen</th>
+                                                <th rowspan="2">Pemonev</th>
                                                 @foreach ($kri as $k)
                                                 @if ($loop->iteration <= 3) <th>{{ 'Kriteria '.$loop->iteration }}</th>
                                                     @endif
@@ -81,6 +82,7 @@
                                                 <td>{{ $dm->getNameMataKuliah($dm->klkl_id) }}</td>
                                                 <td>{{ $dm->kelas }}</td>
                                                 <td>{{ $dm->karyawan->nama }}</td>
+                                                <td>{{ $dm->dosenPemonev->nama }}</td>
                                                 <td>{{ $dm->kri_1 }}</td>
                                                 <td>{{ $dm->kri_2 }}</td>
                                                 <td>{{ $dm->kri_3 }}</td>

@@ -74,7 +74,7 @@ class LaporanMonevController extends Controller
 
     public function manipulateMonev($kri){
 
-        $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev')->get();
+        $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev','karyawan', 'dosenPemonev')->get();
         $rps = Rps::whereIn('kurlkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->with('clos')->get();
         $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->get();
         $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester('221')->with('detailNilai')->first();
@@ -172,7 +172,7 @@ class LaporanMonevController extends Controller
                 }
             }
 
-            $data->na = $na;
+            $data->na = number_format($na, 2);
             return $data;
         });
 
