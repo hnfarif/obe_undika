@@ -144,7 +144,7 @@ class LaporanMonevController extends Controller
             foreach ($nilaiBbt as $mhs => $clos) {
                 foreach ($clos as $clo => $nilaiClo) {
                     $sumBobot = $dtlAgd->where('clo_id', $clo)->sum('bobot');
-                    $getClo = $dtlAgd->where('clo_id', $clo);
+                    $getClo = $dtlAgd->where('clo_id', $clo)->first();
                     $nilaiMin = $getClo->clo->nilai_min;
 
                     $nilaiKonv = ($sumBobot == 0) ? 0 : (array_sum($nilaiClo) / $sumBobot)*100;
