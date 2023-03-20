@@ -131,7 +131,7 @@ class LaporanMonevController extends Controller
 
             $getInsNilai = $insNilai->where('klkl_id', $data->klkl_id)->whereNik($data->nik_pengajar)->first();
 
-            $nilaiBbt = null;
+            $nilaiBbt = [];
             $nilaiperClo = [];
             $sumLulus = 0;
 
