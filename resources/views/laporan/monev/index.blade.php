@@ -78,7 +78,7 @@
                                                 <td class="text-center">
                                                     {{ $loop->iteration }}
                                                 </td>
-                                                <td>{{ $dm->getNameMataKuliah($j->klkl_id) }}</td>
+                                                <td>{{ $dm->getNameMataKuliah($dm->klkl_id) }}</td>
                                                 <td>{{ $dm->kelas }}</td>
                                                 <td>{{ $dm->karyawan->nama }}</td>
                                                 <td>{{ $dm->kri_1 }}</td>
@@ -96,7 +96,7 @@
                     </div>
                 </div>
 
-                <div class="row rangkuman d-none">
+                {{-- <div class="row rangkuman d-none">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -119,38 +119,38 @@
                                             <tr>
 
                                                 <td>{{ $f->nama }}</td>
-                                                <td>
-                                                    @foreach ($f->prodis as $p )
-                                                    <div class="my-3">
+                <td>
+                    @foreach ($f->prodis as $p )
+                    <div class="my-3">
 
-                                                        {{ $p->nama.' ('.$p->id.')' }}
-                                                    </div>
-                                                    @endforeach
-                                                </td>
-                                                <td>
-                                                    @foreach ($f->prodis as $p )
-                                                    <div class="avgMonev text-center my-3" data-prodi="{{ $p->id }}">
-                                                        {{ $p->getAvgMonev($p->id, $smt) }}
-                                                    </div>
-                                                    @endforeach
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $f->getAvgMonevFakul($f->id, $smt) }}
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        {{ $p->nama.' ('.$p->id.')' }}
                     </div>
-                </div>
-
+                    @endforeach
+                </td>
+                <td>
+                    @foreach ($f->prodis as $p )
+                    <div class="avgMonev text-center my-3" data-prodi="{{ $p->id }}">
+                        {{ $p->getAvgMonev($p->id, $smt) }}
+                    </div>
+                    @endforeach
+                </td>
+                <td class="text-center">
+                    {{ $f->getAvgMonevFakul($f->id, $smt) }}
+                </td>
+                </tr>
+                @endforeach
+                </tbody>
+                </table>
             </div>
-        </section>
     </div>
-    @include('layouts.footer')
+</div>
+</div>
+</div> --}}
+
+</div>
+</section>
+</div>
+@include('layouts.footer')
 </div>
 @include('laporan.monev.modal-monev')
 @endsection
