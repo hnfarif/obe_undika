@@ -88,7 +88,7 @@ class LaporanAngketController extends Controller
         $fak = $this->fakultas;
 
         $angket = $this->angket;
-        dd($angket['040501']);
+        dd($angket['040501'][0]);
         $rata = $this->manipulateDataAngket($angket, $fak);
 
         $pdf = PDF::loadView('laporan.angket.export-pdf', ['fak' => $fak,
