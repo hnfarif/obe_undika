@@ -99,53 +99,13 @@
                 </div>
 
                 <div class="row rangkuman d-none">
+                    <div class="section-title mt-0">Rata Angket Tiap Prodi</div>
                     <div class="col-12 col-md-6 col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Rata-Rata monitoring evaluasi OBE</h4>
-
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" width="100%">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th>Fakultas</th>
-                                                <th>Nama Prodi</th>
-                                                <th>Rata-Rata Prodi</th>
-                                                <th>Rata-Rata Fakultas</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($rata_fak as $f)
-                                            <tr>
-
-                                                <td>{{ $f->nama }}</td>
-                                                <td>
-                                                    @foreach ($f->prodis as $p )
-                                                    <div class="my-3">
-
-                                                        {{ $p->nama.' ('.$p->id.')' }}
-                                                    </div>
-                                                    @endforeach
-                                                </td>
-                                                <td>
-                                                    @foreach ($f->prodis as $p )
-                                                    <div class="avgMonev text-center my-3" data-prodi="{{ $p->id }}">
-                                                        {{ number_format($p->rata, 2)}}
-                                                    </div>
-                                                    @endforeach
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ number_format($f->rata,2) }}
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        <canvas id="rata_prodi" width="700" height="200"></canvas>
+                    </div>
+                    <div class="section-title mt-5">Rata Angket Tiap Fakultas</div>
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <canvas id="rata_fak" width="700" height="200"></canvas>
                     </div>
                 </div>
 
