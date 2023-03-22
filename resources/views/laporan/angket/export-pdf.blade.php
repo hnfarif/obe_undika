@@ -109,7 +109,8 @@
 
             </thead>
             <tbody>
-                @foreach ($angket->where('prodi', $p->id) as $key => $a)
+                @foreach ($angket as $key => $a)
+                @if ($a->prodi == $p->id)
                 <tr>
                     <td>{{ $key }}</td>
                     <td>
@@ -136,6 +137,7 @@
                         {{ number_format($a->avg('nilai'), 2) }}
                     </td>
                 </tr>
+                @endif
                 @endforeach
             </tbody>
         </table>
