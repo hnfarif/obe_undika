@@ -62,6 +62,7 @@ class LaporanMonevController extends Controller
 
         $pdf = PDF::loadView('laporan.monev.export-pdf', ['rata_fak' => $rata_fak,
         'kri' => $this->kri,
+        'fak' => $this->fakul,
         'monev' => $monev,
         'smt' => $smt
         ]);

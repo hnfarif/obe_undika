@@ -86,8 +86,9 @@
     </div>
     <div>
         <h5>LAMPIRAN HASIL MONITORING KETERCAPAIAN PENILAIAN DENGAN VERSI OBE</h5>
-        @foreach ($prodi as $pro)
-        <h5>{{ $pro->nama }}</h5>
+        @foreach ($fak as $f)
+        @foreach ($f->prodis->where('sts_aktif', 'Y') as p)
+        <h5>{{ $p->nama }}</h5>
         <table border="1" id="lapMonev" width="100%">
             <thead>
                 <tr>
@@ -112,7 +113,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($monev->where('prodi', $pro->id) as $dm)
+                @foreach ($monev->where('prodi', $p->id) as $dm)
                 <tr>
                     <td class="text-center">
                         {{ $loop->iteration }}
@@ -130,6 +131,7 @@
                 @endforeach
             </tbody>
         </table>
+        @endforeach
         @endforeach
 
     </div>
