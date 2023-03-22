@@ -58,8 +58,9 @@ class LaporanMonevController extends Controller
 
         $smt = $this->semester;
         $monev = $this->manipulateMonev($this->kri);
+        $rata_fak = $this->manipulateSummary($monev, $this->fakul);
 
-        $pdf = PDF::loadView('laporan.monev.export-pdf', ['fakul' => Fakultas::with('prodis')->get(),
+        $pdf = PDF::loadView('laporan.monev.export-pdf', ['rata_fak' => $rata_fak,
         'kri' => $this->kri,
         'monev' => $monev,
         'smt' => $smt
