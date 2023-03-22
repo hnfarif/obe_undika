@@ -95,7 +95,6 @@
         </table>
     </div>
     <div>
-
         @foreach ($rata as $f)
         @foreach ($f->prodis as $p)
         <h5>{{ $p->nama }}</h5>
@@ -110,7 +109,7 @@
 
             </thead>
             <tbody>
-                @foreach ($angket as $key => $a)
+                @foreach ($angket->where('prodi', $p->id) as $key => $a)
                 <tr>
                     <td>{{ $key }}</td>
                     <td>
@@ -142,9 +141,7 @@
         </table>
         @endforeach
         @endforeach
-
     </div>
-
 </body>
 
 </html>
