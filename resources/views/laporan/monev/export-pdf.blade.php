@@ -87,7 +87,7 @@
     <div>
         <h5>LAMPIRAN HASIL MONITORING KETERCAPAIAN PENILAIAN DENGAN VERSI OBE</h5>
         @foreach ($fak as $f)
-        @foreach ($f->prodis->where('sts_aktif', 'Y') as p)
+        @foreach ($f->prodis->where('sts_aktif', 'Y') as $p)
         <h5>{{ $p->nama }}</h5>
         <table border="1" id="lapMonev" width="100%">
             <thead>
