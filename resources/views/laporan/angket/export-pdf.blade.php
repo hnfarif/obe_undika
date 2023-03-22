@@ -96,7 +96,7 @@
     </div>
     <div>
         @foreach ($rata as $f)
-        @foreach ($f->prodis as $p)
+        @foreach ($f->prodis->where('sts_aktif', 'Y') as $p)
         <h5>{{ $p->nama }}</h5>
         <table class="table table-striped" width="100%">
             <thead>
