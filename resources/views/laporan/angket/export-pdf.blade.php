@@ -110,7 +110,7 @@
             </thead>
             <tbody>
                 @foreach ($angket as $key => $a)
-                @if ($a->prodi == $p->id)
+                @if ($a->where('prodi', $p->id))
                 <tr>
                     <td>{{ $key }}</td>
                     <td>
