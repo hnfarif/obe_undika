@@ -98,7 +98,7 @@
                     </div>
                 </div>
 
-                {{-- <div class="row rangkuman d-none">
+                <div class="row rangkuman d-none">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -117,42 +117,42 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($fakul as $f)
+                                            @foreach ($rata_fak as $f)
                                             <tr>
 
                                                 <td>{{ $f->nama }}</td>
-                <td>
-                    @foreach ($f->prodis as $p )
-                    <div class="my-3">
+                                                <td>
+                                                    @foreach ($f->prodis as $p )
+                                                    <div class="my-3">
 
-                        {{ $p->nama.' ('.$p->id.')' }}
+                                                        {{ $p->nama.' ('.$p->id.')' }}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($f->prodis as $p )
+                                                    <div class="avgMonev text-center my-3" data-prodi="{{ $p->id }}">
+                                                        {{ number_format($p->rata, 2)}}
+                                                    </div>
+                                                    @endforeach
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ number_format($f->rata,2) }}
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach ($f->prodis as $p )
-                    <div class="avgMonev text-center my-3" data-prodi="{{ $p->id }}">
-                        {{ $p->getAvgMonev($p->id, $smt) }}
-                    </div>
-                    @endforeach
-                </td>
-                <td class="text-center">
-                    {{ $f->getAvgMonevFakul($f->id, $smt) }}
-                </td>
-                </tr>
-                @endforeach
-                </tbody>
-                </table>
+                </div>
+
             </div>
+        </section>
     </div>
-</div>
-</div>
-</div> --}}
-
-</div>
-</section>
-</div>
-@include('layouts.footer')
+    @include('layouts.footer')
 </div>
 @include('laporan.monev.modal-monev')
 @endsection

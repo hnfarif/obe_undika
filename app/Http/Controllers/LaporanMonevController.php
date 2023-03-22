@@ -44,7 +44,7 @@ class LaporanMonevController extends Controller
         $rata_fak = $this->manipulateSummary($dataMonev, $fak);
 
 
-        return view('laporan.monev.index', compact('kri', 'fak', 'prodi', 'kary', 'fakul', 'dataMonev', 'smt'));
+        return view('laporan.monev.index', compact('kri', 'fak', 'prodi', 'kary', 'fakul', 'dataMonev', 'rata_fak', 'smt'));
     }
 
     public function exportExcel()
