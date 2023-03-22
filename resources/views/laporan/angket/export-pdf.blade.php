@@ -110,20 +110,20 @@
             </thead>
             <tbody>
                 @foreach ($angket as $key => $a)
-                @if ($a->where('prodi', $p->id))
+                @foreach ($a->where('prodi', $p->id)->unique('nik') as $byprodi)
                 <tr>
-                    <td>{{ $key }}</td>
+                    <td>{{ $byprodi->nik }}</td>
                     <td>
-                        @if ($a[0]->karyawan)
+                        @if ($byprodi->karyawan)
 
-                        {{ $a[0]->karyawan->nama }}
+                        {{ $byprodi->karyawan->nama }}
                         @else
                         -
                         @endif
                     </td>
                     <td>
                         <ul>
-                            @foreach ($a->unique('kode_mk') as $keymk => $mk)
+                            @foreach ($a->where('prodi', $p->id)->unique('kode_mk') as $keymk => $mk)
                             <li>
                                 {{ $mk->getMatakuliahName($mk->kode_mk).' ('. $mk->kode_mk.') '. $mk->kelas. ' : '. number_format($a->where('kode_mk', $mk->kode_mk)->avg('nilai'), 2)
                             }}
@@ -137,7 +137,7 @@
                         {{ number_format($a->avg('nilai'), 2) }}
                     </td>
                 </tr>
-                @endif
+                @endforeach
                 @endforeach
             </tbody>
         </table>
