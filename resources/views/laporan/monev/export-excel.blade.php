@@ -23,7 +23,7 @@
                 @if ($loop->iteration <= 3) <th>{{ 'Kriteria '.$loop->iteration. ' ('. $k->bobot.'%) ' }}</th>
                     @endif
                     @endforeach
-                    <th rowspan="2">Nilai Akhir</th>
+                    <th>Nilai Akhir</th>
             </tr>
         </thead>
         <tbody>
