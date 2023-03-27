@@ -12,6 +12,7 @@ class AgendaBelajar extends Model
 
     protected $table = 'agd_bljr';
     protected $guarded = ["id"];
+    protected $with = ['detailAgendas'];
 
     public function rps()
     {

@@ -570,7 +570,6 @@ class InstrumenNilaiController extends Controller
 
                 $arrDtlIns = $dtlIns->groupBy('mhs_nim');
 
-
                 $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
 
                 $countClo = $clo->count();

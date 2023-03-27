@@ -11,6 +11,7 @@ class InstrumenMonev extends Model
 
     protected $table = 'instrumen_monev';
     protected $guarded = ["id"];
+    protected $with = ['insNilai', 'plotMonev', 'detailMonev'];
 
     public function insNilai(){
         return $this->belongsTo(InstrumenNilai::class, 'ins_nilai_id', 'id');
