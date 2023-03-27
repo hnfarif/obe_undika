@@ -74,7 +74,7 @@ class LaporanMonevController extends Controller
         $rps = Rps::whereIn('kurlkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->with('clos','agendabelajars')->get();
         $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->get();
         $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester('221')->with('detailNilai')->first();
-        $dtlAgd = DetailAgenda::whereIn('clo_id', $rps->pluck('clos.*.id')->flatten()->toArray())->get();
+        $dtlAgd = DetailAgenda::whereIn('clo_id', $rps->pluck('clos.*.id')->flatten()->toArray())->with('clo')->get();
         $kri = $this->kri;
 
         $manipulate = tap($plot)->transform(function($data) use ($rps, $kri, $krs, $insNilai, $dtlAgd){
