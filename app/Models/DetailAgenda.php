@@ -12,6 +12,7 @@ class DetailAgenda extends Model
 
     protected $table = 'dtl_agd';
     protected $guarded = ["id"];
+    protected $with = ['clo'];
 
     public function penilaian()
     {
