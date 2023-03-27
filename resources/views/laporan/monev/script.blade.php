@@ -27,7 +27,7 @@
             data: {
                 labels: rata.map(item => item.prodis.map(data => data.nama)).flat(),
                 datasets: [{
-                    label: 'Total Mata Kuliah',
+                    label: 'Rata Monev Prodi',
                     data: rata.map(item => item.prodis.map(data => data.rata)).flat(),
                     backgroundColor: [
                         'rgba(54, 162, 235, 0.2)',
@@ -58,7 +58,7 @@
             data: {
                 labels: rata.map(item => item.nama).flat(),
                 datasets: [{
-                    label: 'Total Mata Kuliah',
+                    label: 'Rata Monev Fakultas',
                     data: rata.map(item => item.rata).flat(),
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',

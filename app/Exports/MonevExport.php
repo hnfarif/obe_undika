@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Http\Controllers\LaporanMonevController;
 use App\Models\JadwalKuliah;
 use App\Models\KriteriaMonev;
 use App\Models\PlottingMonev;
@@ -13,15 +14,12 @@ class MonevExport implements FromView
 {
     public function view(): View
     {
-        $smt = Semester::orderBy('smt_yad', 'desc')->first();
-        $plot = PlottingMonev::whereSemester($smt->smt_yad)->whereHas('insMonev')->get();
-        $filKlkl = $plot->pluck('klkl_id')->toArray();
-        $filNik = $plot->pluck('nik_pengajar')->toArray();
+        $monevController = new LaporanMonevController();
+        $monev = $monevController->manipulateMonev();
 
         return view('laporan.monev.export-excel', [
             'kri' => KriteriaMonev::orderBy('id', 'asc')->get(),
-            'jdw' => JadwalKuliah::whereIn('klkl_id', $filKlkl)->whereIn('kary_nik', $filNik)->with('matakuliahs', 'karyawans')->fakultas()->prodi()->dosen()->get(),
-            'smt' => $smt->smt_yad,
+            'monev' => $monev,
         ]);
     }
 }

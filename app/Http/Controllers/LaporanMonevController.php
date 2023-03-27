@@ -21,8 +21,7 @@ use PDF;
 
 class LaporanMonevController extends Controller
 {
-    private $semester, $kri, $fakul;
-
+    private $semester, $fakul, $kri;
     public function __construct()
     {
         $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
@@ -40,8 +39,8 @@ class LaporanMonevController extends Controller
         $kri = $this->kri;
         $smt = $this->semester;
 
-        $dataMonev = $this->manipulateMonev($kri);
-        $rata_fak = $this->manipulateSummary($dataMonev, $fak);
+        $dataMonev = $this->manipulateMonev();
+        $rata_fak = $this->manipulateSummary($dataMonev);
 
 
         return view('laporan.monev.index', compact('kri', 'fak', 'prodi', 'kary', 'fakul', 'dataMonev', 'rata_fak', 'smt'));
@@ -55,10 +54,9 @@ class LaporanMonevController extends Controller
 
     public function exportPdf()
     {
-
         $smt = $this->semester;
-        $monev = $this->manipulateMonev($this->kri);
-        $rata_fak = $this->manipulateSummary($monev, $this->fakul);
+        $monev = $this->manipulateMonev();
+        $rata_fak = $this->manipulateSummary($monev);
 
         $pdf = PDF::loadView('laporan.monev.export-pdf', ['rata_fak' => $rata_fak,
         'kri' => $this->kri,
@@ -70,13 +68,14 @@ class LaporanMonevController extends Controller
         return $pdf->stream('laporan_monev_'.date('Y-m-d_H-i-s').'.pdf');
     }
 
-    public function manipulateMonev($kri){
+    public function manipulateMonev(){
 
         $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev','karyawan', 'dosenPemonev','programstudi')->fakultas()->prodi()->semester()->get();
         $rps = Rps::whereIn('kurlkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->with('clos','agendabelajars')->get();
         $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->get();
         $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester('221')->with('detailNilai')->first();
         $dtlAgd = DetailAgenda::whereIn('clo_id', $rps->pluck('clos.*.id')->flatten()->toArray())->get();
+        $kri = $this->kri;
 
         $manipulate = tap($plot)->transform(function($data) use ($rps, $kri, $krs, $insNilai, $dtlAgd){
             foreach($rps as $r){
@@ -177,8 +176,8 @@ class LaporanMonevController extends Controller
         return $manipulate;
     }
 
-    public function manipulateSummary($plot, $fak){
-
+    public function manipulateSummary($plot){
+        $fak = $this->fakul;
         if ($plot) {
             $rata_fak = tap($fak)->transform(function($data) use ($plot){
                 $jmlPro = $data->prodis->count();

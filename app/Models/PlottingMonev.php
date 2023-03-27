@@ -11,6 +11,7 @@ class PlottingMonev extends Model
 
     protected $table = 'plot_monev';
     protected $guarded = ["id"];
+    protected $with = ['karyawan', 'dosenPemonev'];
 
     public function karyawan()
     {
