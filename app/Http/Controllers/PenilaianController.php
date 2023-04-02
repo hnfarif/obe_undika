@@ -30,7 +30,7 @@ class PenilaianController extends Controller
     {
         $penilaian = Penilaian::where('rps_id',$rps->id)->orderBy('id','asc')->get();
         $smt = $this->semester;
-        return view('rps.penilaian', compact('rps', 'penilaian', 'smt'));
+        return view('rps.penilaian.index', compact('rps', 'penilaian', 'smt'));
     }
 
     /**

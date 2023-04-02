@@ -1,4 +1,7 @@
 @extends('layouts.main')
+@push('css')
+<link rel="stylesheet" href="{{ asset('assets/css/introjs/introjs.css') }}">
+@endpush
 @section('rps', 'active')
 @section('rangkuman', 'active')
 @section('content')
@@ -9,21 +12,8 @@
 
             @include('rps.section-header')
             <div class="section-body">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-
-                        <li class="breadcrumb-item">
-                            <a href="{{ route('rps.index') }}">RPS</a>
-                        </li>
-
-                        <li class="breadcrumb-item active" aria-current="page">
-                            Kelola RPS
-                        </li>
-                    </ol>
-                </nav>
-
+                @include('rps.breadcrumb')
                 @if ($errors->any())
-
                 @foreach ($errors->all() as $error)
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ $error }}
@@ -32,18 +22,12 @@
                     </button>
                 </div>
                 @endforeach
-
                 @endif
-                <div class="d-flex my-0">
-                    <h2 class="section-title">Waktu Belajar Mahasiswa</h2>
-
-
-
-                </div>
-                {{-- <p class="section-lead">Masukkan, ubah data PEO </p> --}}
-
-                <div class="row">
+                <div class="row intro-wbm">
                     <div class="col-12 col-md-6 col-lg-12">
+                        <div class="d-flex my-0">
+                            <h2 class="section-title">Waktu Belajar Mahasiswa</h2>
+                        </div>
                         <div class="card">
                             <div class="card-header">
                                 <h4>Daftar WBM</h4>
@@ -52,13 +36,10 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>
-
                                             <tr>
-
                                                 <th>Bentuk Pembelajaran</th>
                                                 <th>Total Jam/Semester</th>
                                                 <th>Rata-rata Jam/Minggu</th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -259,11 +240,11 @@
 
                     </div>
                 </div>
-                <div class="d-flex my-0">
-                    <h2 class="section-title">Penilaian</h2>
-                </div>
-                <div class="row">
+                <div class="row intro-penilaian-clo">
                     <div class="col-12 col-md-6 col-lg-12">
+                        <div class="d-flex my-0">
+                            <h2 class="section-title">Penilaian</h2>
+                        </div>
                         <div class="card">
                             <div class="card-header">
                                 <h4>Tabel Penilaian</h4>
@@ -333,10 +314,10 @@
 
                     </div>
                 </div>
-                <div class="d-flex my-0">
-                    <h2 class="section-title">Pustaka</h2>
-                </div>
-                <div class="row">
+                <div class="row intro-pustaka">
+                    <div class="d-flex my-0">
+                        <h2 class="section-title">Pustaka</h2>
+                    </div>
                     <div class="col-12 col-md-6 col-lg-12">
                         <ol>
                             @foreach ($pus as $i)
@@ -346,11 +327,10 @@
                         </ol>
                     </div>
                 </div>
-
-                <div class="d-flex my-0">
-                    <h2 class="section-title">Media Pembelajaran</h2>
-                </div>
-                <div class="row">
+                <div class="row intro-media">
+                    <div class="d-flex my-0">
+                        <h2 class="section-title">Media Pembelajaran</h2>
+                    </div>
                     <div class="col-12 col-md-6 col-lg-12">
                         <ol>
                             @foreach ($med as $m)
@@ -360,11 +340,10 @@
                         </ol>
                     </div>
                 </div>
-
-                <div class="d-flex my-0">
-                    <h2 class="section-title">Pengalaman Belajar Mahasiswa</h2>
-                </div>
-                <div class="row">
+                <div class="row intro-pbm">
+                    <div class="d-flex my-0">
+                        <h2 class="section-title">Pengalaman Belajar Mahasiswa</h2>
+                    </div>
                     <div class="col-12 col-md-6 col-lg-12">
                         <ol>
                             @foreach ($pbm as $pbms)
@@ -382,10 +361,40 @@
 </div>
 @endsection
 @push('script')
+<script src="{{ asset('assets/js/intro.js') }}"></script>
 <script>
-    $(document).ready(function () {
+    $('#introClo').click(function () {
+        introJs().setOptions({
+            steps: [{
+                    intro: "Selamat datang di menu Rangkuman, di menu ini Anda dapat melihat Rangkuman dari data Agenda Pembelajaran.",
+                    title: "Hi there!",
+                },
+                {
+                    element: document.querySelector('.intro-wbm'),
+                    intro: "Tabel ini menunjukkan rangkuman Waktu Belajar Mahasiswa",
+                },
+                {
+                    element: document.querySelector('.intro-penilaian-clo'),
+                    intro: "Tabel ini menunjukkan rangkuman bobot tiap CLO dan Penilaian",
+                },
+                {
+                    element: document.querySelector('.intro-pustaka'),
+                    intro: "Tabel ini menunjukkan rangkuman bobot tiap CLO dan Penilaian",
+                },
+                {
+                    element: document.querySelector('.intro-media'),
+                    intro: "Tabel ini menunjukkan rangkuman bobot tiap CLO dan Penilaian",
+                },
+                {
+                    element: document.querySelector('.intro-pbm'),
+                    intro: "Tabel ini menunjukkan rangkuman bobot tiap CLO dan Penilaian",
+                },
 
-    })
+
+            ],
+        }).start();
+    });
 
 </script>
+@include('rps.script')
 @endpush

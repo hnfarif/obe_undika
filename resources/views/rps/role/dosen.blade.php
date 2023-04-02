@@ -78,8 +78,7 @@
                         class="fas fa-file-upload"></i> Upload
                     RPS </button>
                 @endif
-                <a href="{{ route('clo.index', $r->id) }}" class="btn btn-light btn-sm">Kelola Rps</a>
-
+                <a href="{{ route('clo.index', $r->id) }}" class="btn btn-light btn-sm">lihat Rps</a>
             </div>
         </div>
     </div>

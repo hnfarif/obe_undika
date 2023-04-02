@@ -326,16 +326,22 @@ class RpsController extends Controller
             $q->where('rps_id', $rps->id);
         })->sum('bobot');
 
-        if ($sumBobot == 100) {
+        if ($request->get('is_done') == '1') {
             $rps->update([
-                'is_done' => '1',
+                'is_done' => '0',
             ]);
-
-            return json_encode(['status' => 'success', 'message' => 'Agenda Pembelajaran selesai!']);
+            return json_encode(['status' => 'success', 'message' => 'Status RPS diubah!']);
         }else{
-            return json_encode(['status' => 'error', 'message' => 'Bobot Penilaian belum mencapai 100%, silahkan cek kembali!']);
-        }
+            if ($sumBobot == 100) {
+                $rps->update([
+                    'is_done' => '1',
+                ]);
 
+                return json_encode(['status' => 'success', 'message' => 'Status RPS diubah!']);
+            }else{
+                return json_encode(['status' => 'error', 'message' => 'Bobot Penilaian belum mencapai 100%, silahkan cek kembali Agenda Pembelajaran Anda!']);
+            }
+        }
     }
 
     public function updatePenyusun(Request $request)

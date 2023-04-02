@@ -1,4 +1,7 @@
 @extends('layouts.main')
+@push('css')
+<link rel="stylesheet" href="{{ asset('assets/css/introjs/introjs.css') }}">
+@endpush
 @section('rps', 'active')
 @section('agenda', 'active')
 @section('content')
@@ -10,18 +13,7 @@
             @include('rps.section-header')
 
             <div class="section-body">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-
-                        <li class="breadcrumb-item">
-                            <a href="{{ route('rps.index') }}">RPS</a>
-                        </li>
-
-                        <li class="breadcrumb-item active" aria-current="page">
-                            Kelola RPS
-                        </li>
-                    </ol>
-                </nav>
+                @include('rps.breadcrumb')
                 @if (session()->has('message'))
                 <div class="alert {{ session()->get('alert-class') }} alert-dismissible fade show" role="alert">
                     {{ session()->get('message') }}
@@ -30,41 +22,20 @@
                     </button>
                 </div>
                 @endif
-
-                <div class="row">
-                    @if (auth()->user()->nik == $rps->penyusun)
-                    <div class="col-12 col-md-6 col-lg-12 p-0 mb-2 d-flex">
-                        <a href="{{ route('agenda.create', $rps->id) }}" type="button"
-                            class="btn btn-primary ml-3  align-self-center expanded"><i class="fas fa-plus"></i> Entri
-                            Agenda
-                            Pembelajaran</a>
-
-                        @if ($rps->is_done == '1')
-                        <button type="button" class="btn btn-info ml-3" disabled><i class="fas fa-check"></i>
-                            RPS telah diselesaikan</button>
-                        @else
-                        <button type="button" class="btn btn-info ml-3 transAgd"><i class="fas fa-paper-plane"></i>
-                            Selesaikan RPS</button>
-                        @endif
-                    </div>
-                    @endif
-                </div>
-
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-12 p-0 d-flex">
-
-                        <div class="align-items-center pl-3">
-                            <h2 class="section-title">Tabel Agenda Pembelajaran</h2>
-                        </div>
-                    </div>
-                </div>
                 <div class="row ">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="card ">
                             <div class="card-header">
                                 <h4>Daftar Agenda Pembelajaran</h4>
+                                @if (auth()->user()->nik == $rps->penyusun && $rps->is_done == '0')
+                                <a href="{{ route('agenda.create', $rps->id) }}" type="button"
+                                    class="btn btn-primary ml-auto align-self-center expanded intro-form-ap"><i
+                                        class="fas fa-plus"></i> Entri
+                                    Agenda
+                                    Pembelajaran</a>
+                                @endif
                             </div>
-                            <div class="card-body">
+                            <div class="card-body intro-table-ap">
                                 <div class="table-responsive">
 
                                     <table class="table table-striped" id="tableAgd">
@@ -262,7 +233,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="d-flex">
-                                                    @if (auth()->user()->nik == $rps->penyusun)
+                                                    @if (auth()->user()->nik == $rps->penyusun && $rps->is_done == '0')
                                                     <button id="btnEditAgd" data-toggle="modal"
                                                         data-target="#editAgenda" data-id="{{ $i->id }}"
                                                         class="btn btn-light mr-1 my-auto btnEditAgd"><i

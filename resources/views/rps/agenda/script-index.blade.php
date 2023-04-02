@@ -1,5 +1,5 @@
 <script src="{{ asset('assets/js/page/daterangepicker.js') }}"></script>
-
+<script src="{{ asset('assets/js/intro.js') }}"></script>
 <script>
     $('#tableAgd').DataTable({
         scrollY: 500,
@@ -285,6 +285,25 @@
 
     })
 
+    $('#introClo').click(function () {
+        introJs().setOptions({
+            steps: [{
+                    intro: "Selamat datang di menu Agenda Pembelajaran (AP), di menu ini Anda dapat mengelola data AP. Sebelum mengelola data AP, pastikan data CLO dan Penilaian sudah sesuai. Kemudian agar RPS dapat diselesaikan, harap pastikan data bobot pada AP mencapai 100%",
+                    title: "Hi there!",
+                },
+                {
+                    element: document.querySelector('.intro-form-ap'),
+                    intro: "Tekan tombol ini untuk beralih ke halaman form tambah Agenda Pembelajaran tiap minggunya.",
+                },
+                {
+                    element: document.querySelector('.intro-table-ap'),
+                    intro: "Data yang ditambahkan akan ditampilkan pada tabel ini. Anda dapat mengedit dan menghapus data yang telah ditambahkan.",
+                },
+
+
+            ],
+        }).start();
+    });
 
     $(document).ready(function () {
         var llo = [];
@@ -622,7 +641,6 @@
                 }
             })
         })
-
 
         $('#tableKajian').on('click', '.delkajian', function () {
 
@@ -997,54 +1015,7 @@
 
         });
 
-        $('.transAgd').on('click', function () {
-            Swal.fire({
-                title: 'Perhatian',
-                text: "Pastikan Agenda Pembelajaran sudah selesai, karena data akan digunakan untuk Penilaian CLO!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Simpan!'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        url: "{{ route('rps.transferAgenda') }}",
-                        type: "PUT",
-                        dataType: "JSON",
-                        data: {
-                            '_token': "{{ csrf_token() }}",
-                            'rps_id': "{{ $rps->id }}",
-                        },
-                        success: function (data) {
-                            if (data.status == 'success') {
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'success',
-                                    title: data.message,
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 1500);
-                            } else {
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'error',
-                                    title: data.message,
-                                    showConfirmButton: false,
-                                    timer: 3000
-                                })
-                            }
-
-                        }
-
-                    })
-
-                }
-            })
-        })
     });
 
 </script>
+@include('rps.script')
