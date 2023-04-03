@@ -139,12 +139,13 @@ class PloController extends Controller
      */
     public function destroy($id)
     {
-        $plo = Plo::destroy($id);
-
+        // destroy plo where has clos
+        $plo = Plo::whereId($id)->whereHas('clos')->first();
         if ($plo) {
-            Session::flash('success','Data berhasil dihapus.');
+            Session::flash('error','Data gagal dihapus. Karena PLO sudah digunakan di RPS');
         }else{
-            Session::flash('error','Data gagal dihapus.');
+            Plo::destroy($id);
+            Session::flash('success','Data berhasil dihapus.');
         }
 
         return redirect()->route('peoplo.plo');

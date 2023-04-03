@@ -336,7 +336,6 @@
                             @foreach ($med as $m)
                             <li>{{ $m->media_bljr }}</li>
                             @endforeach
-
                         </ol>
                     </div>
                 </div>

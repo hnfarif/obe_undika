@@ -70,10 +70,11 @@ class PeoPloController extends Controller
 
         $plo =  Plo::where('fakul_id', $getProdi->id)->get();
         $peo = Peo::where('fakul_id', $getProdi->id)->orderBy('kode_peo', 'asc')->get();
+        $namaProdi = $getProdi->nama;
 
         $smt = $this->semester;
 
-        return view('kelolapeoplo.mapping.create' , compact('plo', 'peo', 'smt'));
+        return view('kelolapeoplo.mapping.create' , compact('plo', 'peo', 'smt', 'namaProdi'));
     }
 
     /**

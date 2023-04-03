@@ -1,4 +1,5 @@
 <script src="{{ asset('assets/js/page/daterangepicker.js') }}"></script>
+<script src="{{ asset('assets/js/intro.js') }}"></script>
 <script>
     var tableLlo = $('#tableLlo').DataTable({
         "lengthMenu": [
@@ -353,6 +354,30 @@
         $('.sn-pen').summernote({
             toolbar: [],
 
+        });
+
+        $('#introClo').click(function () {
+            introJs().setOptions({
+                steps: [{
+                        element: document.querySelector('.intro-week'),
+                        intro: "Untuk menambahkan data Agenda Pembelajaran, silahkan pilih minggu terlebih dahulu",
+                    },
+                    {
+                        element: document.querySelector('.intro-form'),
+                        intro: "Tekan tombol ini untuk menampilkan form tambah data",
+                    },
+                    {
+                        element: document.querySelector('.intro-table'),
+                        intro: "Data yang berhasil ditambahkan akan muncul pada tabel ini",
+                    },
+                    {
+                        element: document.querySelector('.intro-save'),
+                        intro: "Jika data sudah sesuai pada minggu yang dipilih, tekan tombol ini untuk menyimpan data",
+                    },
+
+
+                ],
+            }).start();
         });
 
         $('#btnMateri').click(function () {

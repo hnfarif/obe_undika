@@ -20,4 +20,8 @@ class InstrumenNilai extends Model
     public function detailNilai(){
         return $this->hasMany(DetailInstrumenNilai::class, 'ins_nilai_id', 'id');
     }
+
+    public function rps(){
+        return $this->belongsTo(Rps::class, 'rps_id', 'id');
+    }
 }

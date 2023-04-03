@@ -208,19 +208,22 @@ class CloController extends Controller
             if (!$ploclo) {
                 Session::flash('message','Data gagal dihapus');
                 Session::flash('alert-class','alert-danger');
+            }else{
+                Session::flash('message','Data berhasil dihapus');
+                Session::flash('alert-class','alert-success');
             }
-            Session::flash('message','Data berhasil dihapus');
-            Session::flash('alert-class','alert-success');
 
 
         } else {
-            $clo = Clo::destroy($clo);
-            if (!$clo) {
-                Session::flash('message','Data gagal dihapus');
+            $find = Clo::whereId($clo)->whereHas('detailAgendas')->first();
+            if ($find) {
+                Session::flash('message','Data gagal dihapus!, Karena data masih digunakan di Agenda Pembelajaran');
                 Session::flash('alert-class','alert-danger');
+            }else{
+                Clo::destroy($clo);
+                Session::flash('message','Data berhasil dihapus');
+                Session::flash('alert-class','alert-success');
             }
-            Session::flash('message','Data berhasil dihapus');
-            Session::flash('alert-class','alert-success');
         }
 
         return redirect()->route('clo.index', $request->rps_id);

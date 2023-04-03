@@ -181,10 +181,10 @@ class AgendaController extends Controller
             $fAgd = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $request->week)->first();
             if (!$fAgd) {
                 if ($request->week == 8) {
-                    $getPreWeek = $request->week + 1;
-                    $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $getPreWeek)->first()->tgl_awal;
+                    $getPreWeek = $request->week - 1;
+                    $kul = MingguKuliah::where('jenis_smt', 'T')->where('smt', $rps->semester)->where('minggu_ke', $getPreWeek)->first()->tgl_akhir;
 
-                    $tglAwal = Carbon::parse($kul)->subDays(14)->format('Y-m-d');
+                    $tglAwal = Carbon::parse($kul)->addDays(1)->format('Y-m-d');
 
                     $agdBelajar = new AgendaBelajar;
                     $agdBelajar->rps_id = $rps->id;

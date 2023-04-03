@@ -1,4 +1,7 @@
 @extends('layouts.main')
+@push('css')
+<link rel="stylesheet" href="{{ asset('assets/css/introjs/introjs.css') }}">
+@endpush
 @section('rps', 'active')
 @section('agenda', 'active')
 @section('content')
@@ -16,6 +19,7 @@
         <section class="section">
             @include('rps.section-header')
             <div class="section-body">
+                @include('rps.breadcrumb')
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="section-title mt-0">Table Tambah Data Agenda Pembelajaran</div>
@@ -24,12 +28,13 @@
 
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-12 mb-3 d-flex">
-                        <button type="button" class="btn btn-primary" id="btnFormClo"> <i class="fas fa-plus"></i>
+                        <button type="button" class="btn btn-primary intro-form" id="btnFormClo"> <i
+                                class="fas fa-plus"></i>
                             Tambah data</button>
                         <form class="ml-auto" action="{{ route('agenda.store', $rps->id) }}" method="POST">
                             @csrf
                             <input type="hidden" name="week" id="week">
-                            <button type="submit" class="btn btn-success ml-auto" id="btnSaveAgd"> <i
+                            <button type="submit" class="btn btn-success ml-auto intro-save" id="btnSaveAgd"> <i
                                     class="fas fa-save"></i>
                                 Simpan Data</button>
 
@@ -37,7 +42,7 @@
                     </div>
 
                 </div>
-                <div class="row">
+                <div class="row intro-week">
                     <div class="col-12 col-md-6 col-lg-12 mb-3">
                         <label>Pilih Minggu</label>
                         <select class="form-control @error('week') is-invalid @enderror select2" id="optweek" required>
@@ -59,9 +64,8 @@
                     </div>
                 </div>
                 <div class="row row-input">
-
                     <div class="col-12 col-md-6 col-lg-12">
-                        <div class="card">
+                        <div class="card intro-table">
                             <div class="card-body">
                                 <table class="table table-striped" id="tableLlo">
                                     <thead>

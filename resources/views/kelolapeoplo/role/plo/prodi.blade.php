@@ -22,7 +22,7 @@
     @endif
 
     <div class="row">
-        <div class="col-12 col-md-6 col-lg-6">
+        <div class="col-12 col-md-6 col-lg-5">
             <div class="card">
                 <div class="card-header">
                     <h4>Input PLO</h4>
@@ -60,7 +60,7 @@
             </div>
 
         </div>
-        <div class="col-12 col-md-6 col-lg-6">
+        <div class="col-12 col-md-6 col-lg-7">
             <div class="card">
                 <div class="card-header">
                     <h4>Daftar PLO</h4>
@@ -96,7 +96,7 @@
                                         </a>
                                         <form class="@if($i->kode_plo !== $iteration)
                                     d-none
-                                    @elseif($i->peos->count() > 0 || $i->clos->count() > 0)
+                                    @elseif($i->peos->count() > 0)
                                     d-none
                                     @endif" action="{{ route('peoplo.plo.delete', $i->id) }}" method="POST">
                                             @method('DELETE')

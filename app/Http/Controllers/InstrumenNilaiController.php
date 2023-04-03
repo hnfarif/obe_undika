@@ -75,7 +75,7 @@ class InstrumenNilaiController extends Controller
         $now = Carbon::now()->format('Y-m-d');
         $isRead = false;
         $idIns = $request->get('ins');
-        $instru = InstrumenNilai::where('id', $request->get('ins'))->first();
+        $instru = InstrumenNilai::where('id', $request->get('ins'))->with('rps')->first();
         $smt = $this->semester;
         $weekEigth = [];
         $weekSixteen = [];
@@ -122,15 +122,13 @@ class InstrumenNilaiController extends Controller
 
         }
 
-
         if($now >= $weekEigth['start'] && $now <= $weekEigth['end']){
             $week = '8';
         } else if($now >= $weekSixteen['start']){
             $week = '16';
         }
 
-
-        $rps = Rps::where('id', $instru->rps_id)->first();
+        $rps = $instru->rps;
 
         $getPekan = AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week)->first();
 
@@ -142,10 +140,9 @@ class InstrumenNilaiController extends Controller
 
         // dd($week);
         $startFill = Carbon::parse($getPekan->tgl_nilai)->format('Y-m-d');
-        $endFill = Carbon::parse($startFill)->addDays(14);
+        $endFill = Carbon::parse(AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week + 2)->first()->tgl_nilai)->format('Y-m-d');
         // dd($endFill);
-        $agd = AgendaBelajar::where('rps_id', $instru->rps_id)->pluck('id')->toArray();
-
+        $agd = $getPekan->pluck('id')->toArray();
 
         $dtlAgd = DetailAgenda::whereIn('agd_id', $agd)->with('penilaian','clo','detailInstrumenNilai')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
 
@@ -158,8 +155,6 @@ class InstrumenNilaiController extends Controller
         $mk = MataKuliah::where('id', $rps->kurlkl_id)->with('prodi')->first();
 
         $summary = RangkumanClo::where('ins_nilai_id', $idIns)->get();
-
-
 
         return view('instrumen-nilai.nilaimhs', compact('dtlAgd','krs', 'dtlInstru', 'idIns', 'instru', 'mk', 'jdw', 'summary', 'week', 'getPekan', 'now', 'startFill', 'endFill', 'isRead', 'smt'));
     }
@@ -197,11 +192,11 @@ class InstrumenNilaiController extends Controller
                     $dtlAgd = DetailAgenda::where('id', $n['dtl_id'])->first();
                     $agd = AgendaBelajar::where('id', $dtlAgd->agd_id)->first();
                     $startDate = Carbon::parse($agd->tgl_nilai)->format('d-m-Y');
-                    $twoWeek = Carbon::parse($agd->tgl_nilai)->addDays(14)->format('d-m-Y');
-                    $fourWeek = Carbon::parse($agd->tgl_nilai)->addDays(28)->format('d-m-Y');
-                    $sixWeek = Carbon::parse($agd->tgl_nilai)->addDays(42)->format('d-m-Y');
-                    $eightWeek = Carbon::parse($agd->tgl_nilai)->addDays(56)->format('d-m-Y');
-                    // dd($startDate);
+                    $twoWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan + 2)->first()->tgl_nilai)->format('d-m-Y');
+                    $fourWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan + 4)->first()->tgl_nilai)->format('d-m-Y');
+                    $sixWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan + 6)->first()->tgl_nilai)->format('d-m-Y');
+                    $eightWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan + 8)->first()->tgl_nilai)->format('d-m-Y');
+
                     if ($now->between($startDate, $twoWeek)) {
                         DetailInstrumenMonev::create([
                             'ins_monev_id' => $insMonev->id,
