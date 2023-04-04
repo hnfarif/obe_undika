@@ -376,11 +376,11 @@ class DatabaseSeeder extends Seeder
             SemesterSeeder::class,
             AngketSeeder::class,
             DetailBapSeeder::class,
-            KrsSeeder::class,
-            KuliahSeeder::class,
             MahasiswaSeeder::class,
-            MailStafSeeder::class,
+            KuliahSeeder::class,
             MingguKuliahSeeder::class,
+            KrsSeeder::class,
+            MailStafSeeder::class,
         ]);
     }
 }

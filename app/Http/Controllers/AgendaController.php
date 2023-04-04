@@ -526,43 +526,48 @@ class AgendaController extends Controller
      */
     public function destroy($id, $rps)
     {
-        $dtlAgd = DetailAgenda::find($id);
+        $exist = DetailAgenda::whereId($id)->whereHas('detailInstrumenNilai')->first();
 
-        if ($dtlAgd->agd_id) {
-
-            $ifAgd = DetailAgenda::where('agd_id', $dtlAgd->agd_id)->count();
-        }else{
-            $ifAgd = 0;
-        }
-
-        if ($dtlAgd->llo_id) {
-
-            $ifLlo = DetailAgenda::where('llo_id', $dtlAgd->llo_id)->count();
-        }else{
-            $ifLlo = 0;
-        }
-
-
-        $delAgdLlo = $dtlAgd;
-        $dtlAgd->delete();
-
-        if($ifAgd == 1){
-            $agd = AgendaBelajar::find($delAgdLlo->agd_id);
-            $agd->delete();
-        }
-
-        if ($ifLlo == 1) {
-            $llo = LLo::find($delAgdLlo->llo_id);
-            $llo->delete();
-        }
-
-        if ($dtlAgd) {
-            Session::flash('message','Data berhasil dihapus.');
-            Session::flash('alert-class','alert-success');
-        }else{
-            Session::flash('message','Data gagal dihapus.');
+        if($exist){
+            Session::flash('message','Data gagal dihapus!, Karena data sudah digunakan');
             Session::flash('alert-class','alert-danger');
+        }else{
+            $dtlAgd = DetailAgenda::findorfail($id);
+
+            if ($dtlAgd->agd_id) {
+                $ifAgd = DetailAgenda::where('agd_id', $dtlAgd->agd_id)->count();
+            }else{
+                $ifAgd = 0;
+            }
+
+            if ($dtlAgd->llo_id) {
+                $ifLlo = DetailAgenda::where('llo_id', $dtlAgd->llo_id)->count();
+            }else{
+                $ifLlo = 0;
+            }
+
+            $delAgdLlo = $dtlAgd;
+            $dtlAgd->delete();
+
+            if($ifAgd == 1){
+                $agd = AgendaBelajar::find($delAgdLlo->agd_id);
+                $agd->delete();
+            }
+
+            if ($ifLlo == 1) {
+                $llo = LLo::find($delAgdLlo->llo_id);
+                $llo->delete();
+            }
+
+            if ($dtlAgd) {
+                Session::flash('message','Data berhasil dihapus.');
+                Session::flash('alert-class','alert-success');
+            }else{
+                Session::flash('message','Data gagal dihapus.');
+                Session::flash('alert-class','alert-danger');
+            }
         }
+
         return redirect()->route('agenda.index', $rps);
     }
 

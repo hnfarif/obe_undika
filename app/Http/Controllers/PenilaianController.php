@@ -137,14 +137,15 @@ class PenilaianController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $penilaian = Penilaian::destroy($id);
+        $penilaian = Penilaian::whereId($id)->whereHas('detailAgendas')->first();
 
         if($penilaian){
-            Session::flash('message', 'Data berhasil dihapus');
-            Session::flash('alert-class', 'alert-success');
+            Session::flash('message','Data gagal dihapus!, Karena data masih digunakan di Agenda Pembelajaran');
+            Session::flash('alert-class','alert-danger');
         }else{
-            Session::flash('message', 'Data gagal dihapus');
-            Session::flash('alert-class', 'alert-danger');
+            Penilaian::destroy($id);
+            Session::flash('message','Data berhasil dihapus');
+            Session::flash('alert-class','alert-success');
         }
 
         return redirect()->route('penilaian.index', $request->rps_id);

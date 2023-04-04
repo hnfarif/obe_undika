@@ -140,13 +140,13 @@ class InstrumenNilaiController extends Controller
 
         // dd($week);
         $startFill = Carbon::parse($getPekan->tgl_nilai)->format('Y-m-d');
-        $endFill = Carbon::parse(AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week + 2)->first()->tgl_nilai)->format('Y-m-d');
+        $endFill = Carbon::parse(AgendaBelajar::where('rps_id', $rps->id)->where('pekan', $week+2)->first()->tgl_nilai);
         // dd($endFill);
         $agd = $getPekan->pluck('id')->toArray();
 
         $dtlAgd = DetailAgenda::whereIn('agd_id', $agd)->with('penilaian','clo','detailInstrumenNilai')->orderby('clo_id', 'asc')->orderby('id', 'asc')->get();
 
-        $krs = Krs::where('jkul_klkl_id', $instru->klkl_id)->where('jkul_kelas', $instru->kelas)->with('mahasiswa')->get();
+        $krs = Krs::where('jkul_klkl_id', $instru->klkl_id)->where('kary_nik', $instru->nik)->where('jkul_kelas', $instru->kelas)->with('mahasiswa')->get();
 
         $dtlInstru = DetailInstrumenNilai::where('ins_nilai_id', $instru->id)->get();
 
@@ -337,55 +337,9 @@ class InstrumenNilaiController extends Controller
 
             }
 
-
         }
 
         return response()->json(['success' => 'Data Berhasil Disimpan']);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function cekRps(Request $request)

@@ -291,6 +291,8 @@
             success: function (data) {
                 $('#responsi').val(data * 60);
                 $('#belajarMandiri').val(data * 60);
+                $('#responsi').attr('readonly', 'readonly');
+                $('#belajarMandiri').attr('readonly', 'readonly');
             }
 
         })
