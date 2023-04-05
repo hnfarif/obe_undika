@@ -69,7 +69,9 @@ class LaporanMonevController extends Controller
     }
 
     public function manipulateMonev(){
-
+        if (request()->has('semester')) {
+            $this->semester = request('semester');
+        }
         $plot = PlottingMonev::whereSemester($this->semester)->whereHas('insMonev')->with('insMonev','karyawan', 'dosenPemonev','programstudi')->fakultas()->prodi()->semester()->get();
         $rps = Rps::whereIn('kurlkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->with('clos','agendabelajars')->get();
         $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->get();
