@@ -70,10 +70,10 @@ class LaporanMonevController extends Controller
 
     public function manipulateMonev(){
 
-        $plot = PlottingMonev::whereSemester('221')->whereHas('insMonev')->with('insMonev','karyawan', 'dosenPemonev','programstudi')->fakultas()->prodi()->semester()->get();
+        $plot = PlottingMonev::whereSemester($this->semester)->whereHas('insMonev')->with('insMonev','karyawan', 'dosenPemonev','programstudi')->fakultas()->prodi()->semester()->get();
         $rps = Rps::whereIn('kurlkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->with('clos','agendabelajars')->get();
         $krs = Krs::whereIn('jkul_klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->get();
-        $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester('221')->with('detailNilai')->first();
+        $insNilai = InstrumenNilai::whereIn('klkl_id', $plot->unique('klkl_id')->pluck('klkl_id')->toArray())->whereSemester($this->semester)->with('detailNilai')->first();
         $dtlAgd = DetailAgenda::whereIn('clo_id', $rps->pluck('clos.*.id')->flatten()->toArray())->with('clo')->get();
         $kri = $this->kri;
 
