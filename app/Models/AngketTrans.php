@@ -74,4 +74,10 @@ class AngketTrans extends Model
             return $query->whereIn('nik', request('dosen'));
         }
     }
+
+    public function scopeSemester($query){
+        if (request()->semester) {
+            return $query->where('smt', request('semester'));
+        }
+    }
 }
