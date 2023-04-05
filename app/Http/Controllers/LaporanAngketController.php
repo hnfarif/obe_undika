@@ -24,7 +24,11 @@ class LaporanAngketController extends Controller
         $this->semester = Semester::orderBy('smt_yad', 'desc')->first()->smt_yad;
         $this->fakultas = Fakultas::where('sts_aktif', 'Y')->with('prodis')->get();
         $this->prodi = Prodi::whereIn('id_fakultas', $this->fakultas->pluck('id')->toArray())->where('sts_aktif', 'Y')->get();
-        $this->angket = AngketTrans::where('smt', $this->semester)->with('karyawan', 'prodii')->fakultas()->prodi()->dosen()->semester()->get()->groupBy('nik');
+        if (request()->has('semester')) {
+            $this->angket = AngketTrans::where('smt', request('semester'))->with('karyawan', 'prodii')->fakultas()->prodi()->dosen()->semester()->get()->groupBy('nik');
+        }else{
+            $this->angket = AngketTrans::where('smt', $this->semester)->with('karyawan', 'prodii')->fakultas()->prodi()->dosen()->semester()->get()->groupBy('nik');
+        }
     }
 
     public function index()
