@@ -137,8 +137,6 @@ Route::name('penilaian.')->group(function (){
 
     Route::get('/cekrps', [InstrumenNilaiController::class, 'cekRps'])->name('cekrps')->middleware('ensureUserRole:dosen,p3ai,kaprodi,pimpinan,dekan');
 
-    Route::put('/nilaimin', [InstrumenNilaiController::class, 'uptNilaiMin'])->name('putNilaiMin')->middleware('ensureUserRole:dosen');
-
     Route::post('/save-summary', [InstrumenNilaiController::class, 'storeSummary'])->name('storeSummary')->middleware('ensureUserRole:dosen');
 
     Route::get('/clo/detail', [InstrumenNilaiController::class, 'detailInstrumen'])->name('detailInstrumen')->middleware('ensureUserRole:p3ai,kaprodi,pimpinan,dekan');

@@ -118,28 +118,22 @@
                                         </tr>
                                         <tr>
                                             <th>Target Nilai Min MK</th>
-                                            <td style="width: 100%;">
-                                                <form action="{{ route('penilaian.putNilaiMin') }}" method="POST"
-                                                    class="d-flex">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <input type="hidden" value="{{ $idIns }}" name="idIns">
-                                                    <input class="form-control w-25" type="number" name="nilai_min_mk"
-                                                        id="nilai_min_mk" required value="{{ $instru->nilai_min_mk }}"
-                                                        @if ($instru->nilai_min_mk)
-                                                    readonly @endif>
-
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-primary ml-3 @if ($instru->nilai_min_mk) d-none @endif btnSaveNilaiMk">
-                                                        <i class="fas fa-save">
-                                                        </i>
-                                                    </button>
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-primary ml-3 @if (!$instru->nilai_min_mk) d-none @endif  btnEditNilaiMk">
-                                                        <i class="fas fa-edit">
-                                                        </i>
-                                                    </button>
-                                                </form>
+                                            <td style="width: 100%;" class="nilai_min_mk">
+                                                @if($mk->min_nilai == 'E')
+                                                    0
+                                                @elseif($mk->min_nilai == 'D')
+                                                    40
+                                                @elseif($mk->min_nilai == 'C')
+                                                   55
+                                                @elseif($mk->min_nilai == 'C+')
+                                                   60
+                                                @elseif($mk->min_nilai == 'B')
+                                                   65
+                                                @elseif($mk->min_nilai == 'B+')
+                                                   75
+                                                @elseif($mk->min_nilai == 'A')
+                                                    80
+                                                @endif
 
                                             </td>
                                         </tr>

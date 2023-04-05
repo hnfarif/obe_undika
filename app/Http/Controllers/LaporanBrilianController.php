@@ -140,7 +140,6 @@ class LaporanBrilianController extends Controller
         ])->then(function ($res) {
             return $res->json();
         })->wait();
-
         $fak = Fakultas::where('sts_aktif', 'Y')->with('prodis')->get();
         $prodi = Prodi::whereIn('id_fakultas', $fak->pluck('id')->toArray())->get();
 
@@ -172,10 +171,9 @@ class LaporanBrilianController extends Controller
             ],
         ];
 
-        if($response){
+        if(!empty($response['data'])){
 
             $data = $response['data'];
-
             $data = collect($data)->map(function ($data){
                 $data['badge'] = $data['skor_total'] >= 0 && $data['skor_total'] <= 2.49 ? 'Bronze' : ($data['skor_total'] >= 2.5 && $data['skor_total'] <= 2.99 ? 'Silver' : ($data['skor_total'] >= 3 && $data['skor_total'] <= 3.49 ? 'Gold' : ($data['skor_total'] >= 3.5 && $data['skor_total'] <= 4 ? 'Diamond' : '')));
 
@@ -398,6 +396,8 @@ class LaporanBrilianController extends Controller
             $rataFak = [];
             $rataProdi = [];
         }
+
+        ini_set('max_execution_time', 300);
 
         return ['data' => $data, 'indikator' => $indikator, 'smt' => $smt, 'prodi' => $prodi, 'rangBadge' => $rangBadge, 'badges' => $badges, 'rataFak' => $rataFak, 'rataProdi' => $rataProdi];
 

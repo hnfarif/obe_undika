@@ -38,6 +38,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4>Daftar Penggunaan Brilian</h4>
+                                @if ($data)
                                 <a target="_blank"
                                     href="{{ route('laporan.brilian.exportPdf', ['prodi' => request('prodi')]) }}"
                                     class="btn btn-danger ml-auto  mr-3">
@@ -58,6 +59,8 @@
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#filterBrilian">
                                     <i class="fas fa-filter"></i> Filter
                                 </button>
+                                @endif
+
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

@@ -56,8 +56,8 @@ class InstrumenNilaiController extends Controller
         }
 
         if ($role == 'dosen') {
-            $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->name()->paginate(6)->withQueryString();
-            $instru = InstrumenNilai::whereNik($nik_kary)->get();
+            $instru = InstrumenNilai::whereNik($nik_kary)->whereHas('instrumenMonev')->get();
+            $jdwkul = JadwalKuliah::where('kary_nik', $nik_kary)->whereIn('klkl_id', $instru->pluck('klkl_id')->toArray())->name()->paginate(6)->withQueryString();
             return view('instrumen-nilai.index', compact('jdwkul', 'instru', 'smt', 'fak', 'prodi'));
         }
 
@@ -181,139 +181,61 @@ class InstrumenNilaiController extends Controller
             }
         }
 
-
         foreach ($request->get('dataNilai') as $n) {
             // untuk memasukkan nilai ke detail instrumen monev
             $insMonev = InstrumenMonev::where('ins_nilai_id', $request->get('idIns'))->first();
-            if ($insMonev) {
-                $dtlMonev = DetailInstrumenMonev::where('ins_monev_id', $insMonev->id)->where('dtl_agd_id', $n['dtl_id'])->first();
-                if(!$dtlMonev){
+            $dtlMonev = DetailInstrumenMonev::where('ins_monev_id', $insMonev->id)->where('dtl_agd_id', $n['dtl_id'])->first();
+            if(!$dtlMonev){
 
-                    $dtlAgd = DetailAgenda::where('id', $n['dtl_id'])->first();
-                    $agd = AgendaBelajar::where('id', $dtlAgd->agd_id)->first();
-                    $startDate = Carbon::parse($agd->tgl_nilai)->format('d-m-Y');
-                    $twoWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan + 2)->first()->tgl_nilai)->format('d-m-Y');
-                    $fourWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan + 4)->first()->tgl_nilai)->format('d-m-Y');
-                    $sixWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan + 6)->first()->tgl_nilai)->format('d-m-Y');
-                    $eightWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan + 8)->first()->tgl_nilai)->format('d-m-Y');
+                $dtlAgd = DetailAgenda::where('id', $n['dtl_id'])->first();
+                $agd = AgendaBelajar::where('id', $dtlAgd->agd_id)->first();
+                $startDate = Carbon::parse($agd->tgl_nilai)->format('d-m-Y');
+                $twoWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan+2)->first()->tgl_nilai)->format('d-m-Y');
+                $fourWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan+4)->first()->tgl_nilai)->format('d-m-Y');
+                $sixWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan+6)->first()->tgl_nilai)->format('d-m-Y');
+                $eightWeek = Carbon::parse(AgendaBelajar::where('rps_id', $agd->rps_id)->where('pekan', $agd->pekan+8)->first()->tgl_nilai)->format('d-m-Y');
 
-                    if ($now->between($startDate, $twoWeek)) {
-                        DetailInstrumenMonev::create([
-                            'ins_monev_id' => $insMonev->id,
-                            'dtl_agd_id' => $n['dtl_id'],
-                            'id_kri' => $kriId,
-                            'nilai' => 4,
+                if ($now->between($startDate, $twoWeek)) {
+                    DetailInstrumenMonev::create([
+                        'ins_monev_id' => $insMonev->id,
+                        'dtl_agd_id' => $n['dtl_id'],
+                        'id_kri' => $kriId,
+                        'nilai' => 4,
 
-                        ]);
-
-                    }else if($now->between($twoWeek, $fourWeek)){
-                        DetailInstrumenMonev::create([
-                            'ins_monev_id' => $insMonev->id,
-                            'dtl_agd_id' => $n['dtl_id'],
-                            'id_kri' => $kriId,
-                            'nilai' => 3,
-
-                        ]);
-                    }else if($now->between($fourWeek, $sixWeek)){
-                        DetailInstrumenMonev::create([
-                            'ins_monev_id' => $insMonev->id,
-                            'dtl_agd_id' => $n['dtl_id'],
-                            'id_kri' => $kriId,
-                            'nilai' => 2,
-
-                        ]);
-                    }else if($now->between($sixWeek, $eightWeek)){
-                        DetailInstrumenMonev::create([
-                            'ins_monev_id' => $insMonev->id,
-                            'dtl_agd_id' => $n['dtl_id'],
-                            'id_kri' => $kriId,
-                            'nilai' => 1,
-
-                        ]);
-                    }else if($now->gt($eightWeek)){
-                        DetailInstrumenMonev::create([
-                            'ins_monev_id' => $insMonev->id,
-                            'dtl_agd_id' => $n['dtl_id'],
-                            'id_kri' => $kriId,
-                            'nilai' => 0,
-
-                        ]);
-                    }
-                }
-
-            }else{
-                $insNilai = InstrumenNilai::where('id', $request->get('idIns'))->first();
-                $plot = PlottingMonev::where('klkl_id', $insNilai->klkl_id)->where('nik_pengajar', $insNilai->nik)->where('semester', $insNilai->semester)->where('kelas', $insNilai->kelas)->first();
-
-                if($plot){
-
-                    $insMonev = InstrumenMonev::create([
-                        'ins_nilai_id' => $request->get('idIns'),
-                        'plot_monev_id' => $plot->id,
                     ]);
-                }else{
 
-                    Session::flash('message', 'Gagal memasukkan nilai, Instrumen ini belum di plotting, Silahkan hubungi bagian P3AI!');
-                    Session::flash('alert-class', 'alert-danger');
+                }else if($now->between($twoWeek, $fourWeek)){
+                    DetailInstrumenMonev::create([
+                        'ins_monev_id' => $insMonev->id,
+                        'dtl_agd_id' => $n['dtl_id'],
+                        'id_kri' => $kriId,
+                        'nilai' => 3,
 
-                    return response()->json(['error' => 'Gagal memasukkan nilai, Instrumen ini belum di plotting, Silahkan hubungin bagian P3AI!']);
+                    ]);
+                }else if($now->between($fourWeek, $sixWeek)){
+                    DetailInstrumenMonev::create([
+                        'ins_monev_id' => $insMonev->id,
+                        'dtl_agd_id' => $n['dtl_id'],
+                        'id_kri' => $kriId,
+                        'nilai' => 2,
 
-                }
+                    ]);
+                }else if($now->between($sixWeek, $eightWeek)){
+                    DetailInstrumenMonev::create([
+                        'ins_monev_id' => $insMonev->id,
+                        'dtl_agd_id' => $n['dtl_id'],
+                        'id_kri' => $kriId,
+                        'nilai' => 1,
 
-                $dtlMonev = DetailInstrumenMonev::where('ins_monev_id', $insMonev->id)->where('dtl_agd_id', $n['dtl_id'])->first();
+                    ]);
+                }else if($now->gt($eightWeek)){
+                    DetailInstrumenMonev::create([
+                        'ins_monev_id' => $insMonev->id,
+                        'dtl_agd_id' => $n['dtl_id'],
+                        'id_kri' => $kriId,
+                        'nilai' => 0,
 
-                if(!$dtlMonev){
-
-                    $dtlAgd = DetailAgenda::where('id', $n['dtl_id'])->first();
-                    $agd = AgendaBelajar::where('id', $dtlAgd->agd_id)->first();
-                    $startDate = Carbon::parse($agd->tgl_nilai)->format('d-m-Y');
-                    $twoWeek = Carbon::parse($agd->tgl_nilai)->addDays(14)->format('d-m-Y');
-                    $fourWeek = Carbon::parse($agd->tgl_nilai)->addDays(28)->format('d-m-Y');
-                    $sixWeek = Carbon::parse($agd->tgl_nilai)->addDays(42)->format('d-m-Y');
-                    $eightWeek = Carbon::parse($agd->tgl_nilai)->addDays(56)->format('d-m-Y');
-                    // dd($startDate);
-                    if ($now >= $startDate && $now <= $twoWeek) {
-                        DetailInstrumenMonev::create([
-                            'ins_monev_id' => $insMonev->id,
-                            'dtl_agd_id' => $n['dtl_id'],
-                            'id_kri' => $kriId,
-                            'nilai' => 4,
-
-                        ]);
-
-                    }else if($now >= $twoWeek && $now <= $fourWeek){
-                        DetailInstrumenMonev::create([
-                            'ins_monev_id' => $insMonev->id,
-                            'dtl_agd_id' => $n['dtl_id'],
-                            'id_kri' => $kriId,
-                            'nilai' => 3,
-
-                        ]);
-                    }else if($now >= $fourWeek && $now <= $sixWeek){
-                        DetailInstrumenMonev::create([
-                            'ins_monev_id' => $insMonev->id,
-                            'dtl_agd_id' => $n['dtl_id'],
-                            'id_kri' => $kriId,
-                            'nilai' => 2,
-
-                        ]);
-                    }else if($now >= $sixWeek && $now <= $eightWeek){
-                        DetailInstrumenMonev::create([
-                            'ins_monev_id' => $insMonev->id,
-                            'dtl_agd_id' => $n['dtl_id'],
-                            'id_kri' => $kriId,
-                            'nilai' => 1,
-
-                        ]);
-                    }else if($now->gt($eightWeek)){
-                        DetailInstrumenMonev::create([
-                            'ins_monev_id' => $insMonev->id,
-                            'dtl_agd_id' => $n['dtl_id'],
-                            'id_kri' => $kriId,
-                            'nilai' => 0,
-
-                        ]);
-                    }
+                    ]);
                 }
             }
 
@@ -395,19 +317,6 @@ class InstrumenNilaiController extends Controller
             }
 
         }
-    }
-
-    public function uptNilaiMin(Request $request)
-    {
-        $validation = Validator::make($request->all(), [
-            'nilai_min' => 'required|numeric',
-        ]);
-
-        $instru = InstrumenNilai::where('id', $request->get('idIns'))->first();
-        $instru->nilai_min_mk = $request->get('nilai_min_mk');
-        $instru->save();
-
-        return redirect()->back();
     }
 
     public function storeSummary(Request $request)

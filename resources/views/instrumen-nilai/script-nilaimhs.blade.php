@@ -169,11 +169,10 @@
 
         $('.stsaLulus').each(function (i, v) {
 
-            var nMin = $('#nilai_min_mk').val();
+            var nMin = $('.nilai_min_mk').text();
             var arrLulus = [];
 
             var naObe = parseFloat($(this).prev().prev().text());
-
 
             if (nMin) {
 
@@ -357,7 +356,7 @@
 
         $('.stsLulusAak').each(function (i, v) {
             var naAak = parseFloat($(this).prev().prev().text());
-            var nMin = $("#nilai_min_mk").val();
+            var nMin = $(".nilai_min_mk").text();
             if (naAak >= nMin) {
                 $(this).text('L');
             } else {
@@ -366,7 +365,6 @@
         })
 
         $('.btnEditNilaiMk').click(function () {
-            $('#nilai_min_mk').removeAttr('readonly');
             $('.btnSaveNilaiMk').removeClass('d-none');
             $(this).addClass('d-none');
         })

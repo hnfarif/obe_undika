@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Fakultas;
 use App\Models\InstrumenMonev;
+use App\Models\InstrumenNilai;
 use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\KriteriaMonev;
 use App\Models\PlottingMonev;
 use App\Models\Prodi;
+use App\Models\Rps;
 use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -86,17 +88,29 @@ class PlottingMonevController extends Controller
             'dosen_pemonev' => 'required',
             'mk_monev' => 'required',
         ]);
+
         foreach ($request->mk_monev as $i) {
             $expData = explode("-", $i);
-            $smt =  Semester::orderBy('smt_yad', 'desc')->first();
-            PlottingMonev::create([
+            $createPlot = PlottingMonev::create([
                 'nik_pemonev' => $request->dosen_pemonev,
                 'nik_pengajar' => $expData[0],
                 'klkl_id' => $expData[1],
                 'prodi' => $expData[2],
                 'kelas' => $expData[3],
-                'semester' => $smt->smt_yad,
+                'semester' => $this->semester,
 
+            ]);
+            $rps = Rps::where('kurlkl_id', $expData[1])->first();
+            $createInsNilai = InstrumenNilai::create([
+                'klkl_id' => $expData[1],
+                'nik' => $expData[0],
+                'rps_id' => $rps->id,
+                'semester' => $this->semester,
+                'kelas' => $expData[3],
+            ]);
+            InstrumenMonev::create([
+                'plot_monev_id' => $createPlot->id,
+                'ins_nilai_id' => $createInsNilai->id,
             ]);
         }
 

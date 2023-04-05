@@ -24,4 +24,9 @@ class InstrumenNilai extends Model
     public function rps(){
         return $this->belongsTo(Rps::class, 'rps_id', 'id');
     }
+
+    public function instrumenMonev(){
+        return $this->hasOne(InstrumenMonev::class, 'ins_nilai_id', 'id');
+    }
+
 }
