@@ -428,7 +428,7 @@ class InstrumenNilaiController extends Controller
 
                 $arrDtlIns = $dtlIns->groupBy('mhs_nim');
 
-                $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->get();
+                $clo = Clo::where('rps_id', $cekIns->rps_id)->orderBy('id', 'asc')->with('detailAgendas')->get();
 
                 $countClo = $clo->count();
 
@@ -436,7 +436,7 @@ class InstrumenNilaiController extends Controller
                 $cnCloMhs = 0;
                 foreach($clo as $c){
 
-                    $dtlAgd = DetailAgenda::where('clo_id', $c->id)->where('penilaian_id', '<>' , null)->get();
+                    $dtlAgd = $c->detailAgendas->where('penilaian_id', '<>' , null);
                     $sumBobot = $dtlAgd->sum('bobot');
 
                     foreach($arrDtlIns as $key => $di){

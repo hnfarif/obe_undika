@@ -25,14 +25,9 @@ class LaporanBrilianController extends Controller
 
     public function index()
     {
-        // dd(request()->all());
         $filter = request()->all();
-
-
-        //data filters
         $fak = Fakultas::where('sts_aktif', 'Y')->get();
         $kary = KaryawanDosen::all();
-
 
         $data = $this->manipulateDataApi()['data'];
         $indikator = $this->manipulateDataApi()['indikator'];
@@ -94,7 +89,6 @@ class LaporanBrilianController extends Controller
 
         $pekan = BrilianWeek::where('semester', $smt)->with('brilianDetails')->get();
 
-
         return view('laporan.brilian.index', compact('data','indikator', 'smt', 'fak', 'prodi', 'kary', 'rangBadge', 'badges', 'rataFak','rataProdi', 'pekan'));
     }
 
@@ -140,6 +134,7 @@ class LaporanBrilianController extends Controller
         ])->then(function ($res) {
             return $res->json();
         })->wait();
+
         $fak = Fakultas::where('sts_aktif', 'Y')->with('prodis')->get();
         $prodi = Prodi::whereIn('id_fakultas', $fak->pluck('id')->toArray())->get();
 
