@@ -10,22 +10,6 @@
             <div class="section-body">
                 @include('instrumen-nilai.breadcrumb')
 
-                <div class="d-flex align-items-center">
-                    <div class="ml-auto">
-                        <div class="selectgroup w-100">
-                            <label class="selectgroup-item">
-                                <input type="radio" name="optrangclo" value="insTdkTercapai" class="selectgroup-input"
-                                    checked="">
-                                <span class="selectgroup-button">Mata Kuliah Tidak Tercapai</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="radio" name="optrangclo" value="insTercapai" class="selectgroup-input">
-                                <span class="selectgroup-button">Mata Kuliah Tercapai</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="row insTdkTercapai">
 
                     <div class="col-12">
@@ -41,6 +25,7 @@
                                                 <th>NIK</th>
                                                 <th>Nama Dosen</th>
                                                 <th>Prodi</th>
+                                                <th>Jumlah MK tercapai</th>
                                                 <th>Jumlah MK tidak tercapai</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -60,11 +45,14 @@
                                                     {{ $k->getNameProdi($k->prodi) }}
                                                 </td>
                                                 <td>
+                                                    {{ $mkLulus->where('kary_nik', $k->kary_nik)->count() }}
+                                                </td>
+                                                <td>
                                                     {{ $mkTdkLulus->where('kary_nik', $k->kary_nik)->count() }}
                                                 </td>
 
                                                 <td>
-                                                    <a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->kary_nik, 'mktdklulus' => $k->getKelulusanMk($mkTdkLulus, $k->kary_nik)]) }}"
+                                                    <a href="{{ route('penilaian.detailInstrumen', ['nik' => $k->kary_nik])}}"
                                                         class="btn btn-primary btn-sm text-sm">Detail</a>
                                                 </td>
                                             </tr>

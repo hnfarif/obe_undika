@@ -364,18 +364,11 @@ class InstrumenNilaiController extends Controller
         $kary = KaryawanDosen::where('nik', request('nik'))->first();
         $smt = $this->semester;
         $instru = InstrumenNilai::whereSemester($smt)->whereNik($kary->nik)->get();
+        $filJdw = JadwalKuliah::where('kary_nik', request('nik'))->get();
 
-        if (request()->has('mklulus')) {
-            $mkLulus = collect(request('mklulus'));
-            $jdwkul = JadwalKuliah::whereIn('klkl_id', $mkLulus->pluck('klkl_id')->toArray())->whereIn('kelas', $mkLulus->pluck('kelas')->toArray())->where('kary_nik', $kary->nik)->paginate(6)->withQueryString();
-        }else if(request()->has('mktdklulus')){
-            $mkTdkLulus = collect(request('mktdklulus'));
-
-            $jdwkul = JadwalKuliah::whereIn('klkl_id', $mkTdkLulus->pluck('klkl_id')->toArray())->whereIn('kelas', $mkTdkLulus->pluck('kelas')->toArray())->where('kary_nik', $kary->nik)->paginate(6)->withQueryString();
-
-        }
-
-        return view('instrumen-nilai.detail', compact('jdwkul', 'kary', 'instru', 'smt'));
+        $mkLulus = collect($this->getCapaiClo($filJdw)['mkLulus']);
+        $mkTdkLulus = collect($this->getCapaiClo($filJdw)['mkTdkLulus']);
+        return view('instrumen-nilai.detail', compact('mkLulus','mkTdkLulus', 'kary', 'instru', 'smt'));
 
     }
 

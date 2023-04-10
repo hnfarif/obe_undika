@@ -1,4 +1,7 @@
 @extends('layouts.main')
+@push('css')
+<link rel="stylesheet" href="{{ asset('assets/css/introjs/introjs.css') }}">
+@endpush
 @section('plottingmonev', 'active')
 @section('', 'active')
 @section('content')
@@ -23,13 +26,15 @@
                         <div class="card carddrop">
                             <div class="card-header">
                                 <h4>Form Plotting Monev</h4>
+                                <button type="button" class="btn btn-primary btn-sm py-0 ml-auto" id="introClo"><i
+                                        class="fas fa-info-circle"></i></button>
                             </div>
                             <div class="card-body">
                                 <form action="{{ route('monev.plotting.store') }}" method="POST" id="formPlotting">
                                     @csrf
                                     @method('POST')
                                     <input type="hidden" name="nikAdm" value="{{ auth()->user()->nik }}">
-                                    <div class="form-group">
+                                    <div class="form-group intro-1">
                                         <label>Dosen Pemonev</label>
                                         <select
                                             class="form-control select2 @error('dosen_pemonev') is-invalid @enderror"
@@ -53,7 +58,7 @@
                                         </div>
                                         @enderror
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group intro-2">
 
                                         <label>Pilih Matakuliah yang dimonev</label>
                                         @error('mk_monev')
@@ -100,6 +105,7 @@
                                                                 for="listMonev-{{ $loop->iteration }}"></label>
                                                         </div>
                                                     </td>
+
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -107,7 +113,7 @@
 
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group intro-3">
                                         <button type="button" class="btn btn-primary btnSave">Simpan</button>
                                     </div>
 

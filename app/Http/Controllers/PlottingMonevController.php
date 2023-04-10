@@ -61,17 +61,17 @@ class PlottingMonevController extends Controller
 
         foreach ($jdwkul as $i) {
            $cek = PlottingMonev::where('klkl_id', $i->klkl_id)->where('nik_pengajar', $i->kary_nik)->where('kelas', $i->kelas)->where('semester', $smt)->first();
-              if(!$cek){
+           $rps = Rps::where('kurlkl_id', $i->klkl_id)->where('is_done', '1')->first();
+            if(!$cek && $rps){
                 $arrJdwkul[] = $i;
-              }
+            }
         }
 
         $jdwkul = $arrJdwkul;
-
         // status dosen harus dosen tetap aktif
         $kary = KaryawanDosen::where('fakul_id', '<>', null)->get();
 
-        return view('plotting-monev.create', compact('jdwkul', 'kary', 'smt'));
+        return view('plotting-monev.create', compact('jdwkul', 'kary', 'smt', 'rps'));
     }
 
     /**
@@ -83,7 +83,6 @@ class PlottingMonevController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request->all());
         $validatedData = $request->validate([
             'dosen_pemonev' => 'required',
             'mk_monev' => 'required',
