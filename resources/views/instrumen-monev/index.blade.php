@@ -134,8 +134,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td style="min-width: 200px;" rowspan="3" class="">
-
+                                            <td style="min-width: 200px;" rowspan="4" class="">
                                                 {{ $k->kri_penilaian }}
                                             </td>
                                             <td class="align-middle text-center border" >
@@ -191,7 +190,21 @@
                                             @endforeach
                                             @endforeach
                                         </tr>
+                                        <tr>
+                                            <td class="align-middle text-center border" colspan="2">Tanggal Akhir Entry</td>
 
+                                            @foreach ($dtlAgd->unique('clo_id') as $cl)
+                                            @foreach ($dtlAgd->where('clo_id', $cl->clo_id)->where('penilaian_id', '<>', null) as
+                                                $pen)
+
+                                                <td class="border">
+                                                    {{ date('d-m-Y', strtotime($pen->agendaBelajar->tgl_nilai . ' + 13 days')) }}
+                                                </td>
+
+                                            @endforeach
+                                            @endforeach
+
+                                        </tr>
                                     </tbody>
                                 </table>
 
