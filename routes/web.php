@@ -160,6 +160,8 @@ Route::prefix('monev')->name('monev.')->group(function(){
 
     Route::put('/kriteria/update', [PlottingMonevController::class, 'updateCriteria'])->name('updateCriteria')->middleware('ensureUserRole:p3ai');
 
+    Route::get('/kriteria/check', [PlottingMonevController::class, 'checkCriteria'])->name('checkCriteria')->middleware('ensureUserRole:p3ai');
+
     Route::delete('/kriteria/delete/{id}', [PlottingMonevController::class, 'deleteCriteria'])->name('deleteCriteria')->middleware('ensureUserRole:p3ai');
 
     Route::get('/plot/detail', [PlottingMonevController::class, 'detailPlot'])->name('detailPlot')->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dekan');

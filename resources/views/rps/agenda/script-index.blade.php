@@ -666,7 +666,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -705,7 +705,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -744,7 +744,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -783,7 +783,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -822,7 +822,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -861,7 +861,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -907,7 +907,7 @@
                         $.isEmptyObject(data.errMnt)) {
                         $('#formAgenda').modal('hide');
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'middle',
                             icon: 'success',
                             title: 'Data Anda berhasil diubah!',
                             showConfirmButton: false,

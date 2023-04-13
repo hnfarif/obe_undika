@@ -249,6 +249,16 @@ class PlottingMonevController extends Controller
         return redirect()->route('monev.plotting.index');
     }
 
+    public function checkCriteria()
+    {
+        $sum = KriteriaMonev::sum('bobot');
+        if ($sum == 100) {
+            return response()->json(['status' => true]);
+        }else{
+            return response()->json(['status' => false]);
+        }
+    }
+
     public function detailPlot(Request $request)
     {
         $pltMnv = PlottingMonev::where('nik_pemonev', $request->get('nik'))->where('semester', $request->get('smt'))->paginate(6)->withQueryString();

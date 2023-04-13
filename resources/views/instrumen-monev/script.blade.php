@@ -352,7 +352,7 @@
                 },
                 success: function (data) {
                     Swal.fire({
-                        position: 'top-end',
+                        position: 'middle',
                         icon: 'success',
                         title: data.success,
                         showConfirmButton: false,

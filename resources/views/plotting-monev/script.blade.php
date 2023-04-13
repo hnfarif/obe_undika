@@ -17,6 +17,27 @@
             }
         })
 
+        $('#btnPlot').on('click', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{{ route('monev.checkCriteria') }}",
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    if (data.status) {
+                        window.location.href = "{{ route('monev.plotting.create') }}";
+                    } else {
+                        Swal.fire({
+                            title: 'Ups, Ada yang salah!',
+                            text: "Bobot Kriteria Peniliaian belum mencapai 100%, harap periksa kembali!",
+                            icon: 'error',
+                            confirmButtonText: 'Oke'
+                        })
+                    }
+                }
+            })
+        })
+
         $('#tableKri').on('click', '.editKri', function () {
             var id = $(this).attr('data-id');
 

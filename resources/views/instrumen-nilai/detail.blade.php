@@ -37,7 +37,7 @@
                     @foreach ($mkLulus as $jdw)
                     <div class="col-12 col-md-12 col-lg-4">
                         <div
-                            class="card @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) card-primary @else card-warning @endif">
+                            class="card @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) card-primary @else card-danger @endif">
                             <div class="card-header" style="height: 100px;">
                                 <div class="d-block">
                                     <h4 class="text-dark">{{ $jdw->getNameMataKuliah($jdw->klkl_id) }}
@@ -73,7 +73,7 @@
                             <div class="card-footer">
                                 <button data-mk="{{ $jdw->klkl_id }}" data-nik="{{ $jdw->kary_nik }}"
                                     data-kelas="{{ $jdw->kelas }}" class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->where('kelas', $jdw->kelas)->first())
-                                    btn-primary @else btn-warning @endif btn-sm btnUbahNilai">
+                                    btn-primary @else btn-danger @endif btn-sm btnUbahNilai">
 
                                     @if($instru->where('klkl_id', $jdw->klkl_id)->where('nik',
                                     $jdw->kary_nik)->where('kelas',
@@ -101,7 +101,7 @@
                     @foreach ($mkTdkLulus as $jdw)
                     <div class="col-12 col-md-12 col-lg-4">
                         <div
-                            class="card @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) card-primary @else card-warning @endif">
+                            class="card @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->first()) card-primary @else card-danger @endif">
                             <div class="card-header" style="height: 100px;">
                                 <div class="d-block">
                                     <h4 class="text-dark">{{ $jdw->getNameMataKuliah($jdw->klkl_id) }}
@@ -141,12 +141,12 @@
 
                                 <button data-mk="{{ $jdw->klkl_id }}" data-nik="{{ $jdw->kary_nik }}"
                                     data-kelas="{{ $jdw->kelas }}" class="btn @if ($instru->where('klkl_id', $jdw->klkl_id)->where('nik',$jdw->kary_nik)->where('kelas', $jdw->kelas)->first())
-                                    btn-primary @else btn-warning @endif btn-sm btnUbahNilai">
+                                    btn-primary @else btn-danger @endif btn-sm btnUbahNilai">
                                     Lihat Penilaian CLO
                                 </button>
 
                                 @else
-                                <p class="text-warning">
+                                <p class="text-danger">
                                     Instrumen Penilaian Belum Ada!
                                 </p>
                                 @endif

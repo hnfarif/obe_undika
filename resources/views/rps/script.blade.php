@@ -47,7 +47,7 @@
             success: function (data) {
                 if (data.status == 'success') {
                     Swal.fire({
-                        position: 'top-end',
+                        position: 'middle',
                         icon: 'success',
                         title: data.message,
                         showConfirmButton: false,
@@ -58,7 +58,7 @@
                     }, 1500);
                 } else {
                     Swal.fire({
-                        position: 'top-end',
+                        position: 'middle',
                         icon: 'error',
                         title: data.message,
                         showConfirmButton: false,

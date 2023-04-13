@@ -29,7 +29,7 @@
     @foreach ($rps as $r)
 
     <div class="col-12 col-md-12 col-lg-4">
-        <div class="card @if($r->is_done == 1) card-success @else card-warning
+        <div class="card @if($r->is_done == 1) card-success @else card-danger
         @endif">
             <div class="card-header" style="height: 100px;">
                 <div class="d-block">
@@ -73,7 +73,7 @@
                                     @if ($r->is_done)
                                     <div class="badge badge-success">Done</div>
                                     @else
-                                    <div class="badge badge-warning">To do</div>
+                                    <div class="badge badge-danger">To do</div>
                                     @endif
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                 @else
                 @if ($r->penyusun == auth()->user()->nik)
 
-                <button type="button" class="btn btn-warning btn-sm mr-1 saveRps" data-id="{{ $r->id }}"><i
+                <button type="button" class="btn btn-primary btn-sm mr-1 saveRps" data-id="{{ $r->id }}"><i
                         class="fas fa-file-upload"></i> Upload
                     RPS </button>
                 @endif

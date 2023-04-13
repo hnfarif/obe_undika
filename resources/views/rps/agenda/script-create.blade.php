@@ -614,7 +614,7 @@
                         .isEmptyObject(data.errMnt)) {
 
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'middle',
                             icon: 'success',
                             title: 'Data Anda telah ditambahkan!',
                             showConfirmButton: false,
@@ -757,7 +757,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -797,7 +797,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -837,7 +837,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -877,7 +877,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -917,7 +917,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -957,7 +957,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,
@@ -997,7 +997,7 @@
                         },
                         success: function (data) {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'middle',
                                 icon: 'success',
                                 title: data.success,
                                 showConfirmButton: false,

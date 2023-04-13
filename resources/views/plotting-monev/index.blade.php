@@ -17,7 +17,7 @@
                 </div>
                 @endif
                 <div class="my-3 d-flex">
-                    <a href="{{ route('monev.plotting.create') }}" type="button" class="btn btn-primary"><i
+                    <a href="{{ route('monev.plotting.create') }}" type="button" class="btn btn-primary" id="btnPlot"><i
                             class="fas fa-plus"></i> Entri
                         Plotting Monev</a>
 

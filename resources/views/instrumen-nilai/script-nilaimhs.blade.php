@@ -494,7 +494,7 @@
 
                 } else {
                     Swal.fire({
-                        position: 'top-end',
+                        position: 'middle',
                         icon: 'success',
                         title: data.success,
                         showConfirmButton: false,
@@ -567,7 +567,7 @@
             success: function (data) {
                 Swal.close();
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'middle',
                     icon: 'success',
                     title: data.success,
                     showConfirmButton: false,

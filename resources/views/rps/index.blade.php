@@ -12,10 +12,7 @@
                 @else
                 @include('rps.role.another')
                 @endif
-
             </div>
-
-
         </section>
     </div>
     @include('layouts.footer')
