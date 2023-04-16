@@ -26,7 +26,7 @@ class RanahCapaiController extends Controller
 
     public function store(Request $request)
     {
-        $file = $request->file('file_excel')->store('temp');
+        $file = $request->file('file_excel');
 
         Excel::import(new RanahImport, $file);
 
