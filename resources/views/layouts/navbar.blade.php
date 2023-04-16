@@ -26,7 +26,7 @@
 </nav>
 
 <nav class="navbar navbar-secondary navbar-expand-lg">
-    <div class="container">
+    <div class="container-fluid">
         <ul class="navbar-nav">
             <li class="nav-item @yield('beranda')">
                 <a href="{{ route('beranda.index') }}" class="nav-link"><i
@@ -68,6 +68,12 @@
                         Monev</span></a>
             </li>
             @endif
+            @if (auth()->user()->role == 'p3ai')
+            <li class="nav-item @yield('ranahcapai')">
+                <a href="{{ route('rcp.index') }}" class="nav-link"><i class="fas fa-table"></i><span>Ranah
+                        Capaian Pembelajaran</span></a>
+            </li>
+            @endif
             @if (auth()->user()->role == 'p3ai' || auth()->user()->role == 'pimpinan')
 
             <li class="nav-item @yield('laporan')">
@@ -78,7 +84,7 @@
 
 
         </ul>
-        <p class="my-auto ml-auto">
+        <p class="my-auto ml-auto mr-3">
             <b>Semester : {{ $smt ?? '' }}</b>
         </p>
     </div>

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Exports\MonevExport;
-use App\Models\AngketTrans;
 use App\Models\DetailAgenda;
 use App\Models\Fakultas;
 use App\Models\InstrumenNilai;
-use App\Models\JadwalKuliah;
 use App\Models\KaryawanDosen;
 use App\Models\KriteriaMonev;
 use App\Models\Krs;

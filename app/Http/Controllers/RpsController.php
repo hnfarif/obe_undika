@@ -147,17 +147,6 @@ class RpsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Rps  $rps
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Rps $rps)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Rps  $rps
@@ -365,4 +354,6 @@ class RpsController extends Controller
         return back();
 
     }
+
+
 }

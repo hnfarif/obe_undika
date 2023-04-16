@@ -14,6 +14,7 @@ use App\Http\Controllers\PeoController;
 use App\Http\Controllers\PeoPloController;
 use App\Http\Controllers\PloController;
 use App\Http\Controllers\PlottingMonevController;
+use App\Http\Controllers\RanahCapaiController;
 use App\Http\Controllers\RpsController;
 use App\Http\Controllers\UserController;
 use App\Models\AgendaBelajar;
@@ -172,6 +173,11 @@ Route::prefix('monev')->name('monev.')->group(function(){
     Route::resource('instrumen', InstrumenMonevController::class)->middleware('ensureUserRole:kaprodi,p3ai,pimpinan,dosen,dekan');
 });
 
+Route::prefix('ranah-capaian-pembelajaran')->name('rcp.')->group(function(){
+    Route::get('/', [RanahCapaiController::class, 'index'])->name('index')->middleware('ensureUserRole:p3ai');
+
+    Route::post('/store', [RanahCapaiController::class, 'store'])->name('store')->middleware('ensureUserRole:p3ai');
+});
 
 Route::prefix('laporan')->middleware('ensureUserRole:p3ai,pimpinan')->name('laporan.')->group(function(){
 
