@@ -50,7 +50,9 @@
                                 <label>Ranah Capaian Pembelajaran</label>
                                 <select class="form-control select2 optranah @error('ranah_capai') is-invalid @enderror"
                                     name="ranah_capai[]" multiple="" required>
-
+                                    @foreach ($ranah as $r)
+                                    <option value="{{ $r->nama }}">{{ $r->nama }}</option>
+                                    @endforeach
                                 </select>
                                 @error('ranah_capai')
                                 <div class="invalid-feedback">
@@ -63,8 +65,14 @@
 
                             <div class="form-group">
                                 <label>Level Bloom</label>
-                                <input id="lvl_bloom" type="text" name="lvl_bloom[]"
-                                    class="form-control @error('lvl_bloom') is-invalid @enderror inputtags" required>
+                                <select class="form-control select2 optLevel @error('lvl_bloom') is-invalid @enderror"
+                                    name="lvl_bloom[]" multiple="" required>
+                                    @foreach ($level as $l)
+                                    <option value="{{ $l->kode_level.' - '.$l->nama }}">
+                                        {{ $l->kode_level.' - '.$l->nama }}
+                                    </option>
+                                    @endforeach
+                                </select>
                                 @error('lvl_bloom')
                                 <div class="invalid-feedback">
                                     {{ $message }}

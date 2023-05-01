@@ -106,7 +106,9 @@
                                                 </div>
                                             </th>
                                             <th>Ranah Capaian Pembelajaran</th>
-                                            <th>Level Bloom</th>
+                                            <th>
+                                                Level Bloom
+                                            </th>
                                             <th>Target Kelulusan (% Mhs)</th>
                                             <th>
                                                 <div style="width: 150px;">PLO yang didukung</div>
@@ -123,7 +125,7 @@
                                             <td>{{ $clos->kode_clo }}</td>
                                             <td>{{ $clos->deskripsi }}</td>
                                             <td>{{ str_replace(" ", ", ",$clos->ranah_capai) }}</td>
-                                            <td>{{ $clos->lvl_bloom }}</td>
+                                            <td>{!! str_replace(", ", "<br>", $clos->lvl_bloom) !!}</td>
                                             <td>
                                                 @if ($clos->tgt_lulus)
 

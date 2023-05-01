@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Clo;
+use App\Models\LevelRanah;
 use App\Models\MataKuliah;
 use App\Models\Plo;
 use App\Models\PloClo;
+use App\Models\RanahCapai;
 use App\Models\Rps;
 use App\Models\Semester;
 use Illuminate\Http\Request;
@@ -34,8 +36,10 @@ class CloController extends Controller
         $exPra = explode(' ', $prasyarat);
         $clo = Clo::where('rps_id',$rps->id)->with('plos')->orderBy('id','asc')->get();
         $iteration = Clo::latest()->select('kode_clo')->where('rps_id',$rps->id)->pluck('kode_clo')->first();
+        $ranah = RanahCapai::all();
+        $level = LevelRanah::all();
         // dd($rps);
-        return view('rps.clo.index', compact('rps', 'mk', 'exPra', 'clo', 'iteration', 'smt'));
+        return view('rps.clo.index', compact('rps', 'mk', 'exPra', 'clo', 'iteration', 'smt','ranah','level'));
     }
 
     /**
@@ -52,8 +56,9 @@ class CloController extends Controller
         $num = substr($iteration, -2, 2);
         $num++;
         $ite_padded = sprintf("%02d", $num);
-
-        return view('rps.clo.create', compact('rps','plo','ite_padded','smt'));
+        $ranah = RanahCapai::all();
+        $level = LevelRanah::all();
+        return view('rps.clo.create', compact('rps','plo','ite_padded','smt', 'ranah','level'));
     }
 
     /**
@@ -75,8 +80,7 @@ class CloController extends Controller
         ]);
 
         $impRanah = implode(' ', $request->ranah_capai);
-        $impLvl = implode('', $request->lvl_bloom);
-
+        $impLvl = implode(', ', $request->lvl_bloom);
 
         $clo = new Clo;
         $clo->rps_id = $rps->id;
@@ -164,7 +168,7 @@ class CloController extends Controller
             'kode_clo' => $request->get('kode_clo'),
             'deskripsi' => $request->get('deskripsi'),
             'ranah_capai' => implode(' ', $request->get('ranah_capai')),
-            'lvl_bloom' => implode('', $request->get('lvl_bloom')),
+            'lvl_bloom' => implode(', ', $request->get('lvl_bloom')),
             'tgt_lulus' => $request->get('target_lulus'),
             'nilai_min' => $request->get('nilai_min'),
         ]);

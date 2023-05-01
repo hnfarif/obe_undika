@@ -11,4 +11,10 @@ class RanahCapai extends Model
 
     protected $table = 'ranah_capai';
     protected $guarded = ["id"];
+    protected $with = ['level'];
+
+    public function level()
+    {
+        return $this->hasMany(LevelRanah::class, 'kode_ranah', 'kode');
+    }
 }

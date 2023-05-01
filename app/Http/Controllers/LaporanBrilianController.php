@@ -126,7 +126,6 @@ class LaporanBrilianController extends Controller
         $url = "https://mybrilian.dinamika.ac.id/undika/report/P3AI_-_klasemen_kelas_matakuliah.php?";
 
         $smt = $this->semester;
-        //get api data
 
         $response = Http::async()->get($url, [
             'semester' => $smt,

@@ -2,7 +2,13 @@
 @include('rps.script')
 <script>
     $(document).ready(function () {
-        var dataRanah = ["Kognitif", "Psikomotorik", "Afektif"];
+        const dataRanah = $('.optranah option').map(function () {
+            return $(this).val();
+        }).get();
+        const dataLevel = $('.optLevel option').map(function () {
+            return $(this).val();
+        }).get();
+
         $('#tableClo').DataTable();
 
         $('#introClo').click(function () {
@@ -63,7 +69,7 @@
         $('#tableClo').on('click', '.editClo', function () {
             var id = $(this).attr('data-id');
             $(".optranah").html('');
-            $(".inputtags").tagsinput('removeAll');
+            $(".optLevel").html('');
             $("#ploid").html('');
             $.ajax({
                 url: "{{ route('clo.edit') }}",
@@ -93,9 +99,18 @@
                             );
                         }
                     });
-                    let bloomArray = data.clo.lvl_bloom.split(',');
-                    bloomArray.forEach(element => {
-                        $(".inputtags").tagsinput('add', element);
+                    let bloomArray = data.clo.lvl_bloom.split(', ');
+                    dataLevel.forEach(element => {
+                        if (bloomArray.includes(element)) {
+
+                            $(".optLevel").append(
+                                `<option selected value="${element}">${element}</option>`
+                            );
+                        } else {
+                            $(".optLevel").append(
+                                `<option value="${element}">${element}</option>`
+                            );
+                        }
 
                     });
 
